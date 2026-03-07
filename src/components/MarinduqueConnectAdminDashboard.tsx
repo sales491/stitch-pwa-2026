@@ -1,8 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import AdminActions from './AdminActions';
+import CsvImporter from './CsvImporter';
 
 interface QueuedItem {
   id: string;
@@ -18,29 +19,40 @@ interface QueuedItem {
   reasons?: string;
 }
 
+interface ClaimRequest {
+  id: string;
+  business_id: string;
+  requester_name: string;
+  requester_email: string;
+  requester_phone: string | null;
+  message: string | null;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  business_profiles: { business_name: string; location: string | null } | null;
+}
+
 export default function MarinduqueConnectAdminDashboard() {
   const [items, setItems] = useState<QueuedItem[]>([]);
   const [users, setUsers] = useState<any[]>([]);
+  const [claimRequests, setClaimRequests] = useState<ClaimRequest[]>([]);
+  const [claimLoading, setClaimLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'moderation' | 'users'>('moderation');
-  const supabase = createClient();
+  const [activeTab, setActiveTab] = useState<'moderation' | 'users' | 'claims' | 'import' | 'blog'>('moderation');
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    fetchQueue();
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error) console.error('Error fetching users:', error);
-    else setUsers(data || []);
-  };
+    if (error) {
+      const detail = error.details || error.message || JSON.stringify(error, Object.getOwnPropertyNames(error)) || 'Unknown';
+      console.error('Error fetching users:', detail);
+    } else setUsers(data || []);
+  }, [supabase]);
 
-  const fetchQueue = async () => {
+  const fetchQueue = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('moderation_queue')
@@ -48,12 +60,34 @@ export default function MarinduqueConnectAdminDashboard() {
       .order('queued_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching queue:', error);
+      const detail = error.details || error.message || JSON.stringify(error, Object.getOwnPropertyNames(error)) || 'Unknown';
+      console.error('Error fetching queue:', detail);
     } else {
       setItems(data || []);
     }
     setLoading(false);
-  };
+  }, [supabase]);
+
+  const fetchClaimRequests = useCallback(async () => {
+    setClaimLoading(true);
+    const { data, error } = await supabase
+      .from('business_claim_requests')
+      .select('*, business_profiles(business_name, location)')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching claim requests:', error.message);
+    } else {
+      setClaimRequests((data || []) as ClaimRequest[]);
+    }
+    setClaimLoading(false);
+  }, [supabase]);
+
+  useEffect(() => {
+    fetchQueue();
+    fetchUsers();
+    fetchClaimRequests();
+  }, [fetchQueue, fetchUsers, fetchClaimRequests]);
 
   const handleStatusUpdate = async (contentId: string, contentType: string, newStatus: string) => {
     const { error } = await supabase
@@ -83,9 +117,9 @@ export default function MarinduqueConnectAdminDashboard() {
     }
   };
 
-  const deleteUser = async (userId: string) => {
-    if (!window.confirm("CRITICAL: This will permanently delete this user's login account and all their data from Supabase. Continue?")) return;
+  const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
+  const deleteUser = async (userId: string) => {
     setLoading(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -111,7 +145,55 @@ export default function MarinduqueConnectAdminDashboard() {
       alert('Failed to connect to the deletion server.');
     } finally {
       setLoading(false);
+      setUserToDelete(null);
     }
+  };
+
+  const handleClaimAction = async (claim: ClaimRequest, action: 'approved' | 'rejected') => {
+    const now = new Date().toISOString();
+    // Update claim request status
+    const { error: claimError } = await supabase
+      .from('business_claim_requests')
+      .update({ status: action, reviewed_at: now })
+      .eq('id', claim.id);
+
+    if (claimError) {
+      alert(`Error updating claim: ${claimError.message}`);
+      return;
+    }
+
+    // If approved, set is_verified = true and assign owner_id on the business
+    if (action === 'approved') {
+      let ownerIdUpdate = {};
+
+      // Try to find the user in `profiles` by their email
+      const { data: profileMatch } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', claim.requester_email)
+        .single();
+
+      if (profileMatch?.id) {
+        ownerIdUpdate = { owner_id: profileMatch.id };
+      }
+
+      const { error: bizError } = await supabase
+        .from('business_profiles')
+        .update({ is_verified: true, ...ownerIdUpdate })
+        .eq('id', claim.business_id);
+
+      if (bizError) {
+        alert(`Claim approved but failed to verify business: ${bizError.message}`);
+      } else if (!profileMatch?.id) {
+        alert(`✅ Business verified! However, no user account found with email "${claim.requester_email}" to assign ownership.`);
+      } else {
+        alert(`✅ Business verified! "${claim.business_profiles?.business_name ?? 'Business'}" is now VERIFIED and assigned to the requester.`);
+      }
+    } else {
+      alert(`Claim request rejected.`);
+    }
+
+    fetchClaimRequests();
   };
 
   const flaggedItems = items.filter(i => i.status === 'pending' && i.flag_count >= 3);
@@ -140,18 +222,41 @@ export default function MarinduqueConnectAdminDashboard() {
       <main className="flex-1 pb-24">
         {/* Tab Switcher */}
         <div className="px-4 mt-6">
-          <div className="flex bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl">
+          <div className="flex bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl gap-0.5">
             <button
               onClick={() => setActiveTab('moderation')}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === 'moderation' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'moderation' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
             >
               Moderation
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === 'users' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'users' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
             >
-              User Management
+              Users
+            </button>
+            <button
+              onClick={() => { setActiveTab('claims'); fetchClaimRequests(); }}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all relative ${activeTab === 'claims' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+            >
+              Claims
+              {claimRequests.filter(c => c.status === 'pending').length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center">
+                  {claimRequests.filter(c => c.status === 'pending').length}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab('import')}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'import' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+            >
+              Import
+            </button>
+            <button
+              onClick={() => setActiveTab('blog')}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'blog' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+            >
+              Blog
             </button>
           </div>
         </div>
@@ -269,7 +374,7 @@ export default function MarinduqueConnectAdminDashboard() {
               </div>
             </div>
           </div>
-        ) : (
+        ) : activeTab === 'users' ? (
           <div className="mt-6 px-4 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Users ({users.length})</h2>
@@ -277,7 +382,7 @@ export default function MarinduqueConnectAdminDashboard() {
                 <span className="material-symbols-outlined text-[20px]">refresh</span>
               </button>
             </div>
-
+            {/* User List Content */}
             <div className="space-y-4">
               {users.map((user) => (
                 <div key={user.id} className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
@@ -307,13 +412,36 @@ export default function MarinduqueConnectAdminDashboard() {
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {user.role === 'user' ? (
-                      <button
-                        onClick={() => updateUserRole(user.id, 'moderator')}
-                        className="px-3 py-1.5 bg-blue-50 text-blue-600 text-[11px] font-bold rounded-lg hover:bg-blue-100"
-                      >
-                        Make Moderator
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => updateUserRole(user.id, 'moderator')}
+                          className="px-3 py-1.5 bg-blue-50 text-blue-600 text-[11px] font-bold rounded-lg hover:bg-blue-100"
+                        >
+                          Make Moderator
+                        </button>
+                        <button
+                          onClick={() => updateUserRole(user.id, 'admin')}
+                          className="px-3 py-1.5 bg-purple-50 text-purple-600 text-[11px] font-bold rounded-lg hover:bg-purple-100"
+                        >
+                          Make Admin
+                        </button>
+                      </div>
                     ) : user.role === 'moderator' ? (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => updateUserRole(user.id, 'user')}
+                          className="px-3 py-1.5 bg-slate-100 text-slate-600 text-[11px] font-bold rounded-lg"
+                        >
+                          Demote to User
+                        </button>
+                        <button
+                          onClick={() => updateUserRole(user.id, 'admin')}
+                          className="px-3 py-1.5 bg-purple-50 text-purple-600 text-[11px] font-bold rounded-lg hover:bg-purple-100"
+                        >
+                          Make Admin
+                        </button>
+                      </div>
+                    ) : user.role === 'admin' ? (
                       <button
                         onClick={() => updateUserRole(user.id, 'user')}
                         className="px-3 py-1.5 bg-slate-100 text-slate-600 text-[11px] font-bold rounded-lg"
@@ -322,19 +450,173 @@ export default function MarinduqueConnectAdminDashboard() {
                       </button>
                     ) : null}
 
-                    <button
-                      onClick={() => deleteUser(user.id)}
-                      className="px-3 py-1.5 bg-red-50 text-red-600 text-[11px] font-bold rounded-lg ml-auto"
-                    >
-                      Delete User
-                    </button>
+                    {userToDelete === user.id ? (
+                      <div className="flex gap-2 items-center bg-red-50 dark:bg-red-900/10 p-2 rounded-lg border border-red-200 dark:border-red-900 ml-auto flex-wrap">
+                        <span className="text-[10px] font-bold text-red-600 block w-full text-center mb-1">Permanently delete?</span>
+                        <button
+                          onClick={() => deleteUser(user.id)}
+                          className="flex-1 px-3 py-1.5 bg-red-500 text-white text-[11px] font-bold rounded-lg hover:bg-red-600 transition-colors"
+                        >
+                          Yes, Delete
+                        </button>
+                        <button
+                          onClick={() => setUserToDelete(null)}
+                          className="flex-1 px-3 py-1.5 bg-slate-200 text-slate-700 text-[11px] font-bold rounded-lg hover:bg-slate-300 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setUserToDelete(user.id)}
+                        className="px-3 py-1.5 bg-red-50 text-red-600 text-[11px] font-bold rounded-lg ml-auto hover:bg-red-100 transition-colors"
+                      >
+                        Delete User
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        )}
-      </main>
-    </div>
+        ) : activeTab === 'claims' ? (
+          <div className="mt-6 px-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Claim Requests</h2>
+              <button onClick={fetchClaimRequests} className="p-2 text-slate-400 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-[20px]">refresh</span>
+              </button>
+            </div>
+
+            {claimLoading ? (
+              <div className="text-center py-10 text-slate-400 text-sm italic">Loading...</div>
+            ) : claimRequests.length === 0 ? (
+              <div className="text-center py-16 bg-slate-50 dark:bg-zinc-800/50 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-700">
+                <span className="material-symbols-outlined text-3xl text-slate-300 mb-2 block">storefront</span>
+                <p className="text-slate-400 text-sm">No claim requests yet.</p>
+              </div>
+            ) : (
+              claimRequests.map((claim) => (
+                <div key={claim.id} className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
+                  {/* Status badge */}
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <div>
+                      <p className="font-bold text-slate-900 dark:text-white text-sm">
+                        {claim.business_profiles?.business_name ?? `Business ${claim.business_id.slice(0, 8)}…`}
+                      </p>
+                      {claim.business_profiles?.location && (
+                        <p className="text-xs text-slate-400">{claim.business_profiles.location}, Marinduque</p>
+                      )}
+                    </div>
+                    <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${claim.status === 'approved' ? 'bg-teal-100 text-teal-700' :
+                      claim.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                        'bg-amber-100 text-amber-700'
+                      }`}>
+                      {claim.status}
+                    </span>
+                  </div>
+
+                  {/* Requester info */}
+                  <div className="bg-slate-50 dark:bg-zinc-800 rounded-xl p-3 space-y-1.5 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[14px] text-slate-400">person</span>
+                      <span className="text-xs text-slate-700 dark:text-slate-300 font-medium">{claim.requester_name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[14px] text-slate-400">mail</span>
+                      <span className="text-xs text-slate-600 dark:text-slate-400">{claim.requester_email}</span>
+                    </div>
+                    {claim.requester_phone && (
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[14px] text-slate-400">call</span>
+                        <span className="text-xs text-slate-600 dark:text-slate-400">{claim.requester_phone}</span>
+                      </div>
+                    )}
+                    {claim.message && (
+                      <div className="flex gap-2 mt-1">
+                        <span className="material-symbols-outlined text-[14px] text-slate-400 shrink-0 mt-0.5">chat_bubble</span>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 italic leading-relaxed">{claim.message}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action buttons – only for pending claims */}
+                  {claim.status === 'pending' && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleClaimAction(claim, 'approved')}
+                        className="flex-1 py-2 bg-teal-700 hover:bg-teal-600 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                      >
+                        <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: '"FILL" 1' }}>verified</span>
+                        Approve & Verify
+                      </button>
+                      <button
+                        onClick={() => handleClaimAction(claim, 'rejected')}
+                        className="flex-1 py-2 bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all active:scale-95"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        ) : activeTab === 'blog' ? (
+          <div className="mt-6 px-4 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Blog Management</h2>
+              <Link
+                href="/admin-create-blog-post"
+                className="flex items-center gap-2 bg-moriones-red text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition-all"
+              >
+                <span className="material-symbols-outlined text-[18px]">add</span>
+                New Post
+              </Link>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-moriones-red/10 rounded-2xl flex items-center justify-center text-moriones-red">
+                  <span className="material-symbols-outlined">explore</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 dark:text-white">The Hidden Foreigner</h3>
+                  <p className="text-xs text-slate-500">Manage blog entries and status</p>
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-2">
+                <Link
+                  href="/the-hidden-foreigner-blog-feed"
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-zinc-800/50 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors border border-slate-100 dark:border-zinc-700"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-slate-400">visibility</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">View Public Feed</span>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-300 text-[18px]">chevron_right</span>
+                </Link>
+
+                <div className="p-4 rounded-xl border border-dashed border-slate-200 dark:border-zinc-700 text-center">
+                  <p className="text-[11px] text-slate-400 italic">Editing existing posts is coming soon in the content manager.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : activeTab === 'import' ? (
+          <div className="mt-6 px-4">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Bulk Import Businesses</h2>
+            <CsvImporter
+              onComplete={() => {
+                setActiveTab('moderation');
+                fetchQueue();
+              }}
+            />
+          </div>
+        ) : null
+        }
+      </main >
+    </div >
   );
 }

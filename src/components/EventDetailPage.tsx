@@ -128,12 +128,12 @@ export default function EventDetailPage({ event: initialEvent }: EventDetailPage
                             ? 'bg-emerald-500 text-white shadow-emerald-500/20'
                             : 'bg-primary text-black shadow-primary/20 hover:bg-primary/90'
                             }`}>
-                        {loading ? 'Processing...' : isGoing ? "I&apos;m Going" : "I&apos;m Interested in Attending"}
+                        {loading ? 'Processing...' : isGoing ? "I'm Going" : "I'm Interested in Attending"}
                         <span className="material-symbols-outlined text-base">{isGoing ? 'check_circle' : 'arrow_forward'}</span>
                     </button>
                     {isGoing && (
                         <p className="text-center text-[10px] font-bold text-emerald-500 mt-2 uppercase tracking-widest animate-pulse">
-                            You&apos;re registered for this event
+                            You're registered for this event
                         </p>
                     )}
                 </div>

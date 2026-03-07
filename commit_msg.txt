@@ -1,0 +1,7 @@
+chore: establish baseline project standards and resolve 130+ linting errors
+
+This commit completes a comprehensive three-wave standardization effort:
+
+Wave 1 (Entities): Automatically resolved 130+ react/no-unescaped-entities errors across the /app and /src directories, ensuring proper JSX escaping for apostrophes and quotes.
+Wave 2 (Imports): Transitioned all scripts from CommonJS require() to ES6 import syntax. Renamed .cjs utilities to .mjs and updated logic for ESM compatibility (e.g., handling __dirname).
+Wave 3 (MCP Type Safety): Refactored LocalBusinessProfilePage.tsx to replace "any" types with database-aligned interfaces. Used Supabase MCP to synchronize frontend types with the public.business_profiles table schema. Cleaned up remaining "any" types in AdminActions and Calendar components.

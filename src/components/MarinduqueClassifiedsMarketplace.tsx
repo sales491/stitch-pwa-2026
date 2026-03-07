@@ -1,7 +1,8 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { LISTINGS } from '@/data/listings';
+import Image from 'next/image';
+import type { Listing } from '@/data/listings';
 import AdminActions from './AdminActions';
 
 const categories = [
@@ -71,15 +72,21 @@ function FilterChip({
   );
 }
 
-export default function MarinduqueClassifiedsMarketplace() {
+interface MarketplaceProps {
+  initialListings: Listing[];
+}
+
+export default function MarinduqueClassifiedsMarketplace({ initialListings }: MarketplaceProps) {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedTown, setSelectedTown] = useState('All Towns');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filtered = LISTINGS.filter((item) => {
+  const allListings = [...initialListings];
+
+  const filtered = allListings.filter((item) => {
     const matchCat = selectedCategory === 'All Categories' || item.category === selectedCategory;
     const matchTown = selectedTown === 'All Towns' || item.town === selectedTown;
-    const matchSearch = searchQuery === '' || item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchSearch = searchQuery === '' || (item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchCat && matchTown && matchSearch;
   });
 
@@ -94,15 +101,6 @@ export default function MarinduqueClassifiedsMarketplace() {
                 <span className="material-symbols-outlined text-[28px]">arrow_back</span>
               </Link>
               <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Marinduque Classifieds</h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="relative flex items-center justify-center text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                <span className="material-symbols-outlined text-[24px]">notifications</span>
-                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-moriones-red ring-2 ring-surface-light dark:ring-surface-dark" />
-              </button>
-              <div className="h-8 w-8 rounded-full overflow-hidden border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark">
-                <img alt="User Profile" className="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjCr6FTvFLmea3sLo0LGq7yqSeTx1_tRG4KiUxaAIsiozS_zoUcbb9hscRaL-8I0tkMiFrSr2hkOP4wqdy0mw1caZ9YT_iy2jpGYeJBl1GVHwiwBm_TMWoIJWIfSIaDKBmPtBlFbUaJF2L0nbzYPlOQxC7oNvqISEqOQgwqNHqCb4_igJX14ErTMrKZfFuRniTdGg9kDUTCNik3P-deYFhZBFwBQ09z19R9-MgT--h9c-LJA8UrmjsdE20uX1X4L_bqraFm6dXzW8" />
-              </div>
             </div>
           </div>
 
@@ -152,60 +150,69 @@ export default function MarinduqueClassifiedsMarketplace() {
             )}
           </div>
 
-          {filtered.length === 0 ? (
+          {filtered.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <span className="material-symbols-outlined text-[64px] text-slate-300 dark:text-slate-600 mb-4">search_off</span>
-              <p className="text-slate-500 dark:text-slate-400 font-medium">No listings found</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Try a different category or town</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-3 pb-20">
-              {filtered.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/listing/${item.slug}`}
-                  className="group relative flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-100">
-                    <img alt={item.alt} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src={item.img} />
-                    <div className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-1 backdrop-blur-sm">
-                      <p className="text-xs font-bold text-white">{item.price}</p>
-                    </div>
-                    <button
-                      onClick={(e) => e.preventDefault()}
-                      className="absolute top-2 right-2 rounded-full bg-surface-light/80 p-1.5 text-text-muted hover:text-red-500 backdrop-blur-sm transition-colors dark:bg-surface-dark/80 dark:text-text-muted-dark"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">favorite_border</span>
-                    </button>
-                    <div className="absolute top-2 left-2 z-10 pointer-events-auto">
-                      <AdminActions contentType="listing" contentId={item.id.toString()} />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1 p-3">
-                    <h3 className="line-clamp-2 text-sm font-semibold text-text-main dark:text-text-main-dark leading-snug">{item.title}</h3>
-                    <span className="text-[10px] text-moriones-red font-medium">{item.category}</span>
-                    <div className="flex items-center gap-1 text-xs text-text-muted dark:text-text-muted-dark mt-auto">
-                      <span className="material-symbols-outlined text-[14px]">location_on</span>
-                      <span>{item.town}</span>
-                    </div>
-                    <p className="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Posted {item.postedAgo}</p>
-                  </div>
-                </Link>
-              ))}
+              <span className="material-symbols-outlined text-[64px] text-text-muted/20 mb-4">search_off</span>
+              <p className="text-text-main font-medium">No listings found</p>
+              <p className="text-xs text-text-muted mt-1">Try a different category or town</p>
             </div>
           )}
 
-          {/* Post a listing CTA */}
-          <div className="pb-4">
-            <Link
-              href="/create-new-listing"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-dashed border-moriones-red/40 text-moriones-red font-semibold text-sm hover:bg-moriones-red/5 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[20px]">add_circle</span>
-              Post a Free Listing
-            </Link>
+          <div className="grid grid-cols-2 gap-3 pb-24">
+            {filtered.map((item) => (
+              <Link
+                key={item.id}
+                href={`/listing/${item.slug}`}
+                className="group relative flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-100">
+                  <Image
+                    src={item.img || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=500&fit=crop'}
+                    alt={item.alt || item.title}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-1 backdrop-blur-sm">
+                    <p className="text-xs font-bold text-white">{item.price}</p>
+                  </div>
+                  <button
+                    onClick={(e) => e.preventDefault()}
+                    className="absolute top-2 right-2 rounded-full bg-surface-light/80 p-1.5 text-text-muted hover:text-red-500 backdrop-blur-sm transition-colors dark:bg-surface-dark/80 dark:text-text-muted-dark"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">favorite_border</span>
+                  </button>
+                  <div className="absolute top-2 left-2 z-10 pointer-events-auto">
+                    <AdminActions contentType="listing" contentId={item.id.toString()} />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 p-3">
+                  <h3 className="line-clamp-2 text-sm font-semibold text-text-main dark:text-text-main-dark leading-snug">{item.title}</h3>
+                  <span className="text-[10px] text-moriones-red font-medium">{item.category}</span>
+                  <div className="flex items-center gap-1 text-xs text-text-muted dark:text-text-muted-dark mt-auto">
+                    <span className="material-symbols-outlined text-[14px]">location_on</span>
+                    <span>{item.town}</span>
+                  </div>
+                  <p className="text-[10px] text-text-muted/70 dark:text-text-muted-dark/70">Posted {item.postedAgo}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </main>
+
+        {/* Floating Action Button */}
+        <div className="fixed bottom-28 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
+          <Link
+            href="/marketplace/create"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-110 active:scale-95 group pointer-events-auto"
+            title="Post a Free Listing"
+          >
+            <span className="material-symbols-outlined text-[32px]">add</span>
+            <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 transition-opacity group-hover:opacity-100 pointer-events-none shadow-xl">
+              Post a Listing
+            </span>
+          </Link>
+        </div>
       </div>
     </>
   );

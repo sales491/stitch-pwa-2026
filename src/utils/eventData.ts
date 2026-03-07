@@ -13,6 +13,8 @@ export interface Event {
     trending?: boolean;
     dayOfMonth: number; // For calendar matching
     month: number; // 0-indexed (e.g., 3 for April)
+    author_id?: string;
+    organizer_id?: string;
 }
 
 export const mockEvents: Event[] = [
@@ -30,7 +32,8 @@ export const mockEvents: Event[] = [
         attendees: 245,
         trending: true,
         dayOfMonth: 2,
-        month: 2
+        month: 2,
+        author_id: 'mock-admin'
     },
     {
         id: 'mogpog-market-day',
@@ -45,7 +48,8 @@ export const mockEvents: Event[] = [
         description: 'Experience the local flavors of Mogpog. Join us for fresh produce, local handicrafts, and traditional Marinduque delicacies.',
         attendees: 42,
         dayOfMonth: 4,
-        month: 2
+        month: 2,
+        author_id: 'mock-user'
     },
     {
         id: 'gasan-basketball-finals',

@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 
 interface ContactSectionProps {
     fbUsername: string;
@@ -15,7 +16,7 @@ interface ContactSectionProps {
 
 /**
  * Reusable contact section for all posting flows.
- * Shows FB Messenger (pre-formed m.me link), Phone (call + SMS), Email.
+ * Shows FB Messenger (m.me link) + FB Page (facebook.com link), Phone (call + SMS), Email.
  * At least one field is required before the parent form can submit.
  */
 export default function ContactSection({
@@ -35,16 +36,17 @@ export default function ContactSection({
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{hint}</p>
             </div>
 
-            {/* Facebook Messenger */}
+            {/* Facebook Username — generates both Messenger & Page links */}
             <div>
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
                     <svg className="w-4 h-4 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
                     </svg>
-                    Facebook Messenger Username
+                    Facebook Username
+                    <span className="font-normal text-slate-400">(generates Messenger &amp; Page links)</span>
                 </label>
                 <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 focus-within:border-blue-400 transition-colors">
-                    <span className="text-slate-400 text-sm shrink-0 select-none">m.me/</span>
+                    <span className="text-slate-400 text-sm shrink-0 select-none">facebook.com/</span>
                     <input
                         type="text"
                         placeholder="yourusername"
@@ -54,15 +56,31 @@ export default function ContactSection({
                     />
                 </div>
                 {fbUsername.trim() && (
-                    <a
-                        href={`https://m.me/${fbUsername.trim()}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-1 inline-flex items-center gap-1 text-xs text-blue-500 hover:underline"
-                    >
-                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                        Preview: m.me/{fbUsername.trim()}
-                    </a>
+                    <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+                        {/* Messenger link */}
+                        <a
+                            href={`https://m.me/${fbUsername.trim()}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-blue-500 hover:underline font-medium"
+                        >
+                            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
+                            </svg>
+                            Messenger: m.me/{fbUsername.trim()}
+                        </a>
+                        <span className="text-slate-300 dark:text-zinc-600">·</span>
+                        {/* FB Page link */}
+                        <a
+                            href={`https://facebook.com/${fbUsername.trim()}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline font-medium"
+                        >
+                            <span className="material-symbols-outlined text-[13px]">open_in_new</span>
+                            FB Page
+                        </a>
+                    </div>
                 )}
             </div>
 
@@ -85,14 +103,14 @@ export default function ContactSection({
                 {phone.trim() && (
                     <div className="flex items-center gap-3 mt-1">
                         <a
-                            href={`tel:+63${phone.replace(/\D/g, '')}`}
+                            href={`tel:${formatPhPhoneForLink(phone)}`}
                             className="inline-flex items-center gap-0.5 text-xs text-green-600 dark:text-green-400 hover:underline font-medium"
                         >
                             <span className="material-symbols-outlined text-[14px]">call</span> Call
                         </a>
                         <span className="text-slate-300 dark:text-zinc-600">·</span>
                         <a
-                            href={`sms:+63${phone.replace(/\D/g, '')}`}
+                            href={`sms:${formatPhPhoneForLink(phone)}`}
                             className="inline-flex items-center gap-0.5 text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
                         >
                             <span className="material-symbols-outlined text-[14px]">sms</span> Text
@@ -106,7 +124,6 @@ export default function ContactSection({
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
                     <span className="material-symbols-outlined text-[16px] text-red-400">mail</span>
                     Email Address
-                    <span className="font-normal text-slate-400">(optional — auto-filled after Google login)</span>
                 </label>
                 <input
                     type="email"

@@ -44,6 +44,9 @@ export async function updateSession(request: NextRequest) {
         '/create-business-profile-step3',
         '/post-commute-or-delivery-listing',
         '/create-new-listing',
+        '/claim-business',
+        '/create-event-post-screen',
+        '/share-alocal-gem-screen',
     ];
 
     const isProtectedPath = protectedPaths.some((path) => currentPath.startsWith(path));
@@ -52,7 +55,7 @@ export async function updateSession(request: NextRequest) {
     if (!user && isProtectedPath) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'
-        return NextResponse.redirect(url)
+        return { response: NextResponse.redirect(url), user }
     }
 
     // --- Admin Route Protection Logic ---
@@ -60,9 +63,9 @@ export async function updateSession(request: NextRequest) {
         if (!user || !isAdmin(user.email)) {
             const url = request.nextUrl.clone();
             url.pathname = '/marinduque-connect-home-feed';
-            return NextResponse.redirect(url);
+            return { response: NextResponse.redirect(url), user };
         }
     }
 
-    return supabaseResponse
+    return { response: supabaseResponse, user }
 }

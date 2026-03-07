@@ -1,0 +1,10 @@
+[0m[0m
+[0m[4mC:\Users\mspen\OneDrive\Desktop\stitch\next-app\src\components\MarinduqueBusinessDirectory.tsx[24m[0m
+[0m  [2m65:37[22m  [33mwarning[39m  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  [2m@next/next/no-img-element[22m[0m
+[0m[0m
+[0m[4mC:\Users\mspen\OneDrive\Desktop\stitch\next-app\src\components\MarinduqueClassifiedsMarketplace.tsx[24m[0m
+[0m  [2m111:17[22m  [33mwarning[39m  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  [2m@next/next/no-img-element[22m[0m
+[0m  [2m177:21[22m  [33mwarning[39m  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  [2m@next/next/no-img-element[22m[0m
+[0m[0m
+[0m[33m[1m✖ 3 problems (0 errors, 3 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m

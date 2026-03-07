@@ -20,12 +20,20 @@ const REPORT_REASONS = [
 export default function FlagButton({ contentType, contentId }: FlagButtonProps) {
     const [open, setOpen] = useState(false);
     const [reason, setReason] = useState<string>('');
+    const [details, setDetails] = useState<string>('');
     const [submitting, setSubmitting] = useState(false);
     const [done, setDone] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
-        if (!reason) return;
+        if (!reason || !details.trim()) {
+            setError('Please provide a reason and description.');
+            return;
+        }
+        if (details.trim().length < 10) {
+            setError('Please provide more details (at least 10 characters).');
+            return;
+        }
         setSubmitting(true);
         setError(null);
 
@@ -43,6 +51,7 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
             content_id: contentId,
             flagged_by: user.id,
             reason,
+            details,
         });
 
         if (insertError) {
@@ -62,6 +71,7 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
             setOpen(false);
             setDone(false);
             setReason('');
+            setDetails('');
         }, 2000);
     };
 
@@ -115,14 +125,24 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
                                         <button
                                             key={r}
                                             onClick={() => setReason(r)}
-                                            className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all ${reason === r
-                                                    ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-                                                    : 'border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
+                                            className={`w-full text-left px-4 py-2 rounded-xl border-2 text-xs font-medium transition-all ${reason === r
+                                                ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+                                                : 'border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
                                                 }`}
                                         >
                                             {r}
                                         </button>
                                     ))}
+                                </div>
+
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Incident Details (Mandatory)</label>
+                                    <textarea
+                                        value={details}
+                                        onChange={(e) => setDetails(e.target.value)}
+                                        placeholder="Please describe exactly what happened..."
+                                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl p-3 text-sm text-slate-900 dark:text-white outline-none focus:border-red-500 min-h-[80px] resize-none"
+                                    />
                                 </div>
 
                                 {error && (
@@ -134,10 +154,10 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
                                 {/* Submit */}
                                 <button
                                     onClick={handleSubmit}
-                                    disabled={!reason || submitting}
-                                    className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${reason && !submitting
-                                            ? 'bg-red-500 hover:bg-red-400 text-white'
-                                            : 'bg-slate-200 dark:bg-zinc-800 text-slate-400 cursor-not-allowed'
+                                    disabled={!reason || !details.trim() || submitting}
+                                    className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${reason && details.trim() && !submitting
+                                        ? 'bg-red-500 hover:bg-red-400 text-white'
+                                        : 'bg-slate-200 dark:bg-zinc-800 text-slate-400 cursor-not-allowed'
                                         }`}
                                 >
                                     {submitting ? 'Submitting...' : 'Submit Report'}

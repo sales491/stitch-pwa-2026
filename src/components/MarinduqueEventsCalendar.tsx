@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
-import { Event } from '@/utils/eventData';
+import AdminActions from './AdminActions';
+import type { Event } from '@/utils/eventData';
 
 export default function MarinduqueEventsCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
-  const [selectedTown, setSelectedTown] = useState('All Towns');
+  const [selectedTown, setSelectedTown] = useState('All');
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
@@ -14,15 +15,23 @@ export default function MarinduqueEventsCalendar() {
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('events')
-        .select('*');
+        .select(`
+          *,
+          author:profiles(full_name, avatar_url)
+        `);
 
       if (data) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const transformedEvents = data.map((e: any) => ({
           ...e,
           fullDate: e.full_date,
-          dayOfMonth: e.day_of_month
+          dayOfMonth: e.day_of_month,
+          description: e.description || 'Join us for this local event in Marinduque!',
+          attendees: e.attendees || Math.floor(Math.random() * 50) + 10,
+          image: e.image || '/images/hub/event_placeholder.jpg',
+          category: e.category || 'Community'
         }));
         setEvents(transformedEvents);
       }
@@ -30,9 +39,8 @@ export default function MarinduqueEventsCalendar() {
     };
 
     fetchEvents();
-  }, []);
+  }, [supabase]);
 
-  // Generate next 7 days starting from today
   const days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
@@ -46,224 +54,181 @@ export default function MarinduqueEventsCalendar() {
   const currentMonth = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   return (
-    <>
-      <div>
-        <div className="relative min-h-screen flex flex-col pb-24">
-          {/* Header */}
-          <header className="sticky top-0 z-40 bg-white/90 dark:bg-neutral-dark/90 backdrop-blur-md border-b border-neutral-light dark:border-neutral-dark/50 px-4 pt-12 pb-3">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Link href="/marinduque-connect-home-feed" className="flex items-center justify-center size-10 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark/50 transition-colors">
-                  <span className="material-symbols-outlined text-text-primary-light dark:text-text-primary-dark">arrow_back</span>
-                </Link>
-                <span className="material-symbols-outlined text-primary" style={{ fontSize: 28 }}>festival</span>
-                <h1 className="text-xl font-bold tracking-tight">Marinduque Events</h1>
-              </div>
-              <div className="flex gap-2">
-                <button className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark/50 transition-colors">
-                  <span className="material-symbols-outlined text-text-primary-light dark:text-text-primary-dark">search</span>
-                </button>
-                <button className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark/50 transition-colors">
-                  <span className="material-symbols-outlined text-text-primary-light dark:text-text-primary-dark">notifications</span>
-                </button>
-              </div>
-            </div>
-            {/* Calendar Strip */}
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark">{currentMonth}</span>
-                <Link href="/marinduque-monthly-calendar" className="flex items-center justify-center size-6 rounded-md bg-neutral-light dark:bg-neutral-dark/50 hover:bg-primary transition-colors hover:text-black group">
-                  <span className="material-symbols-outlined text-sm text-text-secondary-light dark:text-text-secondary-dark group-hover:text-black">calendar_month</span>
-                </Link>
-              </div>
-              <span className="text-xs font-medium text-primary">Today</span>
-            </div>
-            <div className="flex justify-between items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
-              {days.map((day) => (
-                <button
-                  key={day.date}
-                  onClick={() => setSelectedDate(day.date)}
-                  className={`flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl transition-all ${selectedDate === day.date
-                    ? 'bg-primary text-black shadow-sm'
-                    : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                    }`}
-                >
-                  <span className={`text-xs font-medium ${selectedDate === day.date ? 'opacity-80' : ''}`}>{day.name}</span>
-                  <span className={`text-lg font-bold ${selectedDate === day.date ? '' : 'text-text-primary-light dark:text-text-primary-dark'}`}>{day.date}</span>
-                  {selectedDate === day.date && <div className="w-1 h-1 rounded-full bg-black mt-1" />}
-                </button>
-              ))}
-            </div>
-          </header>
-          {/* Town Filter */}
-          <div className="px-4 py-2.5 sticky top-[180px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm shadow-sm border-b border-neutral-light dark:border-neutral-dark/20 space-y-2">
-            <div className="flex gap-1.5">
-              <button
-                onClick={() => setSelectedTown('All Towns')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-bold shadow-sm transition-all active:scale-95 text-center truncate ${selectedTown === 'All Towns' ? 'bg-primary text-black' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark'
-                  }`}>
-                All Towns
-              </button>
-              <button
-                onClick={() => setSelectedTown('Boac')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Boac' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Boac
-              </button>
-              <button
-                onClick={() => setSelectedTown('Mogpog')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Mogpog' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Mogpog
-              </button>
-              <button
-                onClick={() => setSelectedTown('Gasan')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Gasan' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Gasan
-              </button>
-            </div>
-            <div className="flex gap-1.5 px-4">
-              <button
-                onClick={() => setSelectedTown('Buenavista')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Buenavista' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Buenavista
-              </button>
-              <button
-                onClick={() => setSelectedTown('Torrijos')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Torrijos' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Torrijos
-              </button>
-              <button
-                onClick={() => setSelectedTown('Santa Cruz')}
-                className={`flex-1 min-w-0 px-1 py-1 rounded-full text-[11px] font-medium transition-all text-center truncate ${selectedTown === 'Santa Cruz' ? 'bg-primary text-black font-bold' : 'bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary'
-                  }`}>
-                Santa Cruz
-              </button>
-            </div>
+    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+      {/* Header */}
+      <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
+        <div className="flex items-center justify-between px-4 pt-4 pb-3">
+          <div className="flex items-center gap-3">
+            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
+            </Link>
+            <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">Events Calendar</h1>
           </div>
-          {/* Event Feed */}
-          <main className="px-4 flex flex-col gap-6">
-            {loading ? (
-              <div className="flex flex-col gap-4">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="h-40 w-full bg-slate-100 dark:bg-zinc-800 animate-pulse rounded-2xl" />
-                ))}
-              </div>
-            ) : (() => {
-              const filteredEvents = events.filter((event: Event) =>
-                (selectedTown === 'All Towns' || event.town === selectedTown) &&
-                event.dayOfMonth === selectedDate
-              );
 
-              if (filteredEvents.length === 0) {
-                return (
-                  <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <span className="material-symbols-outlined text-stone-300 dark:text-stone-700 text-6xl mb-4">event_busy</span>
-                    <p className="text-stone-500 dark:text-stone-400 font-medium">No events scheduled for this day in {selectedTown}</p>
-                    <p className="text-stone-400 dark:text-stone-500 text-xs mt-1">Try selecting another date or town</p>
-                  </div>
-                );
-              }
+          <Link href="/marinduque-events-calendar" className="text-[9px] font-black text-moriones-red/60 hover:text-moriones-red uppercase tracking-[0.2em] transition-all border-b border-moriones-red/20 pb-0.5">
+            Next 7 Days
+          </Link>
 
-              return filteredEvents.map((event, index) => {
-                const isFeatured = index === 0;
-                // Simple sync check for local user status
-                const isUserGoing = typeof window !== 'undefined' && localStorage.getItem(`event_going_${event.id}`) === 'true';
-
-                if (isFeatured) {
-                  return (
-                    <article key={event.id} className="group bg-white dark:bg-neutral-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50">
-                      <Link href={`/event/${event.id}`}>
-                        <div className="relative h-48 w-full">
-                          <img alt={event.title} className="w-full h-full object-cover" src={event.image} />
-                          {event.trending && (
-                            <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
-                              <span className="material-symbols-outlined text-primary text-sm">local_fire_department</span>
-                              <span className="text-xs font-bold text-text-primary-light dark:text-white">Trending</span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <h2 className="text-lg font-bold text-text-primary-light dark:text-white leading-tight mb-1 group-hover:text-primary transition-colors">{event.title}</h2>
-                              <div className="flex items-center gap-1 text-text-secondary-light dark:text-text-secondary-dark text-sm">
-                                <span className="material-symbols-outlined text-base text-primary">location_on</span>
-                                <span>{event.location}</span>
-                              </div>
-                            </div>
-                            <div className="flex flex-col items-end">
-                              <span className="text-xs font-bold text-primary bg-primary/10 dark:bg-primary/20 px-2 py-1 rounded text-center whitespace-nowrap">{event.date}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2 mb-4">
-                            <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark bg-neutral-light dark:bg-neutral-dark/80 px-2 py-0.5 rounded">{event.time}</span>
-                            <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark bg-neutral-light dark:bg-neutral-dark/80 px-2 py-0.5 rounded">{event.category}</span>
-                          </div>
-                          <div className="flex items-center justify-between border-t border-neutral-light dark:border-neutral-dark/50 pt-3 mt-1">
-                            <div className="flex -space-x-2">
-                              {[1, 2, 3].map((u) => (
-                                <div key={u} className="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark bg-slate-200 dark:bg-neutral-dark flex items-center justify-center overflow-hidden">
-                                  <img src={`https://i.pravatar.cc/100?u=${event.id}${u}`} alt="User" className="w-full h-full object-cover" />
-                                </div>
-                              ))}
-                              {isUserGoing && (
-                                <div className="w-7 h-7 rounded-full border-2 border-primary bg-primary flex items-center justify-center z-10">
-                                  <span className="material-symbols-outlined text-[14px] text-black font-bold">check</span>
-                                </div>
-                              )}
-                              <div className="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark bg-neutral-light dark:bg-neutral-dark/80 flex items-center justify-center text-[10px] font-bold text-text-secondary-light dark:text-text-secondary-dark">+{event.attendees}</div>
-                            </div>
-                            <div className="flex flex-col items-end">
-                              <p className="text-xs font-bold text-text-secondary-light dark:text-text-secondary-dark">{event.attendees} Going</p>
-                              {isUserGoing && <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-0.5 flex items-center gap-0.5"><span className="material-symbols-outlined text-[10px] fill-1">check_circle</span>You&apos;re Going</span>}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </article>
-                  );
-                }
-
-                return (
-                  <article key={event.id} className="bg-white dark:bg-neutral-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50 group">
-                    <Link href={`/event/${event.id}`} className="flex gap-4 items-center">
-                      <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
-                        <img alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={event.image} />
-                        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-start mb-1">
-                          <span className="text-xs font-bold text-primary uppercase tracking-wide">{event.town}</span>
-                          <span className="text-xs text-text-secondary-light dark:text-text-secondary-dark">{event.date}</span>
-                        </div>
-                        <h3 className="text-base font-bold text-text-primary-light dark:text-white truncate mb-1 group-hover:text-primary transition-colors">{event.title}</h3>
-                        <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark mb-2 truncate">{event.description}</p>
-                        <div className="flex items-center gap-3">
-                          <div className={`flex items-center gap-1 text-xs font-bold ${isUserGoing ? 'text-emerald-500' : 'text-text-secondary-light dark:text-text-secondary-dark'}`}>
-                            <span className={`material-symbols-outlined text-sm ${isUserGoing ? 'text-emerald-500 fill-1' : 'text-primary'}`}>{isUserGoing ? 'check_circle' : 'group'}</span>
-                            <span>{isUserGoing ? "You&apos;re Going" : `${event.attendees} Going`}</span>
-                          </div>
-                          <div className="ml-auto text-[10px] font-bold text-primary px-2 py-1 bg-primary/10 rounded-lg group-hover:bg-primary group-hover:text-black transition-colors">
-                            DETAILS
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
-                );
-              });
-            })()}
-          </main>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-black uppercase tracking-wider text-text-main dark:text-text-main-dark">{currentMonth}</span>
+            <Link href="/marinduque-monthly-calendar" className="text-moriones-red hover:bg-moriones-red/10 p-1 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10">
+              <span className="material-symbols-outlined text-[18px]">calendar_month</span>
+            </Link>
+          </div>
         </div>
-        {/* Floating Action Button */}
-        <Link href="/create-event-post-screen" className="fixed right-4 bottom-20 z-50 flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all max-w-md mx-auto">
-          <span className="material-symbols-outlined text-black text-3xl">add</span>
+
+        {/* Calendar Strip */}
+        <div className="px-4 py-2 flex flex-col gap-2">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+            {days.map((day) => (
+              <button
+                key={day.date}
+                onClick={() => setSelectedDate(day.date)}
+                className={`flex flex-col items-center justify-center min-w-[54px] h-16 rounded-2xl transition-all shadow-sm border ${selectedDate === day.date
+                  ? 'bg-moriones-red border-moriones-red text-white'
+                  : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-text-muted dark:text-text-muted-dark hover:border-moriones-red/50'
+                  }`}
+              >
+                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-70">{day.name}</span>
+                <span className="text-lg font-black">{day.date}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Town Filter - Horizontal Scroll */}
+        <div className="flex justify-between gap-1 px-3 pb-4">
+          {['All', 'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'].map((town) => (
+            <button
+              key={town}
+              onClick={() => setSelectedTown(town)}
+              className={`flex-1 text-center rounded-lg border px-0.5 py-1.5 text-[9px] font-black uppercase tracking-tighter transition-all shadow-sm ${selectedTown === town
+                ? 'bg-moriones-red border-moriones-red text-white'
+                : 'bg-surface-light dark:bg-surface-dark border-border-light dark:border-border-dark text-text-main dark:text-text-main-dark hover:border-moriones-red/50'
+                }`}
+            >
+              {town}
+            </button>
+          ))}
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-28">
+        {loading ? (
+          <div className="flex flex-col gap-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-44 w-full bg-slate-100 dark:bg-zinc-800 animate-pulse rounded-2xl border border-border-light dark:border-border-dark" />
+            ))}
+          </div>
+        ) : (() => {
+          const filteredEvents = events.filter((event: Event) =>
+            (selectedTown === 'All' || event.town === selectedTown) &&
+            event.dayOfMonth === selectedDate
+          );
+
+          if (filteredEvents.length === 0) {
+            return (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <span className="material-symbols-outlined text-[64px] text-text-muted/20 mb-4">event_busy</span>
+                <p className="text-text-main font-black">No events scheduled</p>
+                <p className="text-xs text-text-muted mt-1">Try another date or town</p>
+              </div>
+            );
+          }
+
+          return filteredEvents.map((event, index) => {
+            const isFeatured = index === 0;
+
+            if (isFeatured) {
+              return (
+                <article key={event.id} className="group relative flex flex-col overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-md hover:shadow-xl transition-all active:scale-[0.99]">
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <img alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" src={event.image} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div className="absolute top-4 left-4 flex gap-2">
+                      <span className="px-3 py-1 bg-moriones-red text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">Featured</span>
+                      <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-lg border border-white/20">{event.category}</span>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <AdminActions contentType="event" contentId={event.id} authorId={event.author_id} className="scale-90" />
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <h2 className="text-xl font-black leading-tight group-hover:text-moriones-red transition-colors">{event.title}</h2>
+                      <div className="flex items-center gap-3 mt-2 text-xs font-medium text-white/80">
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[16px] text-moriones-red">location_on</span>
+                          {event.location}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[16px] text-moriones-red">schedule</span>
+                          {event.time}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-5 flex items-center justify-between border-t border-border-light dark:border-border-dark bg-background-light/50 dark:bg-background-dark/50">
+                    <div className="flex -space-x-3">
+                      {[1, 2, 3, 4].map((u) => (
+                        <div key={u} className="w-8 h-8 rounded-full border-2 border-surface-light dark:border-surface-dark bg-slate-200 overflow-hidden shadow-sm">
+                          <img src={`https://i.pravatar.cc/100?u=${event.id}${u}`} alt="User" />
+                        </div>
+                      ))}
+                      <div className="w-8 h-8 rounded-full border-2 border-surface-light dark:border-surface-dark bg-moriones-red flex items-center justify-center text-[10px] font-black text-white shadow-sm">
+                        +{event.attendees}
+                      </div>
+                    </div>
+                    <Link href={`/event/${event.id}`} className="bg-moriones-red text-white px-6 py-2.5 rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all">
+                      JOIN EVENT
+                    </Link>
+                  </div>
+                </article>
+              );
+            }
+
+            return (
+              <article key={event.id} className="flex gap-4 p-3 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group active:scale-[0.98]">
+                <div className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark">
+                  <img alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={event.image} />
+                  <div className="absolute bottom-0 right-0 p-1 bg-moriones-red text-white rounded-tl-lg">
+                    <span className="material-symbols-outlined text-[14px]">event</span>
+                  </div>
+                  <div className="absolute top-1 left-1">
+                    <AdminActions contentType="event" contentId={event.id} authorId={event.author_id} className="scale-75 origin-top-left" />
+                  </div>
+                </div>
+                <div className="flex-1 flex flex-col justify-center min-w-0">
+                  <span className="text-[10px] font-black text-moriones-red uppercase tracking-tight">{event.town} • {event.category}</span>
+                  <Link href={`/event/${event.id}`} className="group-hover:underline">
+                    <h3 className="text-base font-bold text-text-main leading-snug line-clamp-1">{event.title}</h3>
+                  </Link>
+                  <p className="text-xs font-medium text-text-muted mt-1 line-clamp-1">{event.time} at {event.location}</p>
+                  <div className="flex items-center gap-1 mt-2 text-[10px] font-black text-moriones-red/80 uppercase">
+                    <span className="material-symbols-outlined text-[12px] fill-1">group</span>
+                    {event.attendees} participants
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Link href={`/event/${event.id}`} className="h-10 w-10 flex items-center justify-center rounded-xl bg-background-light dark:bg-background-dark text-moriones-red hover:bg-moriones-red hover:text-white transition-all border border-moriones-red/10">
+                    <span className="material-symbols-outlined">trending_flat</span>
+                  </Link>
+                </div>
+              </article>
+            );
+          });
+        })()}
+      </main>
+
+      {/* FAB */}
+      <div className="fixed bottom-10 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
+        <Link
+          href="/events/create"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-110 active:scale-95 group pointer-events-auto"
+          title="Create Event"
+        >
+          <span className="material-symbols-outlined text-[32px]">calendar_add_on</span>
         </Link>
       </div>
-    </>
+    </div>
   );
 }

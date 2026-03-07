@@ -167,34 +167,7 @@ export default function HelpCommunityGuidelines() {
             </p>
           </div>
         </div>
-        {/* Bottom Navigation */}
-        <nav className="absolute bottom-0 left-0 right-0 border-t border-slate-100 bg-white dark:border-slate-800 dark:bg-surface-dark px-4 pb-6 pt-2">
-          <div className="flex items-center justify-between gap-2">
-            <a className="group flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="/user-profile-dashboard1">
-              <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">home</span>
-              <span className="text-xs font-medium">Home</span>
-            </a>
-            <a className="group flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="/marinduque-connect-home-feed">
-              <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">storefront</span>
-              <span className="text-xs font-medium">Market</span>
-            </a>
-            <a className="group flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="/user-profile-dashboard1">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-slate-900 shadow-lg shadow-primary/30 transition-transform group-hover:-translate-y-1">
-                <span className="material-symbols-outlined text-[28px]">add</span>
-              </div>
-            </a>
-            <a className="group flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="/user-profile-dashboard1">
-              <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">notifications</span>
-              <span className="text-xs font-medium">Alerts</span>
-            </a>
-            <a className="group flex flex-1 flex-col items-center justify-end gap-1 text-primary dark:text-primary" href="/marinduque-connect-home-feed">
-              <span className="material-symbols-outlined text-[24px] fill-current">person</span>
-              <span className="text-xs font-medium">Profile</span>
-            </a>
-          </div>
-        </nav>
       </div>
-
     </>
   );
 }

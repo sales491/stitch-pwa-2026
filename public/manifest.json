@@ -1,0 +1,30 @@
+{
+    "name": "Marinduque Market Hub",
+    "short_name": "MarketHub",
+    "description": "Your local digital hub for Marinduque — businesses, classifieds, events, and community.",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#f2d00d",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "categories": [
+        "business",
+        "shopping",
+        "social"
+    ],
+    "lang": "en-PH"
+}

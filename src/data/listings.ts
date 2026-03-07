@@ -19,6 +19,7 @@ export type Listing = {
         memberSince: string;
         responseRate: string;
         phone: string;
+        fb?: string; // Facebook username for Messenger (m.me/) and Page (facebook.com/) links
     };
     seo: {
         title: string;

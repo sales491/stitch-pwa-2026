@@ -1,32 +1,80 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { filterAllFields } from '@/utils/contentFilter';
 import { createClient } from '@/utils/supabase/client';
+import { createEvent } from '@/app/actions/events';
+import { optimizeImage } from '@/utils/image-optimization';
 
 export default function CreateEventPostScreen() {
   const router = useRouter();
   const supabase = createClient();
+
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get('id');
+  const isEditing = !!eventId;
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [town, setTown] = useState('');
+  const [venue, setVenue] = useState('');
   const [category, setCategory] = useState('Cultural');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(isEditing);
   const [filterError, setFilterError] = useState<string | null>(null);
+
+  // Fetch initial data if editing
+  React.useEffect(() => {
+    if (isEditing) {
+      const fetchEvent = async () => {
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('id', eventId)
+          .single();
+
+        if (data && !error) {
+          setTitle(data.title);
+          setDescription(data.description);
+          setDate(data.event_date);
+          setTime(data.event_time);
+          setTown(data.town);
+          setVenue(data.location);
+          setCategory(data.category);
+          setExistingImages(data.images || [data.image].filter(Boolean));
+        }
+        setInitialLoading(false);
+      };
+      fetchEvent();
+    }
+  }, [eventId, isEditing, supabase]);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const available = 2 - imageFiles.length;
+    const toAdd = files.slice(0, available);
+    setImageFiles(prev => [...prev, ...toAdd]);
+  };
+
+  const removeImage = (idx: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== idx));
+  };
+
 
   const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !description || !date || !town) {
+    if (!title || !description || !date || !town || !venue) {
       alert('Please fill in all required fields.');
       return;
     }
 
     setFilterError(null);
-    const result = filterAllFields({ title, description });
+    const result = filterAllFields({ title, description, venue });
     if (!result.passed) {
       setFilterError(result.reason ?? 'Content contains prohibited material.');
       return;
@@ -34,49 +82,85 @@ export default function CreateEventPostScreen() {
 
     setLoading(true);
 
-    // Parse date for day_of_month and month
-    const dateObj = new Date(date);
-    const month = dateObj.getMonth();
-    const dayOfMonth = dateObj.getDate();
-    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const dateStr = `${monthNames[month]} ${dayOfMonth}`;
-    const fullDateStr = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    try {
+      let imageUrls: string[] = [];
 
-    // Format time to AM/PM
-    const [hours, minutes] = time.split(':');
-    const h = parseInt(hours);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    const h12 = h % 12 || 12;
-    const timeStr = `${h12}:${minutes} ${ampm}`;
+      // 1. Upload Images if they exist
+      if (imageFiles.length > 0) {
+        for (const file of imageFiles) {
+          // Optimize for high-quality banner (1200px)
+          const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.85 });
 
-    const newEvent = {
-      title,
-      description,
-      location: `${town} Center`,
-      town,
-      date: dateStr,
-      full_date: fullDateStr,
-      time: timeStr,
-      category,
-      image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1200&auto=format&fit=crop',
-      attendees: 0,
-      trending: false,
-      day_of_month: dayOfMonth,
-      month: month
-    };
+          const fileExt = 'jpg';
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+          const filePath = `events/${fileName}`;
 
-    const { error } = await supabase
-      .from('events')
-      .insert([newEvent]);
+          const { error: uploadError } = await supabase.storage
+            .from('community_images')
+            .upload(filePath, optimizedFile);
 
-    if (error) {
-      alert(`Error publishing event: ${error.message}`);
-      setLoading(false);
-    } else {
-      alert('Event published successfully!');
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('community_images')
+            .getPublicUrl(filePath);
+
+          imageUrls.push(publicUrl);
+        }
+      }
+
+      // 2. Parse date/time
+      const dateObj = new Date(date);
+      const month = dateObj.getMonth();
+      const dayOfMonth = dateObj.getDate();
+      const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      const dateStr = `${monthNames[month]} ${dayOfMonth}`;
+      const fullDateStr = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+      // Format time
+      const [hours, minutes] = time.split(':');
+      const h = parseInt(hours);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      const timeStr = `${h12}:${minutes} ${ampm}`;
+
+      // 3. Prepare Payload
+      const payload = {
+        title,
+        description,
+        location: venue,
+        town,
+        event_date: date,
+        event_time: time,
+        date: dateStr,
+        full_date: fullDateStr,
+        time: timeStr,
+        category,
+        image: imageUrls[0] || existingImages[0] || '',
+        images: [...existingImages, ...imageUrls],
+        day_of_month: dayOfMonth,
+        month: month
+      };
+
+      if (isEditing) {
+        const { error: updateError } = await supabase
+          .from('events')
+          .update(payload)
+          .eq('id', eventId);
+        if (updateError) throw updateError;
+      } else {
+        await createEvent(payload);
+      }
+
+      alert(isEditing ? 'Event updated successfully!' : 'Event published successfully!');
       router.push('/marinduque-events-calendar');
+      router.refresh();
+    } catch (err: any) {
+      alert(`Error publishing event: ${err.message}`);
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-white dark:bg-zinc-900 shadow-xl overflow-x-hidden">
@@ -85,7 +169,7 @@ export default function CreateEventPostScreen() {
         <Link href="/marinduque-events-calendar" className="flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">
           <span className="material-symbols-outlined">arrow_back</span>
         </Link>
-        <h2 className="text-lg font-bold leading-tight flex-1 text-center pr-10 text-slate-900 dark:text-white">Create Event</h2>
+        <h2 className="text-lg font-bold leading-tight flex-1 text-center pr-10 text-slate-900 dark:text-white">{isEditing ? 'Edit Event' : 'Create Event'}</h2>
       </header>
 
       {/* Filter error */}
@@ -100,14 +184,47 @@ export default function CreateEventPostScreen() {
       <form onSubmit={handlePublish} className="flex-1 overflow-y-auto no-scrollbar pb-24">
         {/* Upload Section */}
         <div className="px-4 py-5">
-          <div className="w-full aspect-[16/9] bg-slate-50 dark:bg-zinc-800 border-2 border-dashed border-primary/40 dark:border-primary/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5 transition-colors group">
-            <div className="bg-primary/20 text-primary p-3 rounded-full mb-3 group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-3xl">add_photo_alternate</span>
-            </div>
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Add Cover Photo</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">1200 x 630 recommended</p>
+          <div className="grid grid-cols-2 gap-3">
+            {existingImages.map((url, idx) => (
+              <div key={`existing-${idx}`} className="relative aspect-[16/9] rounded-xl overflow-hidden shadow-sm bg-slate-100 dark:bg-zinc-800 border dark:border-zinc-700">
+                <img src={url} className="w-full h-full object-cover" alt="Saved" />
+                <button
+                  type="button"
+                  onClick={() => setExistingImages(prev => prev.filter((_, i) => i !== idx))}
+                  className="absolute top-2 right-2 bg-black/60 text-white w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-sm">delete</span>
+                </button>
+                <div className="absolute top-2 left-2 bg-green-500/80 backdrop-blur-sm text-[8px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest">Saved</div>
+              </div>
+            ))}
+
+            {imageFiles.map((file, idx) => (
+              <div key={idx} className="relative aspect-[16/9] rounded-xl overflow-hidden shadow-sm bg-slate-100 dark:bg-zinc-800 border dark:border-zinc-700">
+                <img src={URL.createObjectURL(file)} className="w-full h-full object-cover" alt="Preview" />
+                <button
+                  type="button"
+                  onClick={() => removeImage(idx)}
+                  className="absolute top-2 right-2 bg-black/60 text-white w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+                {idx === 0 && existingImages.length === 0 && <div className="absolute bottom-0 left-0 right-0 bg-primary/90 py-0.5 text-[8px] font-black text-slate-900 text-center uppercase tracking-tighter">Main Banner</div>}
+              </div>
+            ))}
+
+            {(imageFiles.length + existingImages.length) < 2 && (
+              <label className="aspect-[16/9] bg-slate-50 dark:bg-zinc-800 border-2 border-dashed border-primary/40 dark:border-primary/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5 transition-colors group relative overflow-hidden">
+                <div className="bg-primary/20 text-primary p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-2xl">add_photo_alternate</span>
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{imageFiles.length + existingImages.length}/2 Photos</p>
+                <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageChange} />
+              </label>
+            )}
           </div>
         </div>
+
 
         <div className="h-2 bg-slate-50 dark:bg-zinc-950 w-full" />
 
@@ -126,8 +243,20 @@ export default function CreateEventPostScreen() {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Venue / Specific Location</label>
+              <input
+                required
+                className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base placeholder:text-gray-400"
+                placeholder="e.g., Boac Town Plaza"
+                type="text"
+                value={venue}
+                onChange={(e) => setVenue(e.target.value)}
+              />
+            </div>
             {/* Date/Time */}
             <div className="grid grid-cols-2 gap-4">
+
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Date</label>
                 <input required className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
@@ -178,24 +307,22 @@ export default function CreateEventPostScreen() {
           />
         </div>
 
-        <div className="h-20" />
-      </form>
-
-      {/* Fixed Bottom Action Bar */}
-      <div className="sticky bottom-0 z-10 bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 p-4">
-        <div className="flex items-center justify-center gap-1.5 mb-3 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 py-1.5 rounded-lg border border-emerald-100 dark:border-emerald-800/50">
-          <span className="material-symbols-outlined text-sm">public</span>
-          Creates SEO-Optimized Public Event Page
+        {/* Inline Action Bar (Moved from fixed bottom) */}
+        <div className="px-4 py-8 space-y-4 bg-slate-50/50 dark:bg-zinc-950/20 border-t border-gray-100 dark:border-zinc-800/50">
+          <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 py-2 rounded-lg border border-emerald-100 dark:border-emerald-800/50">
+            <span className="material-symbols-outlined text-sm">public</span>
+            Creates SEO-Optimized Public Event Page
+          </div>
+          <button
+            disabled={loading}
+            type="submit"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-moriones-red px-6 py-4 text-base font-bold text-white shadow-lg shadow-moriones-red/20 transition-all active:scale-[0.98] hover:bg-moriones-red/90 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span>{loading ? 'Processing...' : (isEditing ? 'Save Changes' : 'Publish Event')}</span>
+            <span className="material-symbols-outlined text-xl">{isEditing ? 'save' : 'send'}</span>
+          </button>
         </div>
-        <button
-          disabled={loading}
-          onClick={handlePublish}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-bold text-black shadow-lg shadow-primary/20 transition-transform active:scale-[0.98] hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span>{loading ? 'Publishing...' : 'Publish Event'}</span>
-          <span className="material-symbols-outlined text-xl">send</span>
-        </button>
-      </div>
+      </form>
     </div>
   );
 }

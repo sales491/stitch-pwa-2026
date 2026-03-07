@@ -190,9 +190,37 @@ export default function JobVacancyDetailsView({ job }: JobVacancyDetailsViewProp
                   </div>
                 )}
                 {displayJob.contact.fb && (
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/20 text-indigo-700 dark:text-indigo-400">
-                    <span className="material-symbols-outlined">chat</span>
-                    <span className="text-sm font-semibold">FB: {displayJob.contact.fb}</span>
+                  <div className="space-y-2">
+                    <a
+                      href={`https://m.me/${displayJob.contact.fb.replace(/\s+/g, '').replace(/https?:\/\/(www\.)?facebook\.com\//i, '').replace(/https?:\/\/m\.me\//i, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/20 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                    >
+                      <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
+                      </svg>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wider opacity-60 mb-0.5">Messenger</p>
+                        <p className="text-sm font-semibold">m.me/{displayJob.contact.fb}</p>
+                      </div>
+                      <span className="material-symbols-outlined text-[16px] ml-auto opacity-60">open_in_new</span>
+                    </a>
+                    <a
+                      href={`https://facebook.com/${displayJob.contact.fb.replace(/\s+/g, '').replace(/https?:\/\/(www\.)?facebook\.com\//i, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/20 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors"
+                    >
+                      <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.525 8H14V6c0-1.03.838-1.608 2-1.608h1.975V1.1c-.341-.047-1.536-.1-2.932-.1C12.024 1 10 2.8 10 5.748V8H7v3h3v9h4v-9h2.525L17.525 8z" />
+                      </svg>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wider opacity-60 mb-0.5">Facebook Page</p>
+                        <p className="text-sm font-semibold">facebook.com/{displayJob.contact.fb}</p>
+                      </div>
+                      <span className="material-symbols-outlined text-[16px] ml-auto opacity-60">open_in_new</span>
+                    </a>
                   </div>
                 )}
               </div>

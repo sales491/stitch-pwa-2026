@@ -1,111 +1,131 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import AdminActions from './AdminActions';
+import { createClient } from '@/utils/supabase/client';
+import { optimizeImage } from '@/utils/image-optimization';
+import { useAuth } from './AuthProvider';
+import UniversalComments from './UniversalComments';
+import { getCommunityPosts, createCommunityPost, voteInPoll } from '@/app/actions/community';
+
+const TOWNS = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
+const MOODS = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
 
 export default function CommunityBoardCommuterHub() {
+  const { profile } = useAuth();
+  const [posts, setPosts] = useState<any[]>([]);
+  const [isPending, startTransition] = useTransition();
   const [postText, setPostText] = useState('');
   const [selectedTown, setSelectedTown] = useState('All Towns');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // New State for interactivity
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [attachedPhotos, setAttachedPhotos] = useState<string[]>([]);
   const [errorHeader, setErrorHeader] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [taggedTown, setTaggedTown] = useState<string | null>(null);
   const [pollOptions, setPollOptions] = useState<string[]>(['', '']);
   const [showPoll, setShowPoll] = useState(false);
-  const [checkInLocation, setCheckInLocation] = useState<string | null>(null);
   const [activeMood, setActiveMood] = useState<string | null>(null);
+  const [expandedComments, setExpandedComments] = useState<string[]>([]);
+  const [isPostTownOpen, setIsPostTownOpen] = useState(false);
 
+  const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const towns = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
-  const moods = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
-
-  // Limits
   const MAX_PHOTOS = 3;
   const MAX_FILE_SIZE_MB = 5;
 
   const handlePhotoClick = () => fileInputRef.current?.click();
 
-  // Image Compression/Scaling Helper
-  const compressImage = async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target?.result as string;
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
+  useEffect(() => {
+    fetchPosts();
+  }, [selectedTown]);
 
-          // Max dimension for scaling (e.g., 1200px)
-          const MAX_DIM = 1200;
-          if (width > height && width > MAX_DIM) {
-            height *= MAX_DIM / width;
-            width = MAX_DIM;
-          } else if (height > MAX_DIM) {
-            width *= MAX_DIM / height;
-            height = MAX_DIM;
-          }
+  const fetchPosts = async () => {
+    const data = await getCommunityPosts(selectedTown);
+    setPosts(data);
+  };
 
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx?.drawImage(img, 0, 0, width, height);
+  const handlePost = async () => {
+    if (!profile) {
+      setErrorHeader('Please sign in to post.');
+      return;
+    }
+    if (!postText.trim() && imageFiles.length === 0) return;
 
-          // Convert back to base64 with 0.7 quality
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-          resolve(compressedDataUrl);
-        };
-        img.onerror = () => reject(new Error('Image load failed'));
-      };
-      reader.onerror = () => reject(new Error('File read failed'));
-    });
+    setIsUploading(true);
+    setErrorHeader(null);
+
+    try {
+      const imageUrls: string[] = [];
+      for (const file of imageFiles) {
+        const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8 });
+        const filePath = `community/${Date.now()}-${file.name}`;
+        const { error: uploadError } = await supabase.storage.from('listings').upload(filePath, optimized);
+        if (uploadError) throw uploadError;
+        const { data: { publicUrl } } = supabase.storage.from('listings').getPublicUrl(filePath);
+        imageUrls.push(publicUrl);
+      }
+
+      const pollData = showPoll && pollOptions.some(o => o.trim()) ? {
+        options: pollOptions.filter(o => o.trim()).map((o, i) => ({ id: `opt-${i}`, text: o, votes: [] }))
+      } : null;
+
+      const result = await createCommunityPost({
+        content: postText,
+        location: taggedTown || 'Marinduque',
+        images: imageUrls,
+        poll_data: pollData,
+        tags: postText.match(/#\w+/g)?.map(t => t.slice(1)) || []
+      });
+
+      if (result.success) {
+        setPostText('');
+        setAttachedPhotos([]);
+        setImageFiles([]);
+        setShowPoll(false);
+        setPollOptions(['', '']);
+        setTaggedTown(null);
+        fetchPosts();
+      } else {
+        setErrorHeader(result.error || 'Failed to post.');
+      }
+    } catch (err: any) {
+      setErrorHeader(err.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleVote = async (postId: string, optionId: string) => {
+    if (!profile) return;
+    const result = await voteInPoll(postId, optionId);
+    if (result.success) fetchPosts();
+    else alert(result.error);
+  };
+
+  const toggleComments = (postId: string) => {
+    setExpandedComments(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
     setErrorHeader(null);
+    const available = MAX_PHOTOS - attachedPhotos.length;
+    const toProcess = files.slice(0, available);
 
-    // Filter valid files and limit to remaining slots
-    const totalCurrent = attachedPhotos.length;
-    const availableSlots = MAX_PHOTOS - totalCurrent;
-
-    if (files.length > availableSlots) {
-      setErrorHeader(`You can only upload up to ${MAX_PHOTOS} photos. Skipping extras.`);
-    }
-
-    const filesToProcess = Array.from(files).slice(0, availableSlots);
-    const processedPhotos: string[] = [];
-
-    for (const file of filesToProcess) {
-      if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-        setErrorHeader(`"${file.name}" exceeds ${MAX_FILE_SIZE_MB}MB and will be skipped.`);
-        continue;
-      }
-
-      try {
-        const compressed = await compressImage(file);
-        processedPhotos.push(compressed);
-      } catch (err) {
-        console.error('Compression error:', err);
-      }
-    }
-
-    setAttachedPhotos(prev => [...prev, ...processedPhotos]);
-    // Reset input for same file re-selection
+    setImageFiles(prev => [...prev, ...toProcess]);
+    setAttachedPhotos(prev => [...prev, ...toProcess.map(f => URL.createObjectURL(f))]);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const removePhoto = (index: number) => {
     setAttachedPhotos(prev => prev.filter((_, i) => i !== index));
-    if (attachedPhotos.length <= MAX_PHOTOS) setErrorHeader(null);
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const addPollOption = () => setPollOptions([...pollOptions, '']);
@@ -116,331 +136,338 @@ export default function CommunityBoardCommuterHub() {
   };
 
   return (
-    <>
-      <div className="relative flex flex-col min-h-screen w-full max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl overflow-hidden bg-buntal-pattern">
-        <header className="sticky top-0 z-30 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md border-b border-accent-gold/20 shadow-sm">
-          <div className="flex items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-3">
-              <Link href="/marinduque-connect-home-feed" className="text-text-main-light dark:text-text-main-dark p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-              </Link>
-              <div className="relative">
-                <h1 className="text-lg font-bold leading-tight text-primary dark:text-primary-dark">Marinduque Board</h1>
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="text-xs text-text-sub-light dark:text-text-sub-dark font-medium flex items-center gap-1 hover:text-primary transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[14px] text-accent-gold">location_on</span>
-                  {selectedTown === 'All Towns' ? 'Marinduque' : selectedTown}
-                  <span className="material-symbols-outlined text-[14px]">expand_more</span>
-                </button>
+    <div className="relative w-full max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+      {/* Header */}
+      <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
+        {/* Quick Links */}
+        <div className="px-2 pb-3 flex justify-between gap-1 pt-1">
+          <Link href="/best-of-boac-monthly-spotlight" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-amber-500">workspace_premium</span> Boac
+          </Link>
+          <Link href="/marinduque-events-calendar" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-moriones-red">event</span> Events
+          </Link>
+          <Link href="/the-hidden-foreigner-blog-feed" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-purple-500">public</span> Foreigner
+          </Link>
+          <Link href="/gems-of-marinduque-feed" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-blue-500">diamond</span> Gems
+          </Link>
+          <Link href="/roro-port-information-hub" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-cyan-600">directions_boat</span> RoRo
+          </Link>
+        </div>
 
-                {isFilterOpen && (
-                  <div className="absolute top-full left-0 mt-3 w-52 bg-white dark:bg-zinc-900 border-2 border-slate-200 dark:border-zinc-700 rounded-2xl shadow-2xl z-50 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                    <div className="px-3 py-2 border-b border-slate-100 dark:border-zinc-800 mb-1">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Select Town</span>
-                    </div>
-                    {towns.map((town) => (
-                      <button
-                        key={town}
-                        onClick={() => {
-                          setSelectedTown(town);
-                          setIsFilterOpen(false);
-                        }}
-                        className={`w-full px-4 py-3 text-left text-sm transition-all hover:bg-slate-50 dark:hover:bg-zinc-800/50 ${selectedTown === town ? 'text-primary font-black bg-primary/10' : 'text-slate-700 dark:text-zinc-300 font-medium'}`}
-                      >
-                        {town}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="relative flex items-center justify-center size-10 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-text-main-light dark:text-text-main-dark">
-                <span className="material-symbols-outlined text-[24px]">search</span>
-              </button>
-              <button className="relative flex items-center justify-center size-10 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-text-main-light dark:text-text-main-dark">
-                <span className="material-symbols-outlined text-[24px]">notifications</span>
-                <span className="absolute top-2 right-2 size-2 bg-primary rounded-full border-2 border-surface-light dark:border-surface-dark" />
-              </button>
-            </div>
+        {/* Title & Filter */}
+        <div className="flex items-center justify-between px-4 pt-2 pb-4">
+          <div className="flex items-center gap-3">
+            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1.5 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
+            </Link>
+            <h1 className="text-xl font-black leading-tight tracking-tight text-moriones-red">Community Board</h1>
           </div>
 
-          <div className="flex flex-col gap-2 px-4 pb-4">
-            <div className="flex gap-2 w-full">
-              <Link href="/marinduque-events-calendar" className="flex-1 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white text-[11px] font-black uppercase tracking-tight shadow-sm active:scale-95 transition-all">
-                📅 Events
-              </Link>
-              <Link href="/roro-port-information-hub" className="flex-1 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white text-[11px] font-black uppercase tracking-tight shadow-sm active:scale-95 transition-all">
-                🚢 RoRo & Port
-              </Link>
-              <Link href="/best-of-boac-monthly-spotlight" className="flex-1 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white text-[11px] font-black uppercase tracking-tight shadow-sm active:scale-95 transition-all">
-                🏆 Best of Boac
-              </Link>
-            </div>
-            <div className="flex gap-2 w-full">
-              <Link href="/gems-of-marinduque-feed" className="flex-1 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white text-[11px] font-black uppercase tracking-tight shadow-sm active:scale-95 transition-all">
-                💎 Gems of Marinduque
-              </Link>
-              <Link href="/the-hidden-foreigner-blog-feed" className="flex-1 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 text-slate-900 dark:text-white text-[11px] font-black uppercase tracking-tight shadow-sm active:scale-95 transition-all">
-                👤 Hidden Foreigner
-              </Link>
-            </div>
-          </div>
-        </header>
+          <div className="relative">
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark shadow-sm active:scale-95 transition-all"
+            >
+              <span className="material-symbols-outlined text-moriones-red text-[16px]">location_on</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-text-main dark:text-text-main-dark">{selectedTown}</span>
+              <span className={`material-symbols-outlined text-[16px] text-text-muted transition-transform duration-300 ${isFilterOpen ? 'rotate-180' : ''}`}>expand_more</span>
+            </button>
 
-        <main className="flex-1 pb-24 px-4 pt-4 space-y-6">
-          <section className="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-black/5 dark:border-white/5 p-4">
-            {errorHeader && (
-              <div className="mb-3 p-2 bg-red-50 dark:bg-red-900/10 border border-red-200 rounded-lg flex items-center gap-2 text-[11px] text-red-600 font-bold animate-in fade-in slide-in-from-top-1">
-                <span className="material-symbols-outlined text-[16px]">info</span>
-                {errorHeader}
-              </div>
-            )}
-            <div className="flex gap-3">
-              <div className="size-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden shrink-0 border border-black/10 mt-1">
-                <img alt="User avatar" className="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq08U6DBK5u3Q3afMW7xC6ygULra62e9KfGl8xWNUUrbPa3WUijqwEY66RTZqPLN8lud0wcLtndun5DRw1ySg4NqannnvCKwiaZ6pS2NWN3A8gMoOfKqvLgzHsqfp1UrvIzdmHvVGNhslq8YRsDAwI5wFATEATVW3Pkh4jr4cAdUEvg7pJLq4IPzXJuHvCHkZp0vFZ4KjABtSDojin-Pd1oQZMes8g_lUp2GowD-QB81Ic-tedmSRoOk3LgapJFiiGJ9DISWGcxRw" />
-              </div>
-              <div className="flex-1 min-h-[44px]">
-                <textarea
-                  value={postText}
-                  onChange={(e) => setPostText(e.target.value)}
-                  placeholder={`What's happening in ${selectedTown === 'All Towns' ? 'Marinduque' : selectedTown}?`}
-                  className="w-full bg-background-light dark:bg-background-dark rounded-2xl px-4 py-2.5 border border-black/5 dark:border-white/5 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-sm resize-none overflow-hidden min-h-[44px]"
-                  style={{ height: postText.length > 0 ? 'auto' : '44px' }}
-                  onInput={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.height = '44px';
-                    target.style.height = `${target.scrollHeight}px`;
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Attached Photos Preview */}
-            {attachedPhotos.length > 0 && (
-              <div className="flex gap-2 mt-3 overflow-x-auto pb-2 no-scrollbar">
-                {attachedPhotos.map((photo, i) => (
-                  <div key={i} className="relative size-20 rounded-lg overflow-hidden shrink-0 border border-black/5 shadow-sm">
-                    <img src={photo} alt="" className="w-full h-full object-cover" />
+            {isFilterOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsFilterOpen(false)} />
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-700 rounded-2xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                  {TOWNS.map((town) => (
                     <button
-                      onClick={() => removePhoto(i)}
-                      className="absolute top-1 right-1 size-5 bg-black/60 rounded-full flex items-center justify-center text-white backdrop-blur-sm"
+                      key={town}
+                      onClick={() => { setSelectedTown(town); setIsFilterOpen(false); }}
+                      className={`w-full text-left px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-colors ${selectedTown === town ? 'bg-moriones-red text-white' : 'text-text-main dark:text-text-main-dark hover:bg-slate-50 dark:hover:bg-zinc-800'}`}
                     >
-                      <span className="material-symbols-outlined text-[14px]">close</span>
+                      {town}
                     </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Poll Section */}
-            {showPoll && (
-              <div className="mt-4 p-3 bg-background-light dark:bg-background-dark rounded-xl border border-primary/20 animate-in slide-in-from-top-2">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-bold uppercase text-primary">Poll Options</span>
-                  <button onClick={() => setShowPoll(false)} className="text-text-sub-light hover:text-red-500">
-                    <span className="material-symbols-outlined text-[18px]">close</span>
-                  </button>
-                </div>
-                <div className="space-y-2">
-                  {pollOptions.map((opt, i) => (
-                    <input
-                      key={i}
-                      value={opt}
-                      onChange={(e) => updatePollOption(i, e.target.value)}
-                      placeholder={`Option ${i + 1}`}
-                      className="w-full bg-surface-light dark:bg-surface-dark border border-black/5 px-3 py-1.5 rounded-lg text-xs outline-none focus:border-primary"
-                    />
-                  ))}
-                  <button onClick={addPollOption} className="text-[10px] font-bold text-primary flex items-center gap-1 mt-1">
-                    <span className="material-symbols-outlined text-[14px]">add</span> Add Option
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Active Tags / Contexts */}
-            {(taggedTown || checkInLocation || activeMood) && (
-              <div className="flex flex-wrap gap-2 mt-3">
-                {taggedTown && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-gold/10 text-accent-gold text-[10px] font-bold border border-accent-gold/20">
-                    📍 {taggedTown}
-                    <button onClick={() => setTaggedTown(null)} className="material-symbols-outlined text-[12px]">close</button>
-                  </span>
-                )}
-                {checkInLocation && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/20 text-red-600 text-[10px] font-bold border border-red-200">
-                    🏢 {checkInLocation}
-                    <button onClick={() => setCheckInLocation(null)} className="material-symbols-outlined text-[12px]">close</button>
-                  </span>
-                )}
-                {activeMood && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-600 text-[10px] font-bold border border-blue-200">
-                    {activeMood}
-                    <button onClick={() => setActiveMood(null)} className="material-symbols-outlined text-[12px]">close</button>
-                  </span>
-                )}
-              </div>
-            )}
-
-            <div className="flex items-center justify-between mt-3 pt-3 border-t border-black/5 dark:border-white/5 px-1">
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" accept="image/*" />
-              <button
-                onClick={handlePhotoClick}
-                disabled={attachedPhotos.length >= MAX_PHOTOS}
-                className={`flex flex-col items-center gap-1 transition-colors min-w-[50px] ${attachedPhotos.length >= MAX_PHOTOS ? 'opacity-30 cursor-not-allowed' : 'text-text-sub-light hover:text-primary cursor-pointer'}`}
-              >
-                <span className="material-symbols-outlined text-[22px] text-green-600">photo_library</span>
-                <span className="text-[10px] font-bold">Photo</span>
-              </button>
-
-              <div className="relative group">
-                <button className="flex flex-col items-center gap-1 text-text-sub-light hover:text-primary transition-colors min-w-[50px]">
-                  <span className="material-symbols-outlined text-[22px] text-accent-gold">tag</span>
-                  <span className="text-[10px] font-bold">Tag Town</span>
-                </button>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-32 bg-white dark:bg-zinc-800 shadow-xl border border-slate-200 rounded-xl z-50 p-1">
-                  {towns.filter(t => t !== 'All Towns').map(t => (
-                    <button key={t} onClick={() => setTaggedTown(t)} className="w-full text-left px-2 py-1.5 rounded-lg text-[10px] hover:bg-black/5 dark:hover:bg-white/5">{t}</button>
                   ))}
                 </div>
-              </div>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
 
-              <div className="relative group">
-                <button className="flex flex-col items-center gap-1 text-text-sub-light hover:text-primary transition-colors min-w-[50px]">
-                  <span className="material-symbols-outlined text-[22px] text-blue-500">mood</span>
-                  <span className="text-[10px] font-bold">Feeling</span>
-                </button>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-32 bg-white dark:bg-zinc-800 shadow-xl border border-slate-200 rounded-xl z-50 p-1">
-                  {moods.map(m => (
-                    <button key={m} onClick={() => setActiveMood(m)} className="w-full text-left px-2 py-1.5 rounded-lg text-[10px] hover:bg-black/5 dark:hover:bg-white/5">{m}</button>
-                  ))}
-                </div>
-              </div>
-
-              <button onClick={() => setShowPoll(true)} className="flex flex-col items-center gap-1 text-text-sub-light hover:text-primary transition-colors min-w-[50px]">
-                <span className="material-symbols-outlined text-[22px] text-purple-600">bar_chart</span>
-                <span className="text-[10px] font-bold">Polls</span>
-              </button>
-
-              <button
-                onClick={() => setCheckInLocation(selectedTown === 'All Towns' ? 'Marinduque Boac' : selectedTown + ' Center')}
-                className="flex flex-col items-center gap-1 text-text-sub-light hover:text-primary transition-colors min-w-[50px]"
-              >
-                <span className="material-symbols-outlined text-[22px] text-red-500">location_on</span>
-                <span className="text-[10px] font-bold">Check-in</span>
-              </button>
+      <div className="bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-24">
+        {/* Create Post Section */}
+        <section className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-border-light dark:border-border-dark p-4">
+          <div className="flex gap-3">
+            <div className="size-10 rounded-full bg-moriones-red overflow-hidden shrink-0 border border-border-light dark:border-zinc-700 shadow-sm flex items-center justify-center text-white font-black text-xs">
+              {profile?.avatar_url ? (
+                <img alt="User avatar" className="object-cover w-full h-full" src={profile.avatar_url} />
+              ) : (
+                <span>{profile?.full_name?.charAt(0) || 'L'}</span>
+              )}
             </div>
-
-            {(postText.length > 0 || attachedPhotos.length > 0 || showPoll) && (
-              <div className="mt-3 flex justify-end animate-in fade-in slide-in-from-top-1">
-                <button
-                  onClick={() => {
-                    setPostText('');
-                    setAttachedPhotos([]);
-                    setShowPoll(false);
-                    setTaggedTown(null);
-                    setCheckInLocation(null);
-                    setActiveMood(null);
-                    setErrorHeader(null);
-                  }}
-                  className="px-6 py-1.5 bg-primary text-white rounded-full text-xs font-bold shadow-sm shadow-primary/20 hover:brightness-110 active:scale-95 transition-all"
-                >
-                  Post
-                </button>
-              </div>
-            )}
-          </section>
-
-          <div className="flex items-center gap-2 px-1">
-            <span className="text-[11px] font-bold text-text-sub-light uppercase tracking-wider">Board Feed</span>
-            <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
-            <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full capitalize">
-              {selectedTown}
-            </span>
+            <div className="flex-1">
+              <textarea
+                value={postText}
+                onChange={(e) => setPostText(e.target.value)}
+                placeholder={`What's up in ${taggedTown || 'Marinduque'}?`}
+                className="w-full bg-transparent p-1 pt-2 outline-none text-sm text-text-main dark:text-text-main-dark placeholder:text-text-muted resize-none min-h-[60px]"
+              />
+            </div>
           </div>
 
-          <section className="space-y-4">
-            <article className="relative bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-accent-gold/30 p-4 overflow-hidden">
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-accent-gold" />
-              <div className="flex items-start justify-between mb-3 pl-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-primary text-[18px] fill-current" style={{ fontVariationSettings: '"FILL" 1' }}>campaign</span>
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Barangay Announcement</span>
+          {showPoll && (
+            <div className="mt-4 space-y-2 bg-slate-50 dark:bg-zinc-800/40 p-4 rounded-2xl border border-slate-100 dark:border-zinc-800">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-black uppercase text-purple-500 tracking-widest">Create Poll</span>
+                <button onClick={() => setShowPoll(false)} className="material-symbols-outlined text-sm text-slate-400">close</button>
+              </div>
+              {pollOptions.map((opt, i) => (
+                <div key={i} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={opt}
+                    onChange={(e) => updatePollOption(i, e.target.value)}
+                    placeholder={`Option ${i + 1}`}
+                    className="flex-1 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 py-2 text-xs font-bold"
+                  />
+                  {pollOptions.length > 2 && (
+                    <button onClick={() => setPollOptions(pollOptions.filter((_, idx) => idx !== i))} className="material-symbols-outlined text-red-500 text-sm">remove_circle</button>
+                  )}
                 </div>
+              ))}
+              {pollOptions.length < 4 && (
+                <button onClick={addPollOption} className="text-[10px] font-black uppercase text-purple-500 pl-2">+ Add Option</button>
+              )}
+            </div>
+          )}
+
+          {taggedTown && (
+            <div className="mt-3 flex items-center gap-2">
+              <span className="bg-blue-600/10 text-blue-600 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase flex items-center gap-1">
+                <span className="material-symbols-outlined text-[12px]">location_on</span> {taggedTown}
+                <button onClick={() => setTaggedTown(null)} className="material-symbols-outlined text-[12px] ml-1">close</button>
+              </span>
+            </div>
+          )}
+
+          {errorHeader && <p className="text-red-500 text-[10px] font-bold mt-2 px-1">{errorHeader}</p>}
+
+          {attachedPhotos.length > 0 && (
+            <div className="flex gap-2 mt-4 overflow-x-auto no-scrollbar">
+              {attachedPhotos.map((photo, i) => (
+                <div key={i} className="relative size-20 rounded-xl overflow-hidden shrink-0 border border-border-light shadow-md">
+                  <img src={photo} alt="" className="w-full h-full object-cover" />
+                  <button onClick={() => removePhoto(i)} className="absolute top-1 right-1 size-5 bg-black/60 rounded-full flex items-center justify-center text-white backdrop-blur-sm shadow-xl">
+                    <span className="material-symbols-outlined text-[14px]">close</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-light dark:border-border-dark">
+            <div className="flex gap-1">
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" accept="image/*" />
+              <button onClick={handlePhotoClick} className="p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 text-moriones-red/80 transition-all flex flex-col items-center gap-0.5">
+                <span className="material-symbols-outlined text-[20px]">image</span>
+                <span className="text-[9px] font-black uppercase">Photo</span>
+              </button>
+              <button onClick={() => setShowPoll(!showPoll)} className="p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 text-purple-500 transition-all flex flex-col items-center gap-0.5">
+                <span className="material-symbols-outlined text-[20px]">poll</span>
+                <span className="text-[9px] font-black uppercase">Poll</span>
+              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setIsPostTownOpen(!isPostTownOpen)}
+                  className={`p-2 rounded-xl transition-all flex flex-col items-center gap-0.5 ${taggedTown ? 'bg-blue-50 text-blue-600' : 'hover:bg-slate-50 dark:hover:bg-zinc-800 text-blue-500'}`}
+                >
+                  <span className="material-symbols-outlined text-[20px]">location_on</span>
+                  <span className="text-[9px] font-black uppercase">Town</span>
+                </button>
+                {isPostTownOpen && (
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[999] animate-in fade-in duration-200"
+                      onClick={() => setIsPostTownOpen(false)}
+                    />
+                    {/* Bottom Sheet Modal */}
+                    <div className="fixed bottom-0 left-0 right-0 z-[1000] flex justify-center p-4">
+                      <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl p-6 pb-8 animate-in slide-in-from-bottom-8 duration-300">
+                        <div className="flex items-center justify-between mb-6">
+                          <div>
+                            <h3 className="text-lg font-black text-text-main dark:text-text-main-dark">Select Town</h3>
+                            <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-widest">Tag your post location</p>
+                          </div>
+                          <button
+                            onClick={() => setIsPostTownOpen(false)}
+                            className="size-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-slate-500"
+                          >
+                            <span className="material-symbols-outlined text-lg">close</span>
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          {TOWNS.filter(t => t !== 'All Towns').map((town) => (
+                            <button
+                              key={town}
+                              onClick={() => { setTaggedTown(town); setIsPostTownOpen(false); }}
+                              className={`flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-xs font-black transition-all active:scale-95 border-2 ${taggedTown === town
+                                ? 'bg-moriones-red border-moriones-red text-white shadow-lg shadow-moriones-red/20'
+                                : 'bg-slate-50 dark:bg-zinc-800 border-transparent text-text-main dark:text-text-main-dark hover:bg-slate-100 dark:hover:bg-zinc-750'
+                                }`}
+                            >
+                              <span className="material-symbols-outlined text-[18px]">location_on</span>
+                              {town}
+                            </button>
+                          ))}
+                        </div>
+
+                        <button
+                          onClick={() => { setTaggedTown(null); setIsPostTownOpen(false); }}
+                          className="w-full mt-4 py-4 rounded-2xl text-xs font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-zinc-800 border-2 border-transparent hover:bg-slate-100 dark:hover:bg-zinc-750 transition-all uppercase tracking-widest"
+                        >
+                          Clear Selection
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={handlePost}
+              disabled={isUploading || (!postText.trim() && attachedPhotos.length === 0)}
+              className="px-6 py-2.5 bg-moriones-red text-white rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all disabled:opacity-30 flex items-center gap-2"
+            >
+              {isUploading ? (
+                <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+              ) : 'POST'}
+            </button>
+          </div>
+        </section>
+
+        {/* Board Feed */}
+        <div className="space-y-4">
+          {posts.map((post) => (
+            <article key={post.id} className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-border-light dark:border-border-dark p-4 transition-all hover:shadow-md">
+              <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-text-sub-light">Official • 2h ago</span>
-                  <AdminActions contentType="post" contentId="ann-1" />
-                </div>
-              </div>
-              <h3 className="font-bold text-lg text-text-main-light dark:text-text-main-dark mb-2 pl-2">🎭 Moriones Festival Preparation Meeting</h3>
-              <p className="text-sm text-text-sub-light dark:text-text-sub-dark leading-relaxed mb-3 pl-2">
-                Calling all barangay officials and volunteers for the upcoming Moriones Festival 2024. Assembly at the Boac Plaza Covered Court this Saturday, 2:00 PM.
-              </p>
-              <div className="pl-2 flex gap-2 mb-3">
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-900/20 text-primary text-[10px] font-bold border border-primary/20">
-                  📍 Boac Proper
-                </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-background-light dark:bg-background-dark text-text-sub-light text-[10px] font-medium border border-black/5">
-                  #Culture
-                </span>
-              </div>
-              <div className="w-full h-32 rounded-lg overflow-hidden relative mb-2 ml-2 w-[calc(100%-0.5rem)]">
-                <img alt="Moriones masks display" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3IvmBlggjaOln_QWojzQ_ugozsv82eGmjz5nlkB2Ut1X08NYyMNhQ2PWOSWBOH2aWf8gJ_nTxoHina169NqagMxLpP5WCCOMjf6hcZa23OHjnI89LOsHdzPT8SemPiBl3PyaNj-YWxb_Lukxql9q8x_7zUYKLjGjCHrijQoYtn-X7zWNenzmMaWFdamJWY2ESA0g-qKxUeJH1dLFAE3z1rrrDqroAbmY2BlnshIUcKogMTxokhP0g-bzNd9-i-TlErddSLm2E30w" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
-                  <p className="text-white text-xs font-medium">See event details</p>
-                </div>
-              </div>
-            </article>
-            <article className="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-black/5 dark:border-white/5 p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="size-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden relative border border-white dark:border-surface-dark shadow-sm">
-                  <img alt="User avatar" className="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYmvYp4NCCrQoZ-49KCk0OK03zLs8FGuMD8dqykJWDI2AiFI6D3OOTQmKRg12aZUrlqk5pwV0Ja8e4RorxP4rnunh-JDoXQ3MHwB89tMFoT4MqBYHOpL2S-Iv6BwZpUmjkWhVZlb2s--7TgmsuTNj293w_qxTtD7JSxzZbEBfMYxO55jAiWI9BNDTuWr0mJ3gbaPac7oU523B0VUoMKojif_1gU-bhBVEEmRcGE5iFSEzNeJGPbYXqDooVNpnnoMc49IAF7iDz1Ic" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-sm text-text-main-light dark:text-text-main-dark truncate">Ramon Magdurulang</h4>
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[12px] text-text-sub-light">location_on</span>
-                    <span className="text-[11px] font-medium text-text-sub-light">Mogpog</span>
-                    <span className="text-[11px] text-text-sub-light">• 45m ago</span>
+                  <div className="size-10 rounded-full bg-moriones-red/10 border border-border-light overflow-hidden shadow-sm flex items-center justify-center text-moriones-red font-black text-xs">
+                    {post.author?.avatar_url ? (
+                      <img src={post.author.avatar_url} className="w-full h-full object-cover" />
+                    ) : (
+                      <span>{post.author?.full_name?.charAt(0) || 'L'}</span>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-text-main dark:text-text-main-dark flex items-center gap-1.5">
+                      {post.author?.full_name || 'Marinduque Local'}
+                      {post.type === 'announcement' && <span className="material-symbols-outlined text-[16px] text-moriones-red font-black">verified</span>}
+                    </h4>
+                    <div className="flex items-center gap-2 text-[10px] font-medium text-text-muted dark:text-text-muted-dark uppercase tracking-wide">
+                      <span className="flex items-center gap-0.5"><span className="material-symbols-outlined text-[12px]">location_on</span> {post.location}</span>
+                      <span>• {new Date(post.created_at).toLocaleDateString()}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <AdminActions contentType="post" contentId="post-1" />
-                  <button className="text-text-sub-light hover:text-text-main-light">
-                    <span className="material-symbols-outlined">more_horiz</span>
+                <AdminActions contentType="post" contentId={post.id} authorId={post.author_id} onDelete={fetchPosts} />
+              </div>
+
+              {post.title && <h3 className="text-base font-black text-text-main dark:text-text-main-dark mb-2 leading-tight">{post.title}</h3>}
+              <p className="text-sm text-text-main dark:text-text-main-dark leading-relaxed mb-4">{post.content}</p>
+
+              {/* Poll Module */}
+              {post.poll_data && (
+                <div className="bg-slate-50 dark:bg-zinc-800/40 p-5 rounded-2xl border border-slate-100 dark:border-zinc-800 mb-4 space-y-3">
+                  <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest mb-1 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-sm">poll</span> Public Poll
+                  </p>
+                  {post.poll_data.options.map((opt: any) => {
+                    const totalVotes = post.poll_data.options.reduce((acc: number, o: any) => acc + (o.votes?.length || 0), 0);
+                    const voteCount = opt.votes?.length || 0;
+                    const percentage = totalVotes > 0 ? (voteCount / totalVotes) * 100 : 0;
+                    const hasVoted = profile && opt.votes?.includes(profile.id);
+
+                    return (
+                      <button
+                        key={opt.id}
+                        onClick={() => handleVote(post.id, opt.id)}
+                        disabled={!profile || post.poll_data.options.some((o: any) => o.votes?.includes(profile.id))}
+                        className="w-full group relative overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-700 text-left transition-all active:scale-[0.98]"
+                      >
+                        <div className={`absolute inset-0 bg-purple-500/10 transition-all`} style={{ width: `${percentage}%` }} />
+                        <div className="relative px-4 py-3 flex justify-between items-center text-xs font-bold">
+                          <span className="flex items-center gap-2">
+                            {opt.text}
+                            {hasVoted && <span className="material-symbols-outlined text-purple-600 text-[14px] font-black">check_circle</span>}
+                          </span>
+                          <span className="text-text-muted">{Math.round(percentage)}%</span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight pl-1">
+                    {post.poll_data.options.reduce((acc: number, o: any) => acc + (o.votes?.length || 0), 0)} Total Votes
+                  </p>
+                </div>
+              )}
+
+              {post.images && post.images.length > 0 && (
+                <div className={`grid ${post.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 mb-4 rounded-2xl overflow-hidden`}>
+                  {post.images.map((img: string, idx: number) => (
+                    <img key={idx} src={img} className="w-full aspect-square object-cover border border-border-light dark:border-border-dark" />
+                  ))}
+                </div>
+              )}
+
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {post.tags.map((tag: string) => (
+                    <span key={tag} className="px-2 py-0.5 rounded-lg bg-background-light dark:bg-background-dark text-[10px] font-black text-moriones-red uppercase tracking-tight border border-moriones-red/10">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+                <div className="flex gap-4">
+                  <button className="flex items-center gap-1.5 text-text-muted hover:text-moriones-red transition-all group">
+                    <span className="material-symbols-outlined text-[20px] group-hover:fill-1">favorite</span>
+                    <span className="text-[11px] font-black">{post.likes_count || 0}</span>
+                  </button>
+                  <button onClick={() => toggleComments(post.id)} className={`flex items-center gap-1.5 transition-all group ${expandedComments.includes(post.id) ? 'text-moriones-red' : 'text-text-muted hover:text-moriones-red'}`}>
+                    <span className="material-symbols-outlined text-[20px]">chat_bubble</span>
+                    <span className="text-[11px] font-black">{post.comments_count || 0}</span>
                   </button>
                 </div>
-              </div>
-              <div className="mb-3">
-                <span className="inline-block px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-[10px] font-bold uppercase tracking-wide mb-2">
-                  Lost &amp; Found
-                </span>
-                <p className="text-sm text-text-main-light dark:text-text-main-dark leading-relaxed">
-                  Hello neighbors! Has anyone seen a brown Labrador puppy near the market area? He answers to &quot;Bantay&quot;. Please DM me if you&apos;ve seen him. 🙏🐕
-                </p>
-              </div>
-              <div className="flex items-center justify-between pt-3 border-t border-black/5 dark:border-white/5">
-                <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-1.5 group">
-                    <span className="material-symbols-outlined text-[20px] text-text-sub-light group-hover:text-primary transition-colors">favorite</span>
-                    <span className="text-xs font-medium text-text-sub-light">12</span>
-                  </button>
-                  <button className="flex items-center gap-1.5 group">
-                    <span className="material-symbols-outlined text-[20px] text-text-sub-light group-hover:text-primary transition-colors">chat_bubble</span>
-                    <span className="text-xs font-medium text-text-sub-light">4 Comments</span>
-                  </button>
-                </div>
-                <button className="text-text-sub-light hover:text-primary transition-colors">
+                <button className="text-text-muted hover:text-moriones-red transition-all">
                   <span className="material-symbols-outlined text-[20px]">share</span>
                 </button>
               </div>
+
+              {/* Collapsible Comments */}
+              {expandedComments.includes(post.id) && (
+                <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <UniversalComments entityId={post.id} entityType="post" />
+                </div>
+              )}
             </article>
-          </section>
-        </main>
+          ))}
+
+          {posts.length === 0 && (
+            <div className="text-center py-20 bg-surface-light dark:bg-surface-dark rounded-3xl border border-border-light dark:border-zinc-800 shadow-xl flex flex-col items-center p-8">
+              <span className="material-symbols-outlined text-slate-300 text-5xl mb-4">forum</span>
+              <h3 className="text-lg font-black text-slate-800 dark:text-white mb-2">The board is quiet...</h3>
+              <p className="text-slate-500 text-xs font-bold max-w-xs mb-8">Be the first to share something with {selectedTown === 'All Towns' ? 'the community' : selectedTown}!</p>
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -4,43 +4,137 @@ import Link from 'next/link';
 import ContactSection from './ContactSection';
 import { filterAllFields } from '@/utils/contentFilter';
 
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { createJob } from '@/app/actions/jobs';
+import { createClient } from '@/utils/supabase/client';
+
 export default function CreateNewJobPostScreen() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('id');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [fbUsername, setFbUsername] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [title, setTitle] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [location, setLocation] = useState('Boac');
+  const [employmentType, setEmploymentType] = useState<'Full-time' | 'Part-time' | 'Contract' | 'Freelance' | 'Casual'>('Full-time');
+  const [salaryMin, setSalaryMin] = useState('');
+  const [salaryMax, setSalaryMax] = useState('');
   const [description, setDescription] = useState('');
+  const [requirements, setRequirements] = useState(['', '']);
   const [filterError, setFilterError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchJob() {
+      if (!editId) return;
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('jobs')
+        .select('*')
+        .eq('id', editId)
+        .single();
+
+      if (data && !error) {
+        setTitle(data.title);
+        setCompanyName(data.company_name);
+        setLocation(data.location);
+        setEmploymentType(data.employment_type as any);
+        setDescription(data.description);
+        setRequirements(data.requirements || ['', '']);
+
+        if (data.contact) {
+          setPhone(data.contact.phone || '');
+          setEmail(data.contact.email || '');
+          setFbUsername(data.contact.fbUsername || '');
+        }
+
+        // Try to parse salary range back into min/max if possible
+        if (data.salary_range) {
+          const match = data.salary_range.match(/₱([\d,]+) - ₱([\d,]+)/);
+          if (match) {
+            setSalaryMin(match[1].replace(/,/g, ''));
+            setSalaryMax(match[2].replace(/,/g, ''));
+          }
+        }
+      }
+    }
+    fetchJob();
+  }, [editId]);
+
   const hasContact = fbUsername.trim() || phone.trim() || email.trim();
 
-  const handlePost = (e: React.MouseEvent) => {
+  const handlePost = async (e: React.FormEvent) => {
+    e.preventDefault();
     setFilterError(null);
-    const result = filterAllFields({ title, description });
+
+    // 1. Content Filter
+    const result = filterAllFields({ title, description, companyName });
     if (!result.passed) {
-      e.preventDefault();
       setFilterError(result.reason ?? 'Content contains prohibited material.');
       return;
     }
-    if (!hasContact) {
-      e.preventDefault();
+
+    if (!hasContact) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const salaryRange = (salaryMin || salaryMax)
+        ? `₱${parseFloat(salaryMin).toLocaleString() || '0'} - ₱${parseFloat(salaryMax).toLocaleString() || 'negotiable'}`
+        : 'Competitive / Not Specified';
+
+      const slug = `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`;
+
+      await createJob({
+        title,
+        company_name: companyName,
+        location,
+        employment_type: employmentType,
+        salary_range: salaryRange,
+        description,
+        requirements: requirements.filter(r => r.trim() !== ''),
+        contact: {
+          phone: phone.trim() || undefined,
+          email: email.trim() || undefined,
+          fbUsername: fbUsername.trim() || undefined
+        },
+        slug,
+      }, editId || undefined);
+
+      router.push('/jobs');
+      router.refresh();
+    } catch (err: any) {
+      setFilterError(err.message || 'Something went wrong while posting.');
+      setIsSubmitting(false);
     }
   };
+
+  const addRequirement = () => setRequirements([...requirements, '']);
+  const updateRequirement = (index: number, val: string) => {
+    const next = [...requirements];
+    next[index] = val;
+    setRequirements(next);
+  };
+
 
   return (
     <>
       <div>
         {/* Header / Navigation */}
-        <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-100 dark:border-gray-800 shadow-sm">
-          <div className="flex items-center justify-between p-4 h-16">
-            <Link href="/marinduque-jobs-listing-feed" className="text-slate-900 dark:text-slate-100 flex items-center justify-center rounded-full w-10 h-10 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <span className="material-symbols-outlined" style={{ fontSize: 24 }}>arrow_back</span>
+        <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark shadow-sm">
+          <div className="flex items-center justify-between px-4 h-16">
+            <Link href="/jobs" className="text-text-main dark:text-text-main-dark flex items-center justify-center rounded-full w-10 h-10 hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+              <span className="material-symbols-outlined text-[24px]">arrow_back</span>
             </Link>
-            <h1 className="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">Create Job Post</h1>
-            <div className="w-10" /> {/* Spacer for center alignment */}
+            <h1 className="text-moriones-red text-base font-bold leading-tight tracking-tight flex-1 text-center">{editId ? 'Edit Job Post' : 'Create Job Post'}</h1>
+            <div className="w-10" />
           </div>
           {/* Progress Stepper */}
           <div className="flex w-full flex-row items-center justify-center gap-3 pb-4">
-            <div className="h-2 w-8 rounded-full bg-orange-500" />
+            <div className="h-2 w-8 rounded-full bg-moriones-red" />
             <div className="h-2 w-2 rounded-full bg-gray-200 dark:bg-gray-700" />
             <div className="h-2 w-2 rounded-full bg-gray-200 dark:bg-gray-700" />
           </div>
@@ -62,117 +156,133 @@ export default function CreateNewJobPostScreen() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto pb-24 px-4 pt-6 max-w-lg mx-auto w-full">
-          <form className="space-y-6">
+          <form onSubmit={handlePost} className="space-y-6">
             {/* Job Title */}
             <div className="space-y-2">
               <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Job Title</label>
-              <input value={title} onChange={e => { setTitle(e.target.value); setFilterError(null); }} className="w-full h-14 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none transition-all" placeholder="e.g. Sales Associate" type="text" />
+              <input value={title} onChange={e => setTitle(e.target.value)} required className="w-full h-14 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none transition-all" placeholder="e.g. Sales Associate" type="text" />
             </div>
+
+            {/* Company Name */}
+            <div className="space-y-2">
+              <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Company / Establishment Name</label>
+              <input value={companyName} onChange={e => setCompanyName(e.target.value)} required className="w-full h-14 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none transition-all" placeholder="e.g. Marinduque Garden Resort" type="text" />
+            </div>
+
             {/* Job Type */}
             <div className="space-y-2">
               <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Job Type</label>
               <div className="flex flex-wrap gap-3">
-                <label className="cursor-pointer">
-                  <input defaultChecked className="peer sr-only" name="job_type" type="radio" />
-                  <div className="px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 text-sm font-medium transition-all hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 peer-checked:text-slate-900 dark:peer-checked:text-white peer-checked:ring-1 peer-checked:ring-orange-500">
-                    Full-time
-                  </div>
-                </label>
-                <label className="cursor-pointer">
-                  <input className="peer sr-only" name="job_type" type="radio" />
-                  <div className="px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 text-sm font-medium transition-all hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 peer-checked:text-slate-900 dark:peer-checked:text-white peer-checked:ring-1 peer-checked:ring-orange-500">
-                    Part-time
-                  </div>
-                </label>
-                <label className="cursor-pointer">
-                  <input className="peer sr-only" name="job_type" type="radio" />
-                  <div className="px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 text-sm font-medium transition-all hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-orange-500 peer-checked:bg-orange-500/10 peer-checked:text-slate-900 dark:peer-checked:text-white peer-checked:ring-1 peer-checked:ring-orange-500">
-                    Casual
-                  </div>
-                </label>
+                {['Full-time', 'Part-time', 'Contract', 'Freelance', 'Casual'].map((type) => (
+                  <label key={type} className="cursor-pointer">
+                    <input
+                      className="peer sr-only"
+                      name="job_type"
+                      type="radio"
+                      checked={employmentType === type}
+                      onChange={() => setEmploymentType(type as any)}
+                    />
+                    <div className="px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 text-sm font-medium transition-all hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-moriones-red peer-checked:bg-moriones-red/10 peer-checked:text-slate-900 dark:peer-checked:text-white peer-checked:ring-1 peer-checked:ring-moriones-red">
+                      {type}
+                    </div>
+                  </label>
+                ))}
               </div>
             </div>
+
             {/* Salary Range */}
             <div className="space-y-2">
               <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Salary Range (PHP)</label>
               <div className="flex gap-4">
                 <div className="relative flex-1">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">Min</span>
-                  <input className="w-full h-14 pl-12 pr-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none" placeholder="0" type="number" />
+                  <input value={salaryMin} onChange={e => setSalaryMin(e.target.value)} className="w-full h-14 pl-12 pr-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none" placeholder="0" type="number" />
                 </div>
                 <div className="relative flex-1">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">Max</span>
-                  <input className="w-full h-14 pl-12 pr-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none" placeholder="0" type="number" />
+                  <input value={salaryMax} onChange={e => setSalaryMax(e.target.value)} className="w-full h-14 pl-12 pr-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none" placeholder="0" type="number" />
                 </div>
               </div>
             </div>
+
             {/* Town Picker */}
             <div className="space-y-2">
               <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Location (Town)</label>
               <div className="relative">
-                <select defaultValue="" className="w-full h-14 appearance-none rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-4 text-base text-slate-900 dark:text-slate-100 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
-                  <option disabled value="">Select a town in Marinduque</option>
-                  <option value="boac">Boac</option>
-                  <option value="buenavista">Buenavista</option>
-                  <option value="gasan">Gasan</option>
-                  <option value="mogpog">Mogpog</option>
-                  <option value="santa_cruz">Santa Cruz</option>
-                  <option value="torrijos">Torrijos</option>
+                <select value={location} onChange={e => setLocation(e.target.value)} className="w-full h-14 appearance-none rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-4 text-base text-slate-900 dark:text-slate-100 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none">
+                  <option value="Boac">Boac</option>
+                  <option value="Buenavista">Buenavista</option>
+                  <option value="Gasan">Gasan</option>
+                  <option value="Mogpog">Mogpog</option>
+                  <option value="Santa Cruz">Santa Cruz</option>
+                  <option value="Torrijos">Torrijos</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                   <span className="material-symbols-outlined">expand_more</span>
                 </div>
               </div>
             </div>
+
             {/* Job Description */}
             <div className="space-y-2">
               <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Description</label>
-              <textarea value={description} onChange={e => { setDescription(e.target.value); setFilterError(null); }} className="w-full min-h-[140px] resize-none rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 p-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none" placeholder="Describe the role, responsibilities, and what you're looking for..." />
+              <textarea value={description} onChange={e => setDescription(e.target.value)} required className="w-full min-h-[140px] resize-none rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 p-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red/50 focus:ring-1 focus:ring-moriones-red/20 focus:outline-none" placeholder="Describe the role, responsibilities, and what you're looking for..." />
             </div>
+
             {/* Requirements */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Requirements</label>
-                <button className="text-orange-500 text-sm font-medium hover:text-orange-600 flex items-center gap-1" type="button">
+                <label className="block text-slate-900 dark:text-slate-100 text-sm font-semibold">Requirements (Optional)</label>
+                <button onClick={addRequirement} className="text-moriones-red text-sm font-medium hover:text-moriones-red/80 flex items-center gap-1" type="button">
                   <span className="material-symbols-outlined" style={{ fontSize: 18 }}>add</span> Add more
                 </button>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-orange-500 material-symbols-outlined" style={{ fontSize: 20 }}>check_circle</span>
-                <input className="flex-1 bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none" placeholder="e.g. Must have own motorcycle" type="text" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-orange-500 material-symbols-outlined" style={{ fontSize: 20 }}>check_circle</span>
-                <input className="flex-1 bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none" placeholder="e.g. Valid Driver's License" type="text" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-300 dark:text-gray-600 material-symbols-outlined" style={{ fontSize: 20 }}>radio_button_unchecked</span>
-                <input className="flex-1 bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none" placeholder="Add requirement..." type="text" />
-              </div>
+              {requirements.map((req, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <span className="text-moriones-red material-symbols-outlined" style={{ fontSize: 20 }}>{req ? 'check_circle' : 'radio_button_unchecked'}</span>
+                  <input
+                    value={req}
+                    onChange={e => updateRequirement(idx, e.target.value)}
+                    className="flex-1 bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 text-slate-900 dark:text-slate-100 placeholder:text-gray-400 focus:border-moriones-red focus:outline-none"
+                    placeholder="e.g. Valid Driver's License"
+                    type="text"
+                  />
+                </div>
+              ))}
             </div>
+
             {/* Contact Info */}
             <ContactSection
               fbUsername={fbUsername} setFbUsername={setFbUsername}
               phone={phone} setPhone={setPhone}
               email={email} setEmail={setEmail}
               hint="At least one contact method required — job seekers will reach you here."
-              colorClass="text-orange-500"
+              colorClass="text-moriones-red"
             />
+
             {/* Post Button */}
             <div className="pt-4 pb-8">
-              <Link
-                href={(hasContact && !filterError) ? '/marinduque-jobs-listing-feed' : '#'}
-                onClick={handlePost}
-                className={`block w-full text-center rounded-xl py-4 text-base font-bold shadow-lg transition-all active:scale-[0.98] ${(hasContact && !filterError)
-                  ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-orange-500/20 hover:shadow-orange-500/40'
-                  : 'bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed pointer-events-none'
+              <button
+                type="submit"
+                disabled={!hasContact || isSubmitting}
+                className={`block w-full text-center rounded-xl py-4 text-base font-bold shadow-lg transition-all active:scale-[0.98] ${(hasContact && !isSubmitting)
+                  ? 'bg-moriones-red text-white hover:bg-moriones-red/90 shadow-moriones-red/20'
+                  : 'bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                   }`}
               >
-                {hasContact ? 'Review & Post Job' : 'Add contact info to post'}
-              </Link>
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    {editId ? 'Saving Changes...' : 'Broadcasting Job Post...'}
+                  </div>
+                ) : (
+                  hasContact ? (editId ? '✓ Save Changes' : '✓ Post Job Opportunity') : 'Add contact info to post'
+                )}
+              </button>
             </div>
           </form>
         </main>
+
         {/* Bottom Navigation */}
       </div>
 

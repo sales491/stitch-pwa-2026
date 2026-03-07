@@ -1,38 +1,60 @@
 'use client';
-import React, { useState, useRef } from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-
-type PostStatus = 'Normal' | 'Moderate Traffic' | 'Delayed' | 'Cancelled' | 'Other';
-
-const STATUS_STYLES: Record<PostStatus, string> = {
-  'Normal': 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
-  'Moderate Traffic': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
-  'Delayed': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
-  'Cancelled': 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300',
-  'Other': 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
-};
-
-interface CommunityPost {
-  id: string;
-  initials: string;
-  name: string;
-  role: string;
-  time: string;
-  text: string;
-  status: PostStatus;
-}
-
-const INITIAL_POSTS: CommunityPost[] = [
-  { id: '1', initials: 'JD', name: 'Juan Dela Cruz', role: 'Verified Traveler', time: '10 mins ago', text: 'Line is getting a bit long at the terminal entrance, but processing is fast. Bring water!', status: 'Moderate Traffic' },
-  { id: '2', initials: 'MS', name: 'Maria Santos', role: 'Local Guide', time: '45 mins ago', text: 'Montenegro ferry departure delayed by 30 mins due to loading cargo.', status: 'Delayed' },
-];
+import { createClient } from '@/utils/supabase/client';
+import { optimizeImage } from '@/utils/image-optimization';
+import { PostStatus, RoroCommunityPost, SHIPPING_LINES } from '@/data/roro';
 
 export default function RoroPortInformationHub() {
   const [isPosting, setIsPosting] = useState(false);
   const [postText, setPostText] = useState('');
   const [postStatus, setPostStatus] = useState<PostStatus>('Normal');
-  const [posts, setPosts] = useState<CommunityPost[]>(INITIAL_POSTS);
-  const [attachedImages, setAttachedImages] = useState<string[]>([]);
+  const [posts, setPosts] = useState<RoroCommunityPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchPosts() {
+      setLoading(true);
+      const { data } = await supabase
+        .from('port_updates')
+        .select(`
+          *,
+          author:profiles(full_name, avatar_url)
+        `)
+        .order('created_at', { ascending: false });
+
+      if (data) {
+        const mapped: RoroCommunityPost[] = data.map(d => ({
+          id: d.id,
+          initials: d.author?.full_name?.substring(0, 2).toUpperCase() || '??',
+          name: d.author?.full_name || 'Anonymous',
+          role: 'Community Member',
+          time: new Date(d.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text: d.message,
+          status: d.status === 'info' ? 'Normal' :
+            d.status === 'delayed' ? 'Delayed' :
+              d.status === 'cancelled' ? 'Cancelled' : 'Other',
+          avatar: d.author?.avatar_url
+        }));
+        setPosts(mapped);
+      }
+      setLoading(false);
+    }
+    fetchPosts();
+  }, [supabase]);
+
+  const STATUS_STYLES: Record<PostStatus, { bg: string, text: string, icon: string }> = {
+    'Normal': { bg: 'bg-green-500/10', text: 'text-green-600', icon: 'check_circle' },
+    'Moderate Traffic': { bg: 'bg-amber-500/10', text: 'text-amber-600', icon: 'warning' },
+    'Delayed': { bg: 'bg-moriones-red/10', text: 'text-moriones-red', icon: 'error' },
+    'Cancelled': { bg: 'bg-zinc-500/10', text: 'text-zinc-600', icon: 'cancel' },
+    'Other': { bg: 'bg-blue-500/10', text: 'text-blue-600', icon: 'info' },
+  };
+
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imageError, setImageError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,279 +89,260 @@ export default function RoroPortInformationHub() {
     });
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
     setImageError(null);
-    const available = MAX_IMAGES - attachedImages.length;
+    const available = MAX_IMAGES - imageFiles.length;
     if (files.length > available) {
-      setImageError(`Max ${MAX_IMAGES} images. Only first ${available} added.`);
+      setImageError(`Max ${MAX_IMAGES} images allowed.`);
     }
-    const toProcess = Array.from(files).slice(0, available);
-    const results: string[] = [];
-    for (const file of toProcess) {
-      if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-        setImageError(`"${file.name}" exceeds ${MAX_FILE_SIZE_MB}MB — skipped.`);
-        continue;
-      }
-      try { results.push(await compressImage(file)); }
-      catch { /* skip corrupt files */ }
-    }
-    setAttachedImages(prev => [...prev, ...results]);
+    const toAdd = files.slice(0, available);
+    setImageFiles(prev => [...prev, ...toAdd]);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const handleSubmit = () => {
+  const removeImage = (idx: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleSubmit = async () => {
     if (!postText.trim()) return;
-    const newPost: CommunityPost = {
-      id: Date.now().toString(),
-      initials: 'ME',
-      name: 'You',
-      role: 'Community Member',
-      time: 'Just now',
-      text: postText.trim(),
-      status: postStatus,
-    };
-    setPosts(prev => [newPost, ...prev]);
-    setPostText('');
-    setPostStatus('Normal');
-    setAttachedImages([]);
-    setImageError(null);
-    setIsPosting(false);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      alert('Please login to post.');
+      return;
+    }
+
+    try {
+      let imageUrls: string[] = [];
+      if (imageFiles.length > 0) {
+        for (const file of imageFiles) {
+          const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8 });
+          const fileExt = 'jpg';
+          const fileName = `${user.id}-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+          const filePath = `port-updates/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('community_images')
+            .upload(filePath, optimized);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('community_images')
+            .getPublicUrl(filePath);
+
+          imageUrls.push(publicUrl);
+        }
+      }
+
+      const { error } = await supabase.from('port_updates').insert({
+        author_id: user.id,
+        port_name: 'Balanacan',
+        status: postStatus === 'Normal' ? 'info' :
+          postStatus === 'Delayed' ? 'delayed' :
+            postStatus === 'Cancelled' ? 'cancelled' : 'info',
+        message: postText.trim(),
+        images: imageUrls
+      });
+
+      if (error) throw error;
+      window.location.reload();
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    }
   };
 
   return (
-    <>
-      <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-24">
-        {/* Header */}
-        <div className="flex items-center bg-surface-light dark:bg-surface-dark px-4 py-4 justify-between border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">
+    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+      {/* Header */}
+      <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
+        <div className="flex items-center justify-between px-4 pt-4 pb-4">
           <div className="flex items-center gap-3">
-            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-              <span className="material-symbols-outlined" style={{ fontSize: 24 }}>arrow_back</span>
+            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
             </Link>
             <div>
-              <h2 className="text-text-main dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">RoRo &amp; Port Tracker</h2>
-              <p className="text-xs text-text-sub dark:text-gray-400 font-medium">Marinduque Live Updates</p>
+              <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red pl-1">RoRo & Port Tracker</h1>
+              <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-widest pl-1">Live Marinduque Updates</p>
             </div>
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            <button className="flex items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 p-2 text-primary-dark dark:text-primary">
-              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>notifications</span>
-            </button>
-            <button className="flex items-center justify-center rounded-full bg-accent-gold/10 p-2 text-accent-gold dark:text-yellow-400">
-              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>star</span>
-            </button>
           </div>
         </div>
+      </header>
 
-        {/* Main Content Scroll Area */}
-        <div className="flex flex-col gap-6 px-4 pt-2">
-          {/* Sea Conditions */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="material-symbols-outlined text-primary-dark dark:text-primary">tsunami</span>
-              <h3 className="text-text-main dark:text-white text-lg font-bold leading-tight">Sea Conditions</h3>
+      <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-6 space-y-8 pb-32">
+        {/* Sea Conditions */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="size-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-blue-600 font-black">air</span>
             </div>
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800" style={{ height: '300px' }}>
-              <iframe
-                src="https://embed.windy.com/embed2.html?lat=13.476&lon=121.917&detailLat=13.476&detailLon=121.917&width=650&height=400&zoom=9&level=surface&overlay=waves&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1"
-                title="Windy Sea Conditions - Tablas Strait"
-                className="w-full h-full border-0"
-                loading="lazy"
-                allowFullScreen
-              />
+            <h3 className="text-sm font-black text-text-main dark:text-text-main-dark uppercase tracking-wider">Sea Conditions</h3>
+          </div>
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border-light dark:border-zinc-700 shadow-xl">
+            <iframe
+              src="https://embed.windy.com/embed2.html?lat=13.476&lon=121.917&detailLat=13.476&detailLon=121.917&width=650&height=400&zoom=9&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1"
+              title="Windy Sea Conditions"
+              className="w-full h-full border-0"
+              loading="lazy"
+            />
+          </div>
+        </section>
+
+        {/* Vessel Tracker */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="size-8 bg-moriones-red/10 rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-moriones-red font-black">directions_boat</span>
             </div>
-            <p className="text-[10px] text-text-sub dark:text-gray-500 mt-1.5 px-1">Tip: Click layers to view waves, rain, and temperature</p>
-          </section>
-          {/* Vessel Tracker */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="material-symbols-outlined text-accent-gold">directions_boat</span>
-              <h3 className="text-text-main dark:text-white text-lg font-bold leading-tight">Vessel Tracker</h3>
-            </div>
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800" style={{ height: '300px' }}>
-              <iframe
-                src="https://www.vesselfinder.com/aismap?zoom=9&lat=13.7&lon=121.8&width=100%25&height=300&names=true&mmsi=&show_track=false&select=&clicktoact=false&ra=false&hd=false"
-                title="VesselFinder - Live Vessel Tracking Tablas Strait"
-                className="w-full h-full border-0"
-                loading="lazy"
-                allowFullScreen
-              />
-            </div>
-            <p className="text-[10px] text-text-sub dark:text-gray-500 mt-1.5 px-1">Live AIS Data: Click any vessel to see details, speed, and destination</p>
-          </section>
-          {/* Crowdsourced Updates */}
-          <section>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-purple-500">campaign</span>
-                <h3 className="text-text-main dark:text-white text-lg font-bold leading-tight">Community Feed</h3>
+            <h3 className="text-sm font-black text-text-main dark:text-text-main-dark uppercase tracking-wider">Vessel Tracker</h3>
+          </div>
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border-light dark:border-zinc-700 shadow-xl">
+            <iframe
+              src="https://www.vesselfinder.com/aismap?zoom=9&lat=13.7&lon=121.8&width=100%25&height=300&names=true&mmsi=&show_track=false&select=&clicktoact=false&ra=false&hd=false"
+              title="Vessel Tracking"
+              className="w-full h-full border-0"
+              loading="lazy"
+            />
+          </div>
+        </section>
+
+        {/* Community Feed */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="size-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                <span className="material-symbols-outlined text-purple-600 font-black">forum</span>
               </div>
-              <button
-                onClick={() => setIsPosting(p => !p)}
-                className={`flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-full transition-all ${isPosting
-                  ? 'bg-gray-200 dark:bg-gray-700 text-text-sub dark:text-gray-300'
-                  : 'bg-primary text-black shadow-sm shadow-primary/30 active:scale-95'
-                  }`}>
-                <span className="material-symbols-outlined text-base">{isPosting ? 'close' : 'edit'}</span>
-                {isPosting ? 'Cancel' : 'Post Update'}
-              </button>
+              <h3 className="text-sm font-black text-text-main dark:text-text-main-dark uppercase tracking-wider">Port Feed</h3>
             </div>
+            <button
+              onClick={() => setIsPosting(!isPosting)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-moriones-red text-white text-[10px] font-black uppercase tracking-tight shadow-lg shadow-moriones-red/20 active:scale-95 transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px]">{isPosting ? 'close' : 'add_task'}</span>
+              {isPosting ? 'Close' : 'Update'}
+            </button>
+          </div>
 
-            {/* Inline Composer */}
-            {isPosting && (
-              <div className="mb-4 bg-surface-light dark:bg-surface-dark rounded-2xl border-2 border-primary/50 shadow-lg animate-in slide-in-from-top-2 duration-200">
-                {/* Composer Header */}
-                <div className="flex items-center gap-2 px-4 pt-4 pb-2">
-                  <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center text-black font-black text-sm shrink-0">ME</div>
-                  <div>
-                    <p className="text-sm font-bold text-text-main dark:text-white">Share a port update</p>
-                    <p className="text-[10px] text-text-sub">Help others plan their trip</p>
-                  </div>
-                </div>
-                {/* Textarea */}
-                <div className="px-4 pb-3">
+          {isPosting && (
+            <div className="mb-6 bg-surface-light dark:bg-surface-dark rounded-2xl border-2 border-moriones-red/20 shadow-xl p-4 animate-in slide-in-from-top-2">
+              <div className="flex gap-3 mb-4">
+                <div className="size-10 rounded-full bg-moriones-red flex items-center justify-center text-white text-xs font-black">ME</div>
+                <div className="flex-1">
                   <textarea
                     value={postText}
                     onChange={e => setPostText(e.target.value)}
-                    placeholder="What's happening at the port? e.g. Ferry delayed, queue is long, choppy seas..."
-                    rows={3}
-                    className="w-full text-sm text-text-main dark:text-white bg-background-light dark:bg-background-dark rounded-xl p-3 border border-gray-200 dark:border-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-gray-400"
+                    placeholder="Reports from the port? Ferry delays, queues, rain..."
+                    className="w-full bg-transparent p-1 outline-none text-sm text-text-main dark:text-text-main-dark placeholder:text-text-muted resize-none min-h-[60px]"
                   />
-                </div>
-                {/* Image Error */}
-                {imageError && (
-                  <div className="px-4 pb-2">
-                    <p className="text-[10px] font-bold text-red-500 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-xs">warning</span>
-                      {imageError}
-                    </p>
-                  </div>
-                )}
-
-                {/* Image Previews */}
-                {attachedImages.length > 0 && (
-                  <div className="px-4 pb-3 flex gap-2">
-                    {attachedImages.map((src, i) => (
-                      <div key={i} className="relative w-24 h-20 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shrink-0">
-                        <img src={src} alt={`Attached ${i + 1}`} className="w-full h-full object-cover" />
-                        <button
-                          onClick={() => setAttachedImages(prev => prev.filter((_, idx) => idx !== i))}
-                          className="absolute top-1 right-1 size-5 bg-black/60 rounded-full flex items-center justify-center backdrop-blur-sm">
-                          <span className="material-symbols-outlined text-white" style={{ fontSize: 12 }}>close</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Add Photos Button */}
-                <div className="px-4 pb-3">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    multiple
-                    className="hidden"
-                    onChange={handleImageChange}
-                  />
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={attachedImages.length >= MAX_IMAGES}
-                    className={`flex items-center gap-2 text-xs font-bold px-3 py-2 rounded-xl border-2 transition-all w-full justify-center ${attachedImages.length >= MAX_IMAGES
-                      ? 'border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed opacity-50'
-                      : 'border-primary/40 text-primary hover:bg-primary/5 active:scale-95'
-                      }`}>
-                    <span className="material-symbols-outlined text-base">add_photo_alternate</span>
-                    {attachedImages.length >= MAX_IMAGES
-                      ? 'Max 2 images reached'
-                      : `Add Photo (${attachedImages.length}/${MAX_IMAGES}) • max 5MB each`}
-                  </button>
-                </div>
-
-                {/* Status Picker */}
-                <div className="px-4 pb-3">
-                  <p className="text-[10px] font-bold text-text-sub uppercase tracking-widest mb-2">Status Tag</p>
-                  <div className="flex gap-1.5 overflow-x-auto hide-scrollbar pb-0.5">
-                    {(Object.keys(STATUS_STYLES) as PostStatus[]).map(s => (
-                      <button
-                        key={s}
-                        onClick={() => setPostStatus(s)}
-                        className={`flex-shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-full border-2 transition-all whitespace-nowrap ${postStatus === s
-                          ? `${STATUS_STYLES[s]} border-current`
-                          : 'border-gray-200 dark:border-gray-700 text-text-sub dark:text-gray-400'
-                          }`}>
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {/* Submit */}
-                <div className="px-4 pb-4">
-                  <button
-                    onClick={handleSubmit}
-                    disabled={!postText.trim()}
-                    className="w-full py-3 rounded-xl bg-primary text-black font-black text-sm disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all shadow-sm shadow-primary/30 flex items-center justify-center gap-2">
-                    <span className="material-symbols-outlined text-base">send</span>
-                    Post to Community Feed
-                  </button>
                 </div>
               </div>
-            )}
 
-            {/* Posts */}
-            <div className="space-y-3">
-              {posts.map(post => (
-                <div key={post.id} className="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm animate-in fade-in duration-300">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-xs shrink-0">{post.initials}</div>
-                      <div>
-                        <p className="text-sm font-bold text-text-main dark:text-white">{post.name}</p>
-                        <p className="text-[10px] text-text-sub">{post.role} • {post.time}</p>
+              {imageFiles.length > 0 && (
+                <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar">
+                  {imageFiles.map((file, idx) => (
+                    <div key={idx} className="relative size-20 rounded-xl overflow-hidden border border-border-light dark:border-zinc-700 shrink-0 shadow-sm">
+                      <img src={URL.createObjectURL(file)} className="w-full h-full object-cover" alt="Preview" />
+                      <button
+                        onClick={() => removeImage(idx)}
+                        className="absolute top-1 right-1 size-5 bg-black/60 text-white rounded-lg flex items-center justify-center backdrop-blur-md hover:bg-moriones-red transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[12px]">close</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-2 overflow-x-auto no-scrollbar mb-4">
+                {(Object.keys(STATUS_STYLES) as PostStatus[]).map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setPostStatus(s)}
+                    className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tight transition-all border ${postStatus === s ? `${STATUS_STYLES[s].bg} ${STATUS_STYLES[s].text} border-current` : 'bg-background-light dark:bg-background-dark border-border-light dark:border-zinc-700 text-text-muted'}`}
+                  >
+                    <span className="material-symbols-outlined text-[14px] font-black">{STATUS_STYLES[s].icon}</span>
+                    {s}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+                <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-1.5 text-blue-500 hover:text-blue-600 transition-colors">
+                  <span className="material-symbols-outlined text-[20px]">add_photo_alternate</span>
+                  <span className="text-[10px] font-black uppercase">Photos</span>
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!postText.trim()}
+                  className="px-6 py-2.5 bg-moriones-red text-white rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 disabled:opacity-30 active:scale-95 transition-all"
+                >
+                  POST UPDATE
+                </button>
+              </div>
+              <input type="file" ref={fileInputRef} onChange={handleImageChange} className="hidden" multiple accept="image/*" />
+            </div>
+          )}
+
+          <div className="space-y-3">
+            {loading ? (
+              <div className="flex justify-center py-10">
+                <div className="size-8 border-4 border-moriones-red/20 border-t-moriones-red rounded-full animate-spin" />
+              </div>
+            ) : posts.length === 0 ? (
+              <p className="text-center py-10 text-xs font-bold text-text-muted uppercase tracking-widest">No recent updates</p>
+            ) : (
+              posts.map(post => {
+                const style = STATUS_STYLES[post.status] || STATUS_STYLES['Other'];
+                return (
+                  <article key={post.id} className="bg-surface-light dark:bg-surface-dark p-4 rounded-2xl border border-border-light dark:border-zinc-800 shadow-sm transition-all hover:border-moriones-red/10">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="size-8 rounded-full bg-slate-100 border border-border-light overflow-hidden shadow-sm">
+                          {post.avatar ? <img src={post.avatar} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center font-black text-[10px] text-slate-400">{post.initials}</div>}
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-black text-text-main dark:text-text-main-dark uppercase tracking-tight">{post.name}</p>
+                          <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest">{post.time} • Community</p>
+                        </div>
+                      </div>
+                      <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${style.bg} ${style.text}`}>
+                        <span className="material-symbols-outlined text-[14px] font-black">{style.icon}</span>
+                        <span className="text-[9px] font-black uppercase tracking-tight">{post.status}</span>
                       </div>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLES[post.status]}`}>{post.status}</span>
-                  </div>
-                  <p className="text-sm text-text-main dark:text-gray-300">{post.text}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-          {/* Shipping Lines Directory */}
-          <section>
-            <div className="flex items-center gap-2 mb-3 mt-2">
-              <span className="material-symbols-outlined text-blue-500">anchor</span>
-              <h3 className="text-text-main dark:text-white text-lg font-bold leading-tight">Shipping Lines</h3>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {/* Montenegro */}
-              <div className="bg-surface-light dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-800 flex flex-col items-center text-center hover:border-primary/50 transition-colors">
-                <div className="h-12 w-12 rounded-full bg-white dark:bg-gray-700 p-1 shadow-sm mb-2 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-3xl">sailing</span>
-                </div>
-                <h4 className="font-bold text-sm text-text-main dark:text-white">Montenegro</h4>
-                <p className="text-[10px] text-text-sub mb-2">Daily • Every 2 hours</p>
-                <button className="w-full py-1.5 rounded-lg bg-background-light dark:bg-background-dark text-xs font-bold text-text-main dark:text-gray-300">View Sched</button>
-              </div>
-              {/* Starhorse */}
-              <div className="bg-surface-light dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-800 flex flex-col items-center text-center hover:border-primary/50 transition-colors">
-                <div className="h-12 w-12 rounded-full bg-white dark:bg-gray-700 p-1 shadow-sm mb-2 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-red-500 dark:text-red-400 text-3xl">directions_boat_filled</span>
-                </div>
-                <h4 className="font-bold text-sm text-text-main dark:text-white">Starhorse</h4>
-                <p className="text-[10px] text-text-sub mb-2">Daily • Every 3 hours</p>
-                <button className="w-full py-1.5 rounded-lg bg-background-light dark:bg-background-dark text-xs font-bold text-text-main dark:text-gray-300">View Sched</button>
-              </div>
-            </div>
-          </section>
-          {/* Spacer for bottom nav */}
-          <div className="h-6" />
-        </div>
+                    <p className="text-sm font-medium text-text-main dark:text-text-main-dark leading-relaxed pl-11">{post.text}</p>
+                  </article>
+                );
+              })
+            )}
+          </div>
+        </section>
 
-
-      </div>
-    </>
+        {/* Shipping Lines */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="size-8 bg-amber-500/10 rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-amber-600 font-black">anchor</span>
+            </div>
+            <h3 className="text-sm font-black text-text-main dark:text-text-main-dark uppercase tracking-wider">Shipping Lines</h3>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {SHIPPING_LINES.map(line => (
+              <div key={line.id} className="bg-surface-light dark:bg-surface-dark p-4 rounded-2xl border border-border-light dark:border-zinc-800 shadow-sm transition-all hover:scale-[1.02]">
+                <div className="size-12 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center mb-3 shadow-inner border border-border-light dark:border-zinc-700">
+                  <span className={`material-symbols-outlined text-3xl font-black ${line.colorClass}`}>{line.icon}</span>
+                </div>
+                <h4 className="text-xs font-black text-text-main dark:text-text-main-dark uppercase tracking-tight leading-none mb-1">{line.name}</h4>
+                <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest mb-3">{line.schedule}</p>
+                <button className="w-full py-2 rounded-xl bg-background-light dark:bg-background-dark border border-border-light dark:border-zinc-700 text-[10px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark hover:bg-moriones-red hover:text-white transition-all">Schedule</button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

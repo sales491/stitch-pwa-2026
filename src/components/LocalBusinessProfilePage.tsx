@@ -1,7 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import AdminActions from './AdminActions';
+import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 /* ─── Types ─────────────────────────────────────────── */
 export interface BusinessProfile {
   id: string;
@@ -31,10 +33,14 @@ export interface BusinessProfile {
   created_at: string | null;
   updated_at: string | null;
   gallery_image: string | null;
+  is_verified: boolean | null;
+  average_rating: number | null;
+  review_count: number | null;
 }
 
 interface Review {
   id: number;
+  author_id: string | null;
   initials: string;
   name: string;
   color: string;
@@ -42,46 +48,6 @@ interface Review {
   date: string;
   text: string;
 }
-
-/* ─── Seed Reviews ───────────────────────────────────── */
-const SEED_REVIEWS: Review[] = [
-  {
-    id: 1,
-    initials: 'MJ',
-    name: 'Maria Juana',
-    color: 'bg-indigo-100 text-indigo-600',
-    rating: 5,
-    date: '2d ago',
-    text: 'Best experience ever! The vibe is so relaxing after the Moriones parade. Definitely coming back.',
-  },
-  {
-    id: 2,
-    initials: 'RL',
-    name: 'Rico Lualhati',
-    color: 'bg-orange-100 text-orange-600',
-    rating: 4,
-    date: '1w ago',
-    text: 'Great place, but it gets a bit crowded during weekends. Service is friendly though!',
-  },
-  {
-    id: 3,
-    initials: 'AL',
-    name: 'Ana Ledesma',
-    color: 'bg-teal-100 text-teal-700',
-    rating: 5,
-    date: '2w ago',
-    text: 'Went here with my family after the Moriones festival. Highly recommended! Kids loved it too.',
-  },
-  {
-    id: 4,
-    initials: 'JP',
-    name: 'Jose Perez',
-    color: 'bg-rose-100 text-rose-600',
-    rating: 3,
-    date: '1mo ago',
-    text: 'Food is good but the Wi-Fi was slow during our visit. The atmosphere is really nice though.',
-  },
-];
 
 /* ─── Helpers ────────────────────────────────────────── */
 const AVATAR_COLORS = [
@@ -182,7 +148,9 @@ function RatingSummary({ reviews, businessRating }: { reviews: Review[], busines
 
 /* ─── Main Component ─────────────────────────────────── */
 export default function LocalBusinessProfilePage({ business }: { business: BusinessProfile }) {
-  const [reviews, setReviews] = useState<Review[]>(SEED_REVIEWS);
+  const [isAdminUser, setIsAdminUser] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [draftRating, setDraftRating] = useState(0);
   const [draftName, setDraftName] = useState('');
@@ -191,41 +159,136 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
 
   // --- Inline Editing State ---
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [editedBusiness, setEditedBusiness] = useState(business);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function checkUser() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setIsLoggedIn(true);
+        if (session.user.email === 'mspeninv1@gmail.com') {
+          setIsAdminUser(true);
+        }
+      }
+    }
+    checkUser();
+
+    // Fetch existing reviews
+    async function fetchReviews() {
+      const { data, error } = await supabase
+        .from('business_reviews')
+        .select('*')
+        .eq('business_id', business.id)
+        .order('created_at', { ascending: false });
+
+      if (data && !error) {
+        const mappedReviews: Review[] = data.map((r: any) => ({
+          id: r.id,
+          author_id: r.author_id,
+          initials: getInitials(r.author_name),
+          name: r.author_name,
+          color: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
+          rating: r.rating,
+          date: new Date(r.created_at).toLocaleDateString(),
+          text: r.comment,
+        }));
+        setReviews(mappedReviews);
+      }
+    }
+    fetchReviews();
+  }, [supabase, business.id]);
+
 
   const avgRating = reviews.length > 0
     ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length)
-    : 4.5; // Default rating for prototype if not in DB
+    : (business.average_rating || 4.5);
 
-  function submitReview() {
+  async function submitReview() {
     if (!draftRating || !draftName.trim() || !draftText.trim()) return;
-    const newReview: Review = {
-      id: Date.now(),
-      initials: getInitials(draftName),
-      name: draftName.trim(),
-      color: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
-      rating: draftRating,
-      date: 'Just now',
-      text: draftText.trim(),
-    };
-    setReviews((prev) => [newReview, ...prev]);
-    setDraftRating(0);
-    setDraftName('');
-    setDraftText('');
-    setShowForm(false);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const newReviewData = {
+        business_id: business.id,
+        author_id: session?.user?.id || null,
+        author_name: draftName.trim(),
+        rating: draftRating,
+        comment: draftText.trim(),
+      };
+
+      const { data, error } = await supabase
+        .from('business_reviews')
+        .insert([newReviewData])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      const newReview: Review = {
+        id: data.id,
+        author_id: data.author_id,
+        initials: getInitials(data.author_name),
+        name: data.author_name,
+        color: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
+        rating: data.rating,
+        date: 'Just now',
+        text: data.comment,
+      };
+
+      setReviews((prev) => [newReview, ...prev]);
+      setDraftRating(0);
+      setDraftName('');
+      setDraftText('');
+      setShowForm(false);
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err: any) {
+      console.error('Error submitting review:', err);
+      alert('Failed to submit review. Please try again.');
+    }
   }
 
-  function handleSave() {
-    // In a real app, this would call an API
-    alert('Changes saved successfully (Prototype)');
-    setIsEditing(false);
+  async function handleSave() {
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('business_profiles')
+        .update({
+          business_name: editedBusiness.business_name,
+          business_type: editedBusiness.business_type,
+          location: editedBusiness.location,
+          description: editedBusiness.description,
+          contact_info: editedBusiness.contact_info,
+          website: editedBusiness.website,
+          operating_hours: editedBusiness.operating_hours,
+          categories: editedBusiness.categories
+        })
+        .eq('id', business.id);
+
+      if (error) throw error;
+
+      alert('Changes saved successfully!');
+      setIsEditing(false);
+    } catch (error: any) {
+      console.error('Save error:', error);
+      alert(`Failed to save: ${error.message}`);
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
     <>
       <div className="relative flex min-h-screen flex-col mx-auto max-w-md bg-white dark:bg-zinc-900 shadow-2xl overflow-hidden">
+
+        {/* Admin Badge */}
+        {isAdminUser && (
+          <div className="absolute top-0 left-0 w-full z-[60] py-1 px-4 bg-teal-600 text-white text-[10px] font-bold text-center uppercase tracking-widest shadow-md">
+            Admin Access Active • {isEditing ? 'Currently Editing' : 'Viewing with Admin Tools'}
+          </div>
+        )}
 
         {/* Header / Cover Photo */}
         <div className="relative w-full h-72">
@@ -242,10 +305,18 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
               </button>
             </div>
           </div>
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url("${editedBusiness.gallery_image || 'https://via.placeholder.com/500x300'}")` }}
-          />
+          {editedBusiness.gallery_image ? (
+            <div
+              className="w-full h-full bg-cover bg-center"
+              style={{ backgroundImage: `url("${editedBusiness.gallery_image}")` }}
+            />
+          ) : (
+            <div className="w-full h-full bg-slate-100 dark:bg-zinc-800 flex flex-col items-center justify-center p-6 text-center">
+              <span className="material-symbols-outlined text-5xl text-teal-600/30 mb-4 animate-pulse">add_a_photo</span>
+              <p className="text-teal-700 dark:text-teal-400 font-bold text-lg">Update your business</p>
+              <p className="text-slate-400 text-[10px] uppercase tracking-widest mt-1">Add photos to attract customers</p>
+            </div>
+          )}
           {isEditing && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
               <button className="bg-white/90 px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-lg">
@@ -263,7 +334,7 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
           <div className="mb-6">
             <div className="flex justify-between items-start mb-2">
               <div className="flex-1">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   {isEditing ? (
                     <input
                       type="text"
@@ -274,12 +345,23 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                   ) : (
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">{business.business_name}</h1>
                   )}
+                  {/* Verified badge – only when admin-verified */}
+                  {!isEditing && business.is_verified && (
+                    <span className="inline-flex items-center gap-1 bg-teal-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                      <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: '"FILL" 1' }}>verified</span>
+                      VERIFIED
+                    </span>
+                  )}
                   {!isEditing && (
                     <AdminActions
                       contentType="business"
                       contentId={business.id}
+                      authorId={business.user_id || undefined}
                       variant="button"
                       onEdit={() => setIsEditing(true)}
+                      onDelete={() => {
+                        window.location.href = '/marinduque-business-directory';
+                      }}
                     />
                   )}
                 </div>
@@ -313,7 +395,7 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                     <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-[18px]" style={{ fontVariationSettings: '"FILL" 1' }}>star</span>
                     <span className="font-bold text-green-700 dark:text-green-400 text-sm">{avgRating.toFixed(1)}</span>
                   </div>
-                  <span className="text-xs text-slate-400 mt-1">({reviews.length} reviews)</span>
+                  <span className="text-xs text-slate-400 mt-1">({reviews.length || business.review_count || 0} reviews)</span>
                 </div>
               )}
             </div>
@@ -323,9 +405,17 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
               <div className="flex gap-2 mt-4 pb-4 border-b border-slate-100 dark:border-zinc-800">
                 <button
                   onClick={handleSave}
-                  className="flex-1 bg-teal-700 text-white py-2 rounded-xl text-sm font-bold shadow-md hover:bg-teal-600 transition-all"
+                  disabled={isSaving}
+                  className="flex-1 bg-teal-700 text-white py-2 rounded-xl text-sm font-bold shadow-md hover:bg-teal-600 transition-all flex items-center justify-center gap-2"
                 >
-                  Save Changes
+                  {isSaving ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    'Save Changes'
+                  )}
                 </button>
                 <button
                   onClick={() => {
@@ -354,21 +444,119 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
             )}
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons — Phone, Messenger, FB Page, SMS, Web */}
           <div className="grid grid-cols-4 gap-3 mb-8">
-            <a href={`tel:${business.contact_info?.phone || ''}`} className="col-span-2 bg-green-500 hover:bg-green-400 text-white rounded-xl py-3 px-4 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
-              <span className="material-symbols-outlined">call</span>
-              Call Now
-            </a>
-            <a href={`sms:${business.contact_info?.phone || ''}`} className="col-span-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
-              <span className="material-symbols-outlined text-blue-500">sms</span>
-              <span className="text-[10px] font-medium">Text</span>
-            </a>
-            <a href={`https://m.me/${business.social_media?.messenger || 'businessmessenger'}`} target="_blank" rel="noopener noreferrer" className="col-span-1 bg-blue-500 hover:bg-blue-400 text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" /></svg>
-              <span className="text-[10px] font-medium">Chat</span>
-            </a>
+            {isEditing ? (
+              <div className="col-span-2 bg-green-500/10 text-green-700 dark:text-green-400 rounded-xl py-3 px-4 font-semibold flex flex-col items-center justify-center gap-1 border-2 border-green-500 shadow-sm">
+                <span className="text-[10px] uppercase font-bold opacity-75">Phone</span>
+                <input
+                  type="text"
+                  value={editedBusiness.contact_info?.phone || ''}
+                  onChange={(e) => setEditedBusiness({
+                    ...editedBusiness,
+                    contact_info: { ...(editedBusiness.contact_info || {}), phone: e.target.value }
+                  })}
+                  className="bg-transparent border-none outline-none w-full text-center text-sm font-black text-slate-900 dark:text-white"
+                  placeholder="09xx..."
+                />
+              </div>
+            ) : (
+              <a href={`tel:${formatPhPhoneForLink(editedBusiness.contact_info?.phone || '')}`} className="col-span-2 bg-green-500 hover:bg-green-400 text-white rounded-xl py-3 px-4 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
+                <span className="material-symbols-outlined">call</span>
+                Call Now
+              </a>
+            )}
+
+            {isEditing ? (
+              <div className="col-span-2 bg-slate-100 dark:bg-zinc-800 rounded-xl py-3 px-4 flex flex-col items-center justify-center gap-1 border border-slate-200 dark:border-zinc-700">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Web</span>
+                <input
+                  type="text"
+                  value={editedBusiness.website || ''}
+                  onChange={(e) => setEditedBusiness({ ...editedBusiness, website: e.target.value })}
+                  className="bg-transparent border-none outline-none w-full text-center text-xs font-medium text-slate-900 dark:text-white"
+                  placeholder="https://..."
+                />
+              </div>
+            ) : (
+              <>
+                {/* SMS */}
+                <a href={`sms:${formatPhPhoneForLink(editedBusiness.contact_info?.phone || '')}`} className="col-span-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
+                  <span className="material-symbols-outlined text-blue-500">sms</span>
+                  <span className="text-[10px] font-medium">Text</span>
+                </a>
+                {/* FB Messenger */}
+                {editedBusiness.social_media?.messenger ? (
+                  <a
+                    href={`https://m.me/${editedBusiness.social_media.messenger}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="col-span-1 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95"
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
+                    </svg>
+                    <span className="text-[10px] font-medium">Chat</span>
+                  </a>
+                ) : (
+                  <div className="col-span-1 bg-slate-50 dark:bg-zinc-900 text-slate-300 dark:text-zinc-600 rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 cursor-not-allowed">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
+                    </svg>
+                    <span className="text-[10px] font-medium">Chat</span>
+                  </div>
+                )}
+                {/* Web */}
+                {editedBusiness.website && (editedBusiness.website.startsWith('http') || editedBusiness.website.startsWith('www')) ? (
+                  <a href={editedBusiness.website} target="_blank" rel="noreferrer" className="col-span-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
+                    <span className="material-symbols-outlined text-teal-600">language</span>
+                    <span className="text-[10px] font-medium">Web</span>
+                  </a>
+                ) : (
+                  <div className="col-span-1 bg-slate-50 dark:bg-zinc-900 text-slate-300 dark:text-zinc-600 rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 cursor-not-allowed">
+                    <span className="material-symbols-outlined">language</span>
+                    <span className="text-[10px] font-medium">Web</span>
+                  </div>
+                )}
+              </>
+            )}
           </div>
+
+          {/* FB Page link row (when available) */}
+          {!isEditing && editedBusiness.social_media?.facebook && (
+            <a
+              href={`https://facebook.com/${editedBusiness.social_media.facebook}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 mb-6 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900 rounded-xl text-sm font-semibold text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all active:scale-95"
+            >
+              <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.525 8H14V6c0-1.03.838-1.608 2-1.608h1.975V1.1c-.341-.047-1.536-.1-2.932-.1C12.024 1 10 2.8 10 5.748V8H7v3h3v9h4v-9h2.525L17.525 8z" />
+              </svg>
+              Visit Facebook Page
+              <span className="material-symbols-outlined text-[16px] ml-auto">open_in_new</span>
+            </a>
+          )}
+
+
+          {/* Claim This Business Banner – only when not verified */}
+          {!business.is_verified && !isEditing && (
+            <div className="mb-6 p-4 bg-slate-50 dark:bg-zinc-800 rounded-2xl border border-slate-200 dark:border-zinc-700 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 text-xl">storefront</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-slate-900 dark:text-white">Is this your business?</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Claim it to get a Verified badge</p>
+              </div>
+              <a
+                href={`/claim-business/${business.id}`}
+                className="shrink-0 bg-teal-700 hover:bg-teal-600 text-white text-xs font-bold px-3 py-2 rounded-lg transition-all active:scale-95"
+              >
+                Claim
+              </a>
+            </div>
+          )}
 
           <div className="h-px bg-slate-100 dark:bg-zinc-800 w-full mb-6" />
 
@@ -426,20 +614,71 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                 </button>
               </div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">{business.contact_info?.address}</p>
+            <p className="text-xs text-slate-500 mt-2">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedBusiness.contact_info?.address || ''}
+                  onChange={(e) => setEditedBusiness({
+                    ...editedBusiness,
+                    contact_info: { ...(editedBusiness.contact_info || {}), address: e.target.value }
+                  })}
+                  className="w-full bg-slate-50 dark:bg-zinc-800 border-b-2 border-primary outline-none py-1 focus:bg-white transition-colors"
+                  placeholder="Street Address"
+                />
+              ) : (
+                business.contact_info?.address
+              )}
+            </p>
+            {isEditing && (
+              <div className="mt-4 p-4 bg-slate-50 dark:bg-zinc-800 rounded-xl space-y-4 border border-slate-100 dark:border-zinc-800 shadow-inner">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] uppercase font-black text-teal-600 mb-1">Hours</label>
+                    <input
+                      type="text"
+                      value={editedBusiness.operating_hours || ''}
+                      onChange={(e) => setEditedBusiness({ ...editedBusiness, operating_hours: e.target.value })}
+                      className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg p-2 text-xs outline-none focus:border-teal-500"
+                      placeholder="e.g. 8AM - 5PM"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-black text-teal-600 mb-1">Tags (Comma separated)</label>
+                    <input
+                      type="text"
+                      value={editedBusiness.categories?.join(', ') || ''}
+                      onChange={(e) => setEditedBusiness({ ...editedBusiness, categories: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })}
+                      className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-lg p-2 text-xs outline-none focus:border-teal-500"
+                      placeholder="Tag1, Tag2..."
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ── Reviews ── */}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">Reviews</h2>
-              <button
-                onClick={() => setShowForm((v) => !v)}
-                className="flex items-center gap-1.5 bg-teal-700 hover:bg-teal-600 text-white font-semibold text-sm px-4 py-2 rounded-full transition-all active:scale-95"
-              >
-                <span className="material-symbols-outlined text-[16px]">edit</span>
-                {showForm ? 'Cancel' : 'Write a Review'}
-              </button>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => setShowForm((v) => !v)}
+                  className="flex items-center gap-1.5 bg-teal-700 hover:bg-teal-600 text-white font-semibold text-sm px-4 py-2 rounded-full transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[16px]">edit</span>
+                  {showForm ? 'Cancel' : 'Write a Review'}
+                </button>
+              ) : (
+                <a
+                  href="/login"
+                  className="flex items-center gap-1.5 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-600 dark:text-slate-400 font-semibold text-sm px-4 py-2 rounded-full transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[16px]">login</span>
+                  Sign in to Review
+                </a>
+              )}
             </div>
 
             {/* Success toast */}
@@ -451,7 +690,7 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
             )}
 
             {/* Rating summary */}
-            <RatingSummary reviews={reviews} businessRating={4.5} />
+            <RatingSummary reviews={reviews} businessRating={business.average_rating || 4.5} />
 
             {/* Write-a-review form */}
             {showForm && (
@@ -522,7 +761,10 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                       <h4 className="font-semibold text-slate-900 dark:text-white text-sm">{r.name}</h4>
                       <div className="flex items-center gap-2 shrink-0">
                         <span className="text-xs text-slate-400">{r.date}</span>
-                        <AdminActions contentType="comment" contentId={r.id.toString()} />
+                        {/* Only show admin actions for real DB records (UUIDs), not seed/mock data */}
+                        {String(r.id).length > 10 && (
+                          <AdminActions contentType="comment" contentId={String(r.id)} authorId={r.author_id || undefined} />
+                        )}
                       </div>
                     </div>
                     <StarRow rating={r.rating} size="text-[14px]" />

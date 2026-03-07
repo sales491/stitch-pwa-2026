@@ -1,15 +1,51 @@
 @import "tailwindcss";
 
+/* Dark mode is class-based — ThemeProvider adds/removes .dark on <html> */
+@variant dark (&:where(.dark, .dark *));
+
 @theme inline {
-  --color-primary: #f2d00d;
-  --color-moriones-red: #A01515;
+  --color-primary: #C62828;
+  --color-moriones-red: #C62828;
+
+  /* Dynamic Theme Colors */
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-border-main: var(--border-main);
+  --color-background-main: var(--background-main);
+  --color-surface-main: var(--surface-main);
+
   --color-background-light: #ffffff;
-  --color-background-dark: #221f10;
+  --color-background-dark: #0F0F10;
+  --color-surface-dark: #1A1B1E;
+  --color-border-dark: #2A2B2F;
+
   --font-display: var(--font-plus-jakarta), "Plus Jakarta Sans", sans-serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
+}
+
+:root {
+  --text-main: #0F172A;
+  /* slate-900 */
+  --text-muted: #64748B;
+  /* slate-500 */
+  --border-main: #E2E8F0;
+  /* slate-200 */
+  --background-main: #ffffff;
+  --surface-main: #ffffff;
+}
+
+.dark {
+  --text-main: #F1F5F9;
+  /* slate-100 */
+  --text-muted: #94A3B8;
+  /* slate-400 */
+  --border-main: #1E293B;
+  /* slate-800 or zinc-800 */
+  --background-main: #0F0F10;
+  --surface-main: #1A1B1E;
 }
 
 @layer utilities {
@@ -27,4 +63,41 @@ html,
 body {
   background: white;
   min-height: max(884px, 100dvh);
+}
+
+/* ─── Desktop sidebar: large icon watermark ────────────────────────────────
+   White background with a single oversized PWA icon at -45° and very low
+   opacity. Only meaningful on md+ screens where sidebars are visible.
+   On mobile the content column fills 100% so the background never shows.
+────────────────────────────────────────────────────────────────────────── */
+.banig-sidebar {
+  background-color: #ffffff;
+  position: relative;
+}
+
+.banig-sidebar::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* rotate -45deg so icon leans like a backslash \ */
+  transform: translate(-50%, -50%) rotate(-45deg);
+  /* 100vw × 100vw square — rotated 45° its diagonal is ~141vw,
+     bleeding past all four screen edges */
+  width: 100vw;
+  height: 100vw;
+  background-image: url('/icons/icon-512.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .banig-sidebar::before {
+    display: block;
+  }
 }

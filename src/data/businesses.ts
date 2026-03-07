@@ -18,6 +18,44 @@ export type Business = {
 
 export const BUSINESSES: Business[] = [
     {
+        id: 'test-casa-de-don-emilio',
+        name: 'Test Casa de Don Emilio',
+        type: 'Filipino Cafe & Restaurant',
+        location: 'Boac, Marinduque',
+        rating: 4.8,
+        reviewsCount: 0,
+        image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&h=300&fit=crop',
+        about: 'TEST PROFILE – This is a test business profile for Casa de Don Emilio. Experience authentic Filipino cuisine in a beautiful heritage house setting.',
+        tags: ['Test', 'Filipino', 'Cafe'],
+        phone: '+639170000001',
+        address: 'Test Address, Boac, Marinduque',
+        status: 'Open Now',
+        closingTime: '9 PM',
+        photos: [
+            'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&h=300&fit=crop'
+        ]
+    },
+    {
+        id: 'test-balar-hotel-and-spa',
+        name: 'Test Balar Hotel and Spa',
+        type: 'Hotel & Resort',
+        location: 'Boac, Marinduque',
+        rating: 4.9,
+        reviewsCount: 0,
+        image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&h=300&fit=crop',
+        about: 'TEST PROFILE – This is a test business profile for Balar Hotel and Spa. Premier destination for luxury and relaxation in Boac.',
+        tags: ['Test', 'Hotel', 'Spa'],
+        phone: '+639170000002',
+        address: 'Test Address, Boac, Marinduque',
+        status: 'Open Now',
+        closingTime: '10 PM',
+        photos: [
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1582719502893-bc5abc448211?w=500&h=300&fit=crop'
+        ]
+    },
+    {
         id: 'casa-de-don-emilio',
         name: 'Casa de Don Emilio',
         type: 'Filipino Cafe & Restaurant',

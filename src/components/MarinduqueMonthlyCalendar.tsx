@@ -116,15 +116,16 @@ export default function MarinduqueMonthlyCalendar() {
                             return (
                                 <div key={idx} className="aspect-square flex flex-col items-center justify-center relative p-1">
                                     {day ? (
-                                        <button className={`group relative w-full h-full flex flex-col items-center justify-center rounded-2xl transition-all ${isToday ? 'bg-primary text-black' : 'hover:bg-slate-100 dark:hover:bg-zinc-800'
-                                            }`}>
+                                        <Link
+                                            href={hasEvent ? `/event/${hasEvent.id}` : '#'}
+                                            className={`group relative w-full h-full flex flex-col items-center justify-center rounded-2xl transition-all ${isToday ? 'bg-primary text-black' : 'hover:bg-slate-100 dark:hover:bg-zinc-800'
+                                                } ${!hasEvent && 'cursor-default pointer-events-none'}`}
+                                        >
                                             <span className={`text-sm font-bold ${isToday ? '' : 'text-slate-700 dark:text-slate-200'}`}>{day}</span>
                                             {hasEvent && (
-                                                <div className={`absolute bottom-2 w-1 h-1 rounded-full ${hasEvent.color} ${isToday ? 'bg-black' : ''}`} />
+                                                <div className={`absolute bottom-2 w-1.5 h-1.5 rounded-full ${hasEvent.color} ${isToday ? 'bg-black' : 'shadow-sm animate-pulse'}`} />
                                             )}
-
-                                            {/* Tooltip-like event indicator on tap in real app, here we just show dots */}
-                                        </button>
+                                        </Link>
                                     ) : (
                                         <div className="w-full h-full" />
                                     )}
@@ -144,10 +145,10 @@ export default function MarinduqueMonthlyCalendar() {
                                     {day}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{event.title}</h4>
-                                    <p className="text-[10px] text-slate-500 font-medium">Coming soon in {currentDate.toLocaleDateString('en-US', { month: 'short' })}</p>
+                                    <h4 className="text-sm font-bold text-text-main truncate">{event.title}</h4>
+                                    <p className="text-[10px] text-text-muted font-medium">Coming soon in {currentDate.toLocaleDateString('en-US', { month: 'short' })}</p>
                                 </div>
-                                <span className="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+                                <span className="material-symbols-outlined text-text-muted text-sm">chevron_right</span>
                             </Link>
                         ))}
                     </div>
@@ -155,9 +156,13 @@ export default function MarinduqueMonthlyCalendar() {
             </main>
 
             {/* Floating Action Button */}
-            <Link href="/create-event-post-screen" className="fixed right-4 bottom-6 z-50 flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all max-w-md mx-auto">
-                <span className="material-symbols-outlined text-black text-3xl">add</span>
-            </Link>
+            <div className="fixed bottom-0 left-0 right-0 z-50 max-w-md mx-auto pointer-events-none px-6 pb-28">
+                <div className="flex justify-end pr-2 pointer-events-auto">
+                    <Link href="/events/create" className="flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
+                        <span className="material-symbols-outlined text-black text-3xl font-bold">add</span>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

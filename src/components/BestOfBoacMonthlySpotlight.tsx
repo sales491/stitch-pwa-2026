@@ -2,8 +2,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 
+import { BUSINESSES } from '@/data/businesses';
+
 // --- Types ---
-interface Business {
+interface SpotlightBusiness {
   id: string | number;
   name: string;
   category: string;
@@ -13,12 +15,30 @@ interface Business {
 }
 
 // --- Mock Data ---
-const MOCK_BUSINESSES: Business[] = [
-  { id: "casa-de-don-emilio", name: "Casa de Don Emilio", category: "Ancestral Dining", hours: "8am-9pm", location: "Boac", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDTd5Otfg12ewKAbs7uThDHT4EgwKld0ErLwH2Sl4chWD0p1PZu0o87Jtcs_xiQNAg5e_9XBSQP17fQYAjJGvF_jIwJkmdKGAbYw6RR2fCKAwG68RpTmiTZo54OzcKuDf4mrjMGSffY7kxzSB3ztKZo_cJHM0lbFp9fuZx8TbcTGtXZVMx89ya1zVtRM4jcOM9YadX_MqmiZqYOKrPZdcXaXgcZz1DDpqF3mE2IJF-MmlOs_Ojrv5j-X5wL9A9lGMTh-0zlTc_MjfY" },
-  { id: "kusina-sa-plaza", name: "Kusina sa Plaza", category: "Filipino Comfort", hours: "7am-8pm", location: "Boac", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCysVo8oFOBDiS79rZVx1ynYQ04oW7FonWVi9iR-TbPrQOD_of_4bgeMRO-v3Nar7eyoVRGjSlzSckgoRiEOJkBih900nd4yp2-sQRCiUy0HvIbozCjaA54qmXTg4d-ETXLVzOW8fHqniSjE22YkMvC4AvLj3KnEhAd7Dsuw9_lF6HTy-pZuj29RYtl48VlFboG8-bNaiC0zDOeQVAwT9G2pDIjV9o8xVWfdWVMwxBGV4VDqjudnFO59XzdXOyqri7xlBKU4pvjBdg" },
-  { id: "boac-hotel-cafe", name: "Boac Hotel Café", category: "Coffee & Pastries", hours: "6am-10pm", location: "Boac", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYnVyvqvR2Z4NZI_nwzK4DcV12VTpI4BjHW2yTggePSeFKrj_6vfpoHr2hgoD_ome2Q6lpSQ0bx05KLt6YOKRaApAOZkc6FKrLC4RkYQu6yFr1w4homrjILaLOrA0uSA0QIkmAZPJ7iKyVCdw5fnsnIGOHUW0_hA82eSluPGePD7AJXe81V0HyxNatZq4882fV1lOgKpvmltbhtgqLq3m_qJHvNSe3f2QvvkB_YJyMjm6MU9wHRVojdvnaXIkdkvp8VURxR4R-2lQ" },
-  { id: "boac-cathedral-shop", name: "The Boac Cathedral Shop", category: "Souvenirs", hours: "9am-5pm", location: "Boac", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZdA984PYXW7iZ2VQlSazRPyzYdEqWl5I3YHScMhVG-4z0g1MXcry8r8Q9hwzMqF3vltJWB-cBcapg2d5HtLnAiacrfGWjumRruePkeVIzzM6CFOU5LeuzbXClBI6vyrMDzaQTWhjAPDxaWmOdEDNDmTXGbkZW79DgQ29i52LjNehCe96a4a0MP8qJhhyAib77n9MwZVzcdsUX8bRpy7ERTlLyFVabtY_tjFP6mJvFTTpgmOgb1uR3-QR7_c5n2CsqnksQ23e-BFU" },
-];
+const MOCK_BUSINESSES: SpotlightBusiness[] = BUSINESSES.slice(0, 4).map(b => ({
+  id: b.id,
+  name: b.name,
+  category: b.type,
+  hours: b.status === 'Open Now' ? `Closes ${b.closingTime}` : b.status,
+  location: b.location,
+  image: b.image || ''
+}));
+
+const Modal = ({ title, children, onClose }: { title: string, children: React.ReactNode, onClose: () => void }) => (
+  <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300">
+      <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800">
+        <h3 className="font-bold text-lg">{title}</h3>
+        <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+          <span className="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div className="p-4 overflow-y-auto max-h-[70vh]">
+        {children}
+      </div>
+    </div>
+  </div>
+);
 
 export default function BestOfBoacMonthlySpotlight() {
   const [isPublishing, setIsPublishing] = useState(false);
@@ -35,13 +55,31 @@ export default function BestOfBoacMonthlySpotlight() {
   const [coverImage, setCoverImage] = useState("https://lh3.googleusercontent.com/aida-public/AB6AXuAZdA984PYXW7iZ2VQlSazRPyzYdEqWl5I3YHScMhVG-4z0g1MXcry8r8Q9hwzMqF3vltJWB-cBcapg2d5HtLnAiacrfGWjumRruePkeVIzzM6CFOU5LeuzbXClBI6vyrMDzaQTWhjAPDxaWmOdEDNDmTXGbkZW79DgQ29i52LjNehCe96a4a0MP8qJhhyAib77n9MwZVzcdsUX8bRpy7ERTlLyFVabtY_tjFP6mJvFTTpgmOgb1uR3-QR7_c5n2CsqnksQ23e-BFU");
 
   // --- Winner State ---
-  const [winner, setWinner] = useState<Business>(MOCK_BUSINESSES[0]);
+  const [winner, setWinner] = useState<SpotlightBusiness>(MOCK_BUSINESSES[0]);
 
   // --- Description Paragraphs ---
   const [paragraphs, setParagraphs] = useState([
     "Stepping into Casa de Don Emilio is like taking a delightful journey back in time. Nestled in the heart of Boac, this ancestral house-turned-restaurant perfectly captures the charm of old Marinduque while serving up some of the most authentic flavors on the island.",
     "What truly sets them apart this month is their renewed commitment to sourcing ingredients solely from local farmers in the Gasan and Mogpog areas."
   ]);
+
+  // --- Photo Gallery (New) ---
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+
+  const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const available = 3 - galleryImages.length;
+    const toAdd = files.slice(0, available).map(f => URL.createObjectURL(f));
+    setGalleryImages([...galleryImages, ...toAdd]);
+    if (galleryInputRef.current) galleryInputRef.current.value = '';
+    setPublishStatus('draft');
+  };
+
+  const removeGalleryImage = (idx: number) => {
+    setGalleryImages(prev => prev.filter((_, i) => i !== idx));
+    setPublishStatus('draft');
+  };
 
   // --- Runners-up ---
   const [runnersUp, setRunnersUp] = useState<any[]>([
@@ -57,7 +95,7 @@ export default function BestOfBoacMonthlySpotlight() {
     }, 1200);
   };
 
-  const handleUpdateBusiness = (bus: Business) => {
+  const handleUpdateBusiness = (bus: SpotlightBusiness) => {
     if (modalContext === 'winner') {
       setWinner(bus);
     } else if (modalContext === 'runner-up-add') {
@@ -71,21 +109,7 @@ export default function BestOfBoacMonthlySpotlight() {
     setPublishStatus('draft');
   };
 
-  const Modal = ({ title, children, onClose }: { title: string, children: React.ReactNode, onClose: () => void }) => (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300">
-        <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800">
-          <h3 className="font-bold text-lg">{title}</h3>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
-            <span className="material-symbols-outlined">close</span>
-          </button>
-        </div>
-        <div className="p-4 overflow-y-auto max-h-[70vh]">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
+
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans">
@@ -446,6 +470,42 @@ export default function BestOfBoacMonthlySpotlight() {
                 />
               </div>
             ))}
+
+            {/* Gallery Section */}
+            <div className="bg-slate-100/50 dark:bg-slate-900/50 p-6 rounded-3xl border-2 border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-between mb-4 px-2">
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-primary">Photo Gallery</h4>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Main spotlight visuals</p>
+                </div>
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{galleryImages.length}/3 shots</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                {galleryImages.map((img, idx) => (
+                  <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
+                    <img src={img} className="w-full h-full object-cover" />
+                    <button
+                      onClick={() => removeGalleryImage(idx)}
+                      className="absolute top-1 right-1 size-6 bg-black/60 text-white rounded-lg flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-all"
+                    >
+                      <span className="material-symbols-outlined text-xs">close</span>
+                    </button>
+                  </div>
+                ))}
+                {galleryImages.length < 3 && (
+                  <button
+                    onClick={() => galleryInputRef.current?.click()}
+                    className="aspect-square rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center gap-1.5 hover:border-primary hover:bg-primary/5 transition-all text-slate-400 hover:text-primary"
+                  >
+                    <span className="material-symbols-outlined text-2xl">add_a_photo</span>
+                    <span className="text-[8px] font-black uppercase tracking-tight">Add Photo</span>
+                  </button>
+                )}
+              </div>
+              <input type="file" ref={galleryInputRef} onChange={handleGalleryChange} className="hidden" multiple accept="image/*" />
+            </div>
+
             <button
               onClick={() => { setParagraphs([...paragraphs, "Add new insights here..."]); setPublishStatus('draft'); }}
               className="w-full border-4 border-dashed border-slate-200 dark:border-slate-800 p-8 rounded-3xl text-slate-400 hover:border-primary hover:text-primary transition-all font-black flex flex-col items-center justify-center gap-3 bg-slate-50/20"

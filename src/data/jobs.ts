@@ -29,6 +29,58 @@ export type Job = {
 
 export const JOBS: Job[] = [
     {
+        id: 'test-job-1',
+        slug: 'test-store-manager-boac',
+        title: 'Test Store Manager',
+        company: 'Test Boac Trading Post',
+        location: 'Boac',
+        type: 'Full-time',
+        salary: '₱15k - ₱20k',
+        postedAgo: 'Just now',
+        isFeatured: true,
+        description: 'TEST JOB – This is a test listing for a Store Manager position at the Boac Trading Post. Responsibilities include inventory management, staff supervision, and customer service excellence.',
+        requirements: [
+            'At least 2 years experience in retail management',
+            'Strong leadership and communication skills',
+            'Must be a resident of Boac or nearby towns',
+            'Willing to work on weekends and holidays'
+        ],
+        icon: 'storefront',
+        color: 'orange',
+        contact: { phone: '+63 912 000 0001' },
+        seo: {
+            title: 'Test Store Manager at Boac Trading Post | Marinduque Jobs',
+            description: 'TEST listing for Store Manager position. ₱15k - ₱20k salary.',
+            keywords: ['test', 'Store Manager', 'Boac']
+        }
+    },
+    {
+        id: 'test-job-2',
+        slug: 'test-tricycle-driver-gasan',
+        title: 'Test Tricycle Driver',
+        company: 'Test Local Hirer',
+        location: 'Gasan',
+        type: 'Contract',
+        salary: '₱500/day',
+        postedAgo: 'Just now',
+        isVerified: true,
+        description: 'TEST JOB – This is a test listing for a Tricycle Driver position. Route will primarily be within Gasan and occasionally to Boac.',
+        requirements: [
+            'Professional Driver\'s License',
+            'Knowledgeable of Gasan routes',
+            'Honest and hardworking',
+            'Clean driving record'
+        ],
+        icon: 'two_wheeler',
+        color: 'emerald',
+        contact: { phone: '+63 912 000 0002' },
+        seo: {
+            title: 'Test Tricycle Driver Job in Gasan | Marinduque Jobs',
+            description: 'TEST listing for Tricycle Driver position in Gasan. ₱500/day.',
+            keywords: ['test', 'Tricycle Driver', 'Gasan']
+        }
+    },
+    {
         id: 'featured-1',
         slug: 'store-manager-boac-trading-post',
         title: 'Store Manager',
