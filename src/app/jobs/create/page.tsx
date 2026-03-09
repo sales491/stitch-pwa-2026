@@ -1,7 +1,7 @@
-'use client';
+export const dynamic = 'force-dynamic';
+import ClientPage from './ClientPage';
 
-import CreateNewJobPostScreen from '@/components/CreateNewJobPostScreen';
-
-export default function CreateJobPage() {
-    return <CreateNewJobPostScreen />;
+export default function Page() {
+  return <ClientPage />;
 }
+

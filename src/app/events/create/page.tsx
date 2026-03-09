@@ -1,7 +1,7 @@
-'use client';
+export const dynamic = 'force-dynamic';
+import ClientPage from './ClientPage';
 
-import CreateEventPostScreen from '@/components/CreateEventPostScreen';
-
-export default function CreateEventPage() {
-    return <CreateEventPostScreen />;
+export default function Page() {
+  return <ClientPage />;
 }
+

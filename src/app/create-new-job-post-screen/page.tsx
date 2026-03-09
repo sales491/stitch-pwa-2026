@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Suspense } from 'react';
 import CreateNewJobPostScreen from '@/components/CreateNewJobPostScreen';
 
@@ -12,3 +13,4 @@ export default function Page() {
     </Suspense>
   );
 }
+

@@ -1,7 +1,7 @@
-'use client';
+export const dynamic = 'force-dynamic';
+import ClientPage from './ClientPage';
 
-import CreateNewListing from '@/components/CreateNewListing';
-
-export default function CreateListingPage() {
-    return <CreateNewListing />;
+export default function Page() {
+  return <ClientPage />;
 }
+
