@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import AdminActions from './AdminActions';
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
@@ -16,12 +17,21 @@ interface Job {
   description: string;
   slug: string;
   created_at: string;
+  expires_at?: string;
   requirements?: string[];
   contact?: {
     phone?: string;
     email?: string;
     facebook?: string;
   };
+}
+
+interface Props {
+  initialJobs: Job[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+  filters: { type: string; town: string; query: string };
 }
 
 function FilterChip({
@@ -32,7 +42,8 @@ function FilterChip({
 }) {
   const [open, setOpen] = useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
-  const isFiltered = value !== options[0];
+  const isFiltered = value !== '' && value !== options[0];
+  const displayValue = isFiltered ? value : label;
 
   React.useEffect(() => {
     function outside(e: MouseEvent) {
@@ -53,7 +64,7 @@ function FilterChip({
       >
         <div className="flex items-center gap-1.5 min-w-0">
           <span className="material-symbols-outlined text-[16px] shrink-0">{icon}</span>
-          <span className="truncate">{isFiltered ? value : label}</span>
+          <span className="truncate">{displayValue}</span>
         </div>
         <span className={`material-symbols-outlined text-[16px] shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>expand_more</span>
       </button>
@@ -65,7 +76,7 @@ function FilterChip({
               <button
                 key={opt}
                 onClick={() => { onChange(opt); setOpen(false); }}
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${value === opt
+                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${value === opt || (opt === options[0] && !value)
                   ? 'bg-moriones-red/10 text-moriones-red font-semibold'
                   : 'text-text-main dark:text-text-main-dark hover:bg-slate-50 dark:hover:bg-zinc-800'
                   }`}
@@ -80,23 +91,50 @@ function FilterChip({
   );
 }
 
-export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs: Job[] }) {
-  const [selectedTown, setSelectedTown] = useState('All Towns');
-  const [selectedType, setSelectedType] = useState('All Types');
-  const [searchQuery, setSearchQuery] = useState('');
+export default function MarinduqueJobsListingFeed({ initialJobs, totalCount, currentPage, pageSize, filters }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+  const [searchInput, setSearchInput] = useState(filters.query);
 
-  const filteredJobs = useMemo(() => {
-    return initialJobs.filter(job => {
-      const matchTown = selectedTown === 'All Towns' || job.location.includes(selectedTown);
-      const matchType = selectedType === 'All Types' || job.employment_type === selectedType;
-      const matchSearch = searchQuery === '' ||
-        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.company_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.location.toLowerCase().includes(searchQuery.toLowerCase());
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const isFiltered = filters.type || filters.town || filters.query;
 
-      return matchTown && matchType && matchSearch;
-    });
-  }, [selectedTown, selectedType, searchQuery, initialJobs]);
+  function buildUrl(overrides: { page?: number; type?: string; town?: string; query?: string }) {
+    const p = new URLSearchParams();
+    const page = overrides.page ?? currentPage;
+    const type = overrides.type !== undefined ? overrides.type : filters.type;
+    const town = overrides.town !== undefined ? overrides.town : filters.town;
+    const query = overrides.query !== undefined ? overrides.query : filters.query;
+    if (page > 1) p.set('page', String(page));
+    if (type) p.set('type', type);
+    if (town) p.set('town', town);
+    if (query) p.set('query', query);
+    const qs = p.toString();
+    return `${pathname}${qs ? `?${qs}` : ''}`;
+  }
+
+  function navigate(overrides: Parameters<typeof buildUrl>[0]) {
+    startTransition(() => router.push(buildUrl(overrides)));
+  }
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    navigate({ query: searchInput, page: 1 });
+  }
+
+  function handleTypeChange(v: string) {
+    navigate({ type: v === 'All Types' ? '' : v, page: 1 });
+  }
+
+  function handleTownChange(v: string) {
+    navigate({ town: v === 'All Towns' ? '' : v, page: 1 });
+  }
+
+  function clearFilters() {
+    setSearchInput('');
+    navigate({ type: '', town: '', query: '', page: 1 });
+  }
 
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
@@ -112,7 +150,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
         </div>
 
         {/* Search Bar */}
-        <div className="px-4 pb-3 pt-1">
+        <form onSubmit={handleSearch} className="px-4 pb-3 pt-1">
           <div className="relative flex items-center w-full h-12 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
             <div className="grid place-items-center h-full w-12 text-text-muted dark:text-text-muted-dark">
               <span className="material-symbols-outlined">search</span>
@@ -121,41 +159,39 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
               className="peer h-full w-full outline-none bg-transparent text-sm text-text-main dark:text-text-main-dark placeholder:text-text-muted dark:placeholder:text-text-muted-dark"
               placeholder="Search careers, companies..."
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="mr-1 p-2 rounded-lg text-text-muted hover:text-moriones-red transition-colors">
+            {searchInput && (
+              <button type="button" onClick={() => { setSearchInput(''); navigate({ query: '', page: 1 }); }} className="mr-1 p-2 rounded-lg text-text-muted hover:text-moriones-red transition-colors">
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             )}
+            <button type="submit" className="sr-only">Search</button>
           </div>
-        </div>
+        </form>
 
         {/* Filter Chips */}
         <div className="px-4 pb-3 flex gap-2">
-          <FilterChip icon="work" label="Type" options={JOB_TYPES} value={selectedType} onChange={setSelectedType} />
-          <FilterChip icon="location_on" label="Town" options={TOWNS} value={selectedTown} onChange={setSelectedTown} />
+          <FilterChip icon="work" label="Type" options={JOB_TYPES} value={filters.type || 'All Types'} onChange={handleTypeChange} />
+          <FilterChip icon="location_on" label="Town" options={TOWNS} value={filters.town || 'All Towns'} onChange={handleTownChange} />
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-24">
+      <main className={`flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-24 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base font-bold text-text-main dark:text-text-main-dark">
-            {filteredJobs.length} job{filteredJobs.length !== 1 ? 's' : ''} found
+            {totalCount} job{totalCount !== 1 ? 's' : ''} found
           </h2>
-          {(selectedTown !== 'All Towns' || selectedType !== 'All Types' || searchQuery) && (
-            <button
-              onClick={() => { setSelectedTown('All Towns'); setSelectedType('All Types'); setSearchQuery(''); }}
-              className="text-xs font-medium text-moriones-red hover:underline"
-            >
+          {isFiltered && (
+            <button onClick={clearFilters} className="text-xs font-medium text-moriones-red hover:underline">
               Clear filters
             </button>
           )}
         </div>
 
-        {filteredJobs.length === 0 && (
+        {initialJobs.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <span className="material-symbols-outlined text-[64px] text-text-muted/20 mb-4">search_off</span>
             <p className="text-text-main font-black">No jobs found</p>
@@ -163,8 +199,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
           </div>
         )}
 
-        {/* Regular Job Cards */}
-        {filteredJobs.map((job) => {
+        {initialJobs.map((job) => {
           const postedDate = new Date(job.created_at);
           const diffTime = Math.abs(new Date().getTime() - postedDate.getTime());
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -200,6 +235,31 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
             </div>
           );
         })}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+            <button
+              onClick={() => navigate({ page: currentPage - 1 })}
+              disabled={currentPage <= 1 || isPending}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-text-main-dark disabled:opacity-30 disabled:cursor-not-allowed hover:border-moriones-red/50 transition-colors"
+            >
+              <span className="material-symbols-outlined text-[16px]">arrow_back_ios</span>
+              Prev
+            </button>
+            <span className="text-xs font-bold text-text-muted dark:text-text-muted-dark">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => navigate({ page: currentPage + 1 })}
+              disabled={currentPage >= totalPages || isPending}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-text-main-dark disabled:opacity-30 disabled:cursor-not-allowed hover:border-moriones-red/50 transition-colors"
+            >
+              Next
+              <span className="material-symbols-outlined text-[16px]">arrow_forward_ios</span>
+            </button>
+          </div>
+        )}
       </main>
 
       {/* FAB */}

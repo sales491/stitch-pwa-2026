@@ -26,6 +26,7 @@ export default function CreateNewJobPostScreen() {
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState(['', '']);
   const [filterError, setFilterError] = useState<string | null>(null);
+  const [websiteUrl, setWebsiteUrl] = useState('');
 
   useEffect(() => {
     async function fetchJob() {
@@ -49,6 +50,7 @@ export default function CreateNewJobPostScreen() {
           setPhone(data.contact.phone || '');
           setEmail(data.contact.email || '');
           setFbUsername(data.contact.fbUsername || '');
+          setWebsiteUrl(data.contact.websiteUrl || '');
         }
 
         // Try to parse salary range back into min/max if possible
@@ -99,7 +101,8 @@ export default function CreateNewJobPostScreen() {
         contact: {
           phone: phone.trim() || undefined,
           email: email.trim() || undefined,
-          fbUsername: fbUsername.trim() || undefined
+          fbUsername: fbUsername.trim() || undefined,
+          websiteUrl: websiteUrl.trim() || undefined
         },
         slug,
       }, editId || undefined);
@@ -256,6 +259,7 @@ export default function CreateNewJobPostScreen() {
               fbUsername={fbUsername} setFbUsername={setFbUsername}
               phone={phone} setPhone={setPhone}
               email={email} setEmail={setEmail}
+              websiteUrl={websiteUrl} setWebsiteUrl={setWebsiteUrl}
               hint="At least one contact method required — job seekers will reach you here."
               colorClass="text-moriones-red"
             />

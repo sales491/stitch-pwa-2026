@@ -11,7 +11,8 @@ export const jobSchema = z.object({
     contact: z.object({
         phone: z.string().optional(),
         email: z.string().optional(),
-        fbUsername: z.string().optional()
+        fbUsername: z.string().optional(),
+        websiteUrl: z.string().url('Must be a valid URL').optional().or(z.literal(''))
     }).optional(),
     slug: z.string()
 });

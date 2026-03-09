@@ -8,6 +8,9 @@ interface ContactSectionProps {
     setPhone: (v: string) => void;
     email: string;
     setEmail: (v: string) => void;
+    /** Optional website/careers/application URL */
+    websiteUrl?: string;
+    setWebsiteUrl?: (v: string) => void;
     /** Text shown below the heading */
     hint?: string;
     /** Tailwind class for the main icon color, e.g. 'text-primary' or 'text-orange-500' */
@@ -23,6 +26,7 @@ export default function ContactSection({
     fbUsername, setFbUsername,
     phone, setPhone,
     email, setEmail,
+    websiteUrl = '', setWebsiteUrl,
     hint = 'At least one contact method is required.',
     colorClass = 'text-primary',
 }: ContactSectionProps) {
@@ -142,6 +146,35 @@ export default function ContactSection({
                     </a>
                 )}
             </div>
+
+            {/* Website / Careers URL (optional) */}
+            {setWebsiteUrl !== undefined && (
+                <div>
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
+                        <span className="material-symbols-outlined text-[16px] text-violet-500">language</span>
+                        Website / Careers Page
+                        <span className="font-normal text-slate-400">(optional)</span>
+                    </label>
+                    <input
+                        type="url"
+                        placeholder="https://yourcompany.com/careers"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:border-violet-400 placeholder-slate-400 transition-colors"
+                    />
+                    {websiteUrl.trim() && (
+                        <a
+                            href={websiteUrl.trim()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 inline-flex items-center gap-0.5 text-xs text-violet-600 hover:underline"
+                        >
+                            <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                            {websiteUrl.trim()}
+                        </a>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
