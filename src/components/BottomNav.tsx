@@ -7,7 +7,7 @@ const navItems = [
     { label: 'Home', href: '/', icon: 'home' },
     { label: 'Market', href: '/marketplace', icon: 'storefront' },
     { label: 'Businesses', href: '/directory', icon: 'business' },
-    { label: 'Commute Terminal', href: '/commute', icon: 'directions_car' },
+    { label: 'Commute', href: '/commute', icon: 'directions_car' },
     { label: 'Community', href: '/community', icon: 'groups' },
     { label: 'Account', href: '/profile', icon: 'person' },
 ];
