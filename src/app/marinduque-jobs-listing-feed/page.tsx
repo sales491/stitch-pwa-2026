@@ -1,12 +1,6 @@
-import MarinduqueJobsListingFeed from '@/components/MarinduqueJobsListingFeed';
-import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
-export default async function Page() {
-  const supabase = await createClient();
-  const { data: jobs } = await supabase
-    .from('jobs')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  return <MarinduqueJobsListingFeed initialJobs={jobs || []} />;
+// This route is superseded by /jobs — redirect there
+export default function Page() {
+  redirect('/jobs');
 }
