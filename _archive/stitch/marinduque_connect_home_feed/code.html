@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marinduque Connect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4c025",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221e10",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        /* Custom scrollbar hiding for horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden relative">
+<!-- Header Section -->
+<header class="bg-white dark:bg-slate-900 sticky top-0 z-20 border-b border-slate-200 dark:border-slate-800">
+<!-- Top Bar -->
+<div class="flex items-center justify-between px-4 py-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 32px;">grid_view</span>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Marinduque Connect</h1>
+</div>
+<button class="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pb-3">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-xl leading-5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all sm:text-sm" placeholder="Search items, jobs, or services..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Town Filter (Horizontal Scroll) -->
+<div class="pt-4 pb-2">
+<div class="flex gap-2 overflow-x-auto px-4 no-scrollbar">
+<button class="flex-shrink-0 px-4 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full text-sm font-medium whitespace-nowrap shadow-sm">
+                    All Towns
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Boac
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Mogpog
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Gasan
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Buenavista
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Torrijos
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium whitespace-nowrap hover:border-primary hover:text-primary transition-colors">
+                    Santa Cruz
+                </button>
+</div>
+</div>
+<!-- Categories Grid -->
+<div class="px-4 py-4">
+<h2 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Browse Categories</h2>
+<div class="grid grid-cols-4 gap-2 text-center">
+<a class="flex flex-col items-center gap-2 group" href="#">
+<div class="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">Classifieds</span>
+</a>
+<a class="flex flex-col items-center gap-2 group" href="#">
+<div class="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+<span class="material-symbols-outlined">work</span>
+</div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">Jobs</span>
+</a>
+<a class="flex flex-col items-center gap-2 group" href="#">
+<div class="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+<span class="material-symbols-outlined">directions_bus</span>
+</div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">Transport</span>
+</a>
+<a class="flex flex-col items-center gap-2 group" href="#">
+<div class="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="text-xs font-medium text-slate-700 dark:text-slate-300">Directory</span>
+</a>
+</div>
+</div>
+<!-- Recent Listings (Masonry-like Grid) -->
+<div class="px-4">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Fresh Picks</h2>
+<a class="text-sm font-medium text-primary hover:text-yellow-600 dark:hover:text-yellow-300" href="#">View All</a>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Listing Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer border border-slate-100 dark:border-slate-800">
+<div class="relative aspect-square overflow-hidden bg-slate-200">
+<img alt="Locally woven nito basket" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Handwoven nito basket close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI72EeklOKaHa4dFu6HmFTeVllf1FmHQQrpt5mC87orL8xDJAPHWuQmbMgkgdA-X2doyvBkPGHHUJFpeA2im1yqdsTCFbjFeC0_Z9YpHH0_EsOaCYOiEeDlCu6guXmm1wLk-NwdzZ93vJuwz1thpszGVW3PfyuafHU24BE2ud1l6nHNc-BkC0DsAeQpf4C_y8IMZShx8rpCVTQp2-JFD-prxr1d935x8LKCQI3FHrhAkRo3BL3F_cXZKbFQZOniKz1Es7L7V-Jw_c"/>
+<div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">location_on</span>
+                            Boac
+                        </div>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-slate-900 dark:text-white text-sm line-clamp-1">Handwoven Nito Basket</h3>
+</div>
+<p class="text-primary font-bold text-base">₱350</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 2h ago
+                        </p>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer border border-slate-100 dark:border-slate-800">
+<div class="relative aspect-square overflow-hidden bg-slate-200">
+<img alt="Second hand motorcycle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Red motorcycle parked on street" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk0kDOPPYb4c7bGopGGxB2R1UAAqGGbnXuTd2HdP73n4XHzB0eetLnKW5_fz6azcJPCH73ujrwKdB6h54n8pcrJarVggUuNwsFX1btVWYwdZYMD-r2GXiV0dxdWHOXQ9O_9DXmPyjUuiGPSMEhn5V0egK6_a-3Sc8bXTR8eC39OV7zBt0txlXDxBZnJqdS3iyXeNsxbWxqP_6d1opULjYc5fw8NLXCfFpjPd_L4gJx0bNA0UEKnoI0CzE_Ybbaj3Oa2otaJitD-c8"/>
+<div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">location_on</span>
+                            Gasan
+                        </div>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-slate-900 dark:text-white text-sm line-clamp-1">Honda Click 125i (2022)</h3>
+</div>
+<p class="text-primary font-bold text-base">₱65,000</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 4h ago
+                        </p>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer border border-slate-100 dark:border-slate-800">
+<div class="relative aspect-square overflow-hidden bg-slate-200">
+<img alt="Office desk setup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern office desk with computer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYgrvR4B-F_JqwoxihoD5rVVptOydJQKgxDZsGk_AEDFN201ci-Fce6B7hphuy-O5uWJrFjEMmbg2lcJOvz_RqxMNAISEvEMcYeLHqFGXSnJIcgb8blrbEUD7SHF2ru378rF3Aj43YJiSszCNXV9CDdfXBfULb_V2idzsEcwRfWgjOkvwxsO1UsMBXmA70qUOPhD3t-30W_Fxr0LqrIqtCeZQHg7AWDwX8DrdPFASt0Oi3OoQxyA9Q-S9OOSyzLucnu_Oel9pZj5U"/>
+<div class="absolute top-2 right-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
+                            Job
+                        </div>
+<div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">location_on</span>
+                            Mogpog
+                        </div>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-slate-900 dark:text-white text-sm line-clamp-1">Office Assistant Needed</h3>
+</div>
+<p class="text-primary font-bold text-sm">Negotiable</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 1d ago
+                        </p>
+</div>
+</div>
+<!-- Listing Card 4 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer border border-slate-100 dark:border-slate-800">
+<div class="relative aspect-square overflow-hidden bg-slate-200">
+<img alt="Dried Fish products" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Packaged dried fish products" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE3K78ytFbP5QcpF3eOe2x1z6skDGF6akFNXeifUAgjjj3NzUoRnAaa4AKKp8PzQeTR9tSYJN-V-uWnmUtD2BMBRH09Sn6W7N1MH1i0-3wFK0OmVmoiLRfIfuvxORkPtD0CxaRn74ZugRldFFQGC8Fa8BjZn_0xETTIbmR6hf5ZuSX8MPB6x_70mPoovy_aFcxXiq6LTKlHREL4KlEvALOMdjQkxnw7UR5kksSBAjL0JOZ6ySF0g2gVS4ljvCtJON7rkqMPs9qIE8"/>
+<div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">location_on</span>
+                            Sta. Cruz
+                        </div>
+</div>
+<div class="p-3">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-slate-900 dark:text-white text-sm line-clamp-1">Dried Pusit (Per Kilo)</h3>
+</div>
+<p class="text-primary font-bold text-base">₱800</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 5h ago
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Service Banner -->
+<div class="px-4 py-6">
+<div class="relative w-full h-32 rounded-xl overflow-hidden shadow-md">
+<img alt="Van transport service" class="w-full h-full object-cover" data-alt="White van driving on scenic road" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlZOBFZMk8hYdH98gt7JbOOoOQD8uMFFMoR92Txpa5f16-pe-AYvWmzAKP6Kdi4CmHnryGmXSFe7sAqDnMaHxhSfiiP-gS2rsidWfqLFC-L0DXXm7AWIAgRDaLKZN6Nxao-aTg07dC8sIKmAXqwO_SP94JpXHWtv60FRA7ST-92SYdxdI5QC7zyYY8YOFjTXH3ezGvJBn6OWkYhh9Nc4Q_kPpcuAoD-SaAOB0lpsEKNS_Qwe5PhMFTaFqHAgiWXaUjwjuREIrUIHE"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-center p-4">
+<h3 class="text-white font-bold text-lg mb-1">Manila to Marinduque?</h3>
+<p class="text-slate-200 text-xs mb-3">Book door-to-door van services easily.</p>
+<button class="bg-primary text-slate-900 text-xs font-bold px-4 py-2 rounded-lg self-start hover:bg-yellow-400 transition-colors">
+                        Check Schedules
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 pb-safe pt-2 px-4 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] max-w-md mx-auto">
+<div class="flex justify-between items-center pb-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 group" href="#">
+<div class="p-1 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<span class="text-[10px] font-medium text-slate-900 dark:text-slate-100">Home</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">storefront</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary transition-colors">Market</span>
+</a>
+<!-- FAB for Post -->
+<div class="relative -top-5">
+<button class="flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 transform transition-transform active:scale-95 border-4 border-white dark:border-slate-900">
+<span class="material-symbols-outlined text-white text-3xl">add</span>
+</button>
+</div>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary transition-colors">Messages</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">person</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary transition-colors">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gems of Marinduque</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2d00d",
+                        "primary-dark": "#d9b800",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "card-light": "#ffffff",
+                        "card-dark": "#2d2a1d",
+                        "text-main": "#181711",
+                        "text-secondary": "#8a8460",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Custom Masonry Layout fallback using columns */
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 0.75rem;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0.75rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-text-main min-h-screen flex flex-col overflow-x-hidden">
+<!-- Header & Search -->
+<header class="sticky top-0 z-20 bg-card-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-background-light dark:border-background-dark/10 shadow-sm transition-colors duration-300">
+<div class="px-4 pt-5 pb-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">diamond</span>
+<h1 class="text-xl font-bold tracking-tight text-text-main dark:text-gray-100">Gems of Marinduque</h1>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-background-light dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-text-main dark:text-gray-100" style="font-size: 24px;">notifications</span>
+</button>
+</div>
+<div class="px-4 pb-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full pl-10 pr-12 py-3 rounded-xl border-none bg-background-light dark:bg-white/5 text-text-main dark:text-gray-100 placeholder-text-secondary focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-black/20 transition-all shadow-sm" placeholder="Share a Gem or find a place..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<button class="p-1.5 rounded-lg bg-primary text-text-main hover:bg-primary-dark transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">photo_camera</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex gap-2 px-4 pb-3 overflow-x-auto no-scrollbar w-full">
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-primary text-text-main font-semibold text-sm shadow-sm">
+                All Gems
+            </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-background-light dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-secondary dark:text-gray-300 font-medium text-sm transition-all whitespace-nowrap">
+<span class="mr-1 material-symbols-outlined align-middle" style="font-size: 16px;">beach_access</span>
+                Beaches
+            </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-background-light dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-secondary dark:text-gray-300 font-medium text-sm transition-all whitespace-nowrap">
+<span class="mr-1 material-symbols-outlined align-middle" style="font-size: 16px;">church</span>
+                Heritage
+            </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-background-light dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-secondary dark:text-gray-300 font-medium text-sm transition-all whitespace-nowrap">
+<span class="mr-1 material-symbols-outlined align-middle" style="font-size: 16px;">restaurant</span>
+                Food
+            </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-background-light dark:bg-white/5 border border-transparent hover:border-primary/50 text-text-secondary dark:text-gray-300 font-medium text-sm transition-all whitespace-nowrap">
+<span class="mr-1 material-symbols-outlined align-middle" style="font-size: 16px;">hiking</span>
+                Nature
+            </button>
+</div>
+</header>
+<!-- Main Feed (Masonry) -->
+<main class="flex-1 px-4 py-4 w-full max-w-2xl mx-auto">
+<div class="masonry-grid">
+<!-- Card 1 -->
+<div class="masonry-item relative group rounded-2xl overflow-hidden bg-card-light dark:bg-card-dark shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="relative w-full aspect-[4/5] overflow-hidden">
+<img alt="Tropical white sand beach with clear blue water and coconut trees" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Poctoy White Beach sunny day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtrXOqDVgL69LjOxVWAA9nO_SXy0z31K588lI3K9hsFvDzKDZv71X6oygWgA4pTC0aY3LFAEPIxtKuipbf6b-zp8QgZIWVuUuKz89TOdp0YJtgd7_r3VyzI5FJdVC9GuSDRxlcYRZkZwpKDB8DR5HW7JGBjhtHfOq7NM5ItoetwkCLXS5Q9tmK-6i1MfZx5kULnmoVt9k_gTNuIVFDsruwsz9aqm-PnWuQkEW-c61AYlOy43tk89AWx9RuiqXfLMbXLCHvlzRgvQA"/>
+<div class="absolute top-3 right-3 p-1.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 cursor-pointer transition-colors">
+<span class="material-symbols-outlined block" style="font-size: 20px;">favorite</span>
+</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-text-main dark:text-gray-100 text-lg leading-tight mb-1">Poctoy White Beach</h3>
+<div class="flex items-center gap-1 mb-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Torrijos, Marinduque</span>
+</div>
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 mb-3">
+                        The sunset here is absolutely magical. Best place to unwind after a long week.
+                    </p>
+<div class="flex items-center gap-2 mt-auto">
+<img alt="Portrait of a smiling woman" class="w-6 h-6 rounded-full object-cover border border-background-light" data-alt="User avatar smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABXvAeMEFZMabjghkJKLLdVzGGGvet5UdQO_aiJiS0iZ4ycXJbZQ2u-VeJSWV8NVRL7dEWxPh0Thy6yjiGZHTo8_ajYUWa0Wrumi-Rv6F1N4s75xRLnSNf82r46Gsgsa1hnrrczxbDCFlv4hestHmzpZADF0xEYu8ZeOfLtmueY73y_qZ9fPMsjtOaKn-KryTpm8QhMIKXzMzz4-x1O1DtkH52qLEWy_As_ewDLVJk_lzz6hpZUmfZA-fwFJdYsWqZX2Fh9sWw4Vc"/>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Maria S.</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="masonry-item relative group rounded-2xl overflow-hidden bg-card-light dark:bg-card-dark shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="relative w-full aspect-[3/2] overflow-hidden">
+<img alt="Historic stone church facade with spanish architecture" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Boac Cathedral historic stone facade" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdh2E4CRyeLhFyTnxILtr9kYrUifKwS5GFCMEGYpA99jHHWHuDMgD7Qo8EbwZkkycVWT8JGPX494ePtVd7BBl7iZDyG1M5OL7o1g-w_D5ii7d2Aucj_KeTcRLJdgVx61tMqFFhjS4OLcEwthK7RYL7Y3b86nCGIXI_oHZCGhh0PpbdK4i8-cswnG6NWMOmWt6eQgPVQdA4HDvp6pRFyRs98z75P7Cv4648_AFxNJ2e7mEEeL7q811Qez-Sx8luAReJK4TRoP-uKpU"/>
+<div class="absolute top-3 right-3 p-1.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 cursor-pointer transition-colors">
+<span class="material-symbols-outlined block" style="font-size: 20px;">favorite</span>
+</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-text-main dark:text-gray-100 text-lg leading-tight mb-1">Boac Cathedral</h3>
+<div class="flex items-center gap-1 mb-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Boac, Marinduque</span>
+</div>
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 mb-3">
+                        Lighting a candle for peace. The architecture is breathtakingly preserved.
+                    </p>
+<div class="flex items-center gap-2 mt-auto">
+<img alt="Portrait of a man with glasses" class="w-6 h-6 rounded-full object-cover border border-background-light" data-alt="User avatar man glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIBWiJNJKtlvp0PuXny1DiTxWvQw8DwagNMhR4hMCvEQ0M2Z1VLczgm1aagQQLDb-VGN3b-OI3VOPyR1lAN5vTqjvjPOCkC3pRe4lV2Rm95WMQqK5PFxGYbuXNnNEU-ds1zWfm0a-nP1Z-DXFwzSNwid2Np2-0ttBUPNRzAs6_t6DbeRQ8gyRjAYv8Fgwo_9j0oyMZ6gAqtHDeFKMAqDze4IWaovg-Vgz041ix1jlRzS1DrEu1blV3LIAQ2SZN3FeXVU7oKywPkow"/>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Juan D.</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="masonry-item relative group rounded-2xl overflow-hidden bg-card-light dark:bg-card-dark shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="relative w-full aspect-[3/4] overflow-hidden">
+<img alt="Pristine white sandbar in the middle of turquoise ocean" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Maniwaya Island sandbar aerial view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3J5M-t1zd8gypDITj3bW_Gcg39Z5TVmJITHWa1pBdpDEVU3gUvCXYmPxkiHBTI3XcmpWqimWAqIr-jCudeB1ZXmF4Y2VWb52dknkPkVGtrHGQp5NLTBbeIfnmYHTLTELEhVzAMSrI3znm35zMEcQXNUII-m5mZFgS4-u_U-E3MBKnmI7vYLZzHg_VBHFQy-cv8LGyt85ivMgojAB3TvLnDog0N0EF7G5KK4XvEOo-u4cqeV4MH0mCLEtsFt2vQBpjK6seZtAUyuc"/>
+<div class="absolute top-3 right-3 p-1.5 rounded-full bg-primary text-text-main shadow-lg transform scale-100 transition-transform">
+<span class="material-symbols-outlined block fill-current" style="font-size: 20px; font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-text-main dark:text-gray-100 text-lg leading-tight mb-1">Maniwaya Island</h3>
+<div class="flex items-center gap-1 mb-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Santa Cruz</span>
+</div>
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 mb-3">
+                        Paradise found! The sandbar appeared right at low tide.
+                    </p>
+<div class="flex items-center gap-2 mt-auto">
+<img alt="Portrait of a smiling man" class="w-6 h-6 rounded-full object-cover border border-background-light" data-alt="User avatar smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW6h3n7nSCp1up5tTLlzQj70rDnKKMyw1oUN8v3Phs0jKNssTGzJtDOaOLLSBfYvijuwbtsAUpmlLTNuDOs2HVk6RrgzY5Mh0FX4xGIGjSW9rlumCYYa4FD1l97rfj1Z3bfwCGpYYd50NcqxgPZdW00pjTcN26A4fUfXj5yxcRugzwVEDhqT01cGDs-nRkUAybQ0VkxFtXrz-Ly4FdsruCkbRM5OPmnqDZEHDoPzxYGVaarcIpaNhIaOEPh_ZvU_1EcyGj8HcqGkc"/>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Lito M.</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="masonry-item relative group rounded-2xl overflow-hidden bg-card-light dark:bg-card-dark shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<img alt="Close up of traditional moriones festival mask" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Moriones Festival mask colorful" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6g8TTI4Gef9_JTO7kB3Nl8FwrnMbmGzqkyr5GMXpfhnHMyYn8ivXNZKcIGtklswBBpsXZOR8WTHkS59M7uXE0zwcUXPX8LxxATrB3VsWe5dOHXTICaxEhGSgIpuwm2Y4Fwz5Lbh-x4EzFuE2AvSh2RLZcJ5BYMbQgePEvmeGbGZsqYbXtd7YOrChwuljxNHr03JTVfGVvgzacOFun1ZJ7jtx2sdFhOEQxMlUWvRNhGULzOrOnC5dXNFW8nCKFaQfwTJ4W4Xx_f48"/>
+<div class="absolute top-3 right-3 p-1.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 cursor-pointer transition-colors">
+<span class="material-symbols-outlined block" style="font-size: 20px;">favorite</span>
+</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-text-main dark:text-gray-100 text-lg leading-tight mb-1">Moriones Festival</h3>
+<div class="flex items-center gap-1 mb-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Boac Town Plaza</span>
+</div>
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 mb-3">
+                        Getting ready for Holy Week. The masks are intricate this year!
+                    </p>
+<div class="flex items-center gap-2 mt-auto">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-[10px] font-bold border border-background-light">
+                            JS
+                        </div>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Jenny S.</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="masonry-item relative group rounded-2xl overflow-hidden bg-card-light dark:bg-card-dark shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="relative w-full aspect-[3/4] overflow-hidden">
+<img alt="Mystical cave interior with stalactites" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Bathala Caves interior rock formations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBySILFeyYFsX8dw_QmUgD0Qbn3cbLFbVEO5sWFYg-5AazVzDJcAzocnqjxpBpIqNGbIm7GDjPY1ZSOo9gCn3bZ5XBwGszJQTrReg77KwwxIgZE1DZe4YKGkNeh2yIQsA6oiUjAZNhnNdtt2q_ob1RSbBnUIQdkKEmA9ilbpDpIZhar-_eDAZfzx6FPwApfVpkNuki1ZSyD6ay-oyzDlbDaIr7CSYPRU10Kk1CMUJ1csJZ5s2rpZPnY6cFNL8VNu4nC1-eBi7TO7Xo"/>
+<div class="absolute top-3 right-3 p-1.5 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 cursor-pointer transition-colors">
+<span class="material-symbols-outlined block" style="font-size: 20px;">favorite</span>
+</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-text-main dark:text-gray-100 text-lg leading-tight mb-1">Bathala Caves</h3>
+<div class="flex items-center gap-1 mb-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Santa Cruz</span>
+</div>
+<p class="text-sm text-text-main/80 dark:text-gray-300 line-clamp-2 mb-3">
+                        Spooky yet serene. The light filtering through is divine.
+                    </p>
+<div class="flex items-center gap-2 mt-auto">
+<img alt="Portrait of a young woman" class="w-6 h-6 rounded-full object-cover border border-background-light" data-alt="User avatar young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIfQ_CWJ0iuRclWehwN_YPgBMjWLTd7kH-o9mX4pTAmrJuVGDUhxuCtZJnMdVadMahxT2496BOySSiYIWAG4qfhL7smn1tR2zrQjuZpqwQUlOjLmNHeWNrXEhrZ9kxlgn_xMxwNtHqZAYUabzZ5MvmEJrfBQUpYYD-9hF3QNrghGd-2RKIEMecW3Y_S5Cfl7-sOyzX4BFjbY4vJSWtz6Yj_M3QKAJx_CYpnyAxirCy12137D3nlqEWUhDedi2EKgmWI55RfiryozI"/>
+<span class="text-xs font-medium text-text-secondary dark:text-gray-400">Ana R.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Loading State Indicator -->
+<div class="flex justify-center py-6">
+<div class="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="sticky bottom-0 z-30 w-full bg-card-light dark:bg-card-dark border-t border-background-light dark:border-white/5 pb-safe">
+<div class="flex items-center justify-around px-2 pt-2 pb-4">
+<a class="flex flex-col items-center justify-center gap-1 w-16 group" href="#">
+<div class="relative p-1 rounded-full group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-text-main dark:text-primary fill-current" style="font-size: 24px; font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<span class="text-[10px] font-semibold text-text-main dark:text-primary">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group" href="#">
+<div class="relative p-1 rounded-full group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200" style="font-size: 24px;">map</span>
+</div>
+<span class="text-[10px] font-medium text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200">Map</span>
+</a>
+<!-- Center Add Button -->
+<a class="flex flex-col items-center justify-center -mt-6" href="#">
+<div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg transform active:scale-95 transition-all border-4 border-white dark:border-background-dark">
+<span class="material-symbols-outlined text-text-main" style="font-size: 32px;">add</span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group" href="#">
+<div class="relative p-1 rounded-full group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200" style="font-size: 24px;">favorite</span>
+</div>
+<span class="text-[10px] font-medium text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-16 group" href="#">
+<div class="relative p-1 rounded-full group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200" style="font-size: 24px;">person</span>
+</div>
+<span class="text-[10px] font-medium text-text-secondary dark:text-gray-400 group-hover:text-text-main dark:group-hover:text-gray-200">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

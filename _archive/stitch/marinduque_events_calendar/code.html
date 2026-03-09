@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marinduque Events Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#f2d00d",
+                "background-light": "#f8f8f5",
+                "background-dark": "#221f10",
+                "neutral-light": "#e6e5df",
+                "neutral-dark": "#3a3629",
+                "text-primary-light": "#181711",
+                "text-primary-dark": "#f8f8f5",
+                "text-secondary-light": "#8a8460",
+                "text-secondary-dark": "#a39e85"
+              },
+              fontFamily: {
+                "sans": ["Plus Jakarta Sans", "sans-serif"],
+                "display": ["Plus Jakarta Sans", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="relative min-h-screen flex flex-col pb-24">
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-white/90 dark:bg-neutral-dark/90 backdrop-blur-md border-b border-neutral-light dark:border-neutral-dark/50 px-4 pt-12 pb-3">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-size: 28px;">festival</span>
+<h1 class="text-xl font-bold tracking-tight">Marinduque Events</h1>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark/50 transition-colors">
+<span class="material-symbols-outlined text-text-primary-light dark:text-text-primary-dark">search</span>
+</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark/50 transition-colors">
+<span class="material-symbols-outlined text-text-primary-light dark:text-text-primary-dark">notifications</span>
+</button>
+</div>
+</div>
+<!-- Calendar Strip -->
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark">April 2024</span>
+<span class="text-xs font-medium text-primary">Today</span>
+</div>
+<div class="flex justify-between items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-primary text-black shadow-sm">
+<span class="text-xs font-medium opacity-80">Mon</span>
+<span class="text-lg font-bold">12</span>
+<div class="w-1 h-1 rounded-full bg-black mt-1"></div>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary transition-colors">
+<span class="text-xs font-medium">Tue</span>
+<span class="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">13</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary transition-colors">
+<span class="text-xs font-medium">Wed</span>
+<span class="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">14</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary transition-colors">
+<span class="text-xs font-medium">Thu</span>
+<span class="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">15</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary transition-colors">
+<span class="text-xs font-medium">Fri</span>
+<span class="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">16</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[48px] h-16 rounded-2xl bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary transition-colors">
+<span class="text-xs font-medium">Sat</span>
+<span class="text-lg font-bold text-text-primary-light dark:text-text-primary-dark">17</span>
+</button>
+</div>
+</header>
+<!-- Town Filter -->
+<div class="px-4 py-4 flex gap-3 overflow-x-auto hide-scrollbar sticky top-[180px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-0">
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-text-primary-light dark:bg-white text-white dark:text-black text-sm font-semibold shadow-sm">
+                All Towns
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Boac
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Mogpog
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Gasan
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Buenavista
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Torrijos
+            </button>
+<button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white dark:bg-neutral-dark border border-neutral-light dark:border-neutral-dark/50 text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium whitespace-nowrap hover:bg-neutral-light dark:hover:bg-neutral-dark/80">
+                Santa Cruz
+            </button>
+</div>
+<!-- Event Feed -->
+<main class="px-4 flex flex-col gap-6">
+<!-- Featured Event Card -->
+<article class="group bg-white dark:bg-neutral-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50">
+<div class="relative h-48 w-full">
+<img alt="Moriones Festival Parade participants in masks" class="w-full h-full object-cover" data-alt="Colorful festival parade participants in gold masks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV0I0T9NGtATyFYab1qdP7SReO_db4ErLS9IIxKsDWGpOauFvR-2JtBe5u1Sl5QrEH2KRFmrlXY1I-g5C3sKkEPCQ6-N9lvLR74xYc7ny27IswCrUCGskqFFLhjgzNoctsjjRbcQdfmgKLLfQ-cFG1Cplwn-URaCKjaiMU-w97_FZjZccZxpTfiwblE4dUYQuO-47jJ9KvLmV-e7uDXTRquMEfqbQvykEF0EDR_HTGG5Y_Sc9OqfHCLiRu13ahwbCzi3Juk3Q2rSw"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-primary text-sm">local_fire_department</span>
+<span class="text-xs font-bold text-text-primary-light dark:text-white">Trending</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h2 class="text-lg font-bold text-text-primary-light dark:text-white leading-tight mb-1">Moriones Festival Grand Parade</h2>
+<div class="flex items-center gap-1 text-text-secondary-light dark:text-text-secondary-dark text-sm">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Boac Town Plaza</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-xs font-bold text-primary bg-primary/10 dark:bg-primary/20 px-2 py-1 rounded text-center">APR 12</span>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark bg-neutral-light dark:bg-neutral-dark/80 px-2 py-0.5 rounded">8:00 AM</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark bg-neutral-light dark:bg-neutral-dark/80 px-2 py-0.5 rounded">Cultural</span>
+</div>
+<div class="flex items-center justify-between border-t border-neutral-light dark:border-neutral-dark/50 pt-3 mt-1">
+<div class="flex -space-x-2">
+<img alt="User avatar" class="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark object-cover" data-alt="Portrait of a woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOFaDwUktJ7Bg8YNL5Tc-jYyWpxXniFbf8JDJlclRsWiVtpmZfdDu65h1-X6jbZXNh5ZeFUoyWHu6UpxIgS26QF3AT2OO-4g01k7IRO7mIByvh6v6roFn9tce095KSkj7yh9RkviBCOj8vpI9EoCI0LymZ6EBAY7scsvmB9Dd-qyz_U5aXva1iiMHImIsFUM4WgIkyYaDvNTbA9F5YO4xgY2AWPsO3zOKRbtTxuOY9NaKdcUrbyqyVLGQSG61Hnjh2a0B_qQbvW8c"/>
+<img alt="User avatar" class="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark object-cover" data-alt="Portrait of a man smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAuRcGtnOr3Je7GjnKHZFw7l-IdwbjXTd2mYx8BHKLWBr64og6SW8F3UAKV71hoBnHXKl0m5NFqmO9RNT5vMLkraeQ-t0Q09gMfZyW2Vdpk3g8HObgr22bb2N4sMAhgSQ-XoangzA9jSvL9Qh9PBV9DSJr6gc9wdTK65fRH4hHSJNZbHXfBBeK9WvT_Saj0C4flMB7QZJzsaRGuxngG-Paj3YlX5lSn3oYXqz2ySxQaGGNBPUCUQlfWOv3VfSrzweOKvUyeQKkL3Y"/>
+<img alt="User avatar" class="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark object-cover" data-alt="Portrait of a young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-NoBIGx6PC5j4eoi6JwaeGyYUTCwmRbq4MDUZXfFckKzYipWaPnwPk-2hemirQLI2VIQGwmHbkQKpXL0oN09lOXb6ugC_TVPxKgZGrL-t15SCPhbsdOVYE33jUJn7J1rsbBQci9Bqn-Bfl3WU9fphilcYZbY46UeJ_c2JRIKRdVF_kziGpKetJTBaV3G0HIchl77yplNks1hWDrHvXZNC6BIWsJsJol3yqD9OlYn8q9d4fBG98XOBLB5KmzcGn6xC5oIRE0hBHaI"/>
+<div class="w-7 h-7 rounded-full border-2 border-white dark:border-neutral-dark bg-neutral-light dark:bg-neutral-dark/80 flex items-center justify-center text-[10px] font-bold text-text-secondary-light dark:text-text-secondary-dark">+242</div>
+</div>
+<p class="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark">245 Going</p>
+</div>
+</div>
+</article>
+<!-- Regular Event Card 1 -->
+<article class="flex gap-4 bg-white dark:bg-neutral-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50 items-center">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
+<img alt="Community feast table setting" class="w-full h-full object-cover" data-alt="Long table set for community feast outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbTDXagTE1-WXHm2F6rVuYYiRpUYDYHxGEkUjqFHcMGEADqNFV7Z4cYINmitmjb5mVyrUUJGyRMhrCJEft-bS714a8Saj0WxT97_F6mUpCcCb8lTt9qAaT_tuT1gXUTIvE_Bhc4-ZZLMhcJsZWWFa1nVy3BKvCjuNR9A9-Sye3A92c3yDu7hTKGQb2lwH3uSK8jaX8hIzKkt0OdtBzc4TFXPhpprwHYtUljw0qctAx5d9f8eFI1N1XxXY5BcXFOdd1DybQ7x9YhfY"/>
+<div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-primary uppercase tracking-wide">Mogpog</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Apr 14</span>
+</div>
+<h3 class="text-base font-bold text-text-primary-light dark:text-white truncate mb-1">Barangay Fiesta: Market Day</h3>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mb-2 truncate">Join us for fresh produce and local handicrafts.</p>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-xs text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-sm">group</span>
+<span>42 Going</span>
+</div>
+<button class="ml-auto text-xs font-bold text-text-primary-light dark:text-black bg-primary px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors">
+                            I'm In
+                        </button>
+</div>
+</div>
+</article>
+<!-- Regular Event Card 2 -->
+<article class="flex gap-4 bg-white dark:bg-neutral-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50 items-center">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
+<img alt="Basketball game at night" class="w-full h-full object-cover" data-alt="Basketball players playing on outdoor court at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTGVg_3YBrGUS0ArPdxJPQpzLbK2wVhKphJN6HRflI9V-YJrWkRimRa0jf3QAqxV5ukytBvSaarts7Tk0HJ-OYqLLS5Jzy3xdbxI9NgL3x8OvbeJvhmQTYVGh8iMyMrPaPPSh1nIWqWALjNzBOwC6LLCIkzR2QuTvjgkwkZn0FjPeZ8tZggF-JWSzrsaw6YmnutCOoESooTuiRrXSUZ6UrJSiO-RoCZmQneDaCy5_JbAV9ZLb57IlZ5EwnUxAquX4i_sAyIFNxIA4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-primary uppercase tracking-wide">Gasan</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Apr 15</span>
+</div>
+<h3 class="text-base font-bold text-text-primary-light dark:text-white truncate mb-1">Inter-Brgy Basketball Finals</h3>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mb-2 truncate">Covered Court, Brgy. Poblacion</p>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-xs text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-sm">group</span>
+<span>156 Going</span>
+</div>
+<button class="ml-auto text-xs font-bold text-text-primary-light dark:text-text-primary-light bg-neutral-light dark:bg-neutral-dark/50 px-3 py-1.5 rounded-lg hover:bg-neutral-200 transition-colors">
+                            Details
+                        </button>
+</div>
+</div>
+</article>
+<!-- Regular Event Card 3 -->
+<article class="flex gap-4 bg-white dark:bg-neutral-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-shadow border border-neutral-light dark:border-neutral-dark/50 items-center">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
+<img alt="Church interior" class="w-full h-full object-cover" data-alt="Interior of an old stone church with sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM-zCUSwhw6EEojDX51CCg3yRxvJjPQQXU-8PTxbKGQYr_DDC8GnuK5nNlmGz3SKgtL8fcqN9mwTQFrbLum8RwgBABY8O36jtIvbMZ_Woy4UjdgP7UdEoCP6oDg60gyZspLwpJBAZWuKsITCl_EJwr_evFMvSwEXTEUb3AtL90LLwWvRhYpS1n-yxByZ-XtwrKfo5wHcOZiU-tB3hFMcvqVoKW6kMcWST1yTUY6qGeKdxGjCyypT5XzKPPTljHSaVS4vEfQuLEs-8"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-primary uppercase tracking-wide">Boac</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Apr 16</span>
+</div>
+<h3 class="text-base font-bold text-text-primary-light dark:text-white truncate mb-1">Sunday Mass &amp; Procession</h3>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mb-2 truncate">Boac Cathedral</p>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-xs text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-sm">group</span>
+<span>89 Going</span>
+</div>
+<button class="ml-auto text-xs font-bold text-text-primary-light dark:text-text-primary-light bg-neutral-light dark:bg-neutral-dark/50 px-3 py-1.5 rounded-lg hover:bg-neutral-200 transition-colors">
+                            Details
+                        </button>
+</div>
+</div>
+</article>
+</main>
+</div>
+<!-- Floating Action Button -->
+<button class="fixed right-4 bottom-20 z-50 flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-black text-3xl">add</span>
+</button>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 bg-white dark:bg-neutral-dark border-t border-neutral-light dark:border-neutral-dark/50 pb-safe">
+<div class="flex justify-around items-center px-2 py-3">
+<a class="flex flex-col items-center gap-1 w-full text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-primary" href="#">
+<span class="material-symbols-outlined text-2xl fill-current">calendar_month</span>
+<span class="text-[10px] font-medium">Events</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">storefront</span>
+<span class="text-[10px] font-medium">Market</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-full text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</div>
+</nav>
+<script>
+        // Simple script to handle active state visual feedback
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Just for visual interaction feedback
+                this.classList.add('opacity-80');
+                setTimeout(() => {
+                    this.classList.remove('opacity-80');
+                }, 150);
+            });
+        });
+    </script>
+</body></html>

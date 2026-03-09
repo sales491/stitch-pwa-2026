@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f4c025",
+              "background-light": "#f8f8f5",
+              "background-dark": "#221e10",
+              "neutral-100": "#f5f3f0", 
+              "neutral-200": "#e6e3db", 
+              "neutral-500": "#8a8060", 
+              "neutral-900": "#181611",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem", 
+              "lg": "0.5rem", 
+              "xl": "0.75rem", 
+              "2xl": "1rem",
+              "full": "9999px"
+            },
+            backgroundImage: {
+              'buntal-pattern': "radial-gradient(#e6e3db 1px, transparent 1px)",
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .buntal-bg {
+        background-color: #f8f8f5;
+        background-image: radial-gradient(#d6d3cb 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      .dark .buntal-bg {
+        background-color: #221e10;
+        background-image: radial-gradient(#3a3420 1px, transparent 1px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="buntal-bg min-h-screen text-neutral-900 dark:text-white pb-20">
+<!-- Header / Top Bar -->
+<div class="sticky top-0 z-10 flex items-center justify-between bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+<h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">Profile</h2>
+<button class="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-white/10 text-neutral-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<!-- Profile Info Section -->
+<div class="flex flex-col items-center pt-8 pb-6 px-4">
+<div class="relative mb-4 group cursor-pointer">
+<div class="h-28 w-28 rounded-full bg-neutral-200 dark:bg-neutral-800 bg-cover bg-center border-4 border-white dark:border-neutral-700 shadow-lg" data-alt="Portrait of a smiling young man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCat4Mx7m03Hc8CfWQF_tCAfnJSDzATp9885WeDi7SWbGAux5U4GwjBIR9uqq9h0so_IJ8GPVRqJOtiwAzDWfD0ylBz7DmHEBxUa8WZCJmvIKcx7vo_-9v7dNg2YuZWJLS3yHfYY5Ejc0riJygp0uh1Vcj1Xp-BQJU0b2skaLpDImLVNWvQIHAzxhIFERQuUrvaxd6svPXDAy_NdZFbFbD4UM-Ut_XNb0tqq3urWDXNPjZAsRbac6YjbHMPsg5B-uOYQCrSklk3NPE');"></div>
+<div class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-neutral-800 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px] leading-none">edit</span>
+</div>
+</div>
+<div class="text-center space-y-1">
+<h1 class="text-2xl font-bold text-neutral-900 dark:text-white flex items-center justify-center gap-2">
+                Juan dela Cruz
+                <span class="material-symbols-outlined text-blue-500 text-[20px]" title="Verified">verified</span>
+</h1>
+<p class="text-neutral-500 dark:text-neutral-400 font-medium">Local Member • Boac, Marinduque</p>
+<!-- Badges -->
+<div class="flex items-center justify-center gap-2 mt-2">
+<span class="inline-flex items-center gap-1 bg-primary/20 text-yellow-700 dark:text-yellow-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">shield_person</span>
+                    Moderator
+                </span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="w-full max-w-sm flex gap-3 mt-6">
+<button class="flex-1 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-2.5 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity">
+                Edit Profile
+            </button>
+<button class="flex-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white py-2.5 rounded-lg font-semibold text-sm hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
+                Share Profile
+            </button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="px-4 py-2">
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-white dark:bg-neutral-800 p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col items-center justify-center shadow-sm">
+<span class="text-2xl font-bold text-neutral-900 dark:text-white">12</span>
+<span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mt-1">Listings</span>
+</div>
+<div class="bg-white dark:bg-neutral-800 p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col items-center justify-center shadow-sm">
+<span class="text-2xl font-bold text-neutral-900 dark:text-white">45</span>
+<span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mt-1">Sold</span>
+</div>
+<div class="bg-white dark:bg-neutral-800 p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col items-center justify-center shadow-sm">
+<div class="flex items-center gap-1">
+<span class="text-2xl font-bold text-neutral-900 dark:text-white">4.8</span>
+<span class="material-symbols-outlined text-primary text-sm -mt-1" style="font-variation-settings: 'FILL' 1">star</span>
+</div>
+<span class="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mt-1">Rating</span>
+</div>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="mt-6 border-b border-neutral-200 dark:border-neutral-800 bg-background-light dark:bg-background-dark sticky top-[60px] z-10">
+<div class="flex w-full px-4">
+<button class="flex-1 pb-3 pt-2 text-center border-b-[3px] border-primary text-neutral-900 dark:text-white font-bold text-sm transition-colors">
+                My Listings
+            </button>
+<button class="flex-1 pb-3 pt-2 text-center border-b-[3px] border-transparent text-neutral-500 dark:text-neutral-400 font-medium text-sm hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">
+                Saved
+            </button>
+<button class="flex-1 pb-3 pt-2 text-center border-b-[3px] border-transparent text-neutral-500 dark:text-neutral-400 font-medium text-sm hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">
+                Activity
+            </button>
+</div>
+</div>
+<!-- Tab Content (My Listings) -->
+<div class="p-4 space-y-4">
+<!-- Listing Card 1 -->
+<div class="flex bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm border border-neutral-200 dark:border-neutral-700">
+<div class="w-1/3 bg-neutral-200 dark:bg-neutral-700 bg-cover bg-center" data-alt="Vintage rattan chair" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC9KX8GMRJ4itAHB_rc7g8Ui08BOudGWoZ2B0k-zudCIbMcQkGExnWDgo-9lgR77gZqoJFjcaqoZUNOPowmewhSXhE45BUtz2Tzzxw6YNvglgJPMvFO1HBn1SWI3naXGbpU_W2uSK9fj8hJoOqtTgFbfFG7d_wdGdJuY2dzoyT78-DcnwYJNw7iV6eWX19sdibLatCzbkLGYk4VILYS2H59Ld0SQRiIIMJRIeqMo0Qc1VsslBZSgGCijoLOzvdm69rDwpZCvOo4a-8');"></div>
+<div class="w-2/3 p-3 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-neutral-900 dark:text-white text-sm line-clamp-1">Handwoven Rattan Chair</h3>
+<button class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<p class="text-primary font-bold text-base mt-0.5">₱ 1,200</p>
+<p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Gasan, Marinduque</p>
+</div>
+<div class="flex items-center gap-2 mt-3">
+<span class="text-[10px] bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full font-bold uppercase">Active</span>
+<span class="text-[10px] text-neutral-400">Posted 2d ago</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="flex bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm border border-neutral-200 dark:border-neutral-700">
+<div class="w-1/3 bg-neutral-200 dark:bg-neutral-700 bg-cover bg-center" data-alt="Used mountain bike" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZww8QDYcG6zTDSMKhNIdYGAdiaMwnbfEGSDTKqaDSXJDymFnwlFSGn-4gkBBdki6eOLuJ2yI8QdvSQfk6bud8Zeai14Yh_AYfjcYUKHGiVb5hIte1l9qVJXln0Ws7I0WMWFNNi2j4uGYqZ0RVbyqVXrRF5b86WdjAjxxCgbjSHNk-sVe5jz6hAnVD3lizmSX9_yzKPJ99tqL4TWJzu6qmuWTRaVBBygSZ8F6zZ22XJ2LP_2M8tZ3_wKB41vb_ZxEUx7ir0qlvsH4');"></div>
+<div class="w-2/3 p-3 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-neutral-900 dark:text-white text-sm line-clamp-1">Mountain Bike - Good Cond.</h3>
+<button class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<p class="text-primary font-bold text-base mt-0.5">₱ 4,500</p>
+<p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Boac, Marinduque</p>
+</div>
+<div class="flex items-center gap-2 mt-3">
+<span class="text-[10px] bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 px-2 py-0.5 rounded-full font-bold uppercase">Pending</span>
+<span class="text-[10px] text-neutral-400">Posted 5d ago</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="flex bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-sm border border-neutral-200 dark:border-neutral-700 opacity-75">
+<div class="w-1/3 bg-neutral-200 dark:bg-neutral-700 bg-cover bg-center grayscale" data-alt="Digital Camera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLK9oeH3v8PGE8fgpvrQPhPnGjRQwypCP_VuZuaLdcvdsI6IBHru65EBiCTcBl9FXv6Jk6Nan5SofYT0qTC8gvGvsa69T27BQz5LZYPS-I_TnEnq1OANyS386WhBEYrp8Q0diifqQlklQKhaD9dWHSi1UqDLdgLXwWpDEpHQ8ohSFmDXF3C242QRU1CnhIGj1nuJr5QX3Huddlemt6dyyE8l0TBNH8S1kMP6W4FsgNl4fZn2BkSovwtcMIuDxxcE3SE1vuZAU3DsI');"></div>
+<div class="w-2/3 p-3 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-neutral-900 dark:text-white text-sm line-clamp-1">Sony Camera Lens</h3>
+<button class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<p class="text-neutral-500 dark:text-neutral-400 font-bold text-base mt-0.5 line-through">₱ 8,000</p>
+<p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Mogpog, Marinduque</p>
+</div>
+<div class="flex items-center gap-2 mt-3">
+<span class="text-[10px] bg-neutral-200 dark:bg-neutral-600 text-neutral-600 dark:text-neutral-300 px-2 py-0.5 rounded-full font-bold uppercase">Sold</span>
+<span class="text-[10px] text-neutral-400">Sold 1w ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 left-0 w-full bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 px-6 py-2 flex justify-between items-center z-50 safe-area-bottom">
+<a class="flex flex-col items-center justify-center gap-1 text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">search</span>
+<span class="text-[10px] font-medium">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-primary relative -top-5" href="#">
+<div class="h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-500 transition-colors text-white">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-neutral-900 dark:text-white">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">chat_bubble</span>
+<span class="text-[10px] font-medium">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-neutral-900 dark:text-white" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</div>
+</body></html>

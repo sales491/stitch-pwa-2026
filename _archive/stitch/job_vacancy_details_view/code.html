@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Job Vacancy Details View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f2b90d",
+              "primary-hover": "#d9a60b", 
+              "background-light": "#f8f8f5",
+              "background-dark": "#221e10",
+              "neutral-surface": "#ffffff",
+              "neutral-surface-dark": "#2d291e",
+              "text-main": "#181611",
+              "text-main-dark": "#ecebe6",
+              "text-sub": "#8a8060",
+              "text-sub-dark": "#b0a88f",
+              "border-light": "#e6e3db",
+              "border-dark": "#3a3528"
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar hiding for clean mobile look if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-text-main-dark transition-colors duration-200 min-h-screen flex flex-col font-display">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-neutral-surface/90 dark:bg-neutral-surface-dark/90 backdrop-blur-md border-b border-border-light dark:border-border-dark shadow-sm">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-text-main dark:text-text-main-dark">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold text-center flex-1 truncate px-2">Job Details</h2>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-text-main dark:text-text-main-dark">
+<span class="material-symbols-outlined">share</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col w-full max-w-lg mx-auto pb-24"> <!-- Padding bottom for sticky footer -->
+<!-- Hero Section -->
+<div class="px-5 pt-6 pb-4">
+<div class="flex flex-col items-center text-center gap-4">
+<!-- Company Logo -->
+<div class="relative w-24 h-24 rounded-2xl shadow-md overflow-hidden bg-white dark:bg-neutral-surface-dark border border-border-light dark:border-border-dark p-1">
+<img alt="Company Logo Marinduque Agriculture" class="w-full h-full object-cover rounded-xl" data-alt="Company logo with agriculture theme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwGX3uQChroCrDF5znsSomw8_ZX8AlCiK3jsbIy8jXKwnRZ4_JLSGO9g_vU1hdoW96T7d47rbu4k0O1IR2dbLX6SXLg2Swhb8VKFyqgE60CTbTwsZkDMfgtNSaCwzecX6WMn2dDx81fMUsVZe0GfFdnq76r4CnNRU2zhQrLI8UoBkmXj_QqFFl03Bs_ZcA0oe3GP1Cl7eePFX3-bVRz3_C4sUF-rjpJ73sULOCRwASQZdKGWwW-96DuzZXMzHXsT00AwB-zugw4jo"/>
+</div>
+<!-- Job Title & Company -->
+<div class="space-y-1">
+<h1 class="text-2xl font-bold text-text-main dark:text-text-main-dark leading-tight">Senior Farm Manager</h1>
+<div class="flex items-center justify-center gap-1.5 text-text-sub dark:text-text-sub-dark font-medium text-sm">
+<span>Marinduque Agriculture Corp.</span>
+<span class="w-1 h-1 rounded-full bg-text-sub dark:bg-text-sub-dark opacity-50"></span>
+<span>Boac</span>
+</div>
+<!-- Verified Badge -->
+<div class="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded-full bg-primary/10 dark:bg-primary/20 text-yellow-700 dark:text-primary text-xs font-bold border border-primary/20">
+<span class="material-symbols-outlined text-[16px] fill-1" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>Verified Employer</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="px-5 py-4">
+<div class="grid grid-cols-3 gap-3">
+<!-- Job Type -->
+<div class="flex flex-col items-center justify-center p-3 rounded-xl bg-neutral-surface dark:bg-neutral-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 mb-2 text-yellow-700 dark:text-primary">
+<span class="material-symbols-outlined text-[20px]">work</span>
+</div>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-medium">Type</span>
+<span class="text-sm font-bold text-text-main dark:text-text-main-dark mt-0.5">Full-time</span>
+</div>
+<!-- Salary -->
+<div class="flex flex-col items-center justify-center p-3 rounded-xl bg-neutral-surface dark:bg-neutral-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 mb-2 text-yellow-700 dark:text-primary">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-medium">Salary</span>
+<span class="text-sm font-bold text-text-main dark:text-text-main-dark mt-0.5">₱25k - ₱30k</span>
+</div>
+<!-- Posted -->
+<div class="flex flex-col items-center justify-center p-3 rounded-xl bg-neutral-surface dark:bg-neutral-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 mb-2 text-yellow-700 dark:text-primary">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-medium">Posted</span>
+<span class="text-sm font-bold text-text-main dark:text-text-main-dark mt-0.5">2 days ago</span>
+</div>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-2 bg-background-light dark:bg-background-dark border-t border-b border-border-light dark:border-border-dark my-2"></div>
+<!-- Description Section -->
+<div class="px-5 py-6">
+<h3 class="text-lg font-bold text-text-main dark:text-text-main-dark mb-3 flex items-center gap-2">
+<span class="w-1 h-5 bg-primary rounded-full"></span>
+                Job Description
+            </h3>
+<div class="text-text-sub dark:text-text-sub-dark leading-relaxed text-sm space-y-4">
+<p>
+                    We are looking for an experienced Farm Manager to oversee our copra production in Boac. You will be responsible for daily operations, staff management, and ensuring quality yield.
+                </p>
+<p>
+                    The ideal candidate has a deep understanding of local agricultural practices and can lead a team of 15-20 field workers. You will report directly to the Operations Head.
+                </p>
+</div>
+</div>
+<!-- Requirements Section -->
+<div class="px-5 pb-6">
+<h3 class="text-lg font-bold text-text-main dark:text-text-main-dark mb-3 flex items-center gap-2">
+<span class="w-1 h-5 bg-primary rounded-full"></span>
+                Requirements
+            </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">check_circle</span>
+<span class="text-text-sub dark:text-text-sub-dark text-sm leading-relaxed">At least 3 years of experience in farm management or related field.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">check_circle</span>
+<span class="text-text-sub dark:text-text-sub-dark text-sm leading-relaxed">Must reside within Marinduque or willing to relocate to Boac.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">check_circle</span>
+<span class="text-text-sub dark:text-text-sub-dark text-sm leading-relaxed">Knowledgeable in sustainable farming techniques and copra processing.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">check_circle</span>
+<span class="text-text-sub dark:text-text-sub-dark text-sm leading-relaxed">High school diploma required; Degree in Agriculture is a plus.</span>
+</li>
+</ul>
+</div>
+<!-- Location Map Preview -->
+<div class="px-5 pb-8">
+<h3 class="text-lg font-bold text-text-main dark:text-text-main-dark mb-3 flex items-center gap-2">
+<span class="w-1 h-5 bg-primary rounded-full"></span>
+                Location
+            </h3>
+<div class="relative w-full h-40 rounded-xl overflow-hidden shadow-sm border border-border-light dark:border-border-dark group cursor-pointer">
+<div class="absolute inset-0 bg-neutral-surface-dark/10 group-hover:bg-neutral-surface-dark/5 transition-colors z-10"></div>
+<!-- Placeholder for Map -->
+<div class="w-full h-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Boac,Marinduque&amp;zoom=13&amp;size=600x300&amp;maptype=roadmap&amp;style=feature:all|element:labels|visibility:off&amp;style=feature:road|element:geometry|color:0xffffff&amp;style=feature:landscape|element:geometry|color:0xf8f8f5')]" data-alt="Map showing Boac Marinduque location" data-location="Boac, Marinduque" style="background-size: cover; background-position: center;">
+<!-- Map Pin overlay -->
+<div class="absolute inset-0 flex items-center justify-center z-20">
+<div class="w-10 h-10 bg-primary/90 rounded-full flex items-center justify-center shadow-lg text-white animate-bounce">
+<span class="material-symbols-outlined text-[24px]">location_on</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-3 left-3 z-20 bg-white/90 dark:bg-black/80 px-3 py-1.5 rounded-lg backdrop-blur-sm text-xs font-semibold shadow-sm">
+                    Boac, Marinduque
+                </div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-neutral-surface-dark border-t border-border-light dark:border-border-dark shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 safe-area-bottom">
+<div class="max-w-lg mx-auto flex items-center gap-3">
+<button class="flex flex-col items-center justify-center w-14 h-12 rounded-xl text-text-sub dark:text-text-sub-dark hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">bookmark_border</span>
+<span class="text-[10px] font-medium mt-0.5">Save</span>
+</button>
+<button class="flex-1 h-12 bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all text-neutral-900 font-bold rounded-xl shadow-md shadow-primary/20 flex items-center justify-center gap-2">
+<span>Apply Now</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</body></html>

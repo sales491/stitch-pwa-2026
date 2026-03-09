@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Moderator Approval Queue (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0f766e", // Teal-700 equivalent for primary actions in light mode
+                        "primary-dark": "#0e8ab3",
+                        "background-light": "#f3f4f6", // Gray-100
+                        "surface-light": "#ffffff",
+                        "text-main": "#1e293b", // Slate-800
+                        "text-secondary": "#64748b", // Slate-500
+                    },
+                    fontFamily: {
+                        display: "Plus Jakarta Sans"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light font-display text-text-main min-h-screen flex flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="text-slate-600 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-slate-800 tracking-tight">Moderator Dashboard</h1>
+</div>
+<button class="text-slate-600 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 pb-24">
+<div class="grid grid-cols-3 gap-3 p-4">
+<div class="flex flex-col items-center justify-center bg-white rounded-xl p-3 border border-gray-200 shadow-sm">
+<span class="text-primary text-2xl font-bold">12</span>
+<span class="text-slate-500 text-xs font-medium uppercase tracking-wider mt-1">Pending</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-white rounded-xl p-3 border border-orange-100 shadow-sm">
+<span class="text-orange-500 text-2xl font-bold">5</span>
+<span class="text-slate-500 text-xs font-medium uppercase tracking-wider mt-1">Reported</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-white rounded-xl p-3 border border-red-100 shadow-sm">
+<span class="text-red-500 text-2xl font-bold">2</span>
+<span class="text-slate-500 text-xs font-medium uppercase tracking-wider mt-1">Flagged</span>
+</div>
+</div>
+<div class="px-4 pb-4">
+<h2 class="text-slate-800 text-lg font-bold mb-3">Approval Queue</h2>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-slate-800 text-white text-sm font-semibold shadow-md">
+                    All
+                </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-300 text-slate-600 text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Jobs
+                </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-300 text-slate-600 text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Classifieds
+                </button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-300 text-slate-600 text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Community
+                </button>
+</div>
+</div>
+<div class="flex flex-col gap-4 px-4">
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+<div class="p-4">
+<div class="flex items-center gap-3 mb-3">
+<img alt="Profile picture of a man smiling" class="w-10 h-10 rounded-full object-cover border border-gray-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW99WZy8mgdfEtPjRpqyUE11EDmdg2IEL6ndiOMetFSzrCtVAt8dGAB9Bo4BhqqMuxTvYIE3SGdvb5vI7DDxvW-xem-RRa1LmrZmpQn4JjGPtxB-gm_-xXrAkeagPZdE9siPEhfNgD-3a3SxdFlECDxc_s8Lf6iRVnAg8fwEraRZ4BnogOKjfVJAHnvSnyRSlpGKc5Yahb0N959vtuFCu8zyk2MdCHpcmG9wvwQItcNM-K2i3WheyqF0VI9t1fwzJOMle01qExWEI"/>
+<div class="flex-1 min-w-0">
+<p class="text-slate-900 text-sm font-semibold truncate">Ramon Magcawas</p>
+<div class="flex items-center text-slate-500 text-xs gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="truncate">Boac, Marinduque</span>
+<span class="w-1 h-1 rounded-full bg-slate-300 mx-1"></span>
+<span>2h ago</span>
+</div>
+</div>
+<span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold border border-blue-100">Job</span>
+</div>
+<h3 class="text-slate-900 font-bold text-base mb-2">Looking for Experienced Carpenter</h3>
+<p class="text-slate-600 text-sm leading-relaxed mb-3 line-clamp-2">
+                        Need someone for a 2-week project in Barangay Mercado. Must have own tools. Daily rate negotiable based on experience.
+                    </p>
+</div>
+<div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+<button class="text-slate-500 hover:text-primary text-sm font-medium flex items-center gap-1 transition-colors">
+                        View Details
+                    </button>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-red-500 hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-green-600 hover:bg-green-50 border border-gray-200 hover:border-green-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">check</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+<div class="p-4">
+<div class="flex items-center gap-3 mb-3">
+<img alt="Profile picture of a woman" class="w-10 h-10 rounded-full object-cover border border-gray-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2hjf40j231pDgSv7-8yK6SZEwJUwAG92MdvcreJaPdhDltJA-14frlrBM_bqhJ1HFeWWABl7BLMpr9EkVZsImHypGFR_wKIE8Y1c-W7EYqu9r3kx8n89gruIqt2VjW-49ahVrPjKoLYjpiki9BdcjV6FOC5Wz5-iJ5sSfG5anvKzZ0gfUh27pJcT95HN62-A_5rt4xvh0klzEsATWjck5ELXN0vhsI6U7OXqbY5J5kEqmwXmHqlZyMMrN4wjVVZN73U4iwEhx23g"/>
+<div class="flex-1 min-w-0">
+<p class="text-slate-900 text-sm font-semibold truncate">Maria Santos</p>
+<div class="flex items-center text-slate-500 text-xs gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="truncate">Gasan, Marinduque</span>
+<span class="w-1 h-1 rounded-full bg-slate-300 mx-1"></span>
+<span>4h ago</span>
+</div>
+</div>
+<span class="bg-green-50 text-green-700 px-2 py-0.5 rounded text-xs font-semibold border border-green-100">Sell</span>
+</div>
+<div class="flex gap-4">
+<div class="flex-1">
+<h3 class="text-slate-900 font-bold text-base mb-1">Secondhand Motorcycle</h3>
+<p class="text-emerald-600 font-bold text-sm mb-2">₱ 45,000</p>
+<p class="text-slate-600 text-sm leading-relaxed line-clamp-2">
+                                Good condition, registered until next year. RFS: Upgrading to a car.
+                            </p>
+</div>
+<div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+<img class="w-full h-full object-cover" data-alt="Red motorcycle parked on a street" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfHIrQwiWc7rGFa9Gb1n1-rOtOUeMX7vL33jHmunh_lptrYE-XZOexymQhpTvnjamYYlVn1pPntWqJ3y6E_69fZ89UWaiAim6y4cvn68mI2spprMopK9gBzEKRATRbXLeRf21C5nUWxxVPbkCh71GpfJP8CNmvN8QjXX08LVZWYRMt8Fw6aKULH-NgBQMdPZrJiQ3ym_4Ika29ZzJ1y2o8bbaIpAlJD88RFVdmGyclOxY8Bn53uHnnhUDGd8e_jCDfR4ZLuqNftXM"/>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+<button class="text-slate-500 hover:text-primary text-sm font-medium flex items-center gap-1 transition-colors">
+                        View Details
+                    </button>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-red-500 hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-green-600 hover:bg-green-50 border border-gray-200 hover:border-green-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">check</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+<div class="p-4">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center border border-purple-100">
+<span class="text-purple-600 font-bold text-sm">MC</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-slate-900 text-sm font-semibold truncate">Marinduque Cyclists</p>
+<div class="flex items-center text-slate-500 text-xs gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span class="truncate">Mogpog, Marinduque</span>
+<span class="w-1 h-1 rounded-full bg-slate-300 mx-1"></span>
+<span>6h ago</span>
+</div>
+</div>
+<span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded text-xs font-semibold border border-purple-100">Event</span>
+</div>
+<h3 class="text-slate-900 font-bold text-base mb-2">Weekend Ride for a Cause</h3>
+<p class="text-slate-600 text-sm leading-relaxed mb-3 line-clamp-2">
+                        Join us this Saturday for a charity ride around the island. Proceeds will go to the local school feeding program.
+                    </p>
+<div class="relative w-full h-32 rounded-lg overflow-hidden mb-2 shadow-sm border border-gray-200">
+<img class="w-full h-full object-cover" data-alt="Group of cyclists riding on a scenic road" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB4OxHXQvXjYYD4t7tvydm7GX1yuqnzutpG_M6KuwpKtRaLjeAjZJqdFBt0edY_VOAbTUGwaKh1V37d8S4tgv-YisGlkI0azI_gjerFgHRaRIeFGcGa1UvgHyGw-cH0FgLEXmGGr70a-Qp6uZstLqAlOEEZaIBPZcBJHeSH3gAofHY41cNPrdJIxYGVdWEasyuBgpkwarA5Svezch-CF01lkTDW1FqN4GGgHFwYCJkuUbsWlhAgGFnnPWZWgTK2Pa4nijKEXvrTNY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-3">
+<div class="flex items-center gap-1 text-white text-xs font-medium">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Sat, Oct 28 • 5:00 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+<button class="text-slate-500 hover:text-primary text-sm font-medium flex items-center gap-1 transition-colors">
+                        View Details
+                    </button>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-red-500 hover:bg-red-50 border border-gray-200 hover:border-red-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-green-600 hover:bg-green-50 border border-gray-200 hover:border-green-200 shadow-sm transition-all">
+<span class="material-symbols-outlined">check</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-red-200 overflow-hidden shadow-sm relative">
+<div class="absolute top-0 right-0 p-2">
+<span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">Reported</span>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 border border-gray-200">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-slate-900 text-sm font-semibold truncate">Anonymous User</p>
+<div class="flex items-center text-slate-500 text-xs gap-1">
+<span class="truncate">Sta. Cruz, Marinduque</span>
+</div>
+</div>
+</div>
+<div class="bg-red-50 border border-red-100 rounded-lg p-3 mb-2">
+<p class="text-red-700 text-xs font-bold mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Reason for Report:
+                        </p>
+<p class="text-slate-700 text-sm">"Posting multiple spam listings about easy loans."</p>
+</div>
+<h3 class="text-slate-900 font-bold text-base mb-1">Fast Cash Loans No Collateral</h3>
+<p class="text-slate-500 text-sm italic line-clamp-1">
+                        PM me for details. 100% legit.
+                    </p>
+</div>
+<div class="bg-red-50/30 px-4 py-3 flex items-center justify-between border-t border-red-100">
+<button class="text-slate-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 transition-colors">
+                        Review History
+                    </button>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 text-white shadow-md shadow-red-500/20 hover:bg-red-600 transition-colors" title="Ban User">
+<span class="material-symbols-outlined">block</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-slate-500 hover:bg-slate-50 border border-gray-300 transition-colors" title="Dismiss Report">
+<span class="material-symbols-outlined">remove_moderator</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full z-40 bg-white border-t border-gray-200 px-6 pb-6 pt-3 shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<div class="flex items-end justify-between">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">home</span>
+<span class="text-[10px] font-medium tracking-wide">Home</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">storefront</span>
+<span class="text-[10px] font-medium tracking-wide">Market</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 hover:text-primary transition-colors group" href="#">
+<div class="relative">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">notifications</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+</div>
+<span class="text-[10px] font-medium tracking-wide">Alerts</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-[24px] fill-current">shield</span>
+<span class="text-[10px] font-medium tracking-wide">Mod Tools</span>
+</a>
+</div>
+</nav>
+
+</body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Business Profile - Step 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FFD700","primary-hover": "#E6C200",
+                        "background-light": "#FFFFFF",
+                        "surface-light": "#F8F8F8",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    boxShadow: {
+                        "soft": "0 4px 20px -2px rgba(0, 0, 0, 0.05)",
+                        "gold": "0 4px 15px -3px rgba(255, 215, 0, 0.3)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(200, 200, 200, 0.5);
+            border-radius: 20px;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light text-slate-900 font-display min-h-screen flex flex-col antialiased selection:bg-primary/30">
+<header class="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-white/95 backdrop-blur-md border-b border-slate-100">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors text-slate-900">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight text-slate-900">Create Business Profile</h1>
+<div class="w-10"></div> 
+</header>
+<main class="flex-1 flex flex-col w-full max-w-md mx-auto pb-32">
+<div class="px-5 py-6">
+<div class="flex items-end justify-between mb-3">
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-primary">Step 3 of 3</p>
+<h2 class="text-2xl font-bold mt-1 text-slate-900">Gallery &amp; Finalization</h2>
+</div>
+<span class="text-sm font-medium text-slate-500">100%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-full"></div>
+</div>
+</div>
+<section class="px-5 mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900">Business Photos</h3>
+<span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600 font-semibold border border-slate-200">Required</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="col-span-2 aspect-[2/1] border-2 border-dashed border-slate-300 rounded-xl bg-surface-light hover:bg-slate-100 hover:border-primary transition-all flex flex-col items-center justify-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">add_a_photo</span>
+</div>
+<span class="text-sm font-semibold text-slate-700">Upload Cover Photo</span>
+</button>
+<div class="relative aspect-square rounded-xl overflow-hidden group shadow-sm">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Modern store interior with warm lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB01JTD_l3rVgYuy8LTrEIX3G8QedoAkSuDF2J3_4M3R07dBUwcvSmT-R58qX_c3bxgqNBe_chsFdnS11BwnvZmxWWfxk99ETI8PyYqMIXzxchG-2L6bsUTEDRb7_mHGaL_tAUwmVCYD3aBUsckUZx4GBrb2vU_PCR_kIvnovnBmDEoW2Hr0vPFrIPyy_Xzfb8gws68yTOGtCHSaMNjViWQK8aIdZ6JRm0hptkcMytBCs_zrwwR_AcHUmqOy5Ls7b7dM1HT9QDI6jQ');"></div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 p-2 rounded-full hover:bg-white text-red-500 shadow-sm transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<div class="relative aspect-square rounded-xl overflow-hidden group shadow-sm">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Detailed shot of handmade products on display" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB5ecdLtNKr-bKviKXIDhyZkjNaH6G7Vb9lNrLHVUUJKS5HrwOOyMIgdO6I6mGQmrglV4JqLMAhS7Qm0tV1p31HWDK4BiVgQI0iaBtpvm-oWLg36U2_epHFZU1ypKgcLua7Fu7urtgaKUVkPpwkranFO80Vrhki5T-9l8C8IbF9X48f8deZeE_bCc9rCh9GWv0qCOf2FMrviVDnFZr7lKMd0gOL7skX5DFC0yUvzV4tThQdNJfgHmrtWBbIgxzsNR73yoKYjTE7Vb0');"></div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 p-2 rounded-full hover:bg-white text-red-500 shadow-sm transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<button class="aspect-square border border-slate-200 rounded-xl bg-white flex flex-col items-center justify-center gap-1 hover:border-primary hover:shadow-sm transition-all">
+<span class="material-symbols-outlined text-slate-400 text-3xl">add</span>
+<span class="text-xs font-medium text-slate-500">Add More</span>
+</button>
+</div>
+<p class="text-sm text-slate-500 mt-3 leading-relaxed">
+                Add high-quality photos of your storefront, products, or services to attract more customers in Marinduque.
+            </p>
+</section>
+<div class="h-px bg-slate-100 w-full mb-8"></div>
+<section class="px-5 mb-8">
+<h3 class="text-lg font-bold mb-4 text-slate-900">Opening Hours</h3>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:border-primary/30 transition-colors">
+<span class="font-semibold text-slate-800">Monday - Friday</span>
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-slate-600">8:00 AM - 5:00 PM</span>
+<button class="text-primary hover:text-primary-hover">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:border-primary/30 transition-colors">
+<span class="font-semibold text-slate-800">Saturday</span>
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-slate-600">9:00 AM - 12:00 PM</span>
+<button class="text-primary hover:text-primary-hover">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-transparent opacity-80">
+<span class="font-semibold text-slate-400">Sunday</span>
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded">Closed</span>
+<button class="text-slate-300 pointer-events-none">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="px-5 mb-6">
+<div class="bg-white border border-primary/40 rounded-xl p-5 relative overflow-hidden shadow-gold">
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-9xl text-primary/10 rotate-12 pointer-events-none select-none">verified</span>
+<div class="flex gap-4 items-start relative z-10">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-yellow-400 flex items-center justify-center shrink-0 shadow-md text-white">
+<span class="material-symbols-outlined font-bold text-2xl">verified</span>
+</div>
+<div>
+<h4 class="font-bold text-lg text-slate-900 mb-1">Get Verified Visibility</h4>
+<p class="text-sm text-slate-600 leading-snug">
+                            Your profile will include the <span class="font-semibold text-slate-800">Verified Badge</span>, boosting trust within the Marinduque community.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-xl border-t border-slate-100 z-40 pb-8">
+<div class="max-w-md mx-auto w-full flex gap-3">
+<button class="flex-1 py-4 px-6 rounded-xl font-bold text-slate-900 bg-primary hover:bg-primary-hover active:scale-[0.98] transition-all shadow-gold uppercase tracking-wide text-sm">
+                Publish Business Profile
+            </button>
+</div>
+</div>
+
+</body></html>

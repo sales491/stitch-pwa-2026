@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Commuter &amp; Delivery Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecda",
+                        "primary-content": "#042f2b",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#102220",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3330",
+                        "text-light": "#111817",
+                        "text-dark": "#e0e6e5",
+                        "text-muted-light": "#618986",
+                        "text-muted-dark": "#8ba3a1",
+                        "border-light": "#dbe6e5",
+                        "border-dark": "#2a4542",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark min-h-screen flex flex-col font-display antialiased">
+<!-- Header Area -->
+<div class="sticky top-0 z-50 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-sm border-b border-border-light dark:border-border-dark">
+<!-- Main Title Bar -->
+<div class="flex items-center p-4 pb-2 justify-between">
+<button class="text-text-light dark:text-text-dark flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Commuter &amp; Delivery</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors text-text-light dark:text-text-dark">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="px-4">
+<div class="flex border-b border-border-light dark:border-border-dark">
+<a class="relative flex flex-col items-center justify-center py-3 flex-1 group cursor-pointer" href="#">
+<p class="text-primary-content dark:text-primary font-bold text-sm leading-normal tracking-[0.015em] group-hover:text-primary transition-colors">Rides</p>
+<div class="absolute bottom-0 h-[3px] w-full bg-primary rounded-t-lg"></div>
+</a>
+<a class="relative flex flex-col items-center justify-center py-3 flex-1 group cursor-pointer" href="#">
+<p class="text-text-muted-light dark:text-text-muted-dark font-medium text-sm leading-normal tracking-[0.015em] group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">Deliveries</p>
+<div class="absolute bottom-0 h-[3px] w-full bg-transparent group-hover:bg-border-light dark:group-hover:bg-border-dark rounded-t-lg transition-colors"></div>
+</a>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 p-3 overflow-x-auto no-scrollbar">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-3 active:scale-95 transition-transform">
+<span class="text-text-light dark:text-text-dark text-xs font-semibold leading-normal">Today</span>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-3 active:scale-95 transition-transform">
+<span class="text-text-light dark:text-text-dark text-xs font-semibold leading-normal">Boac</span>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-3 active:scale-95 transition-transform">
+<span class="text-text-light dark:text-text-dark text-xs font-semibold leading-normal">Manila</span>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-3 active:scale-95 transition-transform">
+<span class="text-text-light dark:text-text-dark text-xs font-semibold leading-normal">Van</span>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark px-3 active:scale-95 transition-transform">
+<span class="text-text-light dark:text-text-dark text-xs font-semibold leading-normal">Jeep</span>
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+<!-- Main Content List -->
+<div class="flex-1 overflow-y-auto px-4 py-2 space-y-3 pb-24">
+<!-- Featured/Promoted Listing -->
+<div class="bg-gradient-to-br from-primary/10 to-transparent dark:from-primary/5 dark:to-transparent rounded-xl p-4 border border-primary/20 dark:border-primary/10 shadow-sm">
+<div class="flex items-start justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="bg-primary/20 p-1.5 rounded-lg text-primary-content dark:text-primary">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</div>
+<span class="text-xs font-bold text-primary-content dark:text-primary uppercase tracking-wider">Top Pick</span>
+</div>
+<span class="text-xs text-text-muted-light dark:text-text-muted-dark">Verified Partner</span>
+</div>
+<div class="flex gap-4">
+<div class="size-[80px] shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+<img alt="Modern passenger van exterior view" class="object-cover w-full h-full" data-alt="Modern passenger van exterior view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK6cGLQroflv-XbpRE_ZAzmWB662TfBFwLZOB5n3AJqf558C3FNrS6av06aOhrjQh-lFiw3-PimEdiDu9AH8fOakqA3fb0OYKr5VKCajxgw0rdEoZv0nLXp1lndHxbUrplKj73pqoDcYpwVY_m9245KLcORBaEWNQMe8Qrh7eAmUnfq0pRt-sLyjBv43LOg5MW3uOS0eKQMeXwmOAUNGLNW1kDhBJkcj4XhtdUaD3llUnwUbVvOW3myAnvnGLzwYpVK06rDEvYzeY"/>
+</div>
+<div class="flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-bold text-text-light dark:text-text-dark leading-tight">Boac to Manila (Grandia)</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-0.5">D&amp;G Transport • 4.8 <span class="text-yellow-500">★</span></p>
+</div>
+<div class="flex items-end justify-between mt-2">
+<div>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">Departs 8:00 PM</p>
+<p class="font-bold text-primary-content dark:text-primary">₱1,400</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-primary-content px-4 py-1.5 rounded-lg text-sm font-bold transition-colors">
+                             Book
+                         </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Date Header -->
+<h3 class="text-sm font-bold text-text-muted-light dark:text-text-muted-dark mt-4 mb-2 uppercase tracking-wider px-1">Today's Trips</h3>
+<!-- Listing Item 1 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex gap-3">
+<div class="size-[70px] shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+<img alt="White commuter van side view" class="object-cover w-full h-full" data-alt="White commuter van side view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANTk38KamPgDWfR1TmPNXpK_dilcD5IXL9Y9LUVIOpIADgvmRWiPq3bAvB7ZWPhAZQmFQfIlO8NHXLe7PjuiKCNjItkzog-jXs3KD6GTHYb05OEY3QZ1TySvGeF2DJa7qjY2JYmhnsHysY-tu3frRfmKvrQraUjBK8pD_Cp9mKHOa1Vw11eUO1yX-RaI722lPY6Sp_k-D4p0j55k8WQn6pHSu1grx80IKfucxERuUSvhF1xjwrvPG2v90pF_P3NNa-lvjmBq4cXGQ"/>
+<div class="absolute top-0 right-0 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-bl-md font-bold">2 LEFT</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-text-light dark:text-text-dark text-sm">Gasan to Lucena</h4>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">UV Express • Mang Boy</p>
+</div>
+<span class="text-sm font-bold text-text-light dark:text-text-dark">₱850</span>
+</div>
+<div class="mt-auto flex justify-between items-center pt-2">
+<div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>2:00 PM</span>
+</div>
+<button class="text-primary hover:text-primary/80 text-xs font-bold px-3 py-1 bg-primary/10 rounded-full transition-colors">
+                        Reserve
+                    </button>
+</div>
+</div>
+</div>
+<!-- Listing Item 2 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex gap-3">
+<div class="size-[70px] shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+<img alt="Motorcycle taxi on road" class="object-cover w-full h-full" data-alt="Motorcycle taxi on road" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqzqYFgAIu84Ex93XVkX5INHS9_wFSzpteW0L3IsiCZF6QIjdy5Pj6RoPOvPPjiuk8qfttUF3ePe_Gpz9sWViWEBG6GN2_cMiwmXnPeXXW-m2xV9YyjVmcTBXjuI3w9PSfukBoucsnaV-hUXma1n5ATHIP3wPfrU-IxNEC8axyG1NSFvd8NdCHKeKsLpNe6GvmcNocth_xEXjWE6mqxGagW4Pfgq3TzkUtzV6erfvsIqjfF9oTupDlPSQU5syLYv3byJbkctflU_k"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-text-light dark:text-text-dark text-sm">Mogpog to Balanacan</h4>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">Tricycle Special</p>
+</div>
+<span class="text-sm font-bold text-text-light dark:text-text-dark">₱150</span>
+</div>
+<div class="mt-auto flex justify-between items-center pt-2">
+<div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>ASAP</span>
+</div>
+<button class="text-primary hover:text-primary/80 text-xs font-bold px-3 py-1 bg-primary/10 rounded-full transition-colors">
+                        Call
+                    </button>
+</div>
+</div>
+</div>
+<!-- Listing Item 3 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex gap-3">
+<div class="size-[70px] shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+<img alt="Bus interior seating view" class="object-cover w-full h-full" data-alt="Bus interior seating view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnapaupyvBwBt9JEc2DBtBLkShRvFkQcfy9mZIKnhNwlu_5iuM39JE1kpwMbRlLwRc4oxi4JJ_BE_XDucdP_Yb8lx0JRdTIzmQD9Yl0DKyfCEG9suJ2yCZMzr9PK-LD9-KtJcGRRGjVV06Nu9pOYK9CEY6_H1OGBPfW0VjaEX00EoAoAoFfi_qfGr9yDnuublLwB5JPvptZCJGae8oXxFx_jERN-5PBdnrY3bTBFGMoXkNC1nrsXjC-9QQPpbajufnvpAOaZgk_JM"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-text-light dark:text-text-dark text-sm">Sta. Cruz to Manila</h4>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">Jac Liner Bus</p>
+</div>
+<span class="text-sm font-bold text-text-light dark:text-text-dark">₱1,100</span>
+</div>
+<div class="mt-auto flex justify-between items-center pt-2">
+<div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>4:30 PM</span>
+</div>
+<button class="text-text-muted-light bg-gray-100 dark:bg-gray-800 dark:text-text-muted-dark text-xs font-medium px-3 py-1 rounded-full cursor-not-allowed">
+                        Full
+                    </button>
+</div>
+</div>
+</div>
+<!-- Listing Item 4 -->
+<div class="bg-surface-light dark:bg-surface-dark p-3 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex gap-3">
+<div class="size-[70px] shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+<img alt="Car trunk open ready for luggage" class="object-cover w-full h-full" data-alt="Car trunk open ready for luggage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNyxbczC0U92ZSSuhzKTKyQwJBPhwku3qGGTzCd4j98PqWkWxK5CBfueCq57cMf-Q5MUiZ8S4THIY8feHGdOG5rKypXjOHS5UNjxcBGo7PMRuFLQymkvn8UbvQgULSUOiPJl82ZZtQtpMD3Ceo3yVx3WZ6SUBjQThS1MW8X4tbhHuJax_bCoaAAGKEJVMJlCck4ygd7gSLxownMUUcjNbBLH3vYvR9G-GHp5YfFO0zq_2u56xdCLE1WoPhl2MQpDwsesdFNs9X9FE"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-text-light dark:text-text-dark text-sm">Boac to Torrijos</h4>
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">Carpool • Toyota Vios</p>
+</div>
+<span class="text-sm font-bold text-text-light dark:text-text-dark">₱200</span>
+</div>
+<div class="mt-auto flex justify-between items-center pt-2">
+<div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>5:15 PM</span>
+</div>
+<button class="text-primary hover:text-primary/80 text-xs font-bold px-3 py-1 bg-primary/10 rounded-full transition-colors">
+                        Join
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button -->
+<button class="fixed right-4 bottom-20 z-40 bg-primary hover:bg-primary/90 text-primary-content rounded-full size-14 shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 w-full border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 pb-safe pt-2 z-50">
+<div class="flex justify-between items-end pb-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary cursor-pointer group" href="#">
+<div class="flex h-7 items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[24px] font-variation-settings-FILL-1">directions_car</span>
+</div>
+<p class="text-xs font-medium leading-normal">Commute</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark cursor-pointer group transition-colors" href="#">
+<div class="flex h-7 items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<p class="text-xs font-medium leading-normal">Delivery</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark cursor-pointer group transition-colors" href="#">
+<div class="flex h-7 items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[24px]">forum</span>
+</div>
+<p class="text-xs font-medium leading-normal">Messages</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-text-muted-light dark:text-text-muted-dark hover:text-text-light dark:hover:text-text-dark cursor-pointer group transition-colors" href="#">
+<div class="flex h-7 items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[24px]">person</span>
+</div>
+<p class="text-xs font-medium leading-normal">Profile</p>
+</a>
+</div>
+</div>
+</body></html>

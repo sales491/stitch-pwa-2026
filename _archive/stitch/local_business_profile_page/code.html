@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gasan Garden Cafe - Business Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2", // Teal accent
+                        "primary-dark": "#0ababa",
+                        "accent-gold": "#FFD700", // Gold for ratings/festival vibes
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c2c",
+                        "text-main": "#111818",
+                        "text-sub": "#608a8a",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for clean UI */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased">
+<div class="relative flex min-h-screen flex-col mx-auto max-w-md bg-white dark:bg-background-dark shadow-2xl overflow-hidden">
+<!-- Header / Cover Photo Area -->
+<div class="relative w-full h-72">
+<!-- Navigation Overlay -->
+<div class="absolute top-0 left-0 w-full z-20 flex justify-between items-center p-4 pt-10 bg-gradient-to-b from-black/60 to-transparent">
+<button class="bg-white/20 backdrop-blur-md rounded-full p-2 text-white hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined block">arrow_back</span>
+</button>
+<div class="flex gap-3">
+<button class="bg-white/20 backdrop-blur-md rounded-full p-2 text-white hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined block">favorite</span>
+</button>
+<button class="bg-white/20 backdrop-blur-md rounded-full p-2 text-white hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined block">share</span>
+</button>
+</div>
+</div>
+<!-- Cover Image -->
+<div class="w-full h-full bg-cover bg-center" data-alt="Cozy garden cafe seating with plants and warm lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGP-ZxzoCe3nKC46VvWed2xm1XpG8SWAEWp5-x71K0GckFZhOUGPXl4gSAL5A4yEO1f1L2_QAly2LbkjyOt2FrHw2emmxcljncbcj-dhM10gkJO9Bc_axUMVzpmr1Dr2645HIMwoEadRWHip5wPzHrHbA1mJHzcQwXcmFDjBtnQIhgyMurnouZAMklXeOamdNYkNDq4_Oy_UjJvNmwxGsojLnClxO42NhMtIqffNaXX-2r4VFBZYCRCTj3Hj3Dxdhc6qcyVFvoDR4');">
+</div>
+<!-- Top Rated Badge (Moriones Style - Abstracted) -->
+<div class="absolute bottom-4 right-4 z-20 bg-accent-gold text-slate-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 border-2 border-white dark:border-background-dark">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Top Rated</span>
+</div>
+</div>
+<!-- Main Content Container -->
+<div class="relative -mt-6 bg-surface-light dark:bg-surface-dark rounded-t-3xl px-5 pt-6 pb-24 flex-1">
+<!-- Header Info -->
+<div class="mb-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">Gasan Garden Cafe</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">restaurant</span>
+                            Cafe &amp; Restaurant • Gasan, Marinduque
+                        </p>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-[18px] fill-1">star</span>
+<span class="font-bold text-green-700 dark:text-green-400 text-sm">4.8</span>
+</div>
+<span class="text-xs text-slate-400 mt-1">(128 reviews)</span>
+</div>
+</div>
+<!-- Status -->
+<div class="flex items-center gap-2 mt-3">
+<span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-green-600 dark:text-green-400 text-sm font-medium">Open Now</span>
+<span class="text-slate-400 text-sm">•</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm">Closes 9 PM</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-4 gap-3 mb-8">
+<button class="col-span-2 bg-primary hover:bg-primary-dark text-slate-900 rounded-xl py-3 px-4 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined">call</span>
+                    Call Now
+                </button>
+<button class="col-span-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
+<span class="material-symbols-outlined text-primary dark:text-primary">near_me</span>
+<span class="text-[10px] font-medium">Map</span>
+</button>
+<button class="col-span-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
+<span class="material-symbols-outlined text-primary dark:text-primary">chat</span>
+<span class="text-[10px] font-medium">Chat</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="h-px bg-slate-100 dark:bg-slate-700 w-full mb-6"></div>
+<!-- About Section -->
+<div class="mb-8">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-3">About</h2>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                    Experience the finest local coffee and delicacies in the heart of Gasan. Our garden setting provides a relaxing escape with views of the Marinduque landscape. Famous for our Ube Cheesecake and Barako blend.
+                </p>
+<div class="mt-4 flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs border border-slate-100 dark:border-slate-700">Free Wi-Fi</span>
+<span class="px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs border border-slate-100 dark:border-slate-700">Outdoor Seating</span>
+<span class="px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full text-xs border border-slate-100 dark:border-slate-700">Pet Friendly</span>
+</div>
+</div>
+<!-- Photos Section -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-3">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Photos</h2>
+<a class="text-primary hover:text-primary-dark text-sm font-medium" href="#">See All</a>
+</div>
+<div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2 -mx-5 px-5">
+<div class="shrink-0 w-32 h-32 rounded-lg overflow-hidden relative">
+<img alt="Freshly brewed coffee on wooden table" class="w-full h-full object-cover" data-alt="Latte art coffee cup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJGAchV0fqaDCGOnePjsZ7Gi9DUkJwYgSFBSf_ZHIaNtk64WVL-jXWuSBDGgxdQBzgAwlDH8_J0bGcX0yaIWbvwaiY44kVPDyF_CB_O8D6ybUTPeDR1cJQZ8paoRb7fMJPri4QTfDeqjDigYQgB7d-z-XrEdzSUzby4DQOOVrkScfYCWAQBgFvXurcPmcu6LBzFHHnXSgKtkT67H4XY0LkTR8cHwsuaR5Ej3SNtnRMYya0n1bu6WM6LffNhrIVT17ppgDXHJRurs"/>
+</div>
+<div class="shrink-0 w-32 h-32 rounded-lg overflow-hidden relative">
+<img alt="Slice of cake with berries" class="w-full h-full object-cover" data-alt="Delicious cake slice on plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHia1cgth27M5Em9TJD56R_irTAUfNAdy-IkLPPS7JuTD1N3K8pWAyB0GDJwJJArCVUJQ2zqDZNZeYIsRYX-YVHkIfcrNvjuBh9Bjb60KUhHuern84G1NmUJnN9sG6ZSMSviwv1IICyxsNe57hEvB9-aRouof7RZ4v49M7KCuTpMmUcg30hK52qM1vJ-ME-Cmgu1MwZq0X6IoqdHaFNwdxCRYdCXLhdRVn0IR6aAaxpoonNjV7gsetRi0bFkvSSiSdjpa8gqVdtnY"/>
+</div>
+<div class="shrink-0 w-32 h-32 rounded-lg overflow-hidden relative">
+<img alt="Outdoor cafe seating area" class="w-full h-full object-cover" data-alt="Cafe outdoor garden seating area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyxPGy8cv6A3iaPqHSorFND6l9DUxksbYB_SBvoLYIfa3DV3yrD8xRunvHWaLs27NVjw2VxkUVzPfdE329ydFbNmRhiI8l5YmqAzOvpxE8_cK_0mcFcigEckqr2qKnVvL6B0ewXRD-ZcN3HVMWu95u9pex-_sw0qmKrAoxE30K5kLqBXWhqyZagn3NEidCYrbeF4l-65d_LUiZueJ8lNC7Q9tltoNiM54i0avZEKKpvjHHNrULVUoglHwfz5DDZnW-F7_32apma9s"/>
+</div>
+<div class="shrink-0 w-32 h-32 rounded-lg overflow-hidden relative">
+<img alt="Cozy interior cafe view" class="w-full h-full object-cover" data-alt="Warm interior of the cafe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnSIQddDBsPMLo5U_sdyvBtrNAh8Kle53fEA36jluMpMwsNLyNOFwWwpN_RivtC2s1IEg3TF0MFhuTh4KgcYFbWeHpIAUTHND5LsLvaC6sQD4GMFXAtH2zKTml20YOJOrYM44Yc-hC4uyryou7xlFzElP3zHHFYdq0qidy9XrLllc9QQPugGZWMFU7q6yyStLDSyfGdaVAUkBku_U9IS1JXT-iSMdxz2DSrSXMOj9RGCCgEP2mOpyAWYYms646OJmsE31Hsxarplw"/>
+</div>
+</div>
+</div>
+<!-- Location Map Snippet -->
+<div class="mb-8">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Location</h2>
+<div class="w-full h-40 rounded-xl overflow-hidden relative bg-slate-200 dark:bg-slate-700">
+<!-- Static Map Placeholder using a gradient/image pattern to simulate map -->
+<div class="w-full h-full bg-cover bg-center opacity-80" data-alt="Map view of Gasan Marinduque" data-location="Marinduque" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBNRlryB6cTttXFHoDJ4wThaJJ_wPJs5MS4be1q7vDyM-UOfVnGPIX8t3XSxnL-kU1EF7g4RaUmDiAQpGNPsjbrjIM6etCV0xrRkgm14b8A8-ypdr8CtOaoeMRP3WQG6pJCnriXYRMmzbFOyhReBmPsabrb_MudbDzWIsG5dwbxUfgAf-JYxenuif4hUUmQ7KUlb-2G3M1jSGFzIACmwkWsFHcutY14qsmnPJ3oM8iOJuinB3Nwb7ssE9X3pfQifiesO6ik9MzQdWU');">
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/10">
+<button class="bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-2 rounded-lg shadow-lg font-medium text-sm flex items-center gap-2 hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-primary text-lg">directions</span>
+                            Get Directions
+                        </button>
+</div>
+</div>
+<p class="text-xs text-slate-500 mt-2">123 Rizal Street, Poblacion, Gasan, Marinduque</p>
+</div>
+<!-- Recent Reviews -->
+<div class="mb-4">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Recent Reviews</h2>
+<button class="text-primary text-sm font-medium">Write a Review</button>
+</div>
+<!-- Review Item 1 -->
+<div class="flex gap-4 mb-6">
+<div class="shrink-0">
+<div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm font-bold">
+                            MJ
+                        </div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Maria Juana</h4>
+<span class="text-xs text-slate-400">2d ago</span>
+</div>
+<div class="flex text-accent-gold text-[14px] my-1">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1">
+                            Best halo-halo in town! The garden vibe is so relaxing after the Moriones parade. Definitely coming back.
+                        </p>
+</div>
+</div>
+<!-- Review Item 2 -->
+<div class="flex gap-4">
+<div class="shrink-0">
+<div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-sm font-bold">
+                            RL
+                        </div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Rico Lualhati</h4>
+<span class="text-xs text-slate-400">1w ago</span>
+</div>
+<div class="flex text-accent-gold text-[14px] my-1">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1">
+                            Great coffee, but it gets a bit crowded during weekends. Service is friendly though!
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Sticky) -->
+<div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-background-dark border-t border-slate-100 dark:border-slate-800 pb-safe max-w-md mx-auto">
+<div class="flex justify-around items-center px-2 py-3">
+<a class="flex flex-col items-center gap-1 min-w-[64px] group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">home</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary transition-colors">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 min-w-[64px] group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">explore</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary transition-colors">Explore</span>
+</a>
+<a class="flex flex-col items-center gap-1 min-w-[64px] group" href="#">
+<span class="material-symbols-outlined text-primary dark:text-primary">storefront</span>
+<span class="text-[10px] font-medium text-primary dark:text-primary">Market</span>
+</a>
+<a class="flex flex-col items-center gap-1 min-w-[64px] group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">person</span>
+<span class="text-[10px] font-medium text-slate-400 group-hover:text-primary transition-colors">Profile</span>
+</a>
+</div>
+<!-- Safe Area Spacer for iOS Home Indicator -->
+<div class="h-4 w-full bg-white dark:bg-background-dark"></div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Edit Monthly Spotlight</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f4c025",
+              "background-light": "#f8f8f5",
+              "background-dark": "#221e10",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased min-h-screen pb-32">
+<header class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<button class="text-slate-900 dark:text-slate-100 p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Edit Spotlight</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500 font-medium hidden sm:block">Draft saved</span>
+<button class="bg-primary hover:bg-yellow-400 text-slate-900 font-bold py-1.5 px-4 rounded-full text-sm transition-colors shadow-sm">
+      Publish
+    </button>
+</div>
+</header>
+<main class="flex flex-col w-full max-w-lg mx-auto">
+<div class="@container group relative">
+<div class="absolute inset-0 z-10 m-3 rounded-lg border-2 border-dashed border-white/50 bg-black/20 hidden group-hover:flex items-center justify-center pointer-events-none">
+<span class="bg-white/90 text-slate-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">photo_camera</span> Change Cover
+      </span>
+</div>
+<div class="@[480px]:px-4 @[480px]:py-3">
+<div class="relative bg-cover bg-center flex flex-col justify-end overflow-hidden bg-slate-200 dark:bg-slate-800 @[480px]:rounded-lg min-h-[320px] shadow-sm" data-alt="Boac Cathedral interior view" style="background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 50%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZdA984PYXW7iZ2VQlSazRPyzYdEqWl5I3YHScMhVG-4z0g1MXcry8r8Q9hwzMqF3vltJWB-cBcapg2d5HtLnAiacrfGWjumRruePkeVIzzM6CFOU5LeuzbXClBI6vyrMDzaQTWhjAPDxaWmOdEDNDmTXGbkZW79DgQ29i52LjNehCe96a4a0MP8qJhhyAib77n9MwZVzcdsUX8bRpy7ERTlLyFVabtY_tjFP6mJvFTTpgmOgb1uR3-QR7_c5n2CsqnksQ23e-BFU');">
+<button class="absolute top-4 right-4 bg-primary text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg uppercase tracking-wide flex items-center gap-1 hover:bg-white hover:text-primary transition-colors cursor-pointer group/badge">
+              July 2023
+              <span class="material-symbols-outlined text-[16px] group-hover/badge:scale-110 transition-transform">edit</span>
+</button>
+<div class="flex flex-col p-5 gap-1 relative z-20">
+<span class="text-primary font-medium text-sm tracking-wider uppercase">Best of Boac</span>
+<div class="flex items-start gap-2 group/title cursor-pointer rounded border border-transparent hover:border-white/30 hover:bg-black/20 p-1 -ml-1 transition-all">
+<h1 class="text-white tracking-tight text-3xl font-extrabold leading-tight drop-shadow-sm flex-1">Discovering Local Gems</h1>
+<span class="material-symbols-outlined text-white/80 group-hover/title:text-white bg-black/30 rounded-full p-1">edit</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="px-4 py-6 relative">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">trophy</span>
+<h2 class="text-xl font-bold">This Month's Winner</h2>
+</div>
+</div>
+<div class="bg-white dark:bg-[#2c271b] rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] overflow-hidden border-2 border-primary/50 dark:border-primary/30 relative">
+<div class="absolute top-4 right-4 z-20">
+<button class="bg-slate-900/90 text-white hover:bg-slate-800 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg border border-white/10 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+        Replace Business
+      </button>
+</div>
+<div class="relative h-48 bg-slate-200 dark:bg-slate-700 opacity-90">
+<img alt="Casa de Don Emilio exterior" class="w-full h-full object-cover grayscale-[20%]" data-alt="Traditional ancestral house restaurant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTd5Otfg12ewKAbs7uThDHT4EgwKld0ErLwH2Sl4chWD0p1PZu0o87Jtcs_xiQNAg5e_9XBSQP17fQYAjJGvF_jIwJkmdKGAbYw6RR2fCKAwG68RpTmiTZo54OzcKuDf4mrjMGSffY7kxzSB3ztKZo_cJHM0lbFp9fuZx8TbcTGtXZVMx89ya1zVtRM4jcOM9YadX_MqmiZqYOKrPZdcXaXgcZz1DDpqF3mE2IJF-MmlOs_Ojrv5j-X5wL9A9lGMTh-0zlTc_MjfY"/>
+<div class="absolute -bottom-4 right-4 bg-primary text-slate-900 size-14 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-[#2c271b] z-10" title="Gold Winner">
+<span class="material-symbols-outlined text-3xl">verified</span>
+</div>
+</div>
+<div class="p-5 pt-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-primary text-xs font-bold tracking-widest uppercase mb-1 block">Gold Winner</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">Casa de Don Emilio</h3>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-2 text-slate-600 dark:text-slate-300 text-sm opacity-75">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">restaurant</span>
+<span>Ancestral Dining Experience</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>Open 8:00 AM - 9:00 PM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">location_on</span>
+<span>Mercado St., Boac, Marinduque</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700 flex gap-3 opacity-50 pointer-events-none grayscale">
+<button class="flex-1 bg-primary text-slate-900 font-bold py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">directions</span>
+              Get Directions
+            </button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white font-bold py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">call</span>
+              Call Now
+            </button>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 pb-8">
+<h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">favorite</span>
+        Why we love them
+      </h2>
+<div class="space-y-4">
+<div class="relative group">
+<div class="absolute -right-2 -top-2 z-10 bg-white dark:bg-slate-700 rounded-full p-1 shadow border border-slate-200 dark:border-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm text-primary">edit</span>
+</div>
+<textarea class="w-full text-sm leading-relaxed text-slate-600 dark:text-slate-300 bg-transparent border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-3 hover:border-primary dark:hover:border-primary focus:border-primary dark:focus:border-primary focus:ring-0 transition-colors resize-y min-h-[140px]" rows="6">Stepping into Casa de Don Emilio is like taking a delightful journey back in time. Nestled in the heart of Boac, this ancestral house-turned-restaurant perfectly captures the charm of old Marinduque while serving up some of the most authentic flavors on the island. The preservation of the original architecture creates an ambiance that is both majestic and cozy, making every meal feel like a special occasion.</textarea>
+</div>
+<div class="relative group">
+<div class="absolute -right-2 -top-2 z-10 bg-white dark:bg-slate-700 rounded-full p-1 shadow border border-slate-200 dark:border-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm text-primary">edit</span>
+</div>
+<textarea class="w-full text-sm leading-relaxed text-slate-600 dark:text-slate-300 bg-transparent border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-3 hover:border-primary dark:hover:border-primary focus:border-primary dark:focus:border-primary focus:ring-0 transition-colors resize-y min-h-[180px]" rows="8">What truly sets them apart this month is their renewed commitment to sourcing ingredients solely from local farmers in the Gasan and Mogpog areas. Their signature Ulang-Ulang soup has become the talk of the town, offering a richness that can only come from fresh, river-caught shrimp. Whether you're a local looking for comfort food or a visitor wanting a taste of history, Casa de Don Emilio delivers an experience that honors our heritage with every bite.</textarea>
+</div>
+<button class="flex items-center gap-2 text-sm text-primary font-bold hover:bg-slate-50 dark:hover:bg-slate-800/50 p-2 rounded-lg transition-colors w-full border border-dashed border-primary/30 justify-center">
+<span class="material-symbols-outlined">add_circle</span> Add another paragraph
+        </button>
+</div>
+</section>
+<section class="pb-8 opacity-75 grayscale-[30%] pointer-events-none select-none relative">
+<div class="absolute inset-0 z-10 bg-slate-50/10 dark:bg-slate-900/10"></div>
+<div class="px-4 mb-4 flex justify-between items-end">
+<h2 class="text-xl font-bold">Top Runners-up</h2>
+<span class="text-sm text-primary font-medium">View all</span>
+</div>
+<div class="flex overflow-x-hidden gap-4 px-4 pb-4">
+<div class="shrink-0 w-64 bg-white dark:bg-[#2c271b] rounded-lg shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+<div class="h-32 bg-slate-200 dark:bg-slate-700 relative">
+<img alt="Kusina sa Plaza interior" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCysVo8oFOBDiS79rZVx1ynYQ04oW7FonWVi9iR-TbPrQOD_of_4bgeMRO-v3Nar7eyoVRGjSlzSckgoRiEOJkBih900nd4yp2-sQRCiUy0HvIbozCjaA54qmXTg4d-ETXLVzOW8fHqniSjE22YkMvC4AvLj3KnEhAd7Dsuw9_lF6HTy-pZuj29RYtl48VlFboG8-bNaiC0zDOeQVAwT9G2pDIjV9o8xVWfdWVMwxBGV4VDqjudnFO59XzdXOyqri7xlBKU4pvjBdg"/>
+<div class="absolute top-2 left-2 bg-slate-900/70 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">#2 Silver</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-slate-900 dark:text-white truncate">Kusina sa Plaza</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Filipino Comfort Food</p>
+</div>
+</div>
+<div class="shrink-0 w-64 bg-white dark:bg-[#2c271b] rounded-lg shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+<div class="h-32 bg-slate-200 dark:bg-slate-700 relative">
+<img alt="Boac Hotel facade" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYnVyvqvR2Z4NZI_nwzK4DcV12VTpI4BjHW2yTggePSeFKrj_6vfpoHr2hgoD_ome2Q6lpSQ0bx05KLt6YOKRaApAOZkc6FKrLC4RkYQu6yFr1w4homrjILaLOrA0uSA0QIkmAZPJ7iKyVCdw5fnsnIGOHUW0_hA82eSluPGePD7AJXe81V0HyxNatZq4882fV1lOgKpvmltbhtgqLq3m_qJHvNSe3f2QvvkB_YJyMjm6MU9wHRVojdvnaXIkdkvp8VURxR4R-2lQ"/>
+<div class="absolute top-2 left-2 bg-[#cd7f32]/90 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">#3 Bronze</div>
+</div>
+<div class="p-3">
+<h3 class="font-bold text-slate-900 dark:text-white truncate">Boac Hotel Café</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Coffee &amp; Pastries</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="fixed bottom-0 left-0 w-full z-50 bg-white dark:bg-[#1a160c] border-t border-slate-200 dark:border-slate-800 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+<div class="flex items-center justify-between px-4 py-3 gap-3 max-w-lg mx-auto">
+<button class="flex-1 text-slate-600 dark:text-slate-400 font-bold py-3 px-4 rounded-lg text-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+      Cancel
+    </button>
+<button class="flex-[2] bg-slate-900 dark:bg-primary text-white dark:text-slate-900 font-bold py-3 px-4 rounded-lg text-sm shadow-md hover:bg-slate-800 dark:hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">save</span>
+      Save Changes
+    </button>
+</div>
+</div>
+<style>.pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+
+</body></html>
