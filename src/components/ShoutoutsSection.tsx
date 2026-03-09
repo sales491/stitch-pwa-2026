@@ -137,16 +137,11 @@ export default function ShoutoutsSection({
                     </div>
                     <h2 className="text-lg font-black text-text-main dark:text-text-main-dark">Shoutouts</h2>
                 </div>
-                <div className="flex items-center gap-2">
-                    {savedMsg && (
-                        <span className="text-[9px] font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg animate-pulse">
-                            {savedMsg}
-                        </span>
-                    )}
-                    <Link href="/directory" className="text-[10px] font-black text-moriones-red uppercase tracking-[0.2em] hover:underline">
-                        View All
-                    </Link>
-                </div>
+                {savedMsg && (
+                    <span className="text-[9px] font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg animate-pulse">
+                        {savedMsg}
+                    </span>
+                )}
             </div>
 
             {/* ── 2-column grid: each column = card + writeup ── */}
@@ -184,8 +179,8 @@ export default function ShoutoutsSection({
                                         <button
                                             onClick={() => toggleSwap(slot)}
                                             className={`absolute top-2 left-2 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-xl flex items-center gap-1 z-10 shadow-xl transition-all active:scale-95 ${isSwapping
-                                                    ? 'bg-moriones-red text-white'
-                                                    : 'bg-slate-900/80 backdrop-blur-md text-white'
+                                                ? 'bg-moriones-red text-white'
+                                                : 'bg-slate-900/80 backdrop-blur-md text-white'
                                                 }`}
                                         >
                                             <span className="material-symbols-outlined text-[13px]">swap_horiz</span>
@@ -251,8 +246,8 @@ export default function ShoutoutsSection({
                             {/* ── Writeup block — clicking the edit icon opens editor inline ── */}
                             <div
                                 className={`relative rounded-2xl border overflow-hidden flex flex-col transition-all ${writeupText
-                                        ? 'border-moriones-red/20 bg-surface-light dark:bg-surface-dark'
-                                        : 'border-dashed border-border-light dark:border-border-dark bg-transparent'
+                                    ? 'border-moriones-red/20 bg-surface-light dark:bg-surface-dark'
+                                    : 'border-dashed border-border-light dark:border-border-dark bg-transparent'
                                     }`}
                             >
                                 {/* Admin edit icon — always visible for admin */}
@@ -260,8 +255,8 @@ export default function ShoutoutsSection({
                                     <button
                                         onClick={() => toggleEdit(slot)}
                                         className={`absolute right-2 top-2 p-1.5 rounded-lg border z-10 shadow-sm transition-all active:scale-95 ${isEditing
-                                                ? 'bg-moriones-red border-moriones-red text-white'
-                                                : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-moriones-red'
+                                            ? 'bg-moriones-red border-moriones-red text-white'
+                                            : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-moriones-red'
                                             }`}
                                         title={isEditing ? 'Cancel editing' : 'Edit writeup'}
                                     >

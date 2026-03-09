@@ -5,6 +5,7 @@ import { isAdmin as checkIsAdmin } from '@/utils/roles';
 import { BUSINESSES } from '@/data/businesses';
 import ShoutoutsSection, { type ShoutoutItem } from '@/components/ShoutoutsSection';
 import WinnerSection from '@/components/WinnerSection';
+import MonthPill from '@/components/MonthPill';
 
 export const revalidate = 0;
 
@@ -135,22 +136,33 @@ export default async function BestOfBoacPage() {
   const writeup2 = spotlight?.writeup_2 ?? '';
   const winnerWriteup1 = spotlight?.winner_writeup_1 ?? '';
   const winnerWriteup2 = spotlight?.winner_writeup_2 ?? '';
+  const displayLabel = (spotlight?.display_label as string | null) ?? monthLabel;
 
   return (
     <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
       {/* ── Header ──────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20 shadow-sm">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-            <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-          </Link>
-          <h1 className="text-base font-black text-text-main dark:text-text-main-dark tracking-tight">
-            Best of Boac
+      <div className="relative flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20 shadow-sm">
+
+        {/* Centered title — absolutely positioned so it's always truly centered */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <h1 className="flex flex-col items-center leading-none" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <span className="text-[20px] font-black leading-none tracking-tight">
+              <span className="text-moriones-red">Best of </span>
+              <span style={{ color: '#C9A84C' }}>Boac</span>
+            </span>
+            <span className="h-[2px] mt-1 w-full rounded-full" style={{ background: 'linear-gradient(to right, #C01818, #C9A84C)' }} />
           </h1>
         </div>
 
-        {isAdmin ? (
+        {/* Invisible height spacer — mirrors title to keep header height consistent */}
+        <div aria-hidden className="invisible flex flex-col leading-none">
+          <span className="text-[20px] font-black leading-none">Best of Boac</span>
+          <span className="h-[2px] mt-1" />
+        </div>
+
+        {/* Right — admin button */}
+        {isAdmin && (
           <Link
             href="/admin/best-of-boac"
             className="bg-moriones-red text-white px-3.5 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.15em] shadow-sm shadow-moriones-red/30 active:scale-95 transition-all flex items-center gap-1.5"
@@ -158,44 +170,40 @@ export default async function BestOfBoacPage() {
             <span className="material-symbols-outlined text-[13px]">admin_panel_settings</span>
             Admin
           </Link>
-        ) : (
-          <span className="text-[9px] font-black text-moriones-red uppercase tracking-widest bg-moriones-red/10 px-2.5 py-1.5 rounded-lg">
-            {monthLabel}
-          </span>
         )}
       </div>
 
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <div className="relative w-full h-72 bg-slate-900 overflow-hidden">
-        {winnerImage ? (
+      {/* Outer wrapper has no overflow-hidden so the MonthPill can straddle the top edge */}
+      <div className="relative w-full">
+        <div className="relative w-full h-72 bg-slate-900 overflow-hidden">
           <Image
-            src={winnerImage}
-            alt={winner?.business_name ?? 'Best of Boac'}
+            src="/best-of-boac-hero.png"
+            alt="Best of Boac — Monthly Spotlight"
             fill
             className="object-cover"
             sizes="(max-width: 672px) 100vw, 672px"
             priority
           />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-moriones-red/80 to-slate-900 flex items-center justify-center">
-            <span className="material-symbols-outlined text-white/20 text-8xl" style={{ fontVariationSettings: '"FILL" 1' }}>storefront</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-moriones-red px-3 py-1 rounded-full mb-2">
+              <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: '"FILL" 1' }}>star</span>
+              <span className="text-xs font-black uppercase tracking-[0.25em]">Featured Spotlight</span>
+            </div>
+            <h2 className="text-2xl font-black text-white leading-tight line-clamp-2 drop-shadow-lg">
+              {winner?.business_name ?? 'Top Spots This Month'}
+            </h2>
           </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-
-        <div className="absolute top-4 right-4 flex items-center gap-2 bg-moriones-red text-white rounded-xl px-3 py-1.5 shadow-lg shadow-moriones-red/40">
-          <span className="text-[10px] font-black uppercase tracking-widest">{monthLabel}</span>
-          <span className="material-symbols-outlined text-[16px]">event</span>
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-[10px] font-black text-moriones-red uppercase tracking-[0.3em] mb-1 drop-shadow">
-            Featured Spotlight
-          </p>
-          <h2 className="text-2xl font-black text-white leading-tight line-clamp-2 drop-shadow-lg">
-            {winner?.business_name ?? 'Top Spots This Month'}
-          </h2>
-        </div>
+        {/* Month pill — straddles header/hero boundary */}
+        <MonthPill
+          label={displayLabel}
+          monthYear={monthYear}
+          isAdmin={isAdmin}
+        />
       </div>
 
       {/* ── Empty state ─────────────────────────────────────────── */}

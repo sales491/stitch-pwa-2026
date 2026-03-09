@@ -96,3 +96,18 @@ export async function swapWinnerBusiness(monthYear: string, businessId: string) 
     if (error) throw new Error(error.message);
     revalidatePath('/best-of-boac-monthly-spotlight');
 }
+
+/** Update the display label shown on the hero pill (e.g. "March 2026"). */
+export async function updateDisplayLabel(monthYear: string, label: string) {
+    const supabase = await requireAdmin();
+
+    const { error } = await supabase
+        .from('boac_spotlights')
+        .upsert(
+            { month_year: monthYear, display_label: label, updated_at: new Date().toISOString() },
+            { onConflict: 'month_year' }
+        );
+
+    if (error) throw new Error(error.message);
+    revalidatePath('/best-of-boac-monthly-spotlight');
+}
