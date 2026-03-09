@@ -262,17 +262,14 @@ export default function MarinduqueJobsListingFeed({ initialJobs, totalCount, cur
         )}
       </main>
 
-      {/* FAB */}
-      <div className="fixed bottom-10 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
+      {/* Post Job Bar — above bottom nav, right-aligned */}
+      <div className="fixed bottom-24 left-0 right-0 z-50 max-w-md mx-auto px-4 pointer-events-none flex justify-end">
         <Link
           href="/jobs/create"
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-110 active:scale-95 group pointer-events-auto"
-          title="Post a Job"
+          className="pointer-events-auto flex items-center gap-1.5 bg-moriones-red text-white px-3.5 py-2 rounded-xl shadow-lg shadow-moriones-red/40 active:scale-95 transition-all hover:bg-moriones-red/90"
         >
-          <span className="material-symbols-outlined text-[32px]">add_business</span>
-          <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 transition-opacity group-hover:opacity-100 pointer-events-none shadow-xl">
-            Hire Someone
-          </span>
+          <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: '"FILL" 1' }}>work</span>
+          <span className="text-[9px] font-black uppercase tracking-[0.12em] whitespace-nowrap">Post a Job Opening</span>
         </Link>
       </div>
     </div>
