@@ -15,6 +15,7 @@ interface Notification {
 interface NotificationContextType {
     notifications: Notification[];
     unreadCount: number;
+    hasPendingApprovals: boolean;
     loading: boolean;
     markAsRead: (id: string) => Promise<void>;
     markAllAsRead: () => Promise<void>;
@@ -46,11 +47,27 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         }
     }, [supabase]);
 
+    const [hasPendingApprovals, setHasPendingApprovals] = useState(false);
+
+    const fetchPendingCount = useCallback(async (userId: string) => {
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', userId).single();
+        if (profile?.role === 'admin' || profile?.role === 'moderator') {
+            const { count: bizCount } = await supabase.from('business_profiles').select('*', { count: 'exact', head: true }).eq('is_verified', false);
+            const { count: listCount } = await supabase.from('listings').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+            setHasPendingApprovals((bizCount || 0) + (listCount || 0) > 0);
+        } else {
+            setHasPendingApprovals(false);
+        }
+    }, [supabase]);
+
+
+
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
             if (session?.user) {
                 fetchNotifications(session.user.id);
+                fetchPendingCount(session.user.id);
             } else {
                 setLoading(false);
             }
@@ -60,8 +77,10 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
             setUser(session?.user ?? null);
             if (session?.user) {
                 fetchNotifications(session.user.id);
+                fetchPendingCount(session.user.id);
             } else {
                 setNotifications([]);
+                setHasPendingApprovals(false);
                 setLoading(false);
             }
         });
@@ -78,13 +97,19 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                     fetchNotifications(user.id);
                 }
             })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'business_profiles' }, () => {
+                if (user) fetchPendingCount(user.id);
+            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, () => {
+                if (user) fetchPendingCount(user.id);
+            })
             .subscribe();
 
         return () => {
             subscription.unsubscribe();
             supabase.removeChannel(channel);
         };
-    }, [supabase, fetchNotifications, user?.id]);
+    }, [supabase, fetchNotifications, fetchPendingCount, user?.id]);
 
     const markAsRead = async (id: string) => {
         try {
@@ -122,10 +147,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         <NotificationContext.Provider value={{
             notifications,
             unreadCount,
+            hasPendingApprovals,
             loading,
             markAsRead,
             markAllAsRead,
-            refresh: () => user ? fetchNotifications(user.id) : Promise.resolve()
+            refresh: () => user ? Promise.all([fetchNotifications(user.id), fetchPendingCount(user.id)]).then(() => { }) : Promise.resolve()
         }}>
             {children}
         </NotificationContext.Provider>

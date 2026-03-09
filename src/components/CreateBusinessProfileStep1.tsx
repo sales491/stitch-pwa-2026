@@ -57,7 +57,7 @@ export default function CreateBusinessProfileStep1() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1">
         {/* Hero Text */}
         <div className="px-6 py-4">
           <h1 className="text-2xl font-black leading-tight text-slate-900 dark:text-white mb-2">Let&apos;s start with the basics</h1>

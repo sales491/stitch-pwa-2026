@@ -155,7 +155,7 @@ export default function CreateNewJobPostScreen() {
         )}
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto pb-24 px-4 pt-6 max-w-lg mx-auto w-full">
+        <main className="flex-1 pb-24 px-4 pt-6 max-w-lg mx-auto w-full">
           <form onSubmit={handlePost} className="space-y-6">
             {/* Job Title */}
             <div className="space-y-2">

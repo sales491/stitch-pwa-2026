@@ -92,12 +92,12 @@ export default function MarinduqueClassifiedsMarketplace({ initialListings }: Ma
 
   return (
     <>
-      <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+      <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
         {/* Header */}
         <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
           <div className="flex items-center justify-between px-4 pt-4 pb-2">
             <div className="flex items-center gap-2">
-              <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+              <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
                 <span className="material-symbols-outlined text-[28px]">arrow_back</span>
               </Link>
               <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Marinduque Classifieds</h1>
@@ -134,7 +134,7 @@ export default function MarinduqueClassifiedsMarketplace({ initialListings }: Ma
         </header>
 
         {/* Listings Grid */}
-        <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-4">
+        <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-bold text-text-main dark:text-text-main-dark">
               {filtered.length} listing{filtered.length !== 1 ? 's' : ''}

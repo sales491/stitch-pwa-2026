@@ -170,7 +170,7 @@ export default function ShareALocalGemScreen() {
           });
         }
 
-        router.push('/gems-of-marinduque-feed');
+        router.push("/gems");
       } catch (err: any) {
         setErrorMsg(err.message || 'Something went wrong. Please try again.');
       }
@@ -189,7 +189,7 @@ export default function ShareALocalGemScreen() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto no-scrollbar pb-32">
+      <main className="flex-1 no-scrollbar pb-32">
         {errorMsg && (
           <div className="mx-4 mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-lg text-sm flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
             <span className="material-symbols-outlined text-[18px]">error</span>

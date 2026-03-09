@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
 interface FlagButtonProps {
-    contentType: 'listing' | 'job' | 'post' | 'business' | 'commute' | 'review';
+    contentType: 'listing' | 'job' | 'post' | 'comment' | 'business' | 'commute' | 'review';
     contentId: string;
 }
 
@@ -63,6 +63,18 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
             }
             setSubmitting(false);
             return;
+        }
+
+        // For operator/commute flags: also push directly to moderation_queue
+        // (transport_services doesn't have a flag_count column, so the DB
+        //  trigger won't fire — we write the queue row ourselves instead)
+        if (contentType === 'commute') {
+            await supabase.from('moderation_queue' as any).upsert({
+                content_type: contentType,
+                content_id: contentId,
+                status: 'pending',
+                queued_at: new Date().toISOString(),
+            }, { onConflict: 'content_type,content_id', ignoreDuplicates: false });
         }
 
         setDone(true);

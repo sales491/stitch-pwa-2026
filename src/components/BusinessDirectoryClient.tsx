@@ -40,7 +40,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             <header className="sticky top-0 z-30 flex flex-col bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03]">
                 <div className="flex items-center justify-between px-4 pt-3 pb-1">
                     <div className="flex items-center gap-3">
-                        <Link href="/marinduque-connect-home-feed" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                        <Link href="/" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
                             <span className="material-symbols-outlined text-[26px]">arrow_back</span>
                         </Link>
                         <div>
@@ -157,14 +157,12 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             {/* List Business FAB */}
             <div className="fixed bottom-28 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
                 <Link
-                    href="/directory/create"
-                    className="flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-110 active:scale-95 group pointer-events-auto"
-                    title="List Business"
+                    href="/onboarding/business"
+                    className="flex items-center gap-2 h-14 px-6 rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 pointer-events-auto group"
+                    title="Add Listing"
                 >
-                    <span className="material-symbols-outlined text-[32px]">add</span>
-                    <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 transition-opacity group-hover:opacity-100 pointer-events-none shadow-xl">
-                        List Business
-                    </span>
+                    <span className="material-symbols-outlined text-[24px] group-hover:rotate-12 transition-transform">add_business</span>
+                    <span className="font-black text-[11px] uppercase tracking-widest leading-none mt-0.5">Add Listing</span>
                 </Link>
             </div>
         </div >

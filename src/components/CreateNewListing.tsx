@@ -165,7 +165,7 @@ export default function CreateNewListing() {
           await createListing(payload);
         }
 
-        router.push('/marinduque-classifieds-marketplace');
+        router.push("/marketplace?posted=1");
       } catch (err: any) {
         setFilterError(err.message || 'Something went wrong. Please try again.');
       }
@@ -176,7 +176,7 @@ export default function CreateNewListing() {
     <form onSubmit={handleSubmit} className="min-h-screen bg-surface-light dark:bg-surface-dark">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 px-4 py-3 flex items-center justify-between">
-        <Link href="/marinduque-classifieds-marketplace" className="p-2 -ml-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors text-slate-900 dark:text-slate-100">
+        <Link href="/marketplace" className="p-2 -ml-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors text-slate-900 dark:text-slate-100">
           <span className="material-symbols-outlined">arrow_back</span>
         </Link>
         <h1 className="text-lg font-bold text-center flex-1">{isEditing ? 'Edit Listing' : 'New Listing'}</h1>
@@ -187,9 +187,9 @@ export default function CreateNewListing() {
 
       {/* Status messages */}
       <div className="px-4 pt-4 space-y-3">
-        <div className="flex items-start gap-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl px-4 py-3 text-xs text-green-700 dark:text-green-400">
-          <span className="material-symbols-outlined text-[16px] shrink-0 mt-0.5">check_circle</span>
-          <span>Classified ads go <strong>live immediately</strong> after passing our content guidelines check.</span>
+        <div className="flex items-start gap-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3 text-xs text-amber-700 dark:text-amber-400">
+          <span className="material-symbols-outlined text-[16px] shrink-0 mt-0.5">pending</span>
+          <span>Your listing will be <strong>reviewed by our team</strong> before going live in the Marketplace. Most listings are approved within minutes.</span>
         </div>
 
         {filterError && (

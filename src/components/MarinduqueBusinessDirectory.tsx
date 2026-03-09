@@ -38,7 +38,7 @@ function BusinessCard({ business }: { business: BusinessProfile }) {
                 <div className="bg-white text-slate-900 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
                     <span className="text-amber-400 material-symbols-outlined text-[14px] font-variation-settings-fill">star</span> {(business.average_rating || 4.5).toFixed(1)}
                 </div>
-                <AdminActions contentType="business" contentId={business.id} authorId={business.user_id || undefined} />
+                <AdminActions contentType="business" contentId={business.id} authorId={business.owner_id || undefined} />
             </div>
 
             {/* Image or placeholder */}
@@ -124,7 +124,7 @@ export default function MarinduqueBusinessDirectory({ initialBusinesses }: Direc
             <div className="sticky top-0 z-50 bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800 shadow-sm">
                 {/* Top bar */}
                 <div className="flex items-center gap-3 px-4 pt-4 pb-3">
-                    <Link href="/marinduque-connect-home-feed" className="text-teal-700 dark:text-teal-400 shrink-0">
+                    <Link href="/" className="text-teal-700 dark:text-teal-400 shrink-0">
                         <span className="material-symbols-outlined">arrow_back</span>
                     </Link>
                     {/* Search bar */}

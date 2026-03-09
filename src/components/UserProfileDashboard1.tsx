@@ -134,9 +134,9 @@ export default function UserProfileDashboard1() {
               Sign Out
             </button>
           )}
-          <button className="p-2 rounded-full hover:bg-background-main text-text-main transition-colors text-neutral-900 dark:text-white">
+          <Link href="/profile/edit" className="p-2 rounded-full hover:bg-background-main text-text-main transition-colors text-neutral-900 dark:text-white" aria-label="Edit Profile">
             <span className="material-symbols-outlined text-[20px]">settings</span>
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -161,9 +161,9 @@ export default function UserProfileDashboard1() {
           </div>
         ) : (
           <div className="flex flex-col items-center pt-8 pb-6">
-            <div className="relative mb-4 group cursor-pointer">
+            <Link href="/profile/edit" className="relative mb-4 group cursor-pointer">
               {profile?.avatar_url || user.user_metadata?.avatar_url ? (
-                <img src={profile?.avatar_url || user.user_metadata.avatar_url} alt="Avatar" className="h-28 w-28 rounded-full object-cover border-4 border-background-main shadow-lg border-white dark:border-neutral-800" />
+                <img src={profile?.avatar_url || user.user_metadata.avatar_url} alt="Avatar" referrerPolicy="no-referrer" className="h-28 w-28 rounded-full object-cover border-4 border-background-main shadow-lg border-white dark:border-neutral-800" />
               ) : (
                 <div className="h-28 w-28 rounded-full bg-background-main border-4 border-border-main shadow-lg flex items-center justify-center text-3xl font-bold text-text-muted bg-neutral-100 dark:bg-neutral-800 border-white dark:border-neutral-800">
                   {user.email?.charAt(0).toUpperCase()}
@@ -172,7 +172,7 @@ export default function UserProfileDashboard1() {
               <div className="absolute bottom-0 right-0 bg-moriones-red text-white p-1.5 rounded-full border-2 border-background-main flex items-center justify-center shadow-sm border-white dark:border-neutral-800">
                 <span className="material-symbols-outlined text-[16px] leading-none">edit</span>
               </div>
-            </div>
+            </Link>
 
             <div className="text-center space-y-1">
               <h1 className="text-2xl font-bold text-text-main flex items-center justify-center gap-2 text-neutral-900 dark:text-white">
@@ -208,10 +208,23 @@ export default function UserProfileDashboard1() {
 
             {/* Action Buttons */}
             <div className="w-full max-w-sm flex gap-3 mt-6">
-              <button className="flex-1 bg-text-main text-background-main py-2.5 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity">
+              <Link
+                href="/profile/edit"
+                className="flex-1 bg-text-main text-background-main py-2.5 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity text-center"
+              >
                 Edit Profile
-              </button>
-              <button className="flex-1 bg-background-main border border-border-main text-text-main py-2.5 rounded-lg font-semibold text-sm hover:opacity-80 transition-opacity">
+              </Link>
+              <button
+                onClick={() => {
+                  const url = window.location.origin + '/profile';
+                  if (navigator.share) {
+                    navigator.share({ title: profile?.full_name || 'My Profile', url });
+                  } else {
+                    navigator.clipboard.writeText(url).then(() => alert('Profile link copied!'));
+                  }
+                }}
+                className="flex-1 bg-background-main border border-border-main text-text-main py-2.5 rounded-lg font-semibold text-sm hover:opacity-80 transition-opacity"
+              >
                 Share Profile
               </button>
             </div>
@@ -220,11 +233,11 @@ export default function UserProfileDashboard1() {
             {isUserAdmin && (
               <div className="w-full max-w-sm mt-4">
                 <Link
-                  href="/marinduque-connect-admin-dashboard"
+                  href="/admin"
                   className="flex items-center justify-center gap-2 w-full bg-background-main border border-border-main text-text-main py-3 rounded-xl font-bold text-sm hover:opacity-80 transition-opacity"
                 >
                   <span className="material-symbols-outlined text-moriones-red text-[20px]">admin_panel_settings</span>
-                  Go To Admin Dashboard
+                  Enter Admin Panel
                 </Link>
               </div>
             )}

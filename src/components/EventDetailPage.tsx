@@ -54,7 +54,7 @@ export default function EventDetailPage({ event: initialEvent }: EventDetailPage
 
                 {/* Navigation Overlays */}
                 <div className="absolute top-12 left-4 flex items-center gap-3">
-                    <Link href="/marinduque-events-calendar" className="flex size-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 transition-all border border-white/20">
+                    <Link href="/events" className="flex size-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 transition-all border border-white/20">
                         <span className="material-symbols-outlined">arrow_back</span>
                     </Link>
                 </div>

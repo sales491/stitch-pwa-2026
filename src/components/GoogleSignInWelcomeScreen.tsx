@@ -51,7 +51,7 @@ export default function GoogleSignInWelcomeScreen() {
           </div>
           {/* Footer links */}
           <div className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
-            <p>By continuing, you agree to our <a className="underline hover:text-primary dark:hover:text-primary transition-colors" href="/marinduque-connect-home-feed">Terms of Service</a> and <a className="underline hover:text-primary dark:hover:text-primary transition-colors" href="/marinduque-connect-home-feed">Privacy Policy</a>.</p>
+            <p>By continuing, you agree to our <a className="underline hover:text-primary dark:hover:text-primary transition-colors" href="/">Terms of Service</a> and <a className="underline hover:text-primary dark:hover:text-primary transition-colors" href="/">Privacy Policy</a>.</p>
           </div>
         </div>
         {/* Bottom Safe Area Spacer */}

@@ -71,17 +71,17 @@ export default function AdminCreateBlogPost() {
       setErrorMsg(res.error);
       setIsPublishing(false);
     } else {
-      router.push('/the-hidden-foreigner-blog-feed');
+      router.push("/blog");
       router.refresh();
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl bg-white dark:bg-zinc-900">
+      <form onSubmit={handleSubmit} className="relative flex w-full flex-col max-w-md mx-auto shadow-2xl bg-white dark:bg-zinc-900">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center bg-white dark:bg-zinc-900 p-4 pb-2 justify-between border-b border-gray-100 dark:border-zinc-800">
-          <Link href="/the-hidden-foreigner-blog-feed" className="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 rounded-full transition-colors">
+          <Link href="/blog" className="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 rounded-full transition-colors">
             <span className="material-symbols-outlined">arrow_back</span>
           </Link>
           <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight flex-1 text-center">New Blog Post</h2>
@@ -89,7 +89,7 @@ export default function AdminCreateBlogPost() {
         </div>
 
         {/* Main Content Scrollable Area */}
-        <div className="flex-1 overflow-y-auto pb-24">
+        <div className="flex-1 pb-24">
           <div className="flex flex-col gap-5 p-4 pb-6">
             {errorMsg && (
               <div className="p-3 bg-red-50 text-red-600 rounded-lg text-sm border border-red-200">

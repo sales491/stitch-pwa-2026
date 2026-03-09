@@ -36,7 +36,6 @@ export async function createEvent(data: EventInput) {
 
     if (error) throw new Error(error.message);
 
-    revalidatePath('/marinduque-events-calendar');
     revalidatePath('/events');
     return { success: true };
 }
@@ -68,7 +67,6 @@ export async function deleteEvent(id: string) {
         if (error) throw new Error(error.message);
     }
 
-    revalidatePath('/marinduque-events-calendar');
     revalidatePath('/events');
     return { success: true };
 }

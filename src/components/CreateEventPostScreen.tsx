@@ -153,7 +153,7 @@ export default function CreateEventPostScreen() {
       }
 
       alert(isEditing ? 'Event updated successfully!' : 'Event published successfully!');
-      router.push('/marinduque-events-calendar');
+      router.push("/events");
       router.refresh();
     } catch (err: any) {
       alert(`Error publishing event: ${err.message}`);
@@ -163,10 +163,10 @@ export default function CreateEventPostScreen() {
 
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-white dark:bg-zinc-900 shadow-xl overflow-x-hidden">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-white dark:bg-zinc-900 shadow-xl">
       {/* Header */}
       <header className="sticky top-0 z-10 flex items-center bg-white dark:bg-zinc-900 px-4 py-3 justify-between border-b border-gray-100 dark:border-zinc-800">
-        <Link href="/marinduque-events-calendar" className="flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">
+        <Link href="/events" className="flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">
           <span className="material-symbols-outlined">arrow_back</span>
         </Link>
         <h2 className="text-lg font-bold leading-tight flex-1 text-center pr-10 text-slate-900 dark:text-white">{isEditing ? 'Edit Event' : 'Create Event'}</h2>
@@ -181,7 +181,7 @@ export default function CreateEventPostScreen() {
       )}
 
       {/* Main Content Form */}
-      <form onSubmit={handlePublish} className="flex-1 overflow-y-auto no-scrollbar pb-24">
+      <form onSubmit={handlePublish} className="flex-1 pb-24">
         {/* Upload Section */}
         <div className="px-4 py-5">
           <div className="grid grid-cols-2 gap-3">

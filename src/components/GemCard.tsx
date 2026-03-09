@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
+import { toggleGemLike } from '@/app/actions/gems';
 
 type GemProps = {
     id: string;
@@ -13,12 +14,19 @@ type GemProps = {
     town: string;
     imageUrl: string;
     authorId: string;
+    likeCount?: number;
+    isLikedByMe?: boolean;
 };
 
-export default function GemCard({ id, title, town, imageUrl, authorId }: GemProps) {
+export default function GemCard({ id, title, town, imageUrl, authorId, likeCount = 0, isLikedByMe = false }: GemProps) {
     const { profile } = useAuth();
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
+
+    // ── Vouch / Like state ──────────────────────────────────────
+    const [liked, setLiked] = useState(isLikedByMe);
+    const [count, setCount] = useState(likeCount);
+    const [isPending, setIsPending] = useState(false);
 
     // God-Mode / Author Check
     const isOwnerOrMod = profile?.id === authorId || profile?.role === 'admin' || profile?.role === 'moderator';
@@ -40,6 +48,33 @@ export default function GemCard({ id, title, town, imageUrl, authorId }: GemProp
         } else {
             alert('Failed to delete gem.');
             setIsDeleting(false);
+        }
+    };
+
+    const handleVouch = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isPending) return;
+        if (!profile) {
+            alert('Sign in to vouch for this gem!');
+            return;
+        }
+
+        // Optimistic update
+        const wasLiked = liked;
+        setLiked(!wasLiked);
+        setCount(prev => Math.max(0, prev + (wasLiked ? -1 : 1)));
+        setIsPending(true);
+
+        try {
+            const res = await toggleGemLike(id);
+            setLiked(res.liked);
+        } catch {
+            // Revert on failure
+            setLiked(wasLiked);
+            setCount(prev => Math.max(0, prev + (wasLiked ? 1 : -1)));
+        } finally {
+            setIsPending(false);
         }
     };
 
@@ -82,9 +117,30 @@ export default function GemCard({ id, title, town, imageUrl, authorId }: GemProp
                 </div>
             </Link>
 
+            {/* ── Vouch (Thumbs Up) Button ─────────────────────────── */}
+            <button
+                onClick={handleVouch}
+                disabled={isPending}
+                title={liked ? 'Un-vouch' : 'Vouch for this gem'}
+                className={`absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-2 rounded-2xl backdrop-blur-md border shadow-xl transition-all active:scale-95 ${liked
+                        ? 'bg-moriones-red/90 border-moriones-red text-white shadow-moriones-red/30'
+                        : 'bg-white/10 border-white/20 text-white/90 hover:bg-white/20'
+                    }`}
+            >
+                <span
+                    className="material-symbols-outlined text-[18px] leading-none"
+                    style={{ fontVariationSettings: liked ? '"FILL" 1' : '"FILL" 0' }}
+                >
+                    thumb_up
+                </span>
+                {count > 0 && (
+                    <span className="text-[11px] font-black leading-none">{count}</span>
+                )}
+            </button>
+
             {/* Author Management */}
             {isOwnerOrMod && (
-                <div className="absolute top-6 right-6 z-20">
+                <div className="absolute top-4 right-4 z-20">
                     <button
                         onClick={handleDelete}
                         disabled={isDeleting}

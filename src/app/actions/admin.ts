@@ -116,3 +116,27 @@ export async function adminDeleteContent(contentType: string, contentId: string)
         return { success: false, error: e.message };
     }
 }
+
+export async function adminVerifyBusiness(businessId: string) {
+    console.log(`[adminVerifyBusiness] Triggered for id=${businessId}`);
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+
+        const { error } = await adminSupabase
+            .from('business_profiles')
+            .update({ is_verified: true })
+            .eq('id', businessId);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        revalidatePath(`/directory/${businessId}`);
+        revalidatePath('/directory');
+        return { success: true };
+    } catch (e: any) {
+        console.error(`[adminVerifyBusiness] Error:`, e);
+        return { success: false, error: e.message };
+    }
+}

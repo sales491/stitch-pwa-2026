@@ -75,7 +75,7 @@ export default function MarinduqueMonthlyCalendar() {
             {/* Header */}
             <header className="sticky top-0 z-40 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border-b border-slate-200 dark:border-zinc-800 px-4 pt-12 pb-4 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
-                    <Link href="/marinduque-events-calendar" className="flex size-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">
+                    <Link href="/events" className="flex size-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">
                         <span className="material-symbols-outlined">arrow_back</span>
                     </Link>
                     <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Full Calendar</h1>
@@ -117,7 +117,7 @@ export default function MarinduqueMonthlyCalendar() {
                                 <div key={idx} className="aspect-square flex flex-col items-center justify-center relative p-1">
                                     {day ? (
                                         <Link
-                                            href={hasEvent ? `/event/${hasEvent.id}` : '#'}
+                                            href={hasEvent ? `/events/${hasEvent.id}` : '#'}
                                             className={`group relative w-full h-full flex flex-col items-center justify-center rounded-2xl transition-all ${isToday ? 'bg-primary text-black' : 'hover:bg-slate-100 dark:hover:bg-zinc-800'
                                                 } ${!hasEvent && 'cursor-default pointer-events-none'}`}
                                         >
@@ -140,7 +140,7 @@ export default function MarinduqueMonthlyCalendar() {
                     <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Selected Events</h3>
                     <div className="space-y-3">
                         {Object.entries(eventsMap).map(([day, event]) => (
-                            <Link key={day} href={`/event/${event.id}`} className="flex items-center gap-4 bg-white dark:bg-zinc-900 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            <Link key={day} href={`/events/${event.id}`} className="flex items-center gap-4 bg-white dark:bg-zinc-900 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800 hover:scale-[1.02] active:scale-[0.98] transition-all">
                                 <div className={`size-10 rounded-xl flex items-center justify-center font-bold text-black ${event.color}`}>
                                     {day}
                                 </div>
@@ -155,13 +155,15 @@ export default function MarinduqueMonthlyCalendar() {
                 </div>
             </main>
 
-            {/* Floating Action Button */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 max-w-md mx-auto pointer-events-none px-6 pb-28">
-                <div className="flex justify-end pr-2 pointer-events-auto">
-                    <Link href="/events/create" className="flex items-center justify-center w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
-                        <span className="material-symbols-outlined text-black text-3xl font-bold">add</span>
-                    </Link>
-                </div>
+            {/* Create Event bar — matches main events page */}
+            <div className="fixed bottom-24 right-4 z-50">
+                <Link
+                    href="/events/create"
+                    className="flex items-center gap-1.5 bg-moriones-red text-white px-3.5 py-2 rounded-full shadow-lg shadow-moriones-red/30 text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all hover:bg-red-600"
+                >
+                    <span className="material-symbols-outlined text-[13px]">calendar_add_on</span>
+                    Create Event
+                </Link>
             </div>
         </div>
     );

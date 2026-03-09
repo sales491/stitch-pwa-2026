@@ -3,14 +3,23 @@
 import React, { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import AdminActions from './AdminActions';
+import FlagButton from './FlagButton';
+import CommunityGuidelinesGate from './CommunityGuidelinesGate';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import { useAuth } from './AuthProvider';
 import UniversalComments from './UniversalComments';
-import { getCommunityPosts, createCommunityPost, voteInPoll } from '@/app/actions/community';
+import { getCommunityPosts, createCommunityPost, voteInPoll, toggleLike, getUserLikedPostIds } from '@/app/actions/community';
 
 const TOWNS = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
 const MOODS = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
+const CATEGORIES = [
+  { key: 'all', label: 'All', icon: 'forum', color: 'text-slate-500' },
+  { key: 'news', label: 'News', icon: 'newspaper', color: 'text-sky-600' },
+  { key: 'event', label: 'Events', icon: 'event', color: 'text-purple-600' },
+  { key: 'emergency', label: 'Alerts', icon: 'crisis_alert', color: 'text-moriones-red' },
+  { key: 'general', label: 'General', icon: 'chat_bubble', color: 'text-emerald-600' },
+] as const;
 
 export default function CommunityBoardCommuterHub() {
   const { profile } = useAuth();
@@ -18,7 +27,16 @@ export default function CommunityBoardCommuterHub() {
   const [isPending, startTransition] = useTransition();
   const [postText, setPostText] = useState('');
   const [selectedTown, setSelectedTown] = useState('All Towns');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [postCategory, setPostCategory] = useState('general');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  // Guidelines gate
+  const [showGuidelinesGate, setShowGuidelinesGate] = useState(false);
+  const [hasAcceptedGuidelines, setHasAcceptedGuidelines] = useState<boolean | null>(null);
+  const [isAcceptingGuidelines, setIsAcceptingGuidelines] = useState(false);
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [attachedPhotos, setAttachedPhotos] = useState<string[]>([]);
@@ -31,21 +49,116 @@ export default function CommunityBoardCommuterHub() {
   const [expandedComments, setExpandedComments] = useState<string[]>([]);
   const [isPostTownOpen, setIsPostTownOpen] = useState(false);
 
+  // ── Likes ──────────────────────────────────────────────────
+  // Set of post IDs the current user has liked (client-side source of truth)
+  const [likedPostIds, setLikedPostIds] = useState<Set<string>>(new Set());
+  // Track in-flight like requests to prevent double-taps
+  const pendingLikes = useRef<Set<string>>(new Set());
+
+  // ── Share Toast ────────────────────────────────────────────
+  const [shareToast, setShareToast] = useState<string | null>(null);
+
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const MAX_PHOTOS = 3;
   const MAX_FILE_SIZE_MB = 5;
 
   const handlePhotoClick = () => fileInputRef.current?.click();
 
+  // Reset and reload when filters change
   useEffect(() => {
-    fetchPosts();
-  }, [selectedTown]);
+    setPosts([]);
+    setPage(0);
+    setHasMore(true);
+    fetchPage(0, true);
+  }, [selectedTown, selectedCategory]);
 
-  const fetchPosts = async () => {
-    const data = await getCommunityPosts(selectedTown);
-    setPosts(data);
+  // Load more when page increments (skip page 0 — handled above)
+  useEffect(() => {
+    if (page > 0) fetchPage(page, false);
+  }, [page]);
+
+  // Infinite scroll — trigger when sentinel enters viewport
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !hasMore) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !isLoadingMore) setPage(p => p + 1);
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, isLoadingMore]);
+
+  const fetchPage = async (pg: number, replace: boolean) => {
+    if (pg > 0) setIsLoadingMore(true);
+    const data = await getCommunityPosts(selectedTown, selectedCategory, pg);
+    if (replace) {
+      setPosts(data);
+    } else {
+      setPosts(prev => [...prev, ...data]);
+    }
+    setHasMore(data.length === 15);
+    setIsLoadingMore(false);
+
+    // Seed which posts the logged-in user has already liked
+    if (data.length > 0 && profile) {
+      const ids = data.map((p: any) => p.id);
+      const liked = await getUserLikedPostIds(ids);
+      setLikedPostIds(prev => {
+        const next = new Set(prev);
+        liked.forEach(id => next.add(id));
+        return next;
+      });
+    }
+  };
+
+  const fetchPosts = () => fetchPage(0, true);
+
+  // Check guidelines acceptance before allowing a post
+  const checkGuidelinesAndPost = async () => {
+    if (!profile) {
+      setErrorHeader('Please sign in to post.');
+      return;
+    }
+    if (!postText.trim() && imageFiles.length === 0) return;
+
+    // Already confirmed in this session — proceed
+    if (hasAcceptedGuidelines === true) {
+      await handlePost();
+      return;
+    }
+
+    // First time: query DB for accepted_guidelines
+    const { data } = await supabase
+      .from('profiles')
+      .select('accepted_guidelines')
+      .eq('id', profile.id)
+      .single();
+
+    const accepted = data?.accepted_guidelines ?? false;
+    setHasAcceptedGuidelines(accepted);
+
+    if (accepted) {
+      await handlePost();
+    } else {
+      setShowGuidelinesGate(true);
+    }
+  };
+
+  // Save acceptance to profiles, then fire the post they were making
+  const acceptGuidelines = async () => {
+    if (!profile) return;
+    setIsAcceptingGuidelines(true);
+    await supabase
+      .from('profiles')
+      .update({ accepted_guidelines: true })
+      .eq('id', profile.id);
+    setHasAcceptedGuidelines(true);
+    setIsAcceptingGuidelines(false);
+    setShowGuidelinesGate(false);
+    await handlePost(); // proceed with their original post
   };
 
   const handlePost = async () => {
@@ -78,17 +191,23 @@ export default function CommunityBoardCommuterHub() {
         location: taggedTown || 'Marinduque',
         images: imageUrls,
         poll_data: pollData,
+        type: showPoll ? 'poll' : postCategory,
         tags: postText.match(/#\w+/g)?.map(t => t.slice(1)) || []
       });
 
       if (result.success) {
+        // Prepend instantly — no full refetch needed
+        const newPost = {
+          ...result.data,
+          author: { id: profile?.id, full_name: profile?.full_name, avatar_url: profile?.avatar_url }
+        };
+        setPosts(prev => [newPost, ...prev]);
         setPostText('');
         setAttachedPhotos([]);
         setImageFiles([]);
         setShowPoll(false);
         setPollOptions(['', '']);
         setTaggedTown(null);
-        fetchPosts();
       } else {
         setErrorHeader(result.error || 'Failed to post.');
       }
@@ -104,6 +223,84 @@ export default function CommunityBoardCommuterHub() {
     const result = await voteInPoll(postId, optionId);
     if (result.success) fetchPosts();
     else alert(result.error);
+  };
+
+  // ── Like handler (Optimistic UI) ───────────────────────────
+  const handleLike = async (postId: string) => {
+    if (!profile) {
+      setErrorHeader('Sign in to like posts.');
+      return;
+    }
+    // Prevent double-clicks
+    if (pendingLikes.current.has(postId)) return;
+    pendingLikes.current.add(postId);
+
+    const wasLiked = likedPostIds.has(postId);
+
+    // Optimistic update: flip heart and count immediately
+    setLikedPostIds(prev => {
+      const next = new Set(prev);
+      wasLiked ? next.delete(postId) : next.add(postId);
+      return next;
+    });
+    setPosts(prev =>
+      prev.map(p =>
+        p.id === postId
+          ? { ...p, likes_count: Math.max(0, (p.likes_count || 0) + (wasLiked ? -1 : 1)) }
+          : p
+      )
+    );
+
+    // Sync with server
+    try {
+      const result = await toggleLike(postId);
+      if (!result.success) {
+        // Revert on error
+        setLikedPostIds(prev => {
+          const next = new Set(prev);
+          wasLiked ? next.add(postId) : next.delete(postId);
+          return next;
+        });
+        setPosts(prev =>
+          prev.map(p =>
+            p.id === postId
+              ? { ...p, likes_count: Math.max(0, (p.likes_count || 0) + (wasLiked ? 1 : -1)) }
+              : p
+          )
+        );
+      }
+    } finally {
+      pendingLikes.current.delete(postId);
+    }
+  };
+
+  // ── Share handler ──────────────────────────────────────────
+  const handleShare = async (postId: string, content: string) => {
+    const url = `${window.location.origin}/community#${postId}`;
+    const text = content.length > 100 ? content.slice(0, 97) + '...' : content;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Marinduque Market Hub',
+          text,
+          url,
+        });
+      } catch (err: any) {
+        // User cancelled — not an error
+        if (err?.name !== 'AbortError') console.warn('Share failed:', err);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        setShareToast('Link copied!');
+        setTimeout(() => setShareToast(null), 2500);
+      } catch {
+        setShareToast('Could not copy link.');
+        setTimeout(() => setShareToast(null), 2500);
+      }
+    }
   };
 
   const toggleComments = (postId: string) => {
@@ -144,16 +341,16 @@ export default function CommunityBoardCommuterHub() {
           <Link href="/best-of-boac-monthly-spotlight" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-amber-500">workspace_premium</span> Boac
           </Link>
-          <Link href="/marinduque-events-calendar" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+          <Link href="/events" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-moriones-red">event</span> Events
           </Link>
-          <Link href="/the-hidden-foreigner-blog-feed" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+          <Link href="/blog" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-purple-500">public</span> Foreigner
           </Link>
-          <Link href="/gems-of-marinduque-feed" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+          <Link href="/gems" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-blue-500">diamond</span> Gems
           </Link>
-          <Link href="/roro-port-information-hub" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+          <Link href="/ports" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-cyan-600">directions_boat</span> RoRo
           </Link>
         </div>
@@ -161,7 +358,7 @@ export default function CommunityBoardCommuterHub() {
         {/* Title & Filter */}
         <div className="flex items-center justify-between px-4 pt-2 pb-4">
           <div className="flex items-center gap-3">
-            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1.5 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+            <Link href="/" className="text-text-main dark:text-text-main-dark p-1.5 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
               <span className="material-symbols-outlined text-[28px]">arrow_back</span>
             </Link>
             <h1 className="text-xl font-black leading-tight tracking-tight text-moriones-red">Community Board</h1>
@@ -196,6 +393,25 @@ export default function CommunityBoardCommuterHub() {
           </div>
         </div>
       </header>
+
+      {/* Category filter tabs */}
+      <div className="sticky top-[var(--header-h,0px)] z-20 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">
+        <div className="flex items-center px-2 py-2 gap-1 min-w-max">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat.key}
+              onClick={() => setSelectedCategory(cat.key)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wide transition-all active:scale-95 whitespace-nowrap ${selectedCategory === cat.key
+                ? 'bg-moriones-red text-white shadow-sm shadow-moriones-red/30'
+                : 'bg-background-light dark:bg-background-dark text-slate-500 dark:text-slate-400 border border-border-light dark:border-border-dark hover:border-moriones-red/30'
+                }`}
+            >
+              <span className={`material-symbols-outlined text-[13px] ${selectedCategory === cat.key ? 'text-white' : cat.color}`}>{cat.icon}</span>
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-24">
         {/* Create Post Section */}
@@ -268,6 +484,23 @@ export default function CommunityBoardCommuterHub() {
             </div>
           )}
 
+          {/* Category selector for the post being created */}
+          <div className="flex items-center gap-1.5 mt-3 flex-wrap">
+            {CATEGORIES.filter(c => c.key !== 'all').map(cat => (
+              <button
+                key={cat.key}
+                onClick={() => setPostCategory(cat.key)}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wide transition-all border ${postCategory === cat.key
+                  ? 'bg-moriones-red border-moriones-red text-white'
+                  : 'border-border-light dark:border-border-dark text-slate-400 dark:text-slate-500 hover:border-moriones-red/30'
+                  }`}
+              >
+                <span className={`material-symbols-outlined text-[11px] ${postCategory === cat.key ? 'text-white' : cat.color}`}>{cat.icon}</span>
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-light dark:border-border-dark">
             <div className="flex gap-1">
               <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple className="hidden" accept="image/*" />
@@ -339,7 +572,7 @@ export default function CommunityBoardCommuterHub() {
               </div>
             </div>
             <button
-              onClick={handlePost}
+              onClick={checkGuidelinesAndPost}
               disabled={isUploading || (!postText.trim() && attachedPhotos.length === 0)}
               className="px-6 py-2.5 bg-moriones-red text-white rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all disabled:opacity-30 flex items-center gap-2"
             >
@@ -436,18 +669,45 @@ export default function CommunityBoardCommuterHub() {
 
               <div className="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
                 <div className="flex gap-4">
-                  <button className="flex items-center gap-1.5 text-text-muted hover:text-moriones-red transition-all group">
-                    <span className="material-symbols-outlined text-[20px] group-hover:fill-1">favorite</span>
+                  {/* ❤️ Like button — optimistic UI, toggles heart fill + count */}
+                  <button
+                    onClick={() => handleLike(post.id)}
+                    className={`flex items-center gap-1.5 transition-all group active:scale-110 ${likedPostIds.has(post.id)
+                        ? 'text-moriones-red'
+                        : 'text-text-muted hover:text-moriones-red'
+                      }`}
+                    aria-label={likedPostIds.has(post.id) ? 'Unlike' : 'Like'}
+                  >
+                    <span
+                      className="material-symbols-outlined text-[20px] transition-all duration-150"
+                      style={{
+                        fontVariationSettings: likedPostIds.has(post.id)
+                          ? '"FILL" 1'
+                          : '"FILL" 0',
+                      }}
+                    >
+                      favorite
+                    </span>
                     <span className="text-[11px] font-black">{post.likes_count || 0}</span>
                   </button>
+
                   <button onClick={() => toggleComments(post.id)} className={`flex items-center gap-1.5 transition-all group ${expandedComments.includes(post.id) ? 'text-moriones-red' : 'text-text-muted hover:text-moriones-red'}`}>
                     <span className="material-symbols-outlined text-[20px]">chat_bubble</span>
                     <span className="text-[11px] font-black">{post.comments_count || 0}</span>
                   </button>
                 </div>
-                <button className="text-text-muted hover:text-moriones-red transition-all">
-                  <span className="material-symbols-outlined text-[20px]">share</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  {/* Flag button — 3-strike: 3 flags hides post via DB trigger */}
+                  <FlagButton contentType="post" contentId={post.id.toString()} />
+                  {/* 📤 Share button — native share sheet on mobile, clipboard fallback on desktop */}
+                  <button
+                    onClick={() => handleShare(post.id, post.content)}
+                    className="text-text-muted hover:text-moriones-red transition-all active:scale-110"
+                    aria-label="Share post"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">share</span>
+                  </button>
+                </div>
               </div>
 
               {/* Collapsible Comments */}
@@ -459,15 +719,48 @@ export default function CommunityBoardCommuterHub() {
             </article>
           ))}
 
-          {posts.length === 0 && (
+          {posts.length === 0 && !isLoadingMore && (
             <div className="text-center py-20 bg-surface-light dark:bg-surface-dark rounded-3xl border border-border-light dark:border-zinc-800 shadow-xl flex flex-col items-center p-8">
               <span className="material-symbols-outlined text-slate-300 text-5xl mb-4">forum</span>
               <h3 className="text-lg font-black text-slate-800 dark:text-white mb-2">The board is quiet...</h3>
               <p className="text-slate-500 text-xs font-bold max-w-xs mb-8">Be the first to share something with {selectedTown === 'All Towns' ? 'the community' : selectedTown}!</p>
             </div>
           )}
+
+          {/* Infinite scroll sentinel — IntersectionObserver watches this */}
+          {hasMore && (
+            <div ref={sentinelRef} className="flex items-center justify-center py-6">
+              {isLoadingMore && (
+                <div className="flex items-center gap-2 text-text-muted">
+                  <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Loading more...</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!hasMore && posts.length > 0 && (
+            <p className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest py-4">— End of feed —</p>
+          )}
         </div>
       </div>
+
+      {/* One-time Community Guidelines Gate */}
+      {showGuidelinesGate && (
+        <CommunityGuidelinesGate
+          onAccept={acceptGuidelines}
+          onDismiss={() => setShowGuidelinesGate(false)}
+          isAccepting={isAcceptingGuidelines}
+        />
+      )}
+
+      {/* Share / Clipboard Toast */}
+      {shareToast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-2.5 px-5 py-3 rounded-2xl shadow-2xl text-sm font-bold bg-zinc-900 text-white animate-in slide-in-from-bottom-4 duration-300 whitespace-nowrap">
+          <span className="material-symbols-outlined text-[18px] text-emerald-400">link</span>
+          {shareToast}
+        </div>
+      )}
     </div>
   );
 }

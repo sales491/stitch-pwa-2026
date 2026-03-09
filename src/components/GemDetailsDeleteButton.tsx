@@ -21,7 +21,7 @@ export default function GemDetailsDeleteButton({ gemId, canDelete }: Props) {
         startTransition(async () => {
             try {
                 await deleteGem(gemId);
-                router.push('/gems-of-marinduque-feed');
+                router.push("/gems");
             } catch (err) {
                 alert("Failed to delete gem.");
             }

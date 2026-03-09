@@ -47,9 +47,9 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
   }, [selectedTown, searchQuery, initialItems]);
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-24 bg-background-light/30 dark:bg-background-dark/30">
+      <div className="flex-1 pb-6 bg-background-light/30 dark:bg-background-dark/30">
 
 
 
@@ -122,7 +122,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
               {['roro', 'event'].map(type => {
                 const item = categorizedItems[type]?.[0];
                 if (!item) return null;
-                const viewAllLink = type === 'roro' ? '/roro-port-information-hub' : '/marinduque-events-calendar';
+                const viewAllLink = type === 'roro' ? '/roro-port-information-hub' : '/events';
 
                 return (
                   <div key={type} className="flex flex-col gap-3">
@@ -153,7 +153,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
             </div>
           )}
         </div>
-      </main>
+      </div>
 
     </div>
   );

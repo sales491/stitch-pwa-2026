@@ -144,7 +144,7 @@ export default function CreateBusinessProfileStep3() {
         </div>
       </div>
 
-      <main className="flex-1 overflow-y-auto pb-32 py-6 px-6">
+      <main className="flex-1 pb-32 py-6 px-6">
         {/* Error Message */}
         {error && (
           <div className="mb-6 flex items-start gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3 text-xs text-red-700 dark:text-red-400 animate-in fade-in slide-in-from-top-1">

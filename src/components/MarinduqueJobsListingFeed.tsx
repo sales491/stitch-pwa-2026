@@ -99,7 +99,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
   }, [selectedTown, selectedType, searchQuery, initialJobs]);
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
       <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -140,7 +140,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs }: { initialJobs
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-24">
+      <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-24">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base font-bold text-text-main dark:text-text-main-dark">
             {filteredJobs.length} job{filteredJobs.length !== 1 ? 's' : ''} found

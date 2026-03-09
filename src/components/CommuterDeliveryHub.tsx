@@ -181,23 +181,39 @@ function OperatorCard({ op }: { op: Operator }) {
 
       {/* Details Section */}
       <div className="px-4 pb-4 space-y-3">
-        {/* Price & Rating */}
+        {/* Price + Community Trust row */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <span className="text-moriones-red font-black text-lg">₱{op.price}</span>
-            <span className="text-[11px] text-slate-400 font-medium">/ {isScheduled ? 'seat' : 'base'}</span>
+          <div className="flex items-center gap-2">
+            <div>
+              <span className="text-moriones-red font-black text-lg">₱{op.price}</span>
+              <span className="text-[11px] text-slate-400 font-medium"> / {isScheduled ? 'seat' : 'base'}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {/* Primary Vouch Button */}
             <button
               onClick={toggleVouch}
               disabled={isVouching}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all active:scale-95 border ${hasVouched
-                ? 'bg-amber-100 border-amber-300 text-amber-700 dark:bg-amber-900/30 dark:border-amber-700 dark:text-amber-400'
-                : 'bg-slate-50 border-slate-200 text-slate-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-slate-400 hover:border-amber-200 hover:text-amber-600'
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wide transition-all active:scale-95 border shadow-sm ${hasVouched
+                ? 'bg-sky-500 border-sky-500 text-white shadow-sky-300/40'
+                : 'bg-white dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600'
                 } ${isVouching ? 'opacity-50 animate-pulse' : ''}`}
             >
-              <span className={`material-symbols-outlined text-[14px] ${hasVouched ? 'fill-1' : ''}`}>thumb_up</span>
-              {vouchCount > 0 ? `${vouchCount} Vouched` : 'Recommend'}
+              <div className="relative">
+                <span
+                  className="material-symbols-outlined text-[16px]"
+                  style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}
+                >thumb_up</span>
+                {vouchCount > 0 && (
+                  <span className={`absolute -top-2 -right-2 min-w-[16px] h-4 px-0.5 rounded-full text-[9px] font-black flex items-center justify-center leading-none ${hasVouched
+                    ? 'bg-white text-sky-600'
+                    : 'bg-sky-500 text-white'
+                    }`}>
+                    {vouchCount}
+                  </span>
+                )}
+              </div>
+              {hasVouched ? 'Vouched' : 'Vouch'}
             </button>
             <div className={`flex items-center gap-1 p-1 rounded-2xl transition-all ${isOwner ? 'bg-moriones-red/5 ring-1 ring-moriones-red/20 pr-2' : ''}`}>
               <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className={`${isOwner ? 'scale-90' : 'scale-75'} origin-right`} />
@@ -258,18 +274,19 @@ function OperatorCard({ op }: { op: Operator }) {
           {op.phone && (
             <a
               href={`tel:${formatPhPhoneForLink(op.phone)}`}
-              className="flex-1 flex items-center justify-center gap-2 bg-moriones-red hover:bg-moriones-red/90 text-white font-black py-3 rounded-xl text-xs transition-all active:scale-95 shadow-lg shadow-moriones-red/20"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-moriones-red hover:bg-moriones-red/90 text-white font-black py-2.5 rounded-xl text-[11px] transition-all active:scale-95 shadow-md shadow-moriones-red/20"
             >
-              <span className="material-symbols-outlined text-[18px]">call</span>
-              CALL NOW
+              <span className="material-symbols-outlined text-[16px]">call</span>
+              Call
             </a>
           )}
           {op.phone && (
             <a
               href={`sms:${formatPhPhoneForLink(op.phone)}`}
-              className="flex items-center justify-center w-12 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-700 dark:text-slate-300 rounded-xl transition-all active:scale-95 border border-slate-200 dark:border-zinc-700"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-700 dark:text-slate-300 font-black py-2.5 rounded-xl text-[11px] transition-all active:scale-95 border border-slate-200 dark:border-zinc-700"
             >
-              <span className="material-symbols-outlined text-[20px]">sms</span>
+              <span className="material-symbols-outlined text-[16px]">sms</span>
+              Text
             </a>
           )}
           {(op.fb) && (
@@ -277,12 +294,13 @@ function OperatorCard({ op }: { op: Operator }) {
               href={op.fb.includes('facebook.com') ? op.fb : `https://m.me/${op.fb}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 bg-[#0084FF] hover:bg-[#0074E0] text-white rounded-xl transition-all active:scale-95 border border-[#0084FF]"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-[#0084FF] hover:bg-[#0074E0] text-white font-black py-2.5 rounded-xl text-[11px] transition-all active:scale-95"
               title="Message on Messenger"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
               </svg>
+              Messenger
             </a>
           )}
         </div>
@@ -306,16 +324,16 @@ export default function CommuterDeliveryHub() {
 
       const { data: { user } } = await supabase.auth.getUser();
 
-      // Fetch services
+      // Fetch services with provider trust scores, verification and phone via join
       const { data: services, error: serviceError } = await supabase
         .from('transport_services')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select(`
+          *,
+          provider:profiles!transport_services_provider_id_fkey(trust_score, is_verified, phone)
+        `);
 
       if (services) {
         // Fetch vouch counts and user vouches in parallel
-        const serviceIds = services.map(s => s.id);
-
         const { data: vouchesCount } = await supabase
           .from('transport_vouches')
           .select('service_id');
@@ -335,28 +353,36 @@ export default function CommuterDeliveryHub() {
           userVouchData?.forEach(v => userVouches.add(v.service_id));
         }
 
-        const mapped: Operator[] = services.map((d: any) => ({
-          id: d.id,
-          name: `${d.vehicle_type}: ${d.base_town}`,
-          operator: d.driver_name,
-          vehicleType: d.vehicle_type,
-          serviceType: d.service_type,
-          towns: d.towns_covered || [d.base_town],
-          price: d.price_per_seat?.toString() || '0',
-          rating: 4.8,
-          vouchCount: countsByService[d.id] || 0,
-          hasVouched: userVouches.has(d.id),
-          available: d.is_available,
-          phone: d.contact_number,
-          img: d.images?.[0] || '',
-          images: d.images,
-          provider_id: d.provider_id,
-          route: d.route,
-          schedule: d.schedule,
-          charterAvail: d.charter_avail,
-          fb: d.contact_details?.fb_username,
-          email: d.contact_details?.email
-        }));
+        const mapped: Operator[] = services
+          // Only show operators whose profile is admin-verified
+          .filter((d: any) => d.provider?.is_verified === true)
+          .map((d: any) => ({
+            id: d.id,
+            name: `${d.vehicle_type}: ${d.base_town}`,
+            operator: d.driver_name,
+            vehicleType: d.vehicle_type,
+            serviceType: d.service_type,
+            towns: d.towns_covered || [d.base_town],
+            price: d.price_per_seat?.toString() || '0',
+            // Live trust_score from profiles — highest-rated drivers sort first
+            rating: d.provider?.trust_score ?? 0,
+            vouchCount: countsByService[d.id] || 0,
+            hasVouched: userVouches.has(d.id),
+            available: d.is_available,
+            // Prefer service contact_number, fall back to profile phone
+            phone: d.contact_number || d.provider?.phone || '',
+            img: d.images?.[0] || '',
+            images: d.images,
+            provider_id: d.provider_id,
+            route: d.route,
+            schedule: d.schedule,
+            charterAvail: d.charter_avail,
+            fb: d.contact_details?.fb_username,
+            email: d.contact_details?.email
+          }))
+          // Sort by trust_score descending — highest-rated first
+          .sort((a, b) => b.rating - a.rating);
+
         setOperators(mapped);
       }
       setLoading(false);
@@ -383,7 +409,7 @@ export default function CommuterDeliveryHub() {
           <div className="flex items-center justify-between px-4 pt-4 pb-2">
             <div className="flex items-center gap-2">
               <Link
-                href="/marinduque-connect-home-feed"
+                href="/"
                 className="text-slate-800 dark:text-slate-200 p-1 rounded-full hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center"
               >
                 <span className="material-symbols-outlined text-[28px]">arrow_back</span>
@@ -427,12 +453,12 @@ export default function CommuterDeliveryHub() {
               <button
                 key={f.key}
                 onClick={() => setVehicleFilter(f.key)}
-                className={`flex items-center justify-center gap-1.5 h-9 px-1.5 rounded-xl text-[10px] font-bold transition-all border ${vehicleFilter === f.key
+                className={`flex items-center justify-center gap-2 h-11 px-2 rounded-xl text-xs font-bold transition-all border ${vehicleFilter === f.key
                   ? 'bg-moriones-red border-moriones-red text-white shadow-lg shadow-moriones-red/20'
                   : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'
                   }`}
               >
-                <span className="text-sm">{f.emoji}</span>
+                <span className="text-xl">{f.emoji}</span>
                 <span className="truncate">{f.label}</span>
               </button>
             ))}

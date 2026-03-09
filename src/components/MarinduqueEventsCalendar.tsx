@@ -41,6 +41,8 @@ export default function MarinduqueEventsCalendar() {
     fetchEvents();
   }, [supabase]);
 
+  const currentMonth = new Date().getMonth();
+
   const days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
@@ -51,52 +53,71 @@ export default function MarinduqueEventsCalendar() {
     };
   });
 
-  const currentMonth = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  // Build a set of day-of-month numbers that have at least one event this month
+  const daysWithEvents = new Set(
+    events
+      .filter((e) => e.month === currentMonth)
+      .map((e) => e.dayOfMonth)
+  );
+
+  const currentMonthLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
       <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-3">
           <div className="flex items-center gap-3">
-            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+            <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
               <span className="material-symbols-outlined text-[28px]">arrow_back</span>
             </Link>
             <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">Events Calendar</h1>
           </div>
 
-          <Link href="/marinduque-events-calendar" className="text-[9px] font-black text-moriones-red/60 hover:text-moriones-red uppercase tracking-[0.2em] transition-all border-b border-moriones-red/20 pb-0.5">
-            Next 7 Days
-          </Link>
-
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-black uppercase tracking-wider text-text-main dark:text-text-main-dark">{currentMonth}</span>
-            <Link href="/marinduque-monthly-calendar" className="text-moriones-red hover:bg-moriones-red/10 p-1 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10">
+            <span className="text-[11px] font-black uppercase tracking-wider text-text-main dark:text-text-main-dark">{currentMonthLabel}</span>
+            {/* Calendar icon → full month view */}
+            <Link
+              href="/marinduque-monthly-calendar"
+              className="text-moriones-red hover:bg-moriones-red/10 p-1 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10"
+              title="View full month calendar"
+            >
               <span className="material-symbols-outlined text-[18px]">calendar_month</span>
             </Link>
           </div>
         </div>
 
-        {/* Calendar Strip */}
+        {/* Calendar Strip — next 7 days */}
         <div className="px-4 py-2 flex flex-col gap-2">
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-            {days.map((day) => (
-              <button
-                key={day.date}
-                onClick={() => setSelectedDate(day.date)}
-                className={`flex flex-col items-center justify-center min-w-[54px] h-16 rounded-2xl transition-all shadow-sm border ${selectedDate === day.date
-                  ? 'bg-moriones-red border-moriones-red text-white'
-                  : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-text-muted dark:text-text-muted-dark hover:border-moriones-red/50'
-                  }`}
-              >
-                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-70">{day.name}</span>
-                <span className="text-lg font-black">{day.date}</span>
-              </button>
-            ))}
+            {days.map((day) => {
+              const hasEvent = daysWithEvents.has(day.date);
+              const isSelected = selectedDate === day.date;
+              return (
+                <button
+                  key={day.date}
+                  onClick={() => setSelectedDate(day.date)}
+                  className={`relative flex flex-col items-center justify-center min-w-[54px] h-16 rounded-2xl transition-all shadow-sm border ${isSelected
+                    ? 'bg-moriones-red border-moriones-red text-white'
+                    : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-text-muted dark:text-text-muted-dark hover:border-moriones-red/50'
+                    }`}
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-tighter opacity-70">{day.name}</span>
+                  <span className="text-lg font-black">{day.date}</span>
+                  {/* Event dot indicator */}
+                  {hasEvent && (
+                    <span
+                      className={`absolute bottom-2 w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white/80' : 'bg-moriones-red'
+                        }`}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Town Filter - Horizontal Scroll */}
+        {/* Town Filter */}
         <div className="flex justify-between gap-1 px-3 pb-4">
           {['All', 'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'].map((town) => (
             <button
@@ -114,7 +135,7 @@ export default function MarinduqueEventsCalendar() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-28">
+      <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-28">
         {loading ? (
           <div className="flex flex-col gap-4">
             {[1, 2, 3].map(i => (
@@ -178,7 +199,7 @@ export default function MarinduqueEventsCalendar() {
                         +{event.attendees}
                       </div>
                     </div>
-                    <Link href={`/event/${event.id}`} className="bg-moriones-red text-white px-6 py-2.5 rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all">
+                    <Link href={`/events/${event.id}`} className="bg-moriones-red text-white px-6 py-2.5 rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all">
                       JOIN EVENT
                     </Link>
                   </div>
@@ -199,7 +220,7 @@ export default function MarinduqueEventsCalendar() {
                 </div>
                 <div className="flex-1 flex flex-col justify-center min-w-0">
                   <span className="text-[10px] font-black text-moriones-red uppercase tracking-tight">{event.town} • {event.category}</span>
-                  <Link href={`/event/${event.id}`} className="group-hover:underline">
+                  <Link href={`/events/${event.id}`} className="group-hover:underline">
                     <h3 className="text-base font-bold text-text-main leading-snug line-clamp-1">{event.title}</h3>
                   </Link>
                   <p className="text-xs font-medium text-text-muted mt-1 line-clamp-1">{event.time} at {event.location}</p>
@@ -209,7 +230,7 @@ export default function MarinduqueEventsCalendar() {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Link href={`/event/${event.id}`} className="h-10 w-10 flex items-center justify-center rounded-xl bg-background-light dark:bg-background-dark text-moriones-red hover:bg-moriones-red hover:text-white transition-all border border-moriones-red/10">
+                  <Link href={`/events/${event.id}`} className="h-10 w-10 flex items-center justify-center rounded-xl bg-background-light dark:bg-background-dark text-moriones-red hover:bg-moriones-red hover:text-white transition-all border border-moriones-red/10">
                     <span className="material-symbols-outlined">trending_flat</span>
                   </Link>
                 </div>
@@ -219,14 +240,14 @@ export default function MarinduqueEventsCalendar() {
         })()}
       </main>
 
-      {/* FAB */}
-      <div className="fixed bottom-10 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
+      {/* Create Event FAB */}
+      <div className="fixed bottom-24 right-4 z-50">
         <Link
           href="/events/create"
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-110 active:scale-95 group pointer-events-auto"
-          title="Create Event"
+          className="flex items-center gap-1.5 bg-moriones-red text-white px-3.5 py-2 rounded-full shadow-lg shadow-moriones-red/30 text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all hover:bg-red-600"
         >
-          <span className="material-symbols-outlined text-[32px]">calendar_add_on</span>
+          <span className="material-symbols-outlined text-[13px]">calendar_add_on</span>
+          Create Event
         </Link>
       </div>
     </div>

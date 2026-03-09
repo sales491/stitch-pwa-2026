@@ -37,7 +37,7 @@ export default function LoginPage() {
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950 font-display">
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800">
-                <Link href="/marinduque-connect-home-feed" className="text-slate-800 dark:text-slate-200">
+                <Link href="/" className="text-slate-800 dark:text-slate-200">
                     <span className="material-symbols-outlined">close</span>
                 </Link>
                 <h1 className="text-lg font-bold text-slate-900 dark:text-white">Sign In</h1>

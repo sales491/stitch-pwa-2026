@@ -37,7 +37,8 @@ export default function MarinduqueConnectAdminDashboard() {
   const [claimRequests, setClaimRequests] = useState<ClaimRequest[]>([]);
   const [claimLoading, setClaimLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'moderation' | 'users' | 'claims' | 'import' | 'blog'>('moderation');
+  const [unverifiedProfiles, setUnverifiedProfiles] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<'moderation' | 'users' | 'claims' | 'import' | 'blog' | 'pending'>('moderation');
   const supabase = useMemo(() => createClient(), []);
 
   const fetchUsers = useCallback(async () => {
@@ -83,11 +84,21 @@ export default function MarinduqueConnectAdminDashboard() {
     setClaimLoading(false);
   }, [supabase]);
 
+  const fetchUnverifiedProfiles = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('business_profiles')
+      .select('*')
+      .eq('is_verified', false)
+      .order('created_at', { ascending: false });
+    if (!error) setUnverifiedProfiles(data || []);
+  }, [supabase]);
+
   useEffect(() => {
     fetchQueue();
     fetchUsers();
     fetchClaimRequests();
-  }, [fetchQueue, fetchUsers, fetchClaimRequests]);
+    fetchUnverifiedProfiles();
+  }, [fetchQueue, fetchUsers, fetchClaimRequests, fetchUnverifiedProfiles]);
 
   const handleStatusUpdate = async (contentId: string, contentType: string, newStatus: string) => {
     const { error } = await supabase
@@ -200,11 +211,11 @@ export default function MarinduqueConnectAdminDashboard() {
   const pendingInitialItems = items.filter(i => i.status === 'pending' && i.flag_count < 3);
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl border-x border-stone-200 dark:border-stone-800">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-xl border-x border-stone-200 dark:border-stone-800">
       <header className="sticky top-0 z-20 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md px-4 py-3 border-b border-stone-100 dark:border-stone-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/marinduque-connect-home-feed" className="p-2 -ml-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-text-primary-light dark:text-text-primary-dark flex items-center justify-center">
+            <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-text-primary-light dark:text-text-primary-dark flex items-center justify-center">
               <span className="material-symbols-outlined">arrow_back</span>
             </Link>
             <h1 className="text-lg font-bold tracking-tight">Admin Dashboard</h1>
@@ -243,6 +254,17 @@ export default function MarinduqueConnectAdminDashboard() {
               {claimRequests.filter(c => c.status === 'pending').length > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center">
                   {claimRequests.filter(c => c.status === 'pending').length}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => { setActiveTab('pending'); fetchUnverifiedProfiles(); }}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all relative ${activeTab === 'pending' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
+            >
+              Pending
+              {unverifiedProfiles.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-white text-[9px] font-black flex items-center justify-center">
+                  {unverifiedProfiles.length}
                 </span>
               )}
             </button>
@@ -588,7 +610,7 @@ export default function MarinduqueConnectAdminDashboard() {
 
               <div className="space-y-3 pt-2">
                 <Link
-                  href="/the-hidden-foreigner-blog-feed"
+                  href="/blog"
                   className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-zinc-800/50 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors border border-slate-100 dark:border-zinc-700"
                 >
                   <div className="flex items-center gap-3">
@@ -614,9 +636,43 @@ export default function MarinduqueConnectAdminDashboard() {
               }}
             />
           </div>
-        ) : null
-        }
-      </main >
-    </div >
+        ) : activeTab === 'pending' ? (
+          <div className="mt-6 px-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Pending Approval</h2>
+              <button onClick={fetchUnverifiedProfiles} className="p-2 text-slate-400 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-[20px]">refresh</span>
+              </button>
+            </div>
+            {unverifiedProfiles.length === 0 ? (
+              <div className="text-center py-16 bg-slate-50 dark:bg-zinc-800/50 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-700">
+                <span className="material-symbols-outlined text-3xl text-slate-300 mb-2 block">task_alt</span>
+                <p className="text-slate-400 text-sm">All business profiles are tested and verified.</p>
+              </div>
+            ) : (
+              unverifiedProfiles.map((profile) => (
+                <div key={profile.id} className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl shrink-0 flex items-center justify-center text-amber-600 dark:text-amber-400 font-black text-xl">
+                      {profile.business_name?.charAt(0) || '?'}
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm truncate">{profile.business_name}</h4>
+                      <p className="text-xs text-slate-500 truncate">{profile.location || 'No location'}</p>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/directory/${profile.id}`}
+                    className="shrink-0 p-2 bg-slate-50 hover:bg-slate-100 dark:bg-zinc-800 hover:dark:bg-zinc-700 text-slate-600 dark:text-slate-300 rounded-full transition-colors flex items-center justify-center border border-slate-200 dark:border-zinc-700 active:scale-95"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">visibility</span>
+                  </Link>
+                </div>
+              ))
+            )}
+          </div>
+        ) : null}
+      </main>
+    </div>
   );
 }

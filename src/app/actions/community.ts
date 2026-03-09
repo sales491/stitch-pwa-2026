@@ -4,8 +4,9 @@ import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { revalidatePath } from 'next/cache';
 
-export async function getCommunityPosts(location?: string) {
+export async function getCommunityPosts(location?: string, category?: string, page = 0) {
     const supabase = await createClient();
+    const PAGE_SIZE = 15;
 
     let query = supabase
         .from('posts')
@@ -13,10 +14,17 @@ export async function getCommunityPosts(location?: string) {
             *,
             author:profiles(id, full_name, avatar_url)
         `)
-        .order('created_at', { ascending: false });
+        // 3-strike rule: only show published posts (hidden ones auto-filtered)
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
     if (location && location !== 'All Towns') {
         query = query.eq('location', location);
+    }
+
+    if (category && category !== 'all') {
+        query = query.eq('type', category);
     }
 
     const { data, error } = await query;
@@ -149,4 +157,73 @@ export async function voteInPoll(postId: string, optionId: string) {
 
     revalidatePath('/community');
     return { success: true };
+}
+
+// ── Likes ───────────────────────────────────────────────────
+/**
+ * Toggle a like on a post.
+ * Returns { liked: true } if the post is now liked, { liked: false } if unliked.
+ * The DB trigger handles incrementing/decrementing posts.likes_count automatically.
+ */
+export async function toggleLike(postId: string): Promise<{ success: boolean; liked?: boolean; error?: string }> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return { success: false, error: 'You must be logged in to like posts.' };
+    }
+
+    // Check if the user already liked this post
+    const { data: existing } = await supabase
+        .from('likes')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('entity_id', postId)
+        .eq('entity_type', 'post')
+        .maybeSingle();
+
+    if (existing) {
+        // Already liked → unlike (delete)
+        const { error } = await supabase
+            .from('likes')
+            .delete()
+            .eq('id', existing.id);
+
+        if (error) return { success: false, error: error.message };
+        return { success: true, liked: false };
+    } else {
+        // Not liked → like (insert)
+        const { error } = await supabase
+            .from('likes')
+            .insert([{
+                user_id: user.id,
+                entity_id: postId,
+                entity_type: 'post',
+            }]);
+
+        if (error) return { success: false, error: error.message };
+        return { success: true, liked: true };
+    }
+}
+
+/**
+ * Fetch which post IDs the current user has already liked.
+ * Used on initial render to seed the liked-heart state.
+ */
+export async function getUserLikedPostIds(postIds: string[]): Promise<string[]> {
+    if (!postIds.length) return [];
+
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return [];
+
+    const { data } = await supabase
+        .from('likes')
+        .select('entity_id')
+        .eq('user_id', user.id)
+        .eq('entity_type', 'post')
+        .in('entity_id', postIds);
+
+    return (data || []).map((row) => row.entity_id);
 }

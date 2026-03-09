@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Sizes tuned for mobile-first app (logo at 40px, avatars at 32-128px)
+    deviceSizes: [40, 64, 128, 256, 384, 640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 40, 64, 96, 128, 256],
+    // Cache optimized images for 1 year
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',
@@ -13,6 +18,14 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
       }
     ],
   },

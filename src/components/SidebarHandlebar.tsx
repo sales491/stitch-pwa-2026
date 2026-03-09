@@ -15,16 +15,16 @@ export default function SidebarHandlebar() {
 
             {/* Navigation Links */}
             <div className="flex flex-col gap-1">
-                <Link href="/marinduque-classifieds-marketplace" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
+                <Link href="/marketplace" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
                     <span>🛒</span> Marketplace
                 </Link>
                 <Link href="/directory" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
                     <span>🏪</span> Directory
                 </Link>
-                <Link href="/marinduque-jobs-listing-feed" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
+                <Link href="/jobs" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
                     <span>💼</span> Jobs
                 </Link>
-                <Link href="/marinduque-events-calendar" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
+                <Link href="/events" className="p-3 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-semibold transition-colors flex items-center gap-3">
                     <span>📅</span> Events
                 </Link>
             </div>

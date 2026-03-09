@@ -22,7 +22,7 @@ export default async function TheHiddenForeignerBlogDetail({ params }: { params:
             <header className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 px-4 py-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <Link href="/the-hidden-foreigner-blog-feed" className="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <Link href="/blog" className="flex items-center justify-center size-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                             <span className="material-symbols-outlined text-text-main dark:text-slate-100">arrow_back</span>
                         </Link>
                         <div>

@@ -1,80 +1,122 @@
-const CACHE_NAME = 'markethub-cache-v2';
+// ============================================================
+// Marinduque Market Hub — Service Worker v2
+// Strategy: Cache-First for shell assets, Network-First for API
+// ============================================================
 
-// Add core static assets
-const PRECACHE_ASSETS = [
+const CACHE_NAME = 'mhub-shell-v2';
+
+// Core app shell — pages that must load instantly, even offline
+const SHELL_URLS = [
     '/',
+    '/community',
+    '/marketplace',
+    '/commute',
+    '/directory',
+    '/login',
+    '/profile',
+];
+
+// Static assets to pre-cache (loaded on first install)
+const STATIC_ASSETS = [
+    '/markethub-logo.png',
     '/manifest.json',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png',
 ];
 
-// Origins we want to cache (specifically Supabase for data/images)
-const ALLOWED_ORIGINS = [
-    self.location.origin,
-    'https://rhrkxuoybkdfdrknckjd.supabase.co', // Marinduque Market Hub Supabase Project
-    'https://fonts.googleapis.com',             // Google Fonts for Material Symbols
-    'https://fonts.gstatic.com'                  // Font files
-];
-
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(PRECACHE_ASSETS);
-        })
-    );
+// ── Install: pre-cache the shell ──────────────────────────────
+self.addEventListener('install', (e) => {
     self.skipWaiting();
-});
-
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    // Delete old versions
-                    if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
+    e.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            // Cache shell pages and static assets
+            return cache.addAll([...SHELL_URLS, ...STATIC_ASSETS]).catch((err) => {
+                // Don't fail install if a single page is unavailable (e.g. login page redirects)
+                console.warn('[SW] Pre-cache warning (non-fatal):', err);
+            });
         })
     );
-    self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-    // Only target typical GET requests
-    if (event.request.method !== 'GET') return;
+// ── Activate: remove OLD cache versions ───────────────────────
+self.addEventListener('activate', (e) => {
+    e.waitUntil(
+        caches.keys().then((keys) =>
+            Promise.all(
+                keys
+                    .filter((key) => key !== CACHE_NAME)
+                    .map((key) => {
+                        console.log('[SW] Deleting old cache:', key);
+                        return caches.delete(key);
+                    })
+            )
+        ).then(() => self.clients.claim())
+    );
+});
 
-    const url = new URL(event.request.url);
+// ── Fetch: Cache-First for shell, Network-First for API ────────
+self.addEventListener('fetch', (e) => {
+    const { request } = e;
+    const url = new URL(request.url);
 
-    // 🚨 Explicitly Bypass Cache for Sensitive or Dynamic API Routes
-    if (url.pathname.startsWith('/api/notifications') || url.pathname.startsWith('/api/profiles')) {
-        return; // Let the browser handle these normally (Network Only)
+    // Skip non-GET requests and cross-origin requests
+    if (request.method !== 'GET') return;
+    if (url.origin !== self.location.origin && !url.hostname.includes('supabase.co')) return;
+
+    // Skip Supabase API calls — always go to network for live data
+    if (url.hostname.includes('supabase.co') || url.pathname.startsWith('/api/')) {
+        e.respondWith(
+            fetch(request).catch(() => {
+                // No offline fallback for API — just fail gracefully
+                return new Response(JSON.stringify({ error: 'Offline' }), {
+                    status: 503,
+                    headers: { 'Content-Type': 'application/json' },
+                });
+            })
+        );
+        return;
     }
 
-    // Check if the origin should be cached (internal or specific external providers)
-    const isAllowedOrigin = ALLOWED_ORIGINS.some(origin => event.request.url.startsWith(origin));
-    if (!isAllowedOrigin) return;
+    // Skip Next.js internal requests
+    if (url.pathname.startsWith('/_next/')) {
+        e.respondWith(
+            caches.match(request).then((cached) => cached || fetch(request))
+        );
+        return;
+    }
 
-    // Stale-While-Revalidate Strategy
-    // Serve from cache immediately if available, while fetching update in background
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-            const fetchPromise = fetch(event.request).then((networkResponse) => {
-                // Cache valid responses (Basic or CORS)
-                if (networkResponse && networkResponse.status === 200 &&
-                    (networkResponse.type === 'basic' || networkResponse.type === 'cors')) {
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
+    // Cache-First for everything else (pages, images, fonts)
+    e.respondWith(
+        caches.open(CACHE_NAME).then(async (cache) => {
+            const cached = await cache.match(request);
+            if (cached) {
+                // Serve from cache immediately, revalidate in background
+                fetch(request)
+                    .then((fresh) => {
+                        if (fresh && fresh.status === 200) {
+                            cache.put(request, fresh.clone());
+                        }
+                    })
+                    .catch(() => {/* ignore network errors during bg refresh */ });
+                return cached;
+            }
+
+            // Cache miss — try network, then store result
+            try {
+                const fresh = await fetch(request);
+                if (fresh && fresh.status === 200) {
+                    cache.put(request, fresh.clone());
+                }
+                return fresh;
+            } catch {
+                // Network failed — try serving the home shell as fallback for navigation
+                if (request.mode === 'navigate') {
+                    const fallback = await cache.match('/');
+                    return fallback || new Response('Offline — please check your connection.', {
+                        status: 503,
+                        headers: { 'Content-Type': 'text/plain' },
                     });
                 }
-                return networkResponse;
-            }).catch(() => {
-                // Return cachedResponse if network fails (already handled by caches.match)
-            });
-
-            return cachedResponse || fetchPromise;
+                throw new Error('Offline');
+            }
         })
     );
 });

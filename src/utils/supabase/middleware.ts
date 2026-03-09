@@ -59,7 +59,7 @@ export async function updateSession(request: NextRequest) {
     }
 
     // --- Admin Route Protection Logic ---
-    if (currentPath.startsWith('/marinduque-connect-admin-dashboard')) {
+    if (currentPath.startsWith('/admin')) {
         if (!user || !isAdmin(user.email)) {
             const url = request.nextUrl.clone();
             url.pathname = '/marinduque-connect-home-feed';

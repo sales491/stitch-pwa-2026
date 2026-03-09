@@ -40,7 +40,7 @@ export default function JobVacancyDetailsView({ job }: JobVacancyDetailsViewProp
       <div className="bg-background-light dark:bg-background-dark min-h-screen">
         {/* Sticky Header */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-neutral-surface/90 dark:bg-neutral-surface-dark/90 backdrop-blur-md border-b border-border-light dark:border-border-dark shadow-sm">
-          <Link href="/marinduque-jobs-listing-feed" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-text-main dark:text-text-main-dark">
+          <Link href="/jobs" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-text-main dark:text-text-main-dark">
             <span className="material-symbols-outlined">arrow_back</span>
           </Link>
           <h2 className="text-lg font-bold text-center flex-1 truncate px-2">Job Details</h2>

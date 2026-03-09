@@ -155,12 +155,12 @@ export default function RoroPortInformationHub() {
   };
 
   return (
-    <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+    <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
       <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-4">
           <div className="flex items-center gap-3">
-            <Link href="/marinduque-connect-home-feed" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+            <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
               <span className="material-symbols-outlined text-[28px]">arrow_back</span>
             </Link>
             <div>
@@ -171,7 +171,7 @@ export default function RoroPortInformationHub() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto bg-background-light/50 dark:bg-background-dark/50 px-4 py-6 space-y-8 pb-32">
+      <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-6 space-y-8 pb-32">
         {/* Sea Conditions */}
         <section>
           <div className="flex items-center gap-2 mb-4">

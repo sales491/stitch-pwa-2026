@@ -6,6 +6,7 @@ import { useAuth } from '@/components/AuthProvider';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatRelativeTime } from '@/utils/dateUtils';
+import FlagButton from '@/components/FlagButton';
 
 type CommentProps = {
     entityId: string;
@@ -195,7 +196,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                                         {formatRelativeTime(c.created_at)}
                                     </span>
                                     <button className="text-[10px] text-text-muted font-black uppercase tracking-wider hover:text-blue-600 transition-colors">Reply</button>
-                                    <button className="text-[10px] text-text-muted font-black uppercase tracking-wider hover:text-moriones-red transition-colors">Flag</button>
+                                    <FlagButton contentType="comment" contentId={c.id} />
                                 </div>
                             </div>
                         </div>

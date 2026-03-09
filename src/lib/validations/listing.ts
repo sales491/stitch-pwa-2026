@@ -11,6 +11,9 @@ export const listingSchema = z.object({
     img: z.string().url().optional(),
     slug: z.string().optional(),
     price_value: z.number().optional(),
+    status: z.enum(['active', 'pending', 'sold', 'draft']).optional(),
+    contact_details: z.record(z.string(), z.string()).optional(),
+    delivery: z.boolean().optional(),
 });
 
 export type ListingInput = z.infer<typeof listingSchema>;

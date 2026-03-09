@@ -52,17 +52,22 @@ export default function RootLayout({
                 </div>
 
                 {/* CENTER CORE: This is the mobile-width feed. It scrolls independently. */}
-                <main className="flex-1 max-w-xl w-full h-full bg-white dark:bg-[#0F0F10] flex flex-col relative overflow-y-auto">
-                  {/* Top header for mobile users (Logo, Search) */}
-                  <div className="md:hidden sticky top-0 z-[60] bg-white dark:bg-[#0F0F10] border-b dark:border-white/[0.03]">
-                    <MobileTopHeader />
-                  </div>
+                <div className="flex-1 max-w-xl w-full h-full relative">
+                  <main className="w-full h-full bg-white dark:bg-[#0F0F10] flex flex-col overflow-y-auto">
+                    {/* Top header (Logo, Search) */}
+                    <div className="sticky top-0 z-[60] bg-white dark:bg-[#0F0F10] border-b dark:border-white/[0.03]">
+                      <MobileTopHeader />
+                    </div>
 
-                  {/* Your actual page content (Marketplace, Jobs, etc.) goes here */}
-                  <div className="pb-20 md:pb-0 min-h-screen">
-                    {children}
-                  </div>
-                </main>
+                    {/* Your actual page content (Marketplace, Jobs, etc.) goes here */}
+                    <div className="pb-20 md:pb-24 min-h-screen">
+                      {children}
+                    </div>
+                  </main>
+
+                  {/* BOTTOM NAV: Positioned explicitly within the center column bounds on Desktop */}
+                  <BottomNav />
+                </div>
 
                 {/* RIGHT SIDEBAR: Hidden on mobile and tablet, shows only on large desktops */}
                 <div className="hidden lg:flex w-80 flex-col h-full border-l bg-gray-50">
@@ -70,9 +75,6 @@ export default function RootLayout({
                 </div>
 
               </div>
-
-              {/* MOBILE BOTTOM NAV: Hidden on desktop, shows only on mobile */}
-              <BottomNav />
             </NotificationProvider>
           </AuthProvider>
         </ThemeProvider>

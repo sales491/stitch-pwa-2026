@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useNotifications } from './NotificationProvider';
@@ -8,18 +9,20 @@ import ThemeToggle from './ThemeToggle';
 
 const CATEGORIES = [
     { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
-    { label: 'Delivery & Commuting Services', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commuter-delivery-hub' },
-    { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/marinduque-events-calendar' },
-    { label: 'Foreigner', icon: '🌏', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/the-hidden-foreigner-blog-feed' },
-    { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/marinduque-jobs-listing-feed' },
-    { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems-of-marinduque-feed' },
-    { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marinduque-classifieds-marketplace' },
-    { label: 'RoRo and Port', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/roro-port-information-hub' },
+    { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
+    { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },
+    { label: 'Blog', icon: '🌏', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/blog' },
+    { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/jobs' },
+    { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
+    { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marketplace' },
+    { label: 'RoRo & Port Info', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/ports' },
+    { label: 'Business Directory', icon: '🏪', color: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400', href: '/directory' },
+    { label: 'Community Board', icon: '📣', color: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400', href: '/community' },
 ];
 
 export default function MobileTopHeader() {
     const { profile } = useAuth();
-    const { unreadCount } = useNotifications();
+    const { unreadCount, hasPendingApprovals } = useNotifications();
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -46,11 +49,14 @@ export default function MobileTopHeader() {
                     {/* Left: Custom SVG Logo & Stacked Text */}
                     <Link href="/" className="flex items-center gap-3">
                         <div className="text-moriones-red flex items-center justify-center">
-                            {/* High-resolution transparent image logo */}
-                            <img
+                            {/* Optimized logo — Next.js serves resized WebP automatically */}
+                            <Image
                                 src="/markethub-logo.png"
                                 alt="Marinduque Market Hub"
-                                className="w-10 h-10 object-contain drop-shadow-sm brightness-110 saturate-125 transition-all"
+                                width={40}
+                                height={40}
+                                className="object-contain drop-shadow-sm brightness-110 saturate-125 transition-all"
+                                priority
                             />
                         </div>
                         <div className="flex flex-col leading-none ml-1">
@@ -69,17 +75,18 @@ export default function MobileTopHeader() {
                             <ThemeToggle />
                         </div>
 
-                        <Link href="/user-profile-dashboard1" className="ml-1 relative flex items-center justify-center">
+                        <Link href="/profile" className="ml-1 relative flex items-center justify-center">
                             {/* Profile image with matching colored border from mockup */}
                             <div className="h-8 w-8 rounded-full overflow-hidden border-[1.5px] border-slate-200 dark:border-white/20 shadow-sm">
                                 <img
                                     alt="User Profile"
                                     className="h-full w-full object-cover"
                                     src={avatarUrl}
+                                    referrerPolicy="no-referrer"
                                 />
                             </div>
                             {/* Red dot placed precisely on the top right, half outside the profile */}
-                            {unreadCount > 0 && (
+                            {(unreadCount > 0 || hasPendingApprovals) && (
                                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#FF4F4F] border-[2px] border-white dark:border-[#0F0F10] rounded-full animate-pulse shadow-[0_1px_2px_rgba(0,0,0,0.2)]" />
                             )}
                         </Link>
@@ -91,7 +98,7 @@ export default function MobileTopHeader() {
                     <Link href="/" className="text-[15px] font-bold text-slate-900 dark:text-white pb-1 border-b-2 border-transparent hover:border-slate-900 dark:hover:border-white transition-all">
                         Home
                     </Link>
-                    <Link href="/marinduque-classifieds-marketplace" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                    <Link href="/marketplace" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
                         Buy/Sell
                     </Link>
                     <button

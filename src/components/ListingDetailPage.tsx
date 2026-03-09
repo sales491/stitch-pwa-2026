@@ -24,7 +24,7 @@ export default function ListingDetailPage({ listing }: { listing: Listing }) {
         <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-900 pb-4">
             {/* Sticky header */}
             <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-b border-slate-100 dark:border-zinc-800">
-                <Link href="/marinduque-classifieds-marketplace" className="flex items-center gap-1 text-text-muted hover:text-primary transition-colors">
+                <Link href="/marketplace" className="flex items-center gap-1 text-text-muted hover:text-primary transition-colors">
                     <span className="material-symbols-outlined text-[22px]">arrow_back</span>
                     <span className="text-sm font-medium">Classifieds</span>
                 </Link>
@@ -168,7 +168,7 @@ export default function ListingDetailPage({ listing }: { listing: Listing }) {
                             </div>
                         </div>
                         <Link
-                            href="/user-profile-dashboard1"
+                            href="/profile"
                             className="text-xs text-primary font-semibold hover:underline shrink-0"
                         >
                             View Profile

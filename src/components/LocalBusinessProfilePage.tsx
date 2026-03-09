@@ -7,7 +7,7 @@ import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 /* ─── Types ─────────────────────────────────────────── */
 export interface BusinessProfile {
   id: string;
-  user_id: string | null;
+  owner_id: string | null;
   business_name: string;
   business_type: string | null;
   description: string | null;
@@ -33,6 +33,7 @@ export interface BusinessProfile {
   created_at: string | null;
   updated_at: string | null;
   gallery_image: string | null;
+  gallery_images: string[] | null;
   is_verified: boolean | null;
   average_rating: number | null;
   review_count: number | null;
@@ -237,7 +238,10 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
         text: data.comment,
       };
 
-      setReviews((prev) => [newReview, ...prev]);
+      setReviews((prev) => {
+        const updated = [newReview, ...prev];
+        return updated;
+      });
       setDraftRating(0);
       setDraftName('');
       setDraftText('');
@@ -279,6 +283,19 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
     }
   }
 
+  async function handleVerify() {
+    try {
+      const { error } = await supabase
+        .from('business_profiles')
+        .update({ is_verified: true })
+        .eq('id', business.id);
+      if (error) throw error;
+      window.location.reload();
+    } catch (error: any) {
+      alert(`Failed to verify: ${error.message}`);
+    }
+  }
+
   return (
     <>
       <div className="relative flex min-h-screen flex-col mx-auto max-w-md bg-white dark:bg-zinc-900 shadow-2xl overflow-hidden">
@@ -293,7 +310,7 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
         {/* Header / Cover Photo */}
         <div className="relative w-full h-72">
           <div className="absolute top-0 left-0 w-full z-20 flex justify-between items-center p-4 pt-10 bg-gradient-to-b from-black/60 to-transparent">
-            <Link href="/marinduque-business-directory" className="bg-white/20 backdrop-blur-md rounded-full p-2 text-white hover:bg-white/30 transition-colors">
+            <Link href="/directory" className="bg-white/20 backdrop-blur-md rounded-full p-2 text-white hover:bg-white/30 transition-colors">
               <span className="material-symbols-outlined block">arrow_back</span>
             </Link>
             <div className="flex gap-3">
@@ -352,15 +369,21 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                       VERIFIED
                     </span>
                   )}
+                  {!isEditing && !business.is_verified && isAdminUser && (
+                    <button onClick={handleVerify} className="inline-flex items-center gap-1 bg-amber-500 hover:bg-amber-600 transition-colors text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md active:scale-95">
+                      <span className="material-symbols-outlined text-[13px]">check_circle</span>
+                      VERIFY BUSINESS
+                    </button>
+                  )}
                   {!isEditing && (
                     <AdminActions
                       contentType="business"
                       contentId={business.id}
-                      authorId={business.user_id || undefined}
+                      authorId={business.owner_id || undefined}
                       variant="button"
                       onEdit={() => setIsEditing(true)}
                       onDelete={() => {
-                        window.location.href = '/marinduque-business-directory';
+                        window.location.href = '/directory';
                       }}
                     />
                   )}
@@ -444,10 +467,10 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
             )}
           </div>
 
-          {/* Action Buttons — Phone, Messenger, FB Page, SMS, Web */}
-          <div className="grid grid-cols-4 gap-3 mb-8">
+          {/* Action Buttons — Phone, Messenger, FB Page, SMS, Web, Email */}
+          <div className="grid grid-cols-6 gap-2 mb-8">
             {isEditing ? (
-              <div className="col-span-2 bg-green-500/10 text-green-700 dark:text-green-400 rounded-xl py-3 px-4 font-semibold flex flex-col items-center justify-center gap-1 border-2 border-green-500 shadow-sm">
+              <div className="col-span-3 bg-green-500/10 text-green-700 dark:text-green-400 rounded-xl py-3 px-4 font-semibold flex flex-col items-center justify-center gap-1 border-2 border-green-500 shadow-sm">
                 <span className="text-[10px] uppercase font-bold opacity-75">Phone</span>
                 <input
                   type="text"
@@ -461,14 +484,14 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                 />
               </div>
             ) : (
-              <a href={`tel:${formatPhPhoneForLink(editedBusiness.contact_info?.phone || '')}`} className="col-span-2 bg-green-500 hover:bg-green-400 text-white rounded-xl py-3 px-4 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95">
-                <span className="material-symbols-outlined">call</span>
-                Call Now
+              <a href={`tel:${formatPhPhoneForLink(editedBusiness.contact_info?.phone || '')}`} className="col-span-2 bg-green-500 hover:bg-green-400 text-white rounded-xl py-3 px-2 font-semibold flex flex-col items-center justify-center gap-1 transition-all shadow-sm active:scale-95">
+                <span className="material-symbols-outlined text-lg">call</span>
+                <span className="text-[10px] font-medium leading-none">Call Now</span>
               </a>
             )}
 
             {isEditing ? (
-              <div className="col-span-2 bg-slate-100 dark:bg-zinc-800 rounded-xl py-3 px-4 flex flex-col items-center justify-center gap-1 border border-slate-200 dark:border-zinc-700">
+              <div className="col-span-3 bg-slate-100 dark:bg-zinc-800 rounded-xl py-3 px-4 flex flex-col items-center justify-center gap-1 border border-slate-200 dark:border-zinc-700">
                 <span className="text-[10px] uppercase font-bold text-slate-400">Web</span>
                 <input
                   type="text"
@@ -510,12 +533,24 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
                 {editedBusiness.website && (editedBusiness.website.startsWith('http') || editedBusiness.website.startsWith('www')) ? (
                   <a href={editedBusiness.website} target="_blank" rel="noreferrer" className="col-span-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
                     <span className="material-symbols-outlined text-teal-600">language</span>
-                    <span className="text-[10px] font-medium">Web</span>
+                    <span className="text-[10px] font-medium leading-none">Web</span>
                   </a>
                 ) : (
                   <div className="col-span-1 bg-slate-50 dark:bg-zinc-900 text-slate-300 dark:text-zinc-600 rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 cursor-not-allowed">
                     <span className="material-symbols-outlined">language</span>
-                    <span className="text-[10px] font-medium">Web</span>
+                    <span className="text-[10px] font-medium leading-none">Web</span>
+                  </div>
+                )}
+                {/* Email */}
+                {editedBusiness.contact_info?.email ? (
+                  <a href={`mailto:${editedBusiness.contact_info.email}`} className="col-span-1 bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-900 dark:text-white rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
+                    <span className="material-symbols-outlined text-amber-500">mail</span>
+                    <span className="text-[10px] font-medium leading-none">Email</span>
+                  </a>
+                ) : (
+                  <div className="col-span-1 bg-slate-50 dark:bg-zinc-900 text-slate-300 dark:text-zinc-600 rounded-xl py-3 px-2 flex flex-col items-center justify-center gap-1 cursor-not-allowed">
+                    <span className="material-symbols-outlined">mail</span>
+                    <span className="text-[10px] font-medium leading-none">Email</span>
                   </div>
                 )}
               </>
@@ -593,12 +628,15 @@ export default function LocalBusinessProfilePage({ business }: { business: Busin
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">Photos</h2>
             </div>
-            <div className="flex gap-3 overflow-x-auto pb-2 -mx-5 px-5 no-scrollbar">
-              {[business.gallery_image].filter(Boolean).map((src, i) => (
-                <div key={i} className="shrink-0 w-32 h-32 rounded-lg overflow-hidden">
-                  <img alt={`Photo ${i + 1}`} className="w-full h-full object-cover" src={src as string} />
-                </div>
-              ))}
+            <div className="flex gap-4 overflow-x-auto pb-4 -mx-5 px-5 no-scrollbar snap-x snap-mandatory">
+              {[...(editedBusiness.gallery_images || []), editedBusiness.gallery_image]
+                .filter(Boolean)
+                .filter((v, i, a) => a.indexOf(v) === i)
+                .map((src, i) => (
+                  <div key={i} className="shrink-0 w-56 h-56 rounded-xl overflow-hidden snap-center shadow-md border border-slate-100 dark:border-zinc-800">
+                    <img alt={`Photo ${i + 1}`} className="w-full h-full object-cover" src={src as string} />
+                  </div>
+                ))}
             </div>
           </div>
 

@@ -24,13 +24,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
     // On mount: read localStorage, fall back to OS preference
     useEffect(() => {
-        const stored = localStorage.getItem('mmh-theme') as Theme | null;
-        if (stored === 'light' || stored === 'dark') {
-            setTheme(stored);
-        } else {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setTheme(prefersDark ? 'dark' : 'light');
-        }
+        setTheme('light');
         setMounted(true);
     }, []);
 

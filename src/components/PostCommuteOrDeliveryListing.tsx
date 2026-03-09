@@ -296,7 +296,7 @@ export default function PostCommuteOrDeliveryListing() {
                     };
 
                     await createTransportService(payload);
-                    router.push('/commuter-delivery-hub');
+                    router.push("/commute");
                     router.refresh();
                 } catch (error: any) {
                     setFilterError(error.message || 'Failed to save listing');
@@ -313,14 +313,14 @@ export default function PostCommuteOrDeliveryListing() {
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
-                <Link href="/commuter-delivery-hub" className="text-slate-800 dark:text-slate-200">
+                <Link href="/commute" className="text-slate-800 dark:text-slate-200">
                     <span className="material-symbols-outlined">arrow_back</span>
                 </Link>
                 <h1 className="text-lg font-bold text-slate-900 dark:text-white">List Your Service</h1>
                 <div className="w-8" />
             </div>
 
-            <div className="p-4 space-y-6 pb-32 flex-1 overflow-y-auto w-full max-w-md mx-auto">
+            <div className="p-4 space-y-6 pb-32 flex-1 w-full max-w-md mx-auto">
 
 
                 {/* Filter error */}

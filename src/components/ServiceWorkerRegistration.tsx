@@ -4,18 +4,30 @@ import { useEffect } from 'react';
 
 export default function ServiceWorkerRegistration() {
     useEffect(() => {
-        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(
-                    (registration) => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    },
-                    (err) => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    }
-                );
-            });
-        }
+        if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+
+        window.addEventListener('load', () => {
+            navigator.serviceWorker
+                .register('/sw.js', { scope: '/' })
+                .then((registration) => {
+                    console.log('[SW] Registered. Scope:', registration.scope);
+
+                    // Check for updates on each load
+                    registration.onupdatefound = () => {
+                        const newSW = registration.installing;
+                        if (!newSW) return;
+                        newSW.onstatechange = () => {
+                            if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New SW is ready — could show a "Refresh for updates" banner here
+                                console.log('[SW] New version available. Refresh to update.');
+                            }
+                        };
+                    };
+                })
+                .catch((err) => {
+                    console.warn('[SW] Registration failed:', err);
+                });
+        });
     }, []);
 
     return null;

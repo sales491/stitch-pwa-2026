@@ -127,7 +127,7 @@ export const HUB_ITEMS: HubItem[] = [
         title: 'Test Moriones Grand Parade',
         subtitle: 'Boac Town Plaza',
         image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAV0I0T9NGtATyFYab1qdP7SReO_db4ErLS9IIxKsDWGpOauFvR-2JtBe5u1Sl5QrEH2KRFmrlXY1I-g5C3sKkEPCQ6-N9lvLR74xYc7ny27IswCrUCGskqFFLhjgzNoctsjjRbcQdfmgKLLfQ-cFG1Cplwn-URaCKjaiMU-w97_FZjZccZxpTfiwblE4dUYQuO-47jJ9KvLmV-e7uDXTRquMEfqbQvykEF0EDR_HTGG5Y_Sc9OqfHCLiRu13ahwbCzi3Juk3Q2rSw',
-        link: '/marinduque-events-calendar',
+        link: '/events',
         extraInfo: 'Trending'
     },
     {

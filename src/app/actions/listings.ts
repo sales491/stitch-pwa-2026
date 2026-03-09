@@ -33,11 +33,15 @@ export async function createListing(data: ListingInput) {
             ...validated,
             user_id: user.id,
             seller_id: user.id,
+            // New listings go to 'pending' so admin can verify before going live
+            status: 'pending',
         });
 
     if (error) throw new Error(error.message);
 
+    revalidatePath('/marketplace');
     revalidatePath('/marinduque-classifieds-marketplace');
+    revalidatePath('/admin');
     return { success: true };
 }
 
@@ -97,12 +101,57 @@ export async function deleteListing(id: string) {
         const { error } = await supabase
             .from('listings')
             .delete()
-            .eq('id', id)
-            .eq('user_id', user.id);
+            .eq('user_id', user.id)
+            .eq('id', id);
 
         if (error) throw new Error(error.message);
     }
 
+    revalidatePath('/marketplace');
     revalidatePath('/marinduque-classifieds-marketplace');
+    return { success: true };
+}
+
+export async function approveListing(id: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Unauthorized');
+
+    const hasAdminAccess = await isUserAdmin(user);
+    if (!hasAdminAccess) throw new Error('Forbidden');
+
+    const adminClient = await createAdminClient();
+    const { error } = await adminClient
+        .from('listings')
+        .update({ status: 'active' })
+        .eq('id', id);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/admin');
+    revalidatePath('/admin/moderation');
+    revalidatePath('/marketplace');
+    revalidatePath(`/marketplace/${id}`);
+    return { success: true };
+}
+
+export async function rejectListing(id: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Unauthorized');
+
+    const hasAdminAccess = await isUserAdmin(user);
+    if (!hasAdminAccess) throw new Error('Forbidden');
+
+    const adminClient = await createAdminClient();
+    const { error } = await adminClient
+        .from('listings')
+        .update({ status: 'draft' })
+        .eq('id', id);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/admin');
+    revalidatePath('/admin/moderation');
     return { success: true };
 }

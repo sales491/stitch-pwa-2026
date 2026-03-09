@@ -1,51 +1,114 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 const TOWNS = ['All', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
+const PAGE_SIZE = 10;
 
 export default function MarketplaceFeed() {
+    const searchParams = useSearchParams();
+    const justPosted = searchParams.get('posted') === '1';
+
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTown, setSelectedTown] = useState('All');
     const [listings, setListings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [page, setPage] = useState(0);
+    const [showSuccessToast, setShowSuccessToast] = useState(justPosted);
+
+    // Ref to prevent duplicate fetches
+    const isFetchingRef = useRef(false);
 
     const supabase = createClient();
 
+    // Auto-hide success toast
     useEffect(() => {
-        const fetchListings = async () => {
+        if (showSuccessToast) {
+            const timer = setTimeout(() => setShowSuccessToast(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccessToast]);
+
+    const fetchListings = useCallback(async (pageNum: number, reset = false) => {
+        if (isFetchingRef.current) return;
+        isFetchingRef.current = true;
+
+        if (reset) {
             setLoading(true);
-            const { data, error: fetchError } = await supabase
-                .from('listings')
-                .select('id, title, price_value, town, images, seller_id, user_id')
-                .eq('status', 'active')
-                .order('created_at', { ascending: false });
+        } else {
+            setIsLoadingMore(true);
+        }
 
-            if (fetchError) {
-                const detail = (fetchError as any).details || fetchError.message;
-                console.error('Marketplace fetch error details:', detail);
-                setError(detail);
+        const from = pageNum * PAGE_SIZE;
+        const to = from + PAGE_SIZE - 1;
+
+        const { data, error: fetchError } = await supabase
+            .from('listings')
+            .select('id, title, price_value, town, images, seller_id, user_id')
+            .eq('status', 'active')
+            .order('created_at', { ascending: false })
+            .range(from, to);
+
+        if (fetchError) {
+            const detail = (fetchError as any).details || fetchError.message;
+            console.error('Marketplace fetch error details:', detail);
+            setError(detail);
+        } else {
+            const newItems = data || [];
+            if (reset) {
+                setListings(newItems);
             } else {
-                setListings(data || []);
+                setListings((prev) => [...prev, ...newItems]);
             }
-            setLoading(false);
-        };
+            setHasMore(newItems.length === PAGE_SIZE);
+        }
 
-        fetchListings();
+        setLoading(false);
+        setIsLoadingMore(false);
+        isFetchingRef.current = false;
     }, [supabase]);
 
+    // Initial load
+    useEffect(() => {
+        fetchListings(0, true);
+        setPage(0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Infinite scroll via IntersectionObserver
+    const sentinelRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !isLoadingMore && !loading) {
+                    setPage((prev) => {
+                        const nextPage = prev + 1;
+                        fetchListings(nextPage);
+                        return nextPage;
+                    });
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        const sentinel = sentinelRef.current;
+        if (sentinel) observer.observe(sentinel);
+        return () => { if (sentinel) observer.unobserve(sentinel); };
+    }, [hasMore, isLoadingMore, loading, fetchListings]);
+
+    // Client-side filter on already-fetched items
     const filteredListings = useMemo(() => {
         return listings.filter((listing) => {
             const matchesSearch = !searchQuery ||
                 listing.title?.toLowerCase().includes(searchQuery.toLowerCase());
-
-            const matchesTown = selectedTown === 'All' ||
-                listing.town === selectedTown;
-
+            const matchesTown = selectedTown === 'All' || listing.town === selectedTown;
             return matchesSearch && matchesTown;
         });
     }, [listings, searchQuery, selectedTown]);
@@ -62,6 +125,26 @@ export default function MarketplaceFeed() {
 
     return (
         <div className="flex flex-col min-h-screen">
+            {/* Success Toast */}
+            {showSuccessToast && (
+                <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-top-2 fade-in">
+                    <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-900/90 border border-amber-200 dark:border-amber-700 rounded-2xl px-4 py-3 shadow-xl shadow-amber-200/40">
+                        <span className="material-symbols-outlined text-amber-600 dark:text-amber-400 text-xl shrink-0 mt-0.5">pending</span>
+                        <div>
+                            <p className="text-sm font-black text-amber-800 dark:text-amber-200">Listing submitted!</p>
+                            <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">Your item is pending review and will appear here once approved.</p>
+                        </div>
+                        <button
+                            onClick={() => setShowSuccessToast(false)}
+                            className="ml-auto shrink-0 text-amber-400 hover:text-amber-600"
+                            aria-label="Close"
+                        >
+                            <span className="material-symbols-outlined text-base">close</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Header Area */}
             <div className="p-6 pb-2">
                 <div className="flex justify-between items-end mb-6">
@@ -132,7 +215,27 @@ export default function MarketplaceFeed() {
                             />
                         ))}
 
-                        {filteredListings.length === 0 && (
+                        {/* Infinite scroll sentinel */}
+                        <div ref={sentinelRef} className="h-4" />
+
+                        {/* Load More Spinner */}
+                        {isLoadingMore && (
+                            <div className="flex justify-center py-6">
+                                <div className="w-8 h-8 border-4 border-moriones-red/20 border-t-moriones-red rounded-full animate-spin"></div>
+                            </div>
+                        )}
+
+                        {/* End of feed indicator */}
+                        {!hasMore && listings.length > 0 && (
+                            <div className="flex flex-col items-center py-8 text-center">
+                                <div className="w-12 h-px bg-slate-200 dark:bg-white/10 mb-4" />
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    {listings.length} listings shown • You're all caught up
+                                </p>
+                            </div>
+                        )}
+
+                        {filteredListings.length === 0 && !loading && (
                             <div className="flex flex-col items-center justify-center py-20 text-center bg-slate-50 dark:bg-zinc-800/50 rounded-[2.5rem] mt-4 border border-slate-100 dark:border-white/[0.03]">
                                 <div className="w-20 h-20 bg-white dark:bg-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm border border-slate-100 dark:border-zinc-700">
                                     <span className="material-symbols-outlined text-slate-300 dark:text-zinc-600 text-4xl">inventory_2</span>
