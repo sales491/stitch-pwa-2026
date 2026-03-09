@@ -1,9 +1,9 @@
 // ============================================================
-// Marinduque Market Hub — Service Worker v2
+// Marinduque Market Hub — Service Worker v3
 // Strategy: Cache-First for shell assets, Network-First for API
 // ============================================================
 
-const CACHE_NAME = 'mhub-shell-v2';
+const CACHE_NAME = 'mhub-shell-v3';
 
 // Core app shell — pages that must load instantly, even offline
 const SHELL_URLS = [
