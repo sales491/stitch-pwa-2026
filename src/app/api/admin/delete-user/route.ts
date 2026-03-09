@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isAdmin } from '@/utils/roles';
 
 // Initialize Supabase with Service Role Key (Server Side Only)
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
 
 export async function POST(req: NextRequest) {
     try {
+        const supabaseAdmin = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+            process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+        );
         const { userId, adminEmail } = await req.json();
 
         // 1. Security Check: Only hardcoded admins can call this
