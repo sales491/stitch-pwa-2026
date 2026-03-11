@@ -12,11 +12,11 @@ const CATEGORY_GRID = [
     { emoji: '🏝️', label: 'Hopping',   href: '/island-hopping'                 },
     { emoji: '🚢️', label: 'RoRo',      href: '/ports'                          },
     { emoji: '💎️', label: 'Gems',      href: '/gems'                           },
-    { emoji: '🌏️', label: 'Blog',      href: '/blog'                           },
+    { emoji: '🌏️', label: 'Foreigner', href: '/blog'                           },
     { emoji: '🏆️', label: 'Boac',      href: '/best-of-boac-monthly-spotlight' },
-    { emoji: '🛵️', label: 'Commute',   href: '/commute'                        },
+    { emoji: '🛵️', label: `Delivery &\nCommuting`, href: '/commute'                        },
     { emoji: '📣️', label: 'Board',     href: '/community'                      },
-    { emoji: '🏪️', label: 'Biz',       href: '/directory'                      },
+    { emoji: '🏪️', label: `Biz\nDirectory`,  href: '/directory'                      },
     { emoji: '⚖️',  label: 'Policies',  href: '/policies'                       },
 ];
 
@@ -142,11 +142,11 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
                                 href={cat.href}
                                 className="active:scale-95 transition-transform"
                             >
-                                <div className="w-full rounded-2xl flex flex-col items-center justify-center gap-1 py-3 px-1 bg-white dark:bg-zinc-800 shadow-md border border-slate-100 dark:border-zinc-700">
+                                <div className="w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-0.5 py-2 px-1 bg-white dark:bg-zinc-800 shadow-md border border-slate-100 dark:border-zinc-700 overflow-hidden">
                                     <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '24px', lineHeight: 1 }}>
                                         {cat.emoji}
                                     </span>
-                                    <span className="text-[9px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 truncate w-full text-center mt-0.5">
+                                    <span className="text-[8px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 w-full text-center mt-0.5 whitespace-pre-line">
                                         {cat.label}
                                     </span>
                                 </div>
