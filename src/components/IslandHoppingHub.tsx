@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import FlagButton from './FlagButton';
 import AdminActions from './AdminActions';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
@@ -110,7 +111,9 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                 </div>
                 <div className="p-4 flex items-center gap-4">
                     <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                        {op.images && op.images.length > 0 ? <img src={op.images[0]} className="w-full h-full object-cover" alt={op.operator_name} /> : <span className="text-3xl">{bm.emoji}</span>}
+                        {op.images && op.images.length > 0
+                            ? <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator_name} />
+                            : <span className="text-3xl">{bm.emoji}</span>}
                     </div>
                     <div className="flex-1 min-w-0">
                         <h3 className="font-bold text-slate-900 dark:text-white text-base truncate pr-20">{op.operator_name}</h3>

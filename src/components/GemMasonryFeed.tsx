@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { toggleGemLike } from '@/app/actions/gems';
 
 type Gem = {
@@ -144,10 +145,12 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                             <Link href={`/gems-of-marinduque-feed/${gem.id}`}>
                                 <div className="relative w-full" style={{ aspectRatio: '4/5' }}>
                                     {gem.images?.[0] ? (
-                                        <img
+                                        <Image
                                             src={gem.images[0]}
                                             alt={gem.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            fill
+                                            sizes="(max-width: 640px) 45vw, 200px"
+                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-background-light dark:bg-background-dark flex items-center justify-center">
@@ -168,7 +171,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                                 )}
                                 <div className="flex items-center gap-1.5">
                                     {gem.profiles?.avatar_url
-                                        ? <img src={gem.profiles.avatar_url} alt="" className="w-5 h-5 rounded-full object-cover border border-border-light" />
+                                        ? <Image src={gem.profiles.avatar_url} alt="" width={20} height={20} className="rounded-full object-cover border border-border-light" />
                                         : <div className="w-5 h-5 rounded-full bg-moriones-red flex items-center justify-center text-white text-[8px] font-black">{(gem.profiles?.full_name ?? '?')[0].toUpperCase()}</div>
                                     }
                                     <span className="text-[10px] font-bold text-text-muted dark:text-text-muted-dark truncate">{gem.profiles?.full_name?.split(' ')[0] ?? 'Local'}</span>

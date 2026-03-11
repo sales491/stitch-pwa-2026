@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useNotifications } from './NotificationProvider';
@@ -91,7 +92,7 @@ export default function LeftSidebar() {
                 className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-zinc-800 rounded-xl border border-slate-100 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-700 transition-all"
             >
                 {profile?.avatar_url ? (
-                    <img src={profile.avatar_url} alt={profile.full_name} className="w-8 h-8 rounded-full object-cover" />
+                    <Image src={profile.avatar_url} alt={profile.full_name} width={32} height={32} className="rounded-full object-cover" />
                 ) : (
                     <div className="w-8 h-8 rounded-full bg-moriones-red flex items-center justify-center text-white text-xs font-black">
                         {profile?.full_name?.[0] || '?'}

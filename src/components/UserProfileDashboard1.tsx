@@ -5,6 +5,7 @@ import { User } from '@supabase/supabase-js';
 import { isAdmin, isModerator } from '@/utils/roles';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import AdminActions from './AdminActions';
 
 import { useNotifications } from './NotificationProvider';
@@ -163,7 +164,7 @@ export default function UserProfileDashboard1() {
           <div className="flex flex-col items-center pt-8 pb-6">
             <Link href="/profile/edit" className="relative mb-4 group cursor-pointer">
               {profile?.avatar_url || user.user_metadata?.avatar_url ? (
-                <img src={profile?.avatar_url || user.user_metadata.avatar_url} alt="Avatar" referrerPolicy="no-referrer" className="h-28 w-28 rounded-full object-cover border-4 border-background-main shadow-lg border-white dark:border-neutral-800" />
+                <Image src={profile?.avatar_url || user.user_metadata.avatar_url} alt="Avatar" width={112} height={112} referrerPolicy="no-referrer" className="h-28 w-28 rounded-full object-cover border-4 border-background-main shadow-lg border-white dark:border-neutral-800" />
               ) : (
                 <div className="h-28 w-28 rounded-full bg-background-main border-4 border-border-main shadow-lg flex items-center justify-center text-3xl font-bold text-text-muted bg-neutral-100 dark:bg-neutral-800 border-white dark:border-neutral-800">
                   {user.email?.charAt(0).toUpperCase()}
@@ -279,9 +280,9 @@ export default function UserProfileDashboard1() {
               {/* Classifieds Listings */}
               {classListings.map(listing => (
                 <div key={listing.id} className="bg-background-main border border-border-main rounded-2xl p-3 shadow-sm flex items-center gap-3 group">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-background-dark shrink-0">
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-background-dark shrink-0">
                     {listing.images?.[0] ? (
-                      <img src={listing.images[0]} className="w-full h-full object-cover" alt="" />
+                      <Image src={listing.images[0]} fill className="object-cover" alt="" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-text-muted/20">
                         <span className="material-symbols-outlined text-4xl">image</span>
