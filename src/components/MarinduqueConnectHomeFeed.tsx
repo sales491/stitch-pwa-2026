@@ -6,18 +6,18 @@ import { HubItem } from '@/data/hub-items';
 // ─── Static Category Grid ────────────────────────────────────────────────────
 // All static links — no data fetching, nothing can break
 const CATEGORY_GRID = [
-    { emoji: '🛒', label: 'MARKET',    href: '/marketplace',                     bg: 'bg-teal-100',    text: 'text-teal-800'    },
-    { emoji: '💼', label: 'JOBS',      href: '/jobs',                             bg: 'bg-orange-100',  text: 'text-orange-800'  },
-    { emoji: '🏝️', label: 'HOPPING',  href: '/island-hopping',                   bg: 'bg-cyan-100',    text: 'text-cyan-800'    },
-    { emoji: '🚢', label: 'RORO',      href: '/ports',                            bg: 'bg-blue-100',    text: 'text-blue-800'    },
-    { emoji: '📣', label: 'COMMUNITY', href: '/community',                        bg: 'bg-rose-100',    text: 'text-rose-800'    },
-    { emoji: '🏆', label: 'BEST BOAC', href: '/best-of-boac-monthly-spotlight',  bg: 'bg-red-100',     text: 'text-red-800'     },
-    { emoji: '💎', label: 'GEMS',      href: '/gems',                             bg: 'bg-emerald-100', text: 'text-emerald-800' },
-    { emoji: '📅', label: 'EVENTS',    href: '/events',                           bg: 'bg-pink-100',    text: 'text-pink-800'    },
-    { emoji: '🛵', label: 'COMMUTE',   href: '/commute',                          bg: 'bg-indigo-100',  text: 'text-indigo-800'  },
-    { emoji: '🌏', label: 'FOREIGNER', href: '/blog',                             bg: 'bg-purple-100',  text: 'text-purple-800'  },
-    { emoji: '🏪', label: 'BUSINESS',  href: '/directory',                        bg: 'bg-amber-100',   text: 'text-amber-800'   },
-    { emoji: '⚖️', label: 'POLICIES',  href: '/policies',                         bg: 'bg-slate-100',   text: 'text-slate-700'   },
+    { emoji: '🛒️', label: 'Market',    href: '/marketplace'                    },
+    { emoji: '💼️', label: 'Jobs',      href: '/jobs'                           },
+    { emoji: '📅️', label: 'Events',    href: '/events'                         },
+    { emoji: '🏝️', label: 'Hopping',   href: '/island-hopping'                 },
+    { emoji: '🚢️', label: 'RoRo',      href: '/ports'                          },
+    { emoji: '💎️', label: 'Gems',      href: '/gems'                           },
+    { emoji: '🌏️', label: 'Blog',      href: '/blog'                           },
+    { emoji: '🏆️', label: 'Boac',      href: '/best-of-boac-monthly-spotlight' },
+    { emoji: '🛵️', label: 'Commute',   href: '/commute'                        },
+    { emoji: '📣️', label: 'Board',     href: '/community'                      },
+    { emoji: '🏪️', label: 'Biz',       href: '/directory'                      },
+    { emoji: '⚖️',  label: 'Policies',  href: '/policies'                       },
 ];
 
 // ─── Static Quick-Action Cards ───────────────────────────────────────────────
@@ -82,23 +82,30 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
             <div className="flex-1 pb-6 bg-background-light/30 dark:bg-background-dark/30">
 
                 {/* ── 1. Gradient Banner ─────────────────────────────────── */}
-                <div className="mx-4 mt-4 mb-5 rounded-2xl overflow-hidden shadow-md"
-                    style={{ background: 'linear-gradient(135deg, #C62828 0%, #4a4a4a 60%, #2d2d2d 100%)' }}>
-                    <div className="px-5 py-4 flex items-center justify-between">
-                        <div className="flex-1">
-                            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/60 flex items-center gap-1 mb-1">
+                <div className="mx-4 mt-4 mb-5 rounded-2xl overflow-hidden shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, #E53935 0%, #C62828 35%, #7B1010 70%, #2d2d2d 100%)' }}>
+                    <div className="px-5 py-0 flex items-center justify-between overflow-hidden">
+                        <div className="flex-1 min-w-0">
+                            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/70 flex items-center gap-1 mb-1">
                                 <span>📍</span> Marinduque Island, PH
                             </p>
                             <h1 className="text-[22px] font-black text-white leading-tight tracking-tight">
                                 Your Island<br />Community Hub
                             </h1>
-                            <p className="text-[9px] text-white/40 font-medium mt-1.5 tracking-wide">
+                            <p className="text-[8px] text-white/50 font-medium mt-1 tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
                                 Boac · Gasan · Mogpog · Sta. Cruz · Torrijos · Buenavista
                             </p>
                         </div>
-                        {/* Decorative faint island silhouette */}
-                        <div className="text-[64px] opacity-10 select-none ml-3 leading-none">
-                            🏝️
+                        {/* Marinduque island — real silhouette image, defines banner height */}
+                        <div className="ml-2 flex-shrink-0 flex items-center">
+                            <img
+                                src="/images/marinduque-island-silhouette.png"
+                                alt="Marinduque Island"
+                                width={130}
+                                height={130}
+                                style={{ mixBlendMode: 'screen', opacity: 0.45 }}
+                                className="object-contain"
+                            />
                         </div>
                     </div>
                 </div>
@@ -128,29 +135,34 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
 
                 {/* ── 3. Category Icon Grid (4 cols × 3 rows, all static) ── */}
                 <div className="px-4 mb-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 mb-3">
-                        Browse Categories
-                    </p>
-                    <div className="grid grid-cols-4 gap-2.5">
+                    <div className="grid grid-cols-4 gap-3">
                         {CATEGORY_GRID.map(cat => (
                             <Link
                                 key={cat.href}
                                 href={cat.href}
-                                className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                                className="active:scale-95 transition-transform"
                             >
-                                <div className={`w-full aspect-square rounded-2xl flex items-center justify-center text-[26px] ${cat.bg} shadow-sm`}>
-                                    {cat.emoji}
+                                <div className="w-full rounded-2xl flex flex-col items-center justify-center gap-1 py-3 px-1 bg-white dark:bg-zinc-800 shadow-md border border-slate-100 dark:border-zinc-700">
+                                    <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '24px', lineHeight: 1 }}>
+                                        {cat.emoji}
+                                    </span>
+                                    <span className="text-[9px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 truncate w-full text-center mt-0.5">
+                                        {cat.label}
+                                    </span>
                                 </div>
-                                <span className={`text-[9px] font-black uppercase tracking-tight text-center leading-none ${cat.text} dark:text-slate-300`}>
-                                    {cat.label}
-                                </span>
                             </Link>
                         ))}
                     </div>
                 </div>
 
-                {/* ── 4. Grouped Feed (unchanged) ─────────────────────────── */}
+                {/* ── 4. Grouped Feed ─────────────────────────── */}
                 <div className="space-y-8 px-4">
+                    {/* Section header matching mockup */}
+                    {Object.keys(categorizedItems).length > 0 && (
+                        <p className="text-[13px] font-black uppercase tracking-[0.15em] text-slate-800 dark:text-white mb-4">
+                            Recent Activity
+                        </p>
+                    )}
                     {Object.keys(categorizedItems).length === 0 && (
                         <div className="flex flex-col items-center justify-center py-20 text-center">
                             <span className="material-symbols-outlined text-[64px] text-text-muted/20 mb-4">search_off</span>
