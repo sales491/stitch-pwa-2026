@@ -42,7 +42,7 @@ export default async function ClaimBusinessPage({ params }: { params: Promise<{ 
     }
 
     return (
-        <div className="min-h-screen bg-white dark:bg-zinc-900">
+        <div className="min-h-screen bg-white dark:bg-zinc-900 pb-24">
             {/* Header */}
             <div className="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
                 <div className="flex items-center gap-3 px-4 py-4 max-w-md mx-auto">

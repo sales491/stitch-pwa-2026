@@ -27,7 +27,7 @@ export default async function JobDetail({
     const hasUrl = !!contact.websiteUrl;
 
     return (
-        <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen">
+        <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
             {/* High Impact Header */}
             <div className="bg-moriones-red dark:bg-moriones-red/80 h-48 md:h-64 relative overflow-hidden rounded-b-[3rem] shadow-2xl flex items-end">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />

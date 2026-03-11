@@ -37,7 +37,7 @@ export default async function BusinessProfileDetailPage({
     const messenger = socialMedia.messenger || '';
 
     return (
-        <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen">
+        <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
             {/* Top Navigation */}
             <div className="px-6 pt-6 pb-4 flex justify-between items-center max-w-lg mx-auto w-full">
                 <Link href="/directory" className="w-10 h-10 flex items-center justify-center bg-white dark:bg-zinc-900 rounded-full text-slate-900 dark:text-white shadow-sm active:scale-95 transition-transform border border-slate-200 dark:border-zinc-800">

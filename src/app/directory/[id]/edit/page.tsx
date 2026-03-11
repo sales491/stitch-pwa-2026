@@ -131,7 +131,7 @@ export default function EditBusiness({ params }: { params: Promise<{ id: string 
     );
 
     return (
-        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
+        <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950 pb-24">
             {/* Dashboard Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
                 <div className="flex items-center gap-4">

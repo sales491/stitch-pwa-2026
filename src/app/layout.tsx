@@ -62,7 +62,7 @@ export default function RootLayout({
                     </div>
 
                     {/* Your actual page content (Marketplace, Jobs, etc.) goes here */}
-                    <div className="pb-20 md:pb-24 min-h-screen">
+                    <div className="pb-24 md:pb-24 min-h-screen">
                       {children}
                     </div>
                   </main>
