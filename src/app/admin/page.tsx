@@ -206,7 +206,7 @@ export default async function AdminDashboard() {
                     <span className="material-symbols-outlined text-slate-300">database</span>
                 </div>
                 <div className="relative z-10">
-                    <DbHealthWidget variant="mini" refreshInterval={30} />
+                    <DbHealthWidget variant="mini" refreshInterval={3600} />
                 </div>
             </section>
 

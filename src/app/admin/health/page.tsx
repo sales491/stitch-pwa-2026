@@ -35,7 +35,7 @@ export default function AdminHealthPage() {
             </div>
 
             {/* Full widget */}
-            <DbHealthWidget variant="full" refreshInterval={30} />
+            <DbHealthWidget variant="full" refreshInterval={3600} />
 
             {/* Footer note */}
             <p className="text-[11px] text-slate-400 font-medium text-center pb-4">

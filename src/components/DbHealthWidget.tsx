@@ -245,7 +245,7 @@ export default function DbHealthWidget({ variant = 'mini', refreshInterval = 30 
                             const maxRows = data.tables[0]?.rows || 1;
                             const barWidth = (table.rows / maxRows) * 100;
                             return (
-                                <div key={table.name} className="flex items-center gap-4 px-6 py-3 hover:bg-slate-50/60 transition-colors">
+                                <div key={`${i}-${table.name}`} className="flex items-center gap-4 px-6 py-3 hover:bg-slate-50/60 transition-colors">
                                     <span className="text-[10px] font-black text-slate-300 w-5 shrink-0">{i + 1}</span>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-black text-slate-700 truncate font-mono">{table.name}</p>

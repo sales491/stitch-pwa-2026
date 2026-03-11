@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useNotifications } from './NotificationProvider';
+import { isAdmin, isModerator } from '@/utils/roles';
 
 const mainNav = [
     { label: 'Home', href: '/', icon: 'home' },
@@ -10,17 +11,23 @@ const mainNav = [
     { label: 'Business Directory', href: '/directory', icon: 'business' },
     { label: 'Jobs', href: '/jobs', icon: 'work' },
     { label: 'Events', href: '/events', icon: 'event' },
-    { label: 'Commute & Delivery', href: '/commute', icon: 'directions_car' },
+    { label: 'Delivery & Commuting', href: '/commute', icon: 'directions_car' },
+    { label: 'Island Hopping', href: '/island-hopping', icon: 'sailing' },
     { label: 'Community Board', href: '/community', icon: 'groups' },
-    { label: 'RoRo Port Info', href: '/ports', icon: 'anchor' },
-    { label: 'Gems of Marinduque', href: '/gems', icon: 'diamond' },
-    { label: 'Blog', href: '/blog', icon: 'article' },
+    { label: 'RoRo & Port Info', href: '/ports', icon: 'anchor' },
+    { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
+    { label: 'Foreigner', href: '/blog', icon: 'article' },
+    { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
+    { label: 'Policies', href: '/policies', icon: 'gavel' },
 ];
 
 export default function LeftSidebar() {
     const pathname = usePathname();
-    const { profile } = useAuth();
+    const { profile, user } = useAuth();
     const { unreadCount } = useNotifications();
+
+    const isUserAdmin = profile?.role === 'admin' || isAdmin(user?.email);
+    const isUserMod = profile?.role === 'moderator' || isModerator(user?.email);
 
     return (
         <nav className="p-4 h-full flex flex-col gap-1 overflow-y-auto">
@@ -61,13 +68,19 @@ export default function LeftSidebar() {
             {/* Spacer */}
             <div className="flex-grow" />
 
-            {/* Admin Quick Links */}
-            {profile?.role === 'admin' && (
+            {/* Admin / Mod Quick Links — only visible to admins and moderators */}
+            {isUserMod && (
                 <div className="mb-2 pt-3 border-t border-slate-100 dark:border-zinc-800">
                     <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 px-3 mb-1">Admin</p>
-                    <Link href="/admin/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all">
-                        <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
-                        Admin Dashboard
+                    {isUserAdmin && (
+                        <Link href="/admin" className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all">
+                            <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                            Admin Dashboard
+                        </Link>
+                    )}
+                    <Link href="/admin/moderation" className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-all">
+                        <span className="material-symbols-outlined text-[18px]">shield_person</span>
+                        Moderation
                     </Link>
                 </div>
             )}
