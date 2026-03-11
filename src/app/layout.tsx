@@ -9,6 +9,7 @@ import ThemeProvider from "@/components/ThemeProvider";
 import { NotificationProvider } from "@/components/NotificationProvider";
 import { AuthProvider } from "@/components/AuthProvider"; // Touch to trigger recompile
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -66,7 +67,10 @@ export default function RootLayout({
                     </div>
                   </main>
 
-                  {/* BOTTOM NAV: Positioned explicitly within the center column bounds on Desktop */}
+                  {/* PWA install prompt — shows once to new users */}
+                  <PWAInstallPrompt />
+
+                  {/* BOTTOM NAV */}
                   <BottomNav />
                 </div>
 
