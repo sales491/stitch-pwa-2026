@@ -83,15 +83,12 @@ function InstallSection() {
 // ─── About Us page ───────────────────────────────────────────────────────────
 export default function AboutUsPage() {
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-8">
+        <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
             {/* Page header */}
             <div className="px-4 pt-6 pb-4">
                 <h1 className="text-[22px] font-black text-slate-900 dark:text-white tracking-tight">About Us</h1>
                 <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5">Marinduque Market Hub — your island community</p>
             </div>
-
-            {/* Install section */}
-            <InstallSection />
 
             {/* About blurb */}
             <section className="mx-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800 px-5 py-5 mb-6">
@@ -117,6 +114,9 @@ export default function AboutUsPage() {
                     ))}
                 </div>
             </section>
+
+            {/* Install section */}
+            <InstallSection />
         </main>
     );
 }
