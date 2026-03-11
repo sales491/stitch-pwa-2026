@@ -10,14 +10,16 @@ import ThemeToggle from './ThemeToggle';
 const CATEGORIES = [
     { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
     { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
+    { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
     { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },
-    { label: 'Blog', icon: '🌏', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/blog' },
+    { label: 'Foreigner', icon: '🌏', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/blog' },
     { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/jobs' },
     { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
     { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marketplace' },
     { label: 'RoRo & Port Info', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/ports' },
     { label: 'Business Directory', icon: '🏪', color: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400', href: '/directory' },
     { label: 'Community Board', icon: '📣', color: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400', href: '/community' },
+    { label: 'Policies', icon: '⚖️', color: 'bg-slate-50 text-slate-600 dark:bg-slate-800/40 dark:text-slate-400', href: '/policies' },
 ];
 
 export default function MobileTopHeader() {
@@ -98,15 +100,18 @@ export default function MobileTopHeader() {
                     <Link href="/" className="text-[15px] font-bold text-slate-900 dark:text-white pb-1 border-b-2 border-transparent hover:border-slate-900 dark:hover:border-white transition-all">
                         Home
                     </Link>
-                    <Link href="/marketplace" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
-                        Buy/Sell
-                    </Link>
                     <button
                         onClick={() => setIsMenuOpen(true)}
                         className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors"
                     >
                         Categories
                     </button>
+                    <Link href="/marketplace" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                        Buy-Sell
+                    </Link>
+                    <Link href="/about" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                        About Us
+                    </Link>
                 </div>
             </header>
 
@@ -118,7 +123,7 @@ export default function MobileTopHeader() {
                         onClick={() => setIsMenuOpen(false)}
                     />
 
-                    <div className="absolute right-4 top-14 w-[240px] max-w-[85vw] bg-white dark:bg-[#1A1A1A] shadow-2xl flex flex-col rounded-[2rem] border border-gray-100/50 dark:border-white/[0.05] animate-slide-in-right overflow-hidden ring-1 ring-black/[0.05] dark:ring-white/[0.05] h-fit">
+                    <div className="absolute left-1/2 -translate-x-1/2 top-14 w-[240px] max-w-[85vw] bg-white dark:bg-[#1A1A1A] shadow-2xl flex flex-col rounded-[2rem] border border-gray-100/50 dark:border-white/[0.05] animate-slide-in-right overflow-hidden ring-1 ring-black/[0.05] dark:ring-white/[0.05] h-fit">
                         <div className="flex items-center justify-between px-3.5 py-2 border-b border-gray-100 dark:border-white/[0.05] bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md z-10">
                             <h2 className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-900 dark:text-white">Categories</h2>
                             <button

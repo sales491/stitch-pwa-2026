@@ -58,6 +58,7 @@ export async function adminDeleteContent(contentType: string, contentId: string)
             post: 'posts',
             comment: 'comments',
             commute: 'transport_services',
+            boat: 'boat_services',
             user: 'profiles',
             gem: 'gems',
             event: 'events',
@@ -107,6 +108,7 @@ export async function adminDeleteContent(contentType: string, contentId: string)
         revalidatePath('/marinduque-jobs');
         revalidatePath('/best-of-boac-2026-voting');
         revalidatePath('/community');
+        revalidatePath('/island-hopping');
         revalidatePath('/');
 
         console.log(`[adminDeleteContent] Success.`);

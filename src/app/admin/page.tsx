@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
+import BoatApprovalList from './BoatApprovalList';
 
 export default async function AdminDashboard() {
     const supabase = await createClient();
@@ -9,16 +10,21 @@ export default async function AdminDashboard() {
         { data: newUsers },
         { data: newBusinesses },
         { data: recentListings },
-        { count: pendingCount }
+        { count: pendingCount },
+        { data: contactMessages },
+        { data: boatServices },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('business_profiles').select('id, business_name, is_verified, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('listings').select('id, title, status, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('listings').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+        supabase.from('contact_messages').select('id, name, email, subject, message, is_read, created_at').order('created_at', { ascending: false }).limit(20),
+        supabase.from('boat_services').select('id, operator_name, boat_type, service_type, base_municipality, contact_number, is_approved, created_at').order('created_at', { ascending: false }),
     ]);
 
     // Show pending listings first, then recent active ones
     const newListings = recentListings;
+    const pendingBoats = (boatServices ?? []).filter((b: { is_approved: boolean }) => !b.is_approved).length;
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 space-y-8 sm:space-y-12 pb-24 font-display">
@@ -161,8 +167,8 @@ export default async function AdminDashboard() {
                     </div>
 
                     <Link href="/admin/moderation" className={`relative z-10 mt-6 sm:mt-8 flex items-center justify-center gap-2 py-3 sm:py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${(pendingCount ?? 0) > 0
-                            ? 'bg-moriones-red/10 border border-moriones-red/30 text-moriones-red hover:bg-moriones-red hover:text-white hover:border-moriones-red'
-                            : 'bg-slate-50 border border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:bg-slate-100'
+                        ? 'bg-moriones-red/10 border border-moriones-red/30 text-moriones-red hover:bg-moriones-red hover:text-white hover:border-moriones-red'
+                        : 'bg-slate-50 border border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:bg-slate-100'
                         }`}>
                         {(pendingCount ?? 0) > 0 && <span className="material-symbols-outlined text-sm">flag</span>}
                         {(pendingCount ?? 0) > 0 ? `Review ${pendingCount} Pending Listing${pendingCount === 1 ? '' : 's'}` : 'Moderate Marketplace'}
@@ -170,6 +176,73 @@ export default async function AdminDashboard() {
                 </section>
 
             </div>
+
+            {/* Boat Listing Approvals */}
+            <section className="bg-white rounded-[2rem] sm:rounded-[3rem] border border-slate-200 p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-50 blur-3xl rounded-full pointer-events-none" />
+                <div className="flex justify-between items-center mb-6 relative z-10">
+                    <div>
+                        <h3 className="font-black text-xs uppercase tracking-[0.2em] text-cyan-600">Island Hopping — Boat Approvals</h3>
+                        {pendingBoats > 0 && (
+                            <span className="text-[10px] font-black text-amber-500">
+                                {pendingBoats} pending approval
+                            </span>
+                        )}
+                    </div>
+                    <span className="text-xl">🏝️</span>
+                </div>
+                <BoatApprovalList boats={boatServices ?? []} />
+            </section>
+
+            {/* Contact Inbox */}
+            <section className="bg-white rounded-[2rem] sm:rounded-[3rem] border border-slate-200 p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-violet-50 blur-3xl rounded-full pointer-events-none" />
+                <div className="flex justify-between items-center mb-6 relative z-10">
+                    <div>
+                        <h3 className="font-black text-xs uppercase tracking-[0.2em] text-violet-600">Contact Inbox</h3>
+                        {contactMessages && contactMessages.filter(m => !m.is_read).length > 0 && (
+                            <span className="text-[10px] font-black text-violet-500">
+                                {contactMessages.filter(m => !m.is_read).length} unread
+                            </span>
+                        )}
+                    </div>
+                    <span className="material-symbols-outlined text-slate-300">mail</span>
+                </div>
+
+                {!contactMessages || contactMessages.length === 0 ? (
+                    <p className="text-sm text-slate-400 font-medium text-center py-8 relative z-10">No messages yet.</p>
+                ) : (
+                    <div className="flex flex-col gap-3 relative z-10">
+                        {contactMessages.map(msg => (
+                            <div
+                                key={msg.id}
+                                className={`rounded-2xl border p-4 transition-all ${msg.is_read
+                                    ? 'bg-slate-50 border-slate-100'
+                                    : 'bg-violet-50/60 border-violet-200'
+                                    }`}
+                            >
+                                <div className="flex items-start justify-between gap-3 mb-1">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-black text-slate-800 truncate">{msg.name}</p>
+                                        <p className="text-[11px] text-slate-400 truncate">{msg.email}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 shrink-0">
+                                        {!msg.is_read && (
+                                            <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                                        )}
+                                        <span className="text-[10px] text-slate-400 font-bold whitespace-nowrap">
+                                            {new Date(msg.created_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p className="text-[11px] font-black uppercase tracking-widest text-violet-600 mb-1">{msg.subject}</p>
+                                <p className="text-[13px] text-slate-600 leading-relaxed whitespace-pre-wrap">{msg.message}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </section>
+
         </div>
     );
 }

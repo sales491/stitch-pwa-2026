@@ -6,7 +6,7 @@ import { adminDeleteContent } from '@/app/actions/admin';
 import { useRouter } from 'next/navigation';
 
 interface AdminActionsProps {
-    contentType: 'listing' | 'job' | 'business' | 'post' | 'comment' | 'commute' | 'user' | 'gem' | 'event';
+    contentType: 'listing' | 'job' | 'business' | 'post' | 'comment' | 'commute' | 'boat' | 'user' | 'gem' | 'event';
     contentId: string;
     authorId?: string;
     onDelete?: () => void;
@@ -117,6 +117,9 @@ export default function AdminActions({
                 break;
             case 'commute':
                 router.push(`/post-commute-or-delivery-listing?id=${contentId}`);
+                break;
+            case 'boat':
+                router.push(`/island-hopping/list?id=${contentId}`);
                 break;
             case 'post':
                 // Most posts are currently handled via community [id] or special pages
