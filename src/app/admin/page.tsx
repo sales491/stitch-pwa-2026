@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import BoatApprovalList from './BoatApprovalList';
+import DbHealthWidget from '@/components/DbHealthWidget';
 
 export default async function AdminDashboard() {
     const supabase = await createClient();
@@ -192,6 +193,21 @@ export default async function AdminDashboard() {
                     <span className="text-xl">🏝️</span>
                 </div>
                 <BoatApprovalList boats={boatServices ?? []} />
+            </section>
+
+            {/* Database Health Monitor */}
+            <section className="bg-white rounded-[2rem] sm:rounded-[3rem] border border-slate-200 p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-50 blur-3xl rounded-full pointer-events-none" />
+                <div className="flex justify-between items-center mb-5 relative z-10">
+                    <div>
+                        <h3 className="font-black text-xs uppercase tracking-[0.2em] text-emerald-600">Database Storage</h3>
+                        <p className="text-[10px] text-slate-400 font-bold mt-0.5">Monitoring 500MB free-tier limit</p>
+                    </div>
+                    <span className="material-symbols-outlined text-slate-300">database</span>
+                </div>
+                <div className="relative z-10">
+                    <DbHealthWidget variant="mini" refreshInterval={30} />
+                </div>
             </section>
 
             {/* Contact Inbox */}
