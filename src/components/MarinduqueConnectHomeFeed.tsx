@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { HubItem } from '@/data/hub-items';
 
 // ─── Static Category Grid ────────────────────────────────────────────────────
@@ -98,13 +99,14 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
                         </div>
                         {/* Marinduque island — real silhouette image, defines banner height */}
                         <div className="ml-2 flex-shrink-0 flex items-center">
-                            <img
+                            <Image
                                 src="/images/marinduque-island-silhouette.png"
                                 alt="Marinduque Island"
                                 width={130}
                                 height={130}
                                 style={{ mixBlendMode: 'screen', opacity: 0.45 }}
                                 className="object-contain"
+                                priority
                             />
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Platform = 'android' | 'ios' | 'ios-non-safari' | 'none';
@@ -89,7 +90,7 @@ export default function PWAInstallPrompt() {
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-slate-100 dark:border-zinc-800">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-xl bg-[#C62828] flex items-center justify-center text-white font-black text-sm">M</div>
+                            <Image src="/icons/icon-192.png" alt="App icon" width={32} height={32} className="rounded-xl" />
                             <div>
                                 <p className="text-[12px] font-black text-slate-900 dark:text-white leading-none">Install this App</p>
                                 <p className="text-[10px] text-slate-500 dark:text-slate-400">Add to your home screen</p>
@@ -126,7 +127,7 @@ export default function PWAInstallPrompt() {
     return (
         <div className="fixed bottom-20 inset-x-4 z-50 animate-slide-up">
             <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-700 px-4 py-3 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#C62828] flex items-center justify-center text-white font-black text-base flex-shrink-0">M</div>
+                <Image src="/icons/icon-192.png" alt="App icon" width={40} height={40} className="rounded-xl flex-shrink-0" />
                 <div className="flex-1 min-w-0">
                     <p className="text-[12px] font-black text-slate-900 dark:text-white leading-none mb-0.5">Install Marinduque Market Hub</p>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">Add to home screen for the best experience</p>

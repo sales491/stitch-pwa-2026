@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 // ─── Install section ─────────────────────────────────────────────────────────
 function InstallSection() {
@@ -11,7 +12,7 @@ function InstallSection() {
             {/* Header */}
             <div className="px-5 pt-5 pb-3">
                 <div className="flex items-center gap-3 mb-1">
-                    <div className="w-10 h-10 rounded-xl bg-[#C62828] flex items-center justify-center text-white font-black text-lg">M</div>
+                    <Image src="/icons/icon-192.png" alt="App icon" width={40} height={40} className="rounded-xl" />
                     <div>
                         <h2 className="text-[15px] font-black text-slate-900 dark:text-white">Install the App</h2>
                         <p className="text-[11px] text-slate-500 dark:text-slate-400">Add to your home screen for the best experience</p>
