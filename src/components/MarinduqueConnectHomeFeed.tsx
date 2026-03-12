@@ -13,7 +13,6 @@ const CATEGORY_GRID = [
     { emoji: '🏝️', label: 'Hopping',     href: '/island-hopping'                 },
     { emoji: '🚢️', label: 'RoRo',        href: '/ports'                          },
     { emoji: '💎️', label: 'Gems',        href: '/gems'                           },
-    { emoji: '🌏️', label: 'Foreigner',   href: '/blog'                           },
     { emoji: '🏆️', label: 'Boac',        href: '/best-of-boac-monthly-spotlight' },
     { emoji: '🛵️', label: `Commute &\nDelivery`, href: '/commute'               },
     { emoji: '🌿️', label: `Island\nLife`,  href: '/island-life'                  },
