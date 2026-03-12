@@ -6,10 +6,12 @@ import Link from 'next/link';
 import BottomNav from './BottomNav';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function AdminCreateBlogPost() {
   const router = useRouter();
   const [isPublishing, setIsPublishing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -17,9 +19,23 @@ export default function AdminCreateBlogPost() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
+  const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  const MAX_IMAGE_MB = 5;
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setErrorMsg('Only JPG, PNG, WebP, or GIF images are allowed.');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      setErrorMsg(`Cover image must be under ${MAX_IMAGE_MB}MB.`);
+      e.target.value = '';
+      return;
+    }
 
     setUploading(true);
     setErrorMsg(null);
@@ -71,13 +87,17 @@ export default function AdminCreateBlogPost() {
       setErrorMsg(res.error);
       setIsPublishing(false);
     } else {
-      router.push("/blog");
-      router.refresh();
+      setShowSuccess(true);
+      setTimeout(() => {
+        router.push('/blog');
+        router.refresh();
+      }, 2000);
     }
   };
 
   return (
     <>
+      <SuccessToast visible={showSuccess} message="Blog post published!" />
       <form onSubmit={handleSubmit} className="relative flex w-full flex-col max-w-md mx-auto shadow-2xl bg-white dark:bg-zinc-900">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center bg-white dark:bg-zinc-900 p-4 pb-2 justify-between border-b border-gray-100 dark:border-zinc-800">

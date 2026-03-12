@@ -8,6 +8,7 @@ import { filterAllFields } from '@/utils/contentFilter';
 import { createTransportService } from '@/app/actions/transport';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 
@@ -105,6 +106,7 @@ export default function PostCommuteOrDeliveryListing() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [existingImages, setExistingImages] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     // On-demand-specific state
     const [baseRate, setBaseRate] = useState('');
@@ -183,14 +185,31 @@ export default function PostCommuteOrDeliveryListing() {
 
     const supabase = createClient();
 
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const MAX_IMAGE_MB = 5;
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
         const totalCount = imageFiles.length + existingImages.length;
         const remaining = 2 - totalCount;
         if (remaining <= 0) return;
 
-        const selected = files.slice(0, remaining);
-        setImageFiles(prev => [...prev, ...selected]);
+        const validFiles: File[] = [];
+        for (const file of files.slice(0, remaining)) {
+            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+                setFilterError('Only JPG, PNG, WebP, or GIF images are allowed.');
+                e.target.value = '';
+                return;
+            }
+            if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+                setFilterError(`Each image must be under ${MAX_IMAGE_MB}MB.`);
+                e.target.value = '';
+                return;
+            }
+            validFiles.push(file);
+        }
+        setFilterError(null);
+        setImageFiles(prev => [...prev, ...validFiles]);
     };
 
     const removeExistingImage = (url: string) => {
@@ -268,40 +287,53 @@ export default function PostCommuteOrDeliveryListing() {
             }
 
             startTransition(async () => {
-                try {
-                    const payload = {
-                        driver_name: driverName,
-                        vehicle_type: operatorType,
-                        service_type: serviceType,
-                        base_town: selectedTowns[0] || 'TBD',
-                        towns_covered: selectedTowns,
-                        contact_number: phone,
-                        notes: availHours || charterNotes,
-                        route: isScheduled ? { from: routeFrom, to: routeTo } : undefined,
-                        schedule: isScheduled ? scheduleList : undefined,
-                        charter_avail: charterAvail,
-                        charter_details: charterAvail ? {
-                            min_pax: charterMinPax,
-                            rate: parseFloat(charterRate) || 0,
-                            notes: charterNotes
-                        } : undefined,
-                        seats_available: seats,
-                        price_per_seat: parseFloat(pricePerSeat) || parseFloat(baseRate) || 0,
-                        contact_details: {
-                            fb_username: fbUsername,
-                            email: email
-                        },
-                        is_available: isAvailable,
-                        images: [...existingImages, ...uploadedImages]
-                    };
+                    try {
+                        const payload = {
+                            driver_name: driverName,
+                            vehicle_type: operatorType,
+                            service_type: serviceType,
+                            base_town: selectedTowns[0] || 'TBD',
+                            towns_covered: selectedTowns,
+                            contact_number: phone,
+                            notes: availHours || charterNotes,
+                            route: isScheduled ? { from: routeFrom, to: routeTo } : undefined,
+                            schedule: isScheduled ? scheduleList : undefined,
+                            charter_avail: charterAvail,
+                            charter_details: charterAvail ? {
+                                min_pax: charterMinPax,
+                                rate: parseFloat(charterRate) || 0,
+                                notes: charterNotes
+                            } : undefined,
+                            seats_available: seats,
+                            price_per_seat: parseFloat(pricePerSeat) || parseFloat(baseRate) || 0,
+                            contact_details: {
+                                fb_username: fbUsername,
+                                email: email
+                            },
+                            is_available: isAvailable,
+                            images: [...existingImages, ...uploadedImages]
+                        };
 
-                    await createTransportService(payload);
-                    router.push("/commute");
-                    router.refresh();
-                } catch (error: any) {
-                    setFilterError(error.message || 'Failed to save listing');
-                }
-            });
+                        await createTransportService(payload);
+                        setShowSuccess(true);
+                        setTimeout(() => {
+                            router.push("/commute");
+                            router.refresh();
+                        }, 2000);
+                    } catch (error: any) {
+                        // Rollback: delete any images that were just uploaded
+                        // to prevent orphaned blobs in Storage
+                        if (uploadedImages.length > 0) {
+                            const paths = uploadedImages.map(
+                                (url) => url.split('/listings/')[1]
+                            ).filter(Boolean);
+                            if (paths.length > 0) {
+                                await supabase.storage.from('listings').remove(paths);
+                            }
+                        }
+                        setFilterError(error.message || 'Failed to save listing');
+                    }
+                });
         } catch (error: any) {
             setFilterError(error.message || 'Failed to upload images');
         } finally {
@@ -311,6 +343,7 @@ export default function PostCommuteOrDeliveryListing() {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
+            <SuccessToast visible={showSuccess} message={editId ? 'Listing updated!' : 'Transport service listed!'} />
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
                 <Link href="/commute" className="text-slate-800 dark:text-slate-200">

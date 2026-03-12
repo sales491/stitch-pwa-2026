@@ -37,9 +37,38 @@ export async function middleware(request: NextRequest) {
     // This refreshes the session if it's expired
     const { data: { user } } = await supabase.auth.getUser()
 
+    // ── Admin Route Protection (edge-level) ─────────────────────────────
+    // Must check BEFORE the generic protected-route block below.
+    // The admin layout.tsx also checks, but this closes the gap for API routes
+    // and any routes that might bypass the layout.
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+        if (!user) {
+            return NextResponse.redirect(new URL('/login', request.url))
+        }
+
+        // Check the DB profile role for this user
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        const { isAdmin, isModerator } = await import('@/utils/roles')
+        const hasAdminAccess =
+            profile?.role === 'admin' ||
+            profile?.role === 'moderator' ||
+            isAdmin(user.email) ||
+            isModerator(user.email)
+
+        if (!hasAdminAccess) {
+            // Silently redirect normal users — don't leak that /admin exists
+            return NextResponse.redirect(new URL('/', request.url))
+        }
+    }
+
+    // ── General Protected Routes ─────────────────────────────────────────
     // Protect private routes here! Add any routes you want to lock down.
     const isProtectedRoute = request.nextUrl.pathname.startsWith('/profile') ||
-        request.nextUrl.pathname.startsWith('/admin') ||
         request.nextUrl.pathname.startsWith('/post');
 
     if (isProtectedRoute && !user) {

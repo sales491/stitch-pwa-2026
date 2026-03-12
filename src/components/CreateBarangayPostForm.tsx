@@ -13,6 +13,7 @@ export default function CreateBarangayPostForm({ barangay, municipality, onPoste
     const [content, setContent] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isPending, startTransition] = useTransition();
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,6 +22,8 @@ export default function CreateBarangayPostForm({ barangay, municipality, onPoste
             const result = await createBarangayPost({ content, barangay, municipality });
             if (result.success) {
                 setContent('');
+                setShowSuccess(true);
+                setTimeout(() => setShowSuccess(false), 2000);
                 onPosted?.();
             } else {
                 setError(result.error ?? 'Something went wrong.');
@@ -47,9 +50,13 @@ export default function CreateBarangayPostForm({ barangay, municipality, onPoste
                 <button
                     type="submit"
                     disabled={isPending || !content.trim()}
-                    className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-[12px] px-4 py-2 rounded-xl transition-all active:scale-95"
+                    className={`font-black text-[12px] px-4 py-2 rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-white ${
+                        showSuccess
+                            ? 'bg-green-500'
+                            : 'bg-indigo-600 hover:bg-indigo-700'
+                    }`}
                 >
-                    {isPending ? 'Posting…' : 'Post'}
+                    {showSuccess ? '✓ Posted!' : isPending ? 'Posting…' : 'Post'}
                 </button>
             </div>
         </form>

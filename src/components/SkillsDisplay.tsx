@@ -97,6 +97,7 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
     const [loading, setLoading] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
+    const [showPosted, setShowPosted] = useState(false);
     const [, startTransition] = useTransition();
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -167,6 +168,8 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
         } catch {}
         setLoading(false);
         setShowForm(false);
+        setShowPosted(true);
+        setTimeout(() => setShowPosted(false), 2500);
         formRef.current?.reset();
     }
 
@@ -242,7 +245,12 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
 
             {/* Offer Skills FAB */}
             {isLoggedIn && !showForm && (
-                <div className="fixed bottom-24 right-4 z-30">
+                <div className="fixed bottom-24 right-4 z-30 flex flex-col items-end gap-2">
+                    {showPosted && (
+                        <div className="flex items-center gap-2 bg-green-500 text-white text-[11px] font-black px-3 py-2 rounded-xl shadow-lg animate-fade-in">
+                            <span>✓</span> Listing posted!
+                        </div>
+                    )}
                     <button
                         onClick={() => setShowForm(true)}
                         className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-black text-[13px] px-4 py-3 rounded-2xl shadow-lg transition-all active:scale-95"

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { createGem } from '@/app/actions/gems';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function ShareALocalGemScreen() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function ShareALocalGemScreen() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEditing);
 
   // Fetch initial data if editing
@@ -170,7 +172,11 @@ export default function ShareALocalGemScreen() {
           });
         }
 
-        router.push("/gems");
+        setShowSuccess(true);
+        setTimeout(() => {
+          router.push("/gems");
+          router.refresh();
+        }, 2000);
       } catch (err: any) {
         setErrorMsg(err.message || 'Something went wrong. Please try again.');
       }
@@ -179,6 +185,7 @@ export default function ShareALocalGemScreen() {
 
   return (
     <form onSubmit={handleSubmit} className="min-h-screen flex flex-col bg-surface-light dark:bg-surface-dark">
+      <SuccessToast visible={showSuccess} message={isEditing ? 'Gem updated!' : 'Gem shared with the community!'} />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-sm border-b border-border-light dark:border-border-dark px-4 py-3 flex items-center justify-between">
         <button type="button" onClick={() => router.back()} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors text-text-main-light dark:text-text-main-dark">

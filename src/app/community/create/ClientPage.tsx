@@ -8,6 +8,7 @@ import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
 import Image from 'next/image';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function CreatePost() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -21,6 +22,7 @@ export default function CreatePost() {
     const [type, setType] = useState('community'); // Default category
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const supabase = createBrowserClient(
@@ -49,10 +51,14 @@ export default function CreatePost() {
         }
     });
 
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const MAX_IMAGE_MB = 5;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!profile) return setError('You must be logged in to post.');
         if (!content.trim()) return setError('Post content cannot be empty.');
+        if (content.length > 2000) return setError('Post is too long (max 2000 characters).');
 
         setIsSubmitting(true);
         setError('');
@@ -113,8 +119,11 @@ export default function CreatePost() {
             }
 
             // 3. Success! Send them back to the feed
-            router.push('/community');
-            router.refresh();
+            setShowSuccess(true);
+            setTimeout(() => {
+                router.push('/community');
+                router.refresh();
+            }, 2000);
 
         } catch (err: any) {
             console.error(err);
@@ -141,6 +150,7 @@ export default function CreatePost() {
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
+            <SuccessToast visible={showSuccess} message={isEditing ? 'Post updated!' : 'Post shared with the community!'} />
 
             {/* Tactical Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 py-6 border-b border-border-light dark:border-zinc-800 mb-6 rounded-b-[2rem] shadow-sm">
@@ -210,11 +220,13 @@ export default function CreatePost() {
                         <textarea
                             required
                             rows={6}
+                            maxLength={2000}
                             className="w-full bg-transparent border-none p-0 text-xl font-medium text-slate-800 dark:text-zinc-200 placeholder-slate-300 dark:placeholder-zinc-700 focus:ring-0 resize-none leading-relaxed"
                             placeholder="Wield your microphone, Marinduque... What's currently on your mind?"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         />
+                        <p className="text-[10px] text-slate-400 dark:text-zinc-600 text-right mt-1">{content.length}/2000</p>
                     </div>
 
                     {/* Tactical Assets (Image) */}
@@ -232,8 +244,23 @@ export default function CreatePost() {
                                         className="hidden"
                                         onChange={(e) => {
                                             const selected = Array.from(e.target.files || []);
-                                            const total = [...imageFiles, ...selected].slice(0, 2);
-                                            setImageFiles(total);
+                                            const valid = selected.filter(f => {
+                                                if (!ALLOWED_IMAGE_TYPES.includes(f.type)) {
+                                                    setError('Only JPG, PNG, WebP, or GIF images are allowed.');
+                                                    return false;
+                                                }
+                                                if (f.size > MAX_IMAGE_MB * 1024 * 1024) {
+                                                    setError(`Each image must be under ${MAX_IMAGE_MB}MB.`);
+                                                    return false;
+                                                }
+                                                return true;
+                                            });
+                                            if (valid.length > 0) {
+                                                setError('');
+                                                const total = [...imageFiles, ...valid].slice(0, 2);
+                                                setImageFiles(total);
+                                            }
+                                            e.target.value = '';
                                         }}
                                     />
                                 </label>

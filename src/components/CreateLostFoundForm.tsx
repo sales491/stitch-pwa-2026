@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { createLostFoundPost } from '@/app/actions/lost-found';
+import SuccessToast from '@/components/SuccessToast';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -24,15 +25,31 @@ export default function CreateLostFoundForm() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('');
 
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const MAX_IMAGE_MB = 5;
+
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
+        if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+            setError('Only JPG, PNG, WebP, or GIF images are allowed.');
+            e.target.value = '';
+            return;
+        }
+        if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+            setError(`Image must be under ${MAX_IMAGE_MB}MB.`);
+            e.target.value = '';
+            return;
+        }
+        setError(null);
         setImageFile(file);
         setImagePreview(URL.createObjectURL(file));
     };
@@ -72,7 +89,12 @@ export default function CreateLostFoundForm() {
             });
 
             if (result.success && result.id) {
-                router.push(`/my-barangay/lost-found/${result.id}`);
+                const msg = type === 'lost' ? 'Lost item posted!' : 'Found item reported!';
+                setSuccessMsg(msg);
+                setShowSuccess(true);
+                setTimeout(() => {
+                    router.push(`/my-barangay/lost-found/${result.id}`);
+                }, 2000);
             } else {
                 setError(result.error ?? 'Something went wrong. Please try again.');
             }
@@ -83,6 +105,7 @@ export default function CreateLostFoundForm() {
 
     return (
         <form onSubmit={handleSubmit} className="px-4 pt-4 pb-32 space-y-4">
+            <SuccessToast visible={showSuccess} message={successMsg} />
             {/* Type picker */}
             <div>
                 <p className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">I am reporting something…</p>
@@ -157,8 +180,10 @@ export default function CreateLostFoundForm() {
                     onChange={e => setDescription(e.target.value)}
                     placeholder="Describe the item, animal, or person. Include distinctive features, colors, identifying marks…"
                     rows={3}
+                    maxLength={1000}
                     className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-rose-400 resize-none"
                 />
+                <p className="text-[10px] text-slate-400 dark:text-zinc-600 text-right mt-1">{description.length}/1000</p>
             </div>
 
             {/* Photo */}
@@ -191,6 +216,7 @@ export default function CreateLostFoundForm() {
                         value={location}
                         onChange={e => setLocation(e.target.value)}
                         placeholder="e.g. Near Jollibee, Boac "
+                        maxLength={150}
                         className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-3 text-[12px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
                     />
                 </div>
@@ -214,6 +240,7 @@ export default function CreateLostFoundForm() {
                     value={contact}
                     onChange={e => setContact(e.target.value)}
                     placeholder="Phone number or Messenger name"
+                    maxLength={100}
                     className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
                 />
             </div>

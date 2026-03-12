@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
+import SuccessToast from '@/components/SuccessToast';
 
 const TOWNS = [
     "Boac",
@@ -42,6 +43,7 @@ export default function CreateBusiness() {
     const [facebook, setFacebook] = useState('');
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const supabase = createBrowserClient(
@@ -93,8 +95,11 @@ export default function CreateBusiness() {
 
             // 4. Redirect to their shiny new business page
             if (newBusiness) {
-                router.push(`/directory/${newBusiness.id}`);
-                router.refresh();
+                setShowSuccess(true);
+                setTimeout(() => {
+                    router.push(`/directory/${newBusiness.id}`);
+                    router.refresh();
+                }, 2000);
             }
 
         } catch (err: any) {
@@ -127,6 +132,7 @@ export default function CreateBusiness() {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
+            <SuccessToast visible={showSuccess} message="Business profile created!" />
             {/* Premium Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
                 <div className="flex items-center gap-4 mb-4">
@@ -267,5 +273,3 @@ export default function CreateBusiness() {
         </div>
     );
 }
-
-

@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createOutageReport } from '@/app/actions/outages';
+import SuccessToast from '@/components/SuccessToast';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -14,11 +15,17 @@ export default function CreateOutageForm() {
     const [barangay, setBarangay] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const [done, setDone] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+
+        if (!description.trim()) {
+            setError('Please describe the outage — when did it start and what areas are affected?');
+            return;
+        }
+
         startTransition(async () => {
             const result = await createOutageReport({
                 type,
@@ -27,26 +34,18 @@ export default function CreateOutageForm() {
                 description: description.trim() || undefined,
             });
             if (result.success) {
-                setDone(true);
-                setTimeout(() => router.push('/island-life/outages'), 1200);
+                setShowSuccess(true);
+                setTimeout(() => router.push('/island-life/outages'), 2000);
             } else {
                 setError(result.error ?? 'Something went wrong.');
             }
         });
     };
 
-    if (done) {
-        return (
-            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                <span className="text-5xl mb-4">✅</span>
-                <p className="font-black text-slate-900 dark:text-white text-lg">Report submitted!</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Redirecting back to outage feed…</p>
-            </div>
-        );
-    }
 
     return (
         <form onSubmit={handleSubmit} className="px-4 pt-4 pb-32 space-y-4">
+            <SuccessToast visible={showSuccess} message="Outage report submitted!" />
             {/* Type picker */}
             <div>
                 <p className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Type of outage</p>
@@ -90,20 +89,24 @@ export default function CreateOutageForm() {
                     value={barangay}
                     onChange={e => setBarangay(e.target.value)}
                     placeholder="e.g. Barangay Sico, Agot, Laylay…"
+                    maxLength={100}
                     className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
             </div>
 
             {/* Description */}
             <div>
-                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Details <span className="text-slate-300 dark:text-zinc-600 font-normal">(optional)</span></label>
+                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Details <span className="text-rose-400">*</span></label>
                 <textarea
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     placeholder="When did it start? Any updates from MARELCO/water utility?"
                     rows={3}
+                    maxLength={800}
+                    required
                     className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
                 />
+                <p className="text-[10px] text-slate-400 dark:text-zinc-600 text-right mt-1">{description.length}/800</p>
             </div>
 
             {/* Disclaimer */}

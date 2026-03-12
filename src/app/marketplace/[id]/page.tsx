@@ -1,8 +1,26 @@
 import { createClient } from '@/utils/supabase/server';
+import { createClient as createDirectClient } from '@supabase/supabase-js';
 import Image from 'next/image';
 import UniversalComments from '@/components/UniversalComments';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+
+export const revalidate = 300; // 5-minute SWR cache for listing detail pages
+
+export async function generateStaticParams() {
+    // Pre-render top 50 most-recent active listings at build time
+    const supabase = createDirectClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    const { data } = await supabase
+        .from('listings')
+        .select('id')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(50);
+    return (data ?? []).map(({ id }) => ({ id: String(id) }));
+}
 
 export default async function ListingDetail({
     params

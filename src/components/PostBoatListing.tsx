@@ -7,6 +7,7 @@ import { filterAllFields } from '@/utils/contentFilter';
 import { createBoatService } from '@/app/actions/boat';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 
@@ -75,6 +76,7 @@ export default function PostBoatListing() {
     const [existingImages, setExistingImages] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [filterError, setFilterError] = useState<string | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const supabase = createClient();
 
@@ -113,11 +115,30 @@ export default function PostBoatListing() {
     const toggleDestination = (d: string) =>
         setSelectedDestinations(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d]);
 
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const MAX_IMAGE_MB = 5;
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
         const remaining = 2 - (imageFiles.length + existingImages.length);
         if (remaining <= 0) return;
-        setImageFiles(prev => [...prev, ...files.slice(0, remaining)]);
+
+        const validFiles: File[] = [];
+        for (const file of files.slice(0, remaining)) {
+            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+                setFilterError('Only JPG, PNG, WebP, or GIF images are allowed.');
+                e.target.value = '';
+                return;
+            }
+            if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+                setFilterError(`Each image must be under ${MAX_IMAGE_MB}MB.`);
+                e.target.value = '';
+                return;
+            }
+            validFiles.push(file);
+        }
+        setFilterError(null);
+        setImageFiles(prev => [...prev, ...validFiles]);
     };
 
     const addSchedule = () => {
@@ -179,9 +200,21 @@ export default function PostBoatListing() {
                         is_available: isAvailable,
                         images: [...existingImages, ...uploadedImages],
                     });
-                    router.push('/island-hopping');
-                    router.refresh();
+                    setShowSuccess(true);
+                    setTimeout(() => {
+                        router.push('/island-hopping');
+                        router.refresh();
+                    }, 2000);
                 } catch (err: any) {
+                    // Rollback: delete any images uploaded in this session
+                    if (uploadedImages.length > 0) {
+                        const paths = uploadedImages
+                            .map(url => url.split('/listings/')[1])
+                            .filter(Boolean);
+                        if (paths.length > 0) {
+                            await supabase.storage.from('listings').remove(paths);
+                        }
+                    }
                     setFilterError(err.message || 'Failed to save listing');
                 }
             });
@@ -194,6 +227,7 @@ export default function PostBoatListing() {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
+            <SuccessToast visible={showSuccess} message={editId ? 'Listing updated!' : 'Boat service submitted for review!'} />
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
                 <Link href="/island-hopping" className="text-slate-800 dark:text-slate-200">

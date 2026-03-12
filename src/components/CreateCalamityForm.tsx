@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCalamityAlert, CalamityType, CalamitySeverity } from '@/app/actions/calamity';
+import SuccessToast from '@/components/SuccessToast';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -32,7 +33,7 @@ export default function CreateCalamityForm() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const [done, setDone] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,26 +48,18 @@ export default function CreateCalamityForm() {
                 description: description.trim() || undefined,
             });
             if (result.success) {
-                setDone(true);
-                setTimeout(() => router.push('/my-barangay/calamity'), 1200);
+                setShowSuccess(true);
+                setTimeout(() => router.push('/my-barangay/calamity'), 2000);
             } else {
                 setError(result.error ?? 'Something went wrong.');
             }
         });
     };
 
-    if (done) {
-        return (
-            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                <span className="text-5xl mb-4">✅</span>
-                <p className="font-black text-slate-900 dark:text-white text-lg">Alert posted!</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Redirecting back to Calamity Board…</p>
-            </div>
-        );
-    }
 
     return (
         <form onSubmit={handleSubmit} className="px-4 pt-4 pb-32 space-y-5">
+            <SuccessToast visible={showSuccess} message="Calamity alert posted!" />
             {/* Type picker */}
             <div>
                 <p className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Type of alert</p>

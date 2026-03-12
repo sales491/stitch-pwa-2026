@@ -9,6 +9,7 @@ import { createListing } from '@/app/actions/listings';
 import { generateSlug } from '@/data/listings';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function CreateNewListing() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function CreateNewListing() {
   const isEditing = !!editId;
 
   const [isPending, startTransition] = useTransition();
+  const [showSuccess, setShowSuccess] = useState(false);
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
@@ -165,7 +167,11 @@ export default function CreateNewListing() {
           await createListing(payload);
         }
 
-        router.push("/marketplace?posted=1");
+        setShowSuccess(true);
+        setTimeout(() => {
+          router.push("/marketplace");
+          router.refresh();
+        }, 2000);
       } catch (err: any) {
         setFilterError(err.message || 'Something went wrong. Please try again.');
       }
@@ -174,6 +180,7 @@ export default function CreateNewListing() {
 
   return (
     <form onSubmit={handleSubmit} className="min-h-screen bg-surface-light dark:bg-surface-dark">
+      <SuccessToast visible={showSuccess} message={isEditing ? 'Listing updated!' : 'Listing submitted for review!'} />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 px-4 py-3 flex items-center justify-between">
         <Link href="/marketplace" className="p-2 -ml-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors text-slate-900 dark:text-slate-100">

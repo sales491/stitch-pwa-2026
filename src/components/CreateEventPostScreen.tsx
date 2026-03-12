@@ -6,6 +6,7 @@ import { filterAllFields } from '@/utils/contentFilter';
 import { createClient } from '@/utils/supabase/client';
 import { createEvent } from '@/app/actions/events';
 import { optimizeImage } from '@/utils/image-optimization';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function CreateEventPostScreen() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function CreateEventPostScreen() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEditing);
   const [filterError, setFilterError] = useState<string | null>(null);
 
@@ -54,11 +56,29 @@ export default function CreateEventPostScreen() {
     }
   }, [eventId, isEditing, supabase]);
 
+  const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  const MAX_IMAGE_MB = 5;
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const available = 2 - imageFiles.length;
-    const toAdd = files.slice(0, available);
-    setImageFiles(prev => [...prev, ...toAdd]);
+
+    const validFiles: File[] = [];
+    for (const file of files.slice(0, available)) {
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        setFilterError('Only JPG, PNG, WebP, or GIF images are allowed.');
+        e.target.value = '';
+        return;
+      }
+      if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+        setFilterError(`Each image must be under ${MAX_IMAGE_MB}MB.`);
+        e.target.value = '';
+        return;
+      }
+      validFiles.push(file);
+    }
+    setFilterError(null);
+    setImageFiles(prev => [...prev, ...validFiles]);
   };
 
   const removeImage = (idx: number) => {
@@ -69,7 +89,8 @@ export default function CreateEventPostScreen() {
   const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !description || !date || !town || !venue) {
-      alert('Please fill in all required fields.');
+      setFilterError('Please fill in all required fields: Title, Venue, Date, Time, Town, and Description.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -82,8 +103,10 @@ export default function CreateEventPostScreen() {
 
     setLoading(true);
 
+    // Hoisted outside try so catch block can access it for Storage rollback
+    const imageUrls: string[] = [];
+
     try {
-      let imageUrls: string[] = [];
 
       // 1. Upload Images if they exist
       if (imageFiles.length > 0) {
@@ -152,11 +175,22 @@ export default function CreateEventPostScreen() {
         await createEvent(payload);
       }
 
-      alert(isEditing ? 'Event updated successfully!' : 'Event published successfully!');
-      router.push("/events");
-      router.refresh();
+      setShowSuccess(true);
+      setTimeout(() => {
+        router.push("/events");
+        router.refresh();
+      }, 2000);
     } catch (err: any) {
-      alert(`Error publishing event: ${err.message}`);
+      // Rollback: remove any event images just uploaded if the DB save failed
+      if (imageUrls.length > 0) {
+        const paths = imageUrls
+          .map(url => url.split('/community_images/')[1])
+          .filter(Boolean);
+        if (paths.length > 0) {
+          await supabase.storage.from('community_images').remove(paths);
+        }
+      }
+      setFilterError(err.message || 'Error publishing event. Please try again.');
       setLoading(false);
     }
   };
@@ -164,6 +198,7 @@ export default function CreateEventPostScreen() {
 
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-white dark:bg-zinc-900 shadow-xl">
+      <SuccessToast visible={showSuccess} message={isEditing ? 'Event updated!' : 'Event published!'} />
       {/* Header */}
       <header className="sticky top-0 z-10 flex items-center bg-white dark:bg-zinc-900 px-4 py-3 justify-between border-b border-gray-100 dark:border-zinc-800">
         <Link href="/events" className="flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-slate-900 dark:text-slate-100">

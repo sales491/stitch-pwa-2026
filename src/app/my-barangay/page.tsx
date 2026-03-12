@@ -39,7 +39,7 @@ const FEATURES = [
         color: 'from-yellow-500 to-amber-500',
         bg: 'bg-yellow-50 dark:bg-yellow-950/30',
         border: 'border-yellow-100 dark:border-yellow-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '✈️',

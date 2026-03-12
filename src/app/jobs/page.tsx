@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import MarinduqueJobsListingFeed from '@/components/MarinduqueJobsListingFeed';
 import { createClient } from '@/utils/supabase/server';
 

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import ContactSection from './ContactSection';
 import { filterAllFields } from '@/utils/contentFilter';
+import SuccessToast from '@/components/SuccessToast';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ export default function CreateNewJobPostScreen() {
   const searchParams = useSearchParams();
   const editId = searchParams.get('id');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [fbUsername, setFbUsername] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -107,8 +109,11 @@ export default function CreateNewJobPostScreen() {
         slug,
       }, editId || undefined);
 
-      router.push('/jobs');
-      router.refresh();
+      setShowSuccess(true);
+      setTimeout(() => {
+        router.push('/jobs');
+        router.refresh();
+      }, 2000);
     } catch (err: any) {
       setFilterError(err.message || 'Something went wrong while posting.');
       setIsSubmitting(false);
@@ -126,6 +131,7 @@ export default function CreateNewJobPostScreen() {
   return (
     <>
       <div>
+        <SuccessToast visible={showSuccess} message={editId ? 'Job post updated!' : 'Job posted successfully!'} />
         {/* Header / Navigation */}
         <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark shadow-sm">
           <div className="flex items-center justify-between px-4 h-16">

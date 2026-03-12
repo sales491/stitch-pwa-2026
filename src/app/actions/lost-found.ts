@@ -35,10 +35,7 @@ export async function getLostFoundPosts(filters: LostFoundFilters = {}) {
 
     let query = supabase
         .from('lost_found')
-        .select(`
-            *,
-            poster:profiles(full_name, avatar_url)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
@@ -60,25 +57,54 @@ export async function getLostFoundPosts(filters: LostFoundFilters = {}) {
 
     const { data, error } = await query;
     if (error) {
-        console.error('[getLostFoundPosts]', error);
+        console.error('[getLostFoundPosts]', error.code, error.message, error.hint, error.details);
         return [];
     }
-    return (data ?? []) as LostFoundPost[];
+
+    const rows = (data ?? []) as LostFoundPost[];
+
+    // Manually fetch profile info for posters to avoid PostgREST join dependency
+    const posterIds = [...new Set(rows.map(r => r.posted_by).filter(Boolean))] as string[];
+    if (posterIds.length > 0) {
+        const { data: profiles } = await supabase
+            .from('profiles')
+            .select('id, full_name, avatar_url')
+            .in('id', posterIds);
+
+        const profileMap = new Map((profiles ?? []).map(p => [p.id, p]));
+        for (const row of rows) {
+            if (row.posted_by) {
+                row.poster = profileMap.get(row.posted_by) ?? null;
+            }
+        }
+    }
+
+    return rows;
 }
 
 export async function getLostFoundPost(id: string): Promise<LostFoundPost | null> {
     const supabase = await createClient();
     const { data, error } = await supabase
         .from('lost_found')
-        .select(`
-            *,
-            poster:profiles(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('id', id)
         .single();
 
-    if (error) return null;
-    return data as LostFoundPost;
+    if (error || !data) return null;
+
+    const row = data as LostFoundPost;
+
+    // Manually fetch poster profile
+    if (row.posted_by) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name, avatar_url')
+            .eq('id', row.posted_by)
+            .single();
+        row.poster = profile ?? null;
+    }
+
+    return row;
 }
 
 export type CreateLostFoundData = {
