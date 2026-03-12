@@ -7,18 +7,17 @@ import { HubItem } from '@/data/hub-items';
 // ─── Static Category Grid ────────────────────────────────────────────────────
 // All static links — no data fetching, nothing can break
 const CATEGORY_GRID = [
-    { emoji: '🛒️', label: 'Market',    href: '/marketplace'                    },
-    { emoji: '💼️', label: 'Jobs',      href: '/jobs'                           },
-    { emoji: '📅️', label: 'Events',    href: '/events'                         },
-    { emoji: '🏝️', label: 'Hopping',   href: '/island-hopping'                 },
-    { emoji: '🚢️', label: 'RoRo',      href: '/ports'                          },
-    { emoji: '💎️', label: 'Gems',      href: '/gems'                           },
-    { emoji: '🌏️', label: 'Foreigner', href: '/blog'                           },
-    { emoji: '🏆️', label: 'Boac',      href: '/best-of-boac-monthly-spotlight' },
-    { emoji: '🛵️', label: `Delivery &\nCommuting`, href: '/commute'                        },
-    { emoji: '📣️', label: 'Board',     href: '/community'                      },
-    { emoji: '🏪️', label: `Biz\nDirectory`,  href: '/directory'                      },
-    { emoji: '⚖️',  label: 'Policies',  href: '/policies'                       },
+    { emoji: '🛒️', label: 'Market',      href: '/marketplace'                    },
+    { emoji: '💼️', label: 'Jobs',        href: '/jobs'                           },
+    { emoji: '📅️', label: 'Events',      href: '/events'                         },
+    { emoji: '🏝️', label: 'Hopping',     href: '/island-hopping'                 },
+    { emoji: '🚢️', label: 'RoRo',        href: '/ports'                          },
+    { emoji: '💎️', label: 'Gems',        href: '/gems'                           },
+    { emoji: '🌏️', label: 'Foreigner',   href: '/blog'                           },
+    { emoji: '🏆️', label: 'Boac',        href: '/best-of-boac-monthly-spotlight' },
+    { emoji: '🛵️', label: `Commute &\nDelivery`, href: '/commute'               },
+    { emoji: '🌿️', label: `Island\nLife`,  href: '/island-life'                  },
+    { emoji: '🏘️', label: `My\nBarangay`, href: '/my-barangay'                   },
 ];
 
 // ─── Static Quick-Action Cards ───────────────────────────────────────────────
