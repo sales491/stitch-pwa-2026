@@ -44,9 +44,10 @@ const QUICK_CARDS = [
 
 type Props = {
     initialItems: HubItem[];
+    alertBanner?: React.ReactNode;
 };
 
-export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
+export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }: Props) {
     const [selectedTown, setSelectedTown] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [categorizedItems, setCategorizedItems] = useState<{ [key: string]: HubItem[] }>({});
@@ -110,7 +111,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems }: Props) {
                     </div>
                 </div>
 
-                {/* ── 2. Quick-Action Cards (static, horizontal scroll) ───── */}
+                {/* ── 2. Alert Banner (active calamity/outage alerts) ────── */}
+                {alertBanner}
+
+                {/* ── 3. Quick-Action Cards (static, horizontal scroll) ───── */}
                 <div className="flex gap-3 overflow-x-auto px-4 mb-5 no-scrollbar pb-1">
                     {QUICK_CARDS.map(card => (
                         <Link

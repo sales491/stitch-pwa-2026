@@ -49,7 +49,7 @@ const FEATURES = [
         color: 'from-sky-500 to-blue-500',
         bg: 'bg-sky-50 dark:bg-sky-950/30',
         border: 'border-sky-100 dark:border-sky-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
 ];
 
