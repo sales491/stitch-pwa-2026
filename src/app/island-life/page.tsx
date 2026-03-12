@@ -3,13 +3,13 @@ import Link from 'next/link';
 const FEATURES = [
     {
         emoji: '🐟',
-        label: 'Palengke Prices',
-        sub: 'Daily fish & produce prices from local markets',
-        href: '/island-life/prices',
+        label: 'Palengke',
+        sub: 'Today\'s fish, produce & meat prices from local markets',
+        href: '/island-life/palengke',
         color: 'from-orange-500 to-amber-500',
         bg: 'bg-orange-50 dark:bg-orange-950/30',
         border: 'border-orange-100 dark:border-orange-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '🌊',
@@ -19,19 +19,10 @@ const FEATURES = [
         color: 'from-blue-500 to-cyan-500',
         bg: 'bg-blue-50 dark:bg-blue-950/30',
         border: 'border-blue-100 dark:border-blue-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
-        emoji: '📅',
-        label: 'Market Days',
-        sub: 'Palengke schedule by municipality',
-        href: '/island-life/market-days',
-        color: 'from-green-500 to-emerald-500',
-        bg: 'bg-green-50 dark:bg-green-950/30',
-        border: 'border-green-100 dark:border-green-900/40',
-        badge: 'Coming Soon',
-    },
-    {
+
         emoji: '⚡',
         label: 'Outage Reports',
         sub: 'Community-reported power & water outages',
@@ -39,7 +30,7 @@ const FEATURES = [
         color: 'from-yellow-500 to-orange-500',
         bg: 'bg-yellow-50 dark:bg-yellow-950/30',
         border: 'border-yellow-100 dark:border-yellow-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '🛠️',
@@ -49,7 +40,7 @@ const FEATURES = [
         color: 'from-purple-500 to-violet-500',
         bg: 'bg-purple-50 dark:bg-purple-950/30',
         border: 'border-purple-100 dark:border-purple-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '🏪',

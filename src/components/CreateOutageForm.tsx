@@ -1,0 +1,129 @@
+'use client';
+
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { createOutageReport } from '@/app/actions/outages';
+
+const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
+
+export default function CreateOutageForm() {
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+    const [type, setType] = useState<'power' | 'water'>('power');
+    const [municipality, setMunicipality] = useState('Boac');
+    const [barangay, setBarangay] = useState('');
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const [done, setDone] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        startTransition(async () => {
+            const result = await createOutageReport({
+                type,
+                municipality,
+                barangay: barangay.trim() || undefined,
+                description: description.trim() || undefined,
+            });
+            if (result.success) {
+                setDone(true);
+                setTimeout(() => router.push('/island-life/outages'), 1200);
+            } else {
+                setError(result.error ?? 'Something went wrong.');
+            }
+        });
+    };
+
+    if (done) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                <span className="text-5xl mb-4">✅</span>
+                <p className="font-black text-slate-900 dark:text-white text-lg">Report submitted!</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Redirecting back to outage feed…</p>
+            </div>
+        );
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="px-4 pt-4 pb-32 space-y-4">
+            {/* Type picker */}
+            <div>
+                <p className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Type of outage</p>
+                <div className="grid grid-cols-2 gap-2">
+                    {(['power', 'water'] as const).map(t => (
+                        <button
+                            key={t}
+                            type="button"
+                            onClick={() => setType(t)}
+                            className={`py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all ${
+                                type === t
+                                    ? t === 'power'
+                                        ? 'bg-yellow-400 text-yellow-900 shadow-lg shadow-yellow-400/25'
+                                        : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                                    : 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400'
+                            }`}
+                        >
+                            {t === 'power' ? '⚡ Power' : '💧 Water'}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Municipality */}
+            <div>
+                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Municipality</label>
+                <select
+                    value={municipality}
+                    onChange={e => setMunicipality(e.target.value)}
+                    className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 appearance-none"
+                >
+                    {MUNICIPALITIES.map(m => <option key={m} value={m}>{m}</option>)}
+                </select>
+            </div>
+
+            {/* Barangay */}
+            <div>
+                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Barangay <span className="text-slate-300 dark:text-zinc-600 font-normal">(optional)</span></label>
+                <input
+                    type="text"
+                    value={barangay}
+                    onChange={e => setBarangay(e.target.value)}
+                    placeholder="e.g. Barangay Sico, Agot, Laylay…"
+                    className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+            </div>
+
+            {/* Description */}
+            <div>
+                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Details <span className="text-slate-300 dark:text-zinc-600 font-normal">(optional)</span></label>
+                <textarea
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder="When did it start? Any updates from MARELCO/water utility?"
+                    rows={3}
+                    className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+                />
+            </div>
+
+            {/* Disclaimer */}
+            <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl px-4 py-3 text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
+                ⚠️ Please only report confirmed outages in your area. False reports may be removed by moderators.
+            </div>
+
+            {error && (
+                <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 rounded-xl px-4 py-3 text-[12px] font-semibold">
+                    {error}
+                </div>
+            )}
+
+            <button
+                type="submit"
+                disabled={isPending}
+                className="w-full bg-yellow-400 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed text-yellow-900 font-black text-[14px] py-4 rounded-2xl shadow-lg shadow-yellow-400/20 transition-all active:scale-95"
+            >
+                {isPending ? 'Submitting…' : 'Submit Outage Report'}
+            </button>
+        </form>
+    );
+}

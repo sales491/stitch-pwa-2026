@@ -38,6 +38,7 @@ export default function UserProfileDashboard2() {
 
   const [fullName, setFullName] = useState('');
   const [town, setTown] = useState('');
+  const [barangay, setBarangay] = useState('');
   const [messenger, setMessenger] = useState('');
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
@@ -56,13 +57,14 @@ export default function UserProfileDashboard2() {
     const load = async () => {
       const { data } = await supabase
         .from('profiles')
-        .select('full_name, location, avatar_url, phone, notification_preferences')
+        .select('full_name, location, barangay, avatar_url, phone, notification_preferences')
         .eq('id', profile.id)
         .single();
 
       if (data) {
         setFullName(data.full_name || '');
         setTown(data.location || '');
+        setBarangay(data.barangay || '');
         setAvatarUrl(data.avatar_url || '');
         setPhone(data.phone || '');
         const prefs = data.notification_preferences || {};
@@ -112,6 +114,7 @@ export default function UserProfileDashboard2() {
         .update({
           full_name: fullName.trim(),
           location: town,
+          barangay: barangay.trim() || null,
           avatar_url: newAvatarUrl,
           phone: phone.trim(),
           notification_preferences: { messenger, whatsapp, email },
@@ -210,7 +213,7 @@ export default function UserProfileDashboard2() {
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="border-b border-neutral-100 dark:border-neutral-700">
                 <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="town">Home Town</label>
                 <select
                   value={town}
@@ -223,6 +226,19 @@ export default function UserProfileDashboard2() {
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="barangay">
+                  Barangay <span className="font-normal text-neutral-400">(optional)</span>
+                </label>
+                <input
+                  className="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white placeholder-neutral-300 focus:ring-0 sm:text-sm font-medium"
+                  id="barangay"
+                  placeholder="e.g. Barangay Sico, Laylay, Agot…"
+                  type="text"
+                  value={barangay}
+                  onChange={(e) => setBarangay(e.target.value)}
+                />
               </div>
             </div>
           </div>

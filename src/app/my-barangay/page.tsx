@@ -9,7 +9,7 @@ const FEATURES = [
         color: 'from-indigo-500 to-blue-500',
         bg: 'bg-indigo-50 dark:bg-indigo-950/30',
         border: 'border-indigo-100 dark:border-indigo-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '🔍',
@@ -19,7 +19,7 @@ const FEATURES = [
         color: 'from-rose-500 to-pink-500',
         bg: 'bg-rose-50 dark:bg-rose-950/30',
         border: 'border-rose-100 dark:border-rose-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '🚨',
@@ -29,7 +29,7 @@ const FEATURES = [
         color: 'from-red-500 to-orange-500',
         bg: 'bg-red-50 dark:bg-red-950/30',
         border: 'border-red-100 dark:border-red-900/40',
-        badge: 'Coming Soon',
+        badge: 'Live',
     },
     {
         emoji: '💰',
@@ -94,7 +94,7 @@ export default function MyBarangayPage() {
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-0.5">
                                 <p className="font-black text-slate-900 dark:text-white text-[14px]">{f.label}</p>
-                                <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider bg-slate-100 dark:bg-zinc-800 text-slate-400 dark:text-slate-500">
+                                <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider ${f.badge === 'Live' ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400' : 'bg-slate-100 dark:bg-zinc-800 text-slate-400 dark:text-slate-500'}`}>
                                     {f.badge}
                                 </span>
                             </div>
