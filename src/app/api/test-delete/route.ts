@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import { adminDeleteContent } from '@/app/actions/admin';
 import { createAdminClient } from '@/utils/supabase/admin';
 
+// 🔒 Debug route — blocked in production
 export async function GET(request: Request) {
+    if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json({ error: 'Not available in production' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     let id = searchParams.get('id');
