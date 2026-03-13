@@ -50,8 +50,18 @@ export default async function LostFoundDetailPage({ params }: { params: Promise<
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
+            {/* Sticky header */}
+            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
+                <Link href="/my-barangay/lost-found" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
+                </Link>
+                <div>
+                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">{isLost ? '🔍 Lost' : '✅ Found'}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Lost & Found</p>
+                </div>
+            </header>
             {/* Header */}
-            <div className={`px-4 pt-10 pb-5 relative overflow-hidden ${
+            <div className={`px-4 pt-5 pb-5 relative overflow-hidden ${
                 isResolved
                     ? 'bg-gradient-to-br from-slate-500 to-slate-600'
                     : isLost
@@ -62,10 +72,6 @@ export default async function LostFoundDetailPage({ params }: { params: Promise<
                     className="absolute inset-0 opacity-10"
                     style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '18px 18px' }}
                 />
-                <Link href="/my-barangay/lost-found" className="inline-flex items-center gap-1 text-white/70 hover:text-white text-xs font-bold mb-4 transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
-                    Lost &amp; Found
-                </Link>
 
                 {/* Status + type badges */}
                 <div className="flex items-center gap-2 mb-3">

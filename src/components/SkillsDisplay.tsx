@@ -111,7 +111,7 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
         if (listingsByMuni[muni]) return;
         setLoading(true);
         try {
-            const res = await fetch(`/api/skills?municipality=${encodeURIComponent(muni)}`);
+            const res = await fetch(`/api/skills?municipality=${encodeURIComponent(muni)}`, { cache: 'no-store' });
             const data = await res.json();
             setListingsByMuni(prev => ({ ...prev, [muni]: data }));
         } catch {
@@ -122,14 +122,12 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
 
     async function switchCategory(cat: SkillCategory | 'all') {
         setActiveCategory(cat);
-        // If we already have listings for this muni, filter client-side
-        // If not loaded yet, fetch with category filter
         if (!listingsByMuni[activeMuni]) {
             setLoading(true);
             try {
                 const params = new URLSearchParams({ municipality: activeMuni });
                 if (cat !== 'all') params.set('category', cat);
-                const res = await fetch(`/api/skills?${params}`);
+                const res = await fetch(`/api/skills?${params}`, { cache: 'no-store' });
                 const data = await res.json();
                 setListingsByMuni(prev => ({ ...prev, [activeMuni]: data }));
             } catch {
@@ -156,21 +154,27 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
         const result = await postSkillListing(fd);
         if (result.error) { setFormError(result.error); return; }
 
-        // Reload for the selected municipality of the new listing
+        // Instantly add the new listing to local state (optimistic)
         const newMuni = fd.get('municipality') as Municipality;
-        setLoading(true);
-        try {
-            const res = await fetch(`/api/skills?municipality=${encodeURIComponent(newMuni)}`);
-            const data = await res.json();
-            setListingsByMuni(prev => ({ ...prev, [newMuni]: data }));
-            setActiveMuni(newMuni);
-            setActiveCategory('all');
-        } catch {}
-        setLoading(false);
+        if (result.item) {
+            setListingsByMuni(prev => ({
+                ...prev,
+                [newMuni]: [result.item as SkillListing, ...(prev[newMuni] ?? [])],
+            }));
+        }
+        setActiveMuni(newMuni);
+        setActiveCategory('all');
         setShowForm(false);
         setShowPosted(true);
         setTimeout(() => setShowPosted(false), 2500);
         formRef.current?.reset();
+
+        // Background refresh to confirm / pick up other new listings
+        try {
+            const res = await fetch(`/api/skills?municipality=${encodeURIComponent(newMuni)}`, { cache: 'no-store' });
+            const data = await res.json();
+            setListingsByMuni(prev => ({ ...prev, [newMuni]: data }));
+        } catch {}
     }
 
     return (

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { adminVerifyBusiness } from '@/app/actions/admin';
+import { adminVerifyBusiness, adminRevokeBusinessVerification, adminDeleteBusiness } from '@/app/actions/admin';
 
 interface ProfileInfo {
     id: string;
@@ -12,7 +12,7 @@ interface ProfileInfo {
 interface PendingBusiness {
     id: string;
     business_name: string;
-    category: string;
+    business_type: string;
     gallery_image: string | null;
     location: string;
 }
@@ -43,7 +43,7 @@ export default function AppAdminDashboard() {
         // Fetch Pending List
         const { data: pendingList, error: pendingError } = await supabase
             .from('business_profiles')
-            .select('id, business_name, category, gallery_image, location')
+            .select('id, business_name, business_type, gallery_image, location')
             .eq('is_verified', false)
             .order('created_at', { ascending: false });
 
@@ -54,7 +54,7 @@ export default function AppAdminDashboard() {
         // Fetch Verified List
         const { data: verifiedList, error: verifiedError } = await supabase
             .from('business_profiles')
-            .select('id, business_name, category, gallery_image, location')
+            .select('id, business_name, business_type, gallery_image, location')
             .eq('is_verified', true)
             .order('created_at', { ascending: false });
 
@@ -72,22 +72,47 @@ export default function AppAdminDashboard() {
     const handleApprove = async (id: string, name: string) => {
         try {
             await adminVerifyBusiness(id);
-
-            // Remove from list
             const approvedBusiness = pendingBusinesses.find(b => b.id === id);
             setPendingBusinesses(prev => prev.filter(b => b.id !== id));
-            if (approvedBusiness) {
-                setVerifiedBusinesses(prev => [approvedBusiness, ...prev]);
-            }
-
-            // Update stats optimistically
+            if (approvedBusiness) setVerifiedBusinesses(prev => [approvedBusiness, ...prev]);
             setTotalPending(prev => Math.max(0, prev - 1));
             setTotalVerified(prev => prev + 1);
-
-            showToast(`Verified! ${name} is now approved.`);
+            showToast(`✅ Verified! ${name} is now approved.`);
         } catch (error) {
             console.error(error);
             alert('Error verifying business');
+        }
+    };
+
+    const handleRevoke = async (id: string, name: string) => {
+        if (!window.confirm(`Revoke verification for "${name}"? They will be moved back to pending.`)) return;
+        try {
+            await adminRevokeBusinessVerification(id);
+            const biz = verifiedBusinesses.find(b => b.id === id);
+            setVerifiedBusinesses(prev => prev.filter(b => b.id !== id));
+            if (biz) setPendingBusinesses(prev => [biz, ...prev]);
+            setTotalVerified(prev => Math.max(0, prev - 1));
+            setTotalPending(prev => prev + 1);
+            showToast(`⚠️ Verification revoked for ${name}.`);
+        } catch (error) {
+            alert('Error revoking verification');
+        }
+    };
+
+    const handleDelete = async (id: string, name: string, isVerified: boolean) => {
+        if (!window.confirm(`Permanently DELETE "${name}" business profile? This cannot be undone.`)) return;
+        try {
+            await adminDeleteBusiness(id);
+            if (isVerified) {
+                setVerifiedBusinesses(prev => prev.filter(b => b.id !== id));
+                setTotalVerified(prev => Math.max(0, prev - 1));
+            } else {
+                setPendingBusinesses(prev => prev.filter(b => b.id !== id));
+                setTotalPending(prev => Math.max(0, prev - 1));
+            }
+            showToast(`🗑️ Deleted "${name}" business profile.`);
+        } catch (error) {
+            alert('Error deleting business');
         }
     };
 
@@ -226,7 +251,7 @@ export default function AppAdminDashboard() {
                                         <h4 className="font-black text-slate-900 text-lg sm:text-lg truncate pr-4 leading-tight mb-1" title={biz.business_name}>{biz.business_name}</h4>
                                         <div className="flex items-center gap-2 mt-2 flex-wrap">
                                             <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-600 text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-md border border-slate-200">
-                                                {biz.category || 'Uncategorized'}
+                                                {biz.business_type || 'Uncategorized'}
                                             </span>
                                             {biz.location && (
                                                 <span className="text-xs font-bold text-slate-500 truncate flex items-center gap-0.5">
@@ -238,28 +263,38 @@ export default function AppAdminDashboard() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 shrink-0 sm:self-center mt-4 sm:mt-0 w-full sm:w-auto pt-4 sm:pt-0 border-t border-slate-100 sm:border-0">
+                                <div className="flex items-center gap-2 shrink-0 sm:self-center mt-4 sm:mt-0 w-full sm:w-auto pt-4 sm:pt-0 border-t border-slate-100 sm:border-0 flex-wrap">
                                     <Link
                                         href={`/directory/${biz.id}`}
-                                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
+                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
                                     >
-                                        <span className="material-symbols-outlined text-[18px]">visibility</span>
-                                        Details
+                                        <span className="material-symbols-outlined text-[16px]">visibility</span>
+                                        View
                                     </Link>
                                     {activeTab === 'pending' ? (
                                         <button
                                             onClick={() => handleApprove(biz.id, biz.business_name)}
-                                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all active:scale-95"
+                                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all active:scale-95"
                                         >
-                                            <span className="material-symbols-outlined text-[18px]">verified</span>
+                                            <span className="material-symbols-outlined text-[16px]">verified</span>
                                             Approve
                                         </button>
                                     ) : (
-                                        <div className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-50 text-teal-600 border border-teal-100 rounded-xl font-bold text-xs uppercase tracking-wider bg-opacity-50">
-                                            <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                                            Verified
-                                        </div>
+                                        <button
+                                            onClick={() => handleRevoke(biz.id, biz.business_name)}
+                                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-all active:scale-95"
+                                        >
+                                            <span className="material-symbols-outlined text-[16px]">remove_circle</span>
+                                            Revoke
+                                        </button>
                                     )}
+                                    <button
+                                        onClick={() => handleDelete(biz.id, biz.business_name, activeTab === 'verified')}
+                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-all active:scale-95"
+                                    >
+                                        <span className="material-symbols-outlined text-[16px]">delete</span>
+                                        Delete
+                                    </button>
                                 </div>
 
                             </div>

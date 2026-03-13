@@ -1,192 +1,329 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import Image from 'next/image';
+import {
+    adminBanUser,
+    adminUnbanUser,
+    adminDeleteUser,
+} from '@/app/actions/admin';
 
 type Profile = {
     id: string;
     full_name: string;
     email: string;
     avatar_url: string;
-    role: 'user' | 'business' | 'moderator' | 'admin';
+    role: 'user' | 'business' | 'moderator' | 'admin' | 'banned';
     is_verified: boolean;
+    created_at: string;
 };
+
+const ROLE_STYLES: Record<string, string> = {
+    admin: 'bg-red-500/20 text-red-500 border-red-500/30',
+    moderator: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+    business: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    banned: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    user: 'bg-slate-800 text-slate-400 border-slate-700',
+};
+
+function ConfirmModal({ message, onConfirm, onCancel }: { message: string; onConfirm: () => void; onCancel: () => void }) {
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                <span className="material-symbols-outlined text-4xl text-red-500 mb-4 block">warning</span>
+                <p className="text-white font-black text-lg mb-2">Are you sure?</p>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">{message}</p>
+                <div className="flex gap-3">
+                    <button onClick={onCancel} className="flex-1 py-3 rounded-2xl border border-slate-700 text-slate-400 font-black text-sm hover:bg-slate-800 transition-colors">Cancel</button>
+                    <button onClick={onConfirm} className="flex-1 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-black text-sm transition-colors">Confirm</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function UserRow({ user, onUpdate }: { user: Profile; onUpdate: (id: string, updates: Partial<Profile>) => void }) {
+    const [isPending, startTransition] = useTransition();
+    const [expanded, setExpanded] = useState(false);
+    const [confirmModal, setConfirmModal] = useState<{ action: 'ban' | 'unban' | 'delete' } | null>(null);
+
+    const handleRoleChange = async (newRole: string) => {
+        const supabase = createBrowserClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+        const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', user.id);
+        if (!error) onUpdate(user.id, { role: newRole as Profile['role'] });
+        else alert('Failed to update role.');
+    };
+
+    const handleBan = () => {
+        setConfirmModal(null);
+        startTransition(async () => {
+            const res = await adminBanUser(user.id);
+            if (res.success) onUpdate(user.id, { role: 'banned' });
+            else alert(res.error || 'Failed to ban user.');
+        });
+    };
+
+    const handleUnban = () => {
+        setConfirmModal(null);
+        startTransition(async () => {
+            const res = await adminUnbanUser(user.id);
+            if (res.success) onUpdate(user.id, { role: 'user' });
+            else alert(res.error || 'Failed to unban user.');
+        });
+    };
+
+    const handleDelete = () => {
+        setConfirmModal(null);
+        startTransition(async () => {
+            const res = await adminDeleteUser(user.id);
+            if (res.success) onUpdate(user.id, { role: '__deleted__' as any });
+            else alert(res.error || 'Failed to delete user.');
+        });
+    };
+
+    const isBanned = user.role === 'banned';
+
+    return (
+        <>
+            {confirmModal && (
+                <ConfirmModal
+                    message={
+                        confirmModal.action === 'delete'
+                            ? `Permanently delete ${user.full_name || 'this user'}? This cannot be undone and will remove all their content.`
+                            : confirmModal.action === 'ban'
+                            ? `Ban ${user.full_name || 'this user'}? They will lose access to the platform immediately.`
+                            : `Unban ${user.full_name || 'this user'} and restore their access?`
+                    }
+                    onConfirm={confirmModal.action === 'delete' ? handleDelete : confirmModal.action === 'ban' ? handleBan : handleUnban}
+                    onCancel={() => setConfirmModal(null)}
+                />
+            )}
+            <tr className={`border-b border-slate-800/50 transition-all group/row ${isPending ? 'opacity-40 pointer-events-none' : ''} ${isBanned ? 'bg-orange-950/20' : 'hover:bg-slate-800/40'}`}>
+                {/* Avatar + Name */}
+                <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                        <div className="w-11 h-11 rounded-[1.25rem] bg-slate-800 overflow-hidden relative flex-shrink-0 border-2 border-slate-700">
+                            {user.avatar_url ? (
+                                <Image src={user.avatar_url} alt="Avatar" fill className="object-cover" />
+                            ) : (
+                                <div className="flex items-center justify-center h-full text-slate-500">
+                                    <span className="material-symbols-outlined">person</span>
+                                </div>
+                            )}
+                        </div>
+                        <div>
+                            <p className="font-black text-white text-sm">{user.full_name || 'Anonymous'}</p>
+                            <p className="text-[10px] text-slate-500 font-mono mt-0.5">UID: {user.id.slice(0, 10)}…</p>
+                        </div>
+                    </div>
+                </td>
+
+                {/* Email */}
+                <td className="px-6 py-4 hidden md:table-cell">
+                    <span className="text-slate-400 text-xs font-bold">{user.email || '—'}</span>
+                </td>
+
+                {/* Role Badge */}
+                <td className="px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest border ${ROLE_STYLES[user.role] || ROLE_STYLES.user}`}>
+                        {user.role}
+                    </span>
+                </td>
+
+                {/* Actions */}
+                <td className="px-6 py-4 text-right">
+                    <button
+                        onClick={() => setExpanded(v => !v)}
+                        className="p-2 rounded-xl border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                        title="Manage user"
+                    >
+                        <span className="material-symbols-outlined text-base">{expanded ? 'expand_less' : 'more_horiz'}</span>
+                    </button>
+                </td>
+            </tr>
+
+            {/* Expanded actions row */}
+            {expanded && (
+                <tr className={`border-b border-slate-800/30 ${isBanned ? 'bg-orange-950/10' : 'bg-slate-900/60'}`}>
+                    <td colSpan={4} className="px-6 pb-4 pt-2">
+                        <div className="flex flex-wrap gap-2 items-center">
+                            {/* Role selector — only for non-banned */}
+                            {!isBanned && (
+                                <select
+                                    className="bg-slate-950 border border-slate-700 text-white text-xs font-black uppercase tracking-widest rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                    value={user.role}
+                                    onChange={(e) => handleRoleChange(e.target.value)}
+                                >
+                                    <option value="user">Standard User</option>
+                                    <option value="business">Business Partner</option>
+                                    <option value="moderator">Moderator</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            )}
+
+                            {/* Ban / Unban */}
+                            {isBanned ? (
+                                <button
+                                    onClick={() => setConfirmModal({ action: 'unban' })}
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-600/20 border border-teal-600/30 text-teal-400 text-xs font-black uppercase tracking-widest hover:bg-teal-600/30 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-sm">lock_open</span> Unban
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setConfirmModal({ action: 'ban' })}
+                                    disabled={user.role === 'admin'}
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-black uppercase tracking-widest hover:bg-orange-500/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                >
+                                    <span className="material-symbols-outlined text-sm">block</span> Ban
+                                </button>
+                            )}
+
+                            {/* Delete */}
+                            <button
+                                onClick={() => setConfirmModal({ action: 'delete' })}
+                                disabled={user.role === 'admin'}
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-black uppercase tracking-widest hover:bg-red-500/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
+                                <span className="material-symbols-outlined text-sm">delete_forever</span> Delete Account
+                            </button>
+
+                            {user.role === 'admin' && (
+                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Admin accounts are protected</span>
+                            )}
+                        </div>
+                    </td>
+                </tr>
+            )}
+        </>
+    );
+}
 
 export default function UserManagement() {
     const [users, setUsers] = useState<Profile[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [updatingId, setUpdatingId] = useState<string | null>(null);
+    const [roleFilter, setRoleFilter] = useState<string>('all');
 
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    // Fetch all users on load
     useEffect(() => {
         async function fetchUsers() {
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .from('profiles')
                 .select('*')
-                .order('role', { ascending: false }) // Admins/Mods first
+                .order('role', { ascending: false })
                 .order('created_at', { ascending: false });
-
             if (data) setUsers(data);
             setIsLoading(false);
         }
         fetchUsers();
-    }, [supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    // Handle changing a user's role
-    const handleRoleChange = async (userId: string, newRole: string) => {
-        if (!window.confirm(`Are you sure you want to change this user's role to ${newRole.toUpperCase()}?`)) return;
-
-        setUpdatingId(userId);
-
-        const { error } = await supabase
-            .from('profiles')
-            .update({ role: newRole })
-            .eq('id', userId);
-
-        if (!error) {
-            // Update local state so the UI reflects the change instantly
-            setUsers(users.map(u => u.id === userId ? { ...u, role: newRole as any } : u));
+    const handleUpdate = (id: string, updates: Partial<Profile>) => {
+        if ((updates as any).role === '__deleted__') {
+            setUsers(prev => prev.filter(u => u.id !== id));
         } else {
-            alert('Failed to update user role.');
-            console.error(error);
+            setUsers(prev => prev.map(u => u.id === id ? { ...u, ...updates } : u));
         }
-
-        setUpdatingId(null);
     };
 
-    // Filter users based on search bar
-    const filteredUsers = users.filter(user =>
-        user.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filtered = users.filter(u => {
+        const matchesSearch = (u.full_name?.toLowerCase() ?? '').includes(searchQuery.toLowerCase()) ||
+            (u.email?.toLowerCase() ?? '').includes(searchQuery.toLowerCase());
+        const matchesRole = roleFilter === 'all' || u.role === roleFilter;
+        return matchesSearch && matchesRole;
+    });
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 pb-24 font-display">
-            {/* Tactical Header */}
+            {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-800 pb-10">
                 <div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <a href="/admin" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest">
+                            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                            Admin Dashboard
+                        </a>
+                    </div>
                     <h1 className="text-4xl font-black text-white tracking-tighter mb-2 flex items-center gap-3">
                         <span className="material-symbols-outlined text-4xl text-blue-500">account_tree</span>
                         User Management
                     </h1>
-                    <p className="text-slate-500 font-bold max-w-lg leading-relaxed">
-                        Authority overrides and role assignments. Search the global registry to promote moderators or verify business accounts.
+                    <p className="text-slate-500 font-bold max-w-lg text-sm">
+                        Manage roles, ban users, and delete accounts. Admin accounts are protected from ban/delete.
                     </p>
                 </div>
-
-                {/* Search Bar Container */}
-                <div className="relative w-full md:w-80 group">
-                    <input
-                        type="text"
-                        placeholder="Search identity or email..."
-                        className="w-full bg-slate-900 border border-slate-800 text-white rounded-2xl p-4 pl-12 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-600 font-bold text-sm"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-600">search</span>
+                <div className="flex gap-3 flex-wrap">
+                    <select
+                        className="bg-slate-900 border border-slate-800 text-slate-300 rounded-2xl px-4 py-3 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={roleFilter}
+                        onChange={e => setRoleFilter(e.target.value)}
+                    >
+                        <option value="all">All Roles</option>
+                        <option value="admin">Admin</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="business">Business</option>
+                        <option value="user">User</option>
+                        <option value="banned">Banned</option>
+                    </select>
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="Search name or email…"
+                            className="bg-slate-900 border border-slate-800 text-white rounded-2xl p-3 pl-10 focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-slate-600 font-bold text-sm w-64"
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                        />
+                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-base">search</span>
+                    </div>
                 </div>
             </div>
 
-            {/* The Central User Repository Table */}
+            {/* Stats */}
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                {(['admin', 'moderator', 'business', 'user', 'banned'] as const).map(role => (
+                    <button
+                        key={role}
+                        onClick={() => setRoleFilter(prev => prev === role ? 'all' : role)}
+                        className={`p-3 rounded-2xl border text-center transition-all ${roleFilter === role ? 'border-blue-500 bg-blue-500/10' : 'border-slate-800 bg-slate-900/50 hover:border-slate-600'}`}
+                    >
+                        <p className="text-lg font-black text-white">{users.filter(u => u.role === role).length}</p>
+                        <p className={`text-[9px] font-black uppercase tracking-widest mt-0.5 ${ROLE_STYLES[role]?.split(' ')[1] || 'text-slate-400'}`}>{role}</p>
+                    </button>
+                ))}
+            </div>
+
+            {/* Table */}
             <div className="bg-slate-900/50 backdrop-blur-3xl rounded-[2.5rem] border border-slate-800 shadow-2xl overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm text-slate-300">
                         <thead className="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-950/80 border-b border-slate-800 font-black">
                             <tr>
-                                <th className="px-8 py-5">Verified Identity</th>
-                                <th className="px-8 py-5">Communication</th>
-                                <th className="px-8 py-5">Access Tier</th>
-                                <th className="px-8 py-5 text-right">Modify Permission</th>
+                                <th className="px-6 py-4">Identity</th>
+                                <th className="px-6 py-4 hidden md:table-cell">Email</th>
+                                <th className="px-6 py-4">Role</th>
+                                <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <tr>
-                                    <td colSpan={4} className="py-20 text-center">
-                                        <div className="flex flex-col items-center">
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4"></div>
-                                            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-600">Syncing Registry...</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ) : filteredUsers.length === 0 ? (
-                                <tr>
-                                    <td colSpan={4} className="py-20 text-center flex flex-col items-center justify-center">
-                                        <span className="material-symbols-outlined text-slate-700 text-5xl mb-4">person_search</span>
-                                        <p className="text-slate-500 font-black tracking-tight uppercase text-xs">No matching identities found</p>
-                                    </td>
-                                </tr>
+                                <tr><td colSpan={4} className="py-16 text-center">
+                                    <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                                </td></tr>
+                            ) : filtered.length === 0 ? (
+                                <tr><td colSpan={4} className="py-16 text-center text-slate-600 font-black uppercase tracking-widest text-xs">No users found</td></tr>
                             ) : (
-                                filteredUsers.map((user) => (
-                                    <tr key={user.id} className="border-b border-slate-800/50 hover:bg-slate-800/40 transition-all group/row">
-
-                                        {/* User Avatar & Name */}
-                                        <td className="px-8 py-5">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-[1.25rem] bg-slate-800 overflow-hidden relative flex-shrink-0 border-2 border-slate-700 shadow-xl group-hover/row:border-blue-500/50 transition-colors">
-                                                    {user.avatar_url ? (
-                                                        <Image src={user.avatar_url} alt="Avatar" fill className="object-cover" />
-                                                    ) : (
-                                                        <div className="flex items-center justify-center h-full bg-slate-800 text-slate-500">
-                                                            <span className="material-symbols-outlined">person</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <div className="font-black text-white text-base tracking-tight flex items-center gap-2">
-                                                        {user.full_name || 'Anonymous User'}
-                                                        {user.is_verified && <span className="material-symbols-outlined text-blue-400 text-lg" title="Verified Provider">verified</span>}
-                                                    </div>
-                                                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mt-0.5">UID: {user.id.slice(0, 8)}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        {/* Email */}
-                                        <td className="px-8 py-5">
-                                            <div className="bg-slate-950/50 px-3 py-1.5 rounded-xl border border-slate-800/50 inline-block font-bold text-slate-400">
-                                                {user.email || 'No email associated'}
-                                            </div>
-                                        </td>
-
-                                        {/* Role Badge */}
-                                        <td className="px-8 py-5">
-                                            <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border shadow-lg
-                        ${user.role === 'admin' ? 'bg-moriones-red/20 text-red-500 border-red-500/30 shadow-red-500/10' :
-                                                    user.role === 'moderator' ? 'bg-purple-500/20 text-purple-400 border-purple-500/30 shadow-purple-500/10' :
-                                                        user.role === 'business' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
-                                                            'bg-slate-800 text-slate-400 border-slate-700'}`}
-                                            >
-                                                {user.role}
-                                            </span>
-                                        </td>
-
-                                        {/* Actions (Role Dropdown) */}
-                                        <td className="px-8 py-5 text-right">
-                                            <div className="relative inline-block">
-                                                <select
-                                                    disabled={updatingId === user.id}
-                                                    className={`appearance-none bg-slate-950 border border-slate-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl p-4 pr-10 focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer ${updatingId === user.id ? 'opacity-50 animate-pulse' : 'hover:border-slate-500'}`}
-                                                    value={user.role}
-                                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                                >
-                                                    <option value="user">Standard User</option>
-                                                    <option value="business">Business Partner</option>
-                                                    <option value="moderator">Trust Moderator</option>
-                                                    <option value="admin">Platform Admin</option>
-                                                </select>
-                                                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-base">expand_more</span>
-                                            </div>
-                                        </td>
-
-                                    </tr>
+                                filtered.map(user => (
+                                    <UserRow key={user.id} user={user} onUpdate={handleUpdate} />
                                 ))
                             )}
                         </tbody>
@@ -194,15 +331,9 @@ export default function UserManagement() {
                 </div>
             </div>
 
-            {/* Information Footer */}
-            <div className="flex items-center gap-4 p-8 bg-blue-600/5 rounded-[2.5rem] border border-blue-500/10 max-w-3xl mx-auto">
-                <div className="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center text-blue-500">
-                    <span className="material-symbols-outlined">gavel</span>
-                </div>
-                <div className="flex-1">
-                    <h4 className="text-sm font-black text-white uppercase tracking-widest mb-1">Moderator Responsibility</h4>
-                    <p className="text-xs text-slate-500 font-bold leading-relaxed">Account promotions grant significant authority. Ensure identity verification is completed before assigning Moderator or Admin tiers.</p>
-                </div>
+            <div className="flex items-center gap-4 p-6 bg-blue-600/5 rounded-[2rem] border border-blue-500/10">
+                <span className="material-symbols-outlined text-blue-500 text-2xl">gavel</span>
+                <p className="text-xs text-slate-500 font-bold">Admin accounts cannot be banned or deleted from this panel. Banning blocks platform access immediately via the role check in middleware.</p>
             </div>
         </div>
     );

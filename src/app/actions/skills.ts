@@ -27,7 +27,7 @@ export async function postSkillListing(formData: FormData) {
     // Get poster name from profile
     const { data: profile } = await supabase
         .from('profiles')
-        .select('display_name')
+        .select('full_name')
         .eq('id', user.id)
         .single();
 
@@ -47,9 +47,11 @@ export async function postSkillListing(formData: FormData) {
         return { error: 'Please provide at least one contact method.' };
     }
 
-    const { error } = await supabase.from('skills_exchange').insert({
+    const poster_name = (profile as any)?.full_name ?? null;
+
+    const { data: inserted, error } = await supabase.from('skills_exchange').insert({
         posted_by: user.id,
-        poster_name: profile?.display_name ?? null,
+        poster_name,
         skill_name,
         category,
         municipality,
@@ -57,11 +59,11 @@ export async function postSkillListing(formData: FormData) {
         rate,
         availability,
         contact: { phone, fbUsername },
-    });
+    }).select('*').single();
 
     if (error) return { error: error.message };
     revalidatePath('/island-life/skills');
-    return { success: true };
+    return { success: true, item: inserted as SkillListing };
 }
 
 export async function deleteSkillListing(id: string) {

@@ -64,6 +64,29 @@ export async function middleware(request: NextRequest) {
             // Silently redirect normal users — don't leak that /admin exists
             return NextResponse.redirect(new URL('/', request.url))
         }
+
+        // Banned admins shouldn't exist but guard anyway
+        if (profile?.role === 'banned') {
+            return NextResponse.redirect(new URL('/login?banned=1', request.url))
+        }
+    }
+
+    // ── Banned User Block (all routes) ────────────────────────────────────
+    // Banned users are set to role='banned' in profiles. Block them platform-wide.
+    // Skip for login page itself and static auth routes to avoid loops.
+    if (user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
+        // Only fetch profile if we haven't already (non-admin routes)
+        if (!request.nextUrl.pathname.startsWith('/admin')) {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', user.id)
+                .single()
+
+            if (profile?.role === 'banned') {
+                return NextResponse.redirect(new URL('/login?banned=1', request.url))
+            }
+        }
     }
 
     // ── General Protected Routes ─────────────────────────────────────────

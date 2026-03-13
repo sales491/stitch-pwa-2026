@@ -112,7 +112,7 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
         if (pricesByMuni[muni]) return;
         setLoading(true);
         try {
-            const res = await fetch(`/api/palengke-prices?municipality=${encodeURIComponent(muni)}`);
+            const res = await fetch(`/api/palengke-prices?municipality=${encodeURIComponent(muni)}`, { cache: 'no-store' });
             const data = await res.json();
             setPricesByMuni(prev => ({ ...prev, [muni]: data }));
         } catch {
@@ -140,17 +140,28 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
         fd.set('municipality', activeMuni);
         const result = await submitPrice(fd);
         if (result.error) { setFormError(result.error); return; }
-        setLoading(true);
-        try {
-            const res = await fetch(`/api/palengke-prices?municipality=${encodeURIComponent(activeMuni)}`);
-            const data = await res.json();
-            setPricesByMuni(prev => ({ ...prev, [activeMuni]: data }));
-        } catch {}
-        setLoading(false);
+
+        // Instantly add the new item to local state (optimistic — guaranteed visible)
+        if (result.item) {
+            const newItem = result.item as any;
+            const cat = newItem.category as keyof PricesByCategory;
+            setPricesByMuni(prev => {
+                const current = prev[activeMuni] ?? { fish: [], produce: [], meat: [], other: [] };
+                return { ...prev, [activeMuni]: { ...current, [cat]: [newItem, ...current[cat]] } };
+            });
+        }
+
         setShowForm(false);
         setShowPosted(true);
         setTimeout(() => setShowPosted(false), 2500);
         formRef.current?.reset();
+
+        // Background refresh to pick up any other new listings
+        try {
+            const res = await fetch(`/api/palengke-prices?municipality=${encodeURIComponent(activeMuni)}`, { cache: 'no-store' });
+            const data = await res.json();
+            setPricesByMuni(prev => ({ ...prev, [activeMuni]: data }));
+        } catch {}
     }
 
     return (

@@ -123,9 +123,9 @@ export default function EditListing({ params }: { params: Promise<{ id: string }
         <div className="flex flex-col min-h-screen pb-24">
             {/* Header */}
             <div className="p-6 pb-2 flex items-center gap-4">
-                <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-zinc-800 rounded-full text-slate-600 dark:text-zinc-400 active:scale-90 transition-transform">
-                    <span className="material-symbols-outlined">close</span>
-                </button>
+                <Link href={`/marketplace/${id}`} className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
+                </Link>
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">Edit Listing</h1>
                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Updating your item details</p>

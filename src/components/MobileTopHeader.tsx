@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useNotifications } from './NotificationProvider';
 import ThemeToggle from './ThemeToggle';
@@ -26,6 +26,7 @@ export default function MobileTopHeader() {
     const { profile } = useAuth();
     const { unreadCount, hasPendingApprovals } = useNotifications();
     const pathname = usePathname();
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
@@ -69,8 +70,12 @@ export default function MobileTopHeader() {
 
                     {/* Right: Actions */}
                     <div className="flex items-center gap-3">
-                        <button className="w-8 h-8 flex items-center justify-center text-slate-800 dark:text-white/90">
-                            <span className="material-symbols-outlined text-[24px]" style={{ fontWeight: 300 }}>search</span>
+                        <button
+                            onClick={() => router.refresh()}
+                            className="w-8 h-8 flex items-center justify-center text-slate-800 dark:text-white/90 hover:text-moriones-red transition-colors"
+                            aria-label="Refresh page"
+                        >
+                            <span className="material-symbols-outlined text-[24px]" style={{ fontWeight: 300 }}>refresh</span>
                         </button>
 
                         <div className="flex items-center justify-center -ml-1">

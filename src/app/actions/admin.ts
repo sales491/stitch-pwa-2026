@@ -142,3 +142,111 @@ export async function adminVerifyBusiness(businessId: string) {
         return { success: false, error: e.message };
     }
 }
+
+export async function adminRevokeBusinessVerification(businessId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('business_profiles')
+            .update({ is_verified: false })
+            .eq('id', businessId);
+        if (error) throw new Error(error.message);
+        revalidatePath(`/directory/${businessId}`);
+        revalidatePath('/directory');
+        revalidatePath('/admin/dashboard');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminDeleteBusiness(businessId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        // Clean up claim requests first
+        await adminSupabase.from('business_claim_requests').delete().eq('business_id', businessId);
+        const { error } = await adminSupabase.from('business_profiles').delete().eq('id', businessId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/directory');
+        revalidatePath('/admin/dashboard');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminBanUser(userId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('profiles')
+            .update({ role: 'banned' })
+            .eq('id', userId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin/users');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminUnbanUser(userId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('profiles')
+            .update({ role: 'user' })
+            .eq('id', userId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin/users');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminDeleteUser(userId: string) {
+    try {
+        await verifyAdminServer();
+        // Reuse the existing adminDeleteContent which handles cascades
+        return await adminDeleteContent('user', userId);
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminMarkContactMessage(messageId: string, isRead: boolean) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('contact_messages')
+            .update({ is_read: isRead })
+            .eq('id', messageId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminDeleteOperator(table: 'boat_services' | 'transport_services', id: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase.from(table).delete().eq('id', id);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin');
+        revalidatePath('/island-hopping');
+        revalidatePath('/commute');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+

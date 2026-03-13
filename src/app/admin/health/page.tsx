@@ -13,9 +13,10 @@ export default function AdminHealthPage() {
                     <div className="flex items-center gap-2 mb-2">
                         <Link
                             href="/admin"
-                            className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors"
                         >
-                            ← Admin
+                            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                            Admin Dashboard
                         </Link>
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tighter">

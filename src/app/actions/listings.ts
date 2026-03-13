@@ -33,8 +33,9 @@ export async function createListing(data: ListingInput) {
             ...validated,
             user_id: user.id,
             seller_id: user.id,
-            // New listings go to 'pending' so admin can verify before going live
-            status: 'pending',
+            // Auto-approve: validation (Zod + client-side) acts as the filter.
+            // Admin can delete flagged content after the fact via the admin panel.
+            status: 'active',
         });
 
     if (error) throw new Error(error.message);

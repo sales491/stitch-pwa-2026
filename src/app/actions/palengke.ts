@@ -11,14 +11,14 @@ export async function getPalengkePrices(municipality: Municipality): Promise<Pri
 
     const { data } = await supabase
         .from('palengke_prices')
-        .select('*, profiles(display_name)')
+        .select('*, profiles(full_name)')
         .eq('municipality', municipality)
         .gte('created_at', since)
         .order('created_at', { ascending: false });
 
     const rows: PalengkePrice[] = (data ?? []).map((r: any) => ({
         ...r,
-        poster_name: r.profiles?.display_name ?? null,
+        poster_name: r.profiles?.full_name ?? null,
         profiles: undefined,
     }));
 
@@ -49,21 +49,32 @@ export async function submitPrice(formData: FormData) {
         return { error: 'Please fill in all required fields.' };
     }
 
-    const { error } = await supabase.from('palengke_prices').insert({
-        municipality,
-        category,
-        item_name,
-        price,
-        unit,
-        note,
-        stall_location,
-        availability_tag,
-        posted_by: user.id,
-    });
+    const { data: inserted, error } = await supabase
+        .from('palengke_prices')
+        .insert({
+            municipality,
+            category,
+            item_name,
+            price,
+            unit,
+            note,
+            stall_location,
+            availability_tag,
+            posted_by: user.id,
+        })
+        .select('*, profiles(full_name)')
+        .single();
 
     if (error) return { error: error.message };
+
+    const newItem = {
+        ...inserted,
+        poster_name: (inserted as any).profiles?.full_name ?? null,
+        profiles: undefined,
+    };
+
     revalidatePath('/island-life/palengke');
-    return { success: true };
+    return { success: true, item: newItem };
 }
 
 // Delete own price submission

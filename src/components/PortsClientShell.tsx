@@ -137,6 +137,17 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
     return (
         <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
+            {/* ── Sticky Header with back arrow ──────────────────────────── */}
+            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
+                <Link href="/" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
+                </Link>
+                <div>
+                    <h1 className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🚢 Barko Watch</h1>
+                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">RoRo Port Live Updates</p>
+                </div>
+            </header>
+
             {/* ── Hero card — light gray ──────────────────────────────── */}
             <div className="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 mx-4 mt-4 rounded-3xl p-6 shadow-sm relative overflow-hidden">
 
