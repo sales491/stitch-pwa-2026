@@ -37,7 +37,7 @@ export default async function TidesPage() {
                         <p className="text-cyan-200 text-xs font-medium">Tide times · Moon · Sunrise · Peak fishing windows</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Daily tide predictions, solunar fishing activity, and astronomical data for Marinduque&apos;s waters.
                 </p>
             </div>
