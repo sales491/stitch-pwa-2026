@@ -26,7 +26,7 @@ export default async function PalengkePage() {
                     <span className="material-symbols-outlined text-[26px]">arrow_back</span>
                 </Link>
                 <div>
-                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🐟 Palengke Prices</p>
+                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🐟 Palengke Vendors</p>
                     <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Island Life</p>
                 </div>
             </header>
