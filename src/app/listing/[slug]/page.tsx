@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: [imgUrl],
         },
         alternates: {
-            canonical: `https://marinduqueconnect.ph/listing/${slug}`,
+            canonical: `https://marinduquemarket.com/listing/${slug}`,
         },
     };
 }

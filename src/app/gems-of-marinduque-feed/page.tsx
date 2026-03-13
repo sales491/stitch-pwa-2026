@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import GemsOfMarinduqueFeed from '@/components/GemsOfMarinduqueFeed';
 import { isAdmin } from '@/utils/roles';
+
+export const metadata: Metadata = {
+    title: 'Gems of Marinduque — Community Discoveries',
+    description: 'Browse community-shared hidden gems of Marinduque island. Secret beaches, local eats, scenic spots, and cultural treasures — shared by locals who know the island best.',
+    keywords: ['Marinduque hidden gems', 'tourist spots Marinduque', 'Marinduque Instagram spots', 'island attractions Philippines', 'local recommendations Marinduque'],
+    openGraph: {
+        title: 'Gems of Marinduque',
+        description: 'Community-discovered hidden gems from across Marinduque island, Philippines.',
+        url: 'https://marinduquemarket.com/gems-of-marinduque-feed',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/gems-of-marinduque-feed' },
+};
 
 export const dynamic = 'force-dynamic';
 

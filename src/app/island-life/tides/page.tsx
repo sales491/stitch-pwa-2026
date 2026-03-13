@@ -1,10 +1,18 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getWeekTides } from '@/app/actions/tides';
 import TidesDisplay from '@/components/TidesDisplay';
 
-export const metadata = {
-    title: 'Tides & Fishing — Marinduque Market Hub',
-    description: 'Daily tide times, moon phase, sunrise/sunset, and peak fishing windows for Marinduque Island.',
+export const metadata: Metadata = {
+    title: 'Tides & Fishing Conditions — Marinduque',
+    description: 'Daily tide times, moon phase, sunrise and sunset, and peak fishing windows for Marinduque Island waters. Plan your fishing trip with accurate solunar data.',
+    keywords: ['tide times Marinduque', 'fishing conditions Philippines', 'solunar fishing Marinduque', 'moon phase fishing', 'high tide Boac'],
+    openGraph: {
+        title: 'Tides & Fishing Conditions — Marinduque',
+        description: 'Daily tide predictions and peak fishing windows for Marinduque island.',
+        url: 'https://marinduquemarket.com/island-life/tides',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/island-life/tides' },
 };
 
 export const dynamic = 'force-dynamic';

@@ -1,5 +1,18 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import ClientFeed from './ClientFeed';
+
+export const metadata: Metadata = {
+    title: 'Marinduque Classifieds Marketplace',
+    description: 'Buy and sell items locally in Marinduque — furniture, electronics, clothes, vehicles, and more. Browse active listings from sellers in Boac, Gasan, Mogpog, Santa Cruz, Torrijos, and Buenavista.',
+    keywords: ['buy and sell Marinduque', 'classifieds Philippines', 'Marinduque market', 'secondhand items Marinduque', 'local marketplace Boac'],
+    openGraph: {
+        title: 'Marinduque Classifieds Marketplace',
+        description: 'Browse local buy-and-sell listings across all 6 municipalities of Marinduque.',
+        url: 'https://marinduquemarket.com/marketplace',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/marketplace' },
+};
 
 export const revalidate = 60; // Serve cached first page; revalidate in background every 60s
 

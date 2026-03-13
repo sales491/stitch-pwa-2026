@@ -1,8 +1,39 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: event } = await supabase
+        .from('events')
+        .select('title, description, location, image, event_date, event_time, category')
+        .eq('id', id)
+        .single();
+
+    if (!event) return { title: 'Event Not Found' };
+
+    return {
+        title: event.title,
+        description: event.description?.slice(0, 155) ?? `${event.title} in ${event.location}, Marinduque.`,
+        openGraph: {
+            title: event.title,
+            description: event.description?.slice(0, 155) ?? `Event in Marinduque.`,
+            url: `https://marinduquemarket.com/events/${id}`,
+            type: 'article',
+            images: event.image ? [{ url: event.image, alt: event.title }] : undefined,
+        },
+        alternates: { canonical: `https://marinduquemarket.com/events/${id}` },
+    };
+}
+
 
 export default async function EventDetail({
     params
@@ -33,6 +64,35 @@ export default async function EventDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
+            {/* Event JSON-LD for Google Rich Results */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'Event',
+                    name: event.title,
+                    description: event.description,
+                    startDate: event.event_date + (event.event_time ? `T${event.event_time}` : ''),
+                    eventStatus: 'https://schema.org/EventScheduled',
+                    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+                    location: {
+                        '@type': 'Place',
+                        name: event.location,
+                        address: {
+                            '@type': 'PostalAddress',
+                            addressLocality: event.town,
+                            addressRegion: 'MIMAROPA',
+                            addressCountry: 'PH',
+                        },
+                    },
+                    ...(event.image && { image: event.image }),
+                    organizer: {
+                        '@type': 'Organization',
+                        name: 'Marinduque Market Hub',
+                        url: 'https://marinduquemarket.com',
+                    },
+                }) }}
+            />
             {/* 1. Immersive Hero Banner */}
             <div className="w-full h-64 md:h-[450px] relative overflow-hidden rounded-b-[4rem] shadow-2xl">
                 {event.image ? (

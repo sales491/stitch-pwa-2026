@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,6 +7,18 @@ import { BUSINESSES } from '@/data/businesses';
 import ShoutoutsSection, { type ShoutoutItem } from '@/components/ShoutoutsSection';
 import WinnerSection from '@/components/WinnerSection';
 import MonthPill from '@/components/MonthPill';
+
+export const metadata: Metadata = {
+    title: 'Best of Boac — Monthly Business Spotlight',
+    description: 'Monthly spotlight celebrating the best local businesses in Boac, Marinduque. Top-rated restaurants, shops, and services voted by the community.',
+    keywords: ['best businesses Boac', 'top restaurants Marinduque', 'Boac local businesses', 'monthly spotlight Marinduque'],
+    openGraph: {
+        title: 'Best of Boac — Monthly Business Spotlight',
+        description: 'Community-voted best businesses in Boac, Marinduque.',
+        url: 'https://marinduquemarket.com/best-of-boac-monthly-spotlight',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/best-of-boac-monthly-spotlight' },
+};
 
 export const revalidate = 0;
 

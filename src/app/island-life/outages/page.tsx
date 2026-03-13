@@ -1,11 +1,19 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { getOutageReports } from '@/app/actions/outages';
 import OutageFeed from '@/components/OutageFeed';
 
-export const metadata = {
-    title: 'Outage Reports — Marinduque Market Hub',
-    description: 'Community-reported power and water outages across Marinduque Island.',
+export const metadata: Metadata = {
+    title: 'Outage Reports — Power & Water in Marinduque',
+    description: 'Real-time community-reported power and water outages across Marinduque island. Report outages, track restoration, and get alerted when service returns in your area.',
+    keywords: ['power outage Marinduque', 'water outage Philippines', 'MERALCO outage Marinduque', 'electricity outage Boac', 'community alerts Marinduque'],
+    openGraph: {
+        title: 'Outage Reports — Marinduque',
+        description: 'Live community-reported power and water outages across Marinduque island.',
+        url: 'https://marinduquemarket.com/island-life/outages',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/island-life/outages' },
 };
 
 export const dynamic = 'force-dynamic';

@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import GemMasonryFeed from '@/components/GemMasonryFeed';
+
+export const metadata: Metadata = {
+    title: 'Gems of Marinduque',
+    description: 'Discover hidden local gems across Marinduque island — beautiful beaches, secret spots, local restaurants, cultural sites, and community-loved places recommended by locals.',
+    keywords: ['hidden gems Marinduque', 'Marinduque tourist spots', 'Maniwaya Island', 'Palad Sandbar', 'Tres Reyes Islands', 'things to do Marinduque', 'Marinduque travel'],
+    openGraph: {
+        title: 'Gems of Marinduque',
+        description: 'Community-voted hidden gems and must-visit spots across Marinduque island.',
+        url: 'https://marinduquemarket.com/gems',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/gems' },
+};
 
 export default async function GemsFeedPage() {
     const supabase = await createClient();

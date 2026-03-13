@@ -1,8 +1,39 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: gem } = await supabase
+        .from('gems')
+        .select('title, description, town, images, latitude, longitude')
+        .eq('id', id)
+        .single();
+
+    if (!gem) return { title: 'Gem Not Found' };
+
+    return {
+        title: `${gem.title} — Hidden Gem in ${gem.town}, Marinduque`,
+        description: gem.description?.slice(0, 155) ?? `Discover ${gem.title}, a hidden gem in ${gem.town}, Marinduque island, Philippines.`,
+        openGraph: {
+            title: `${gem.title} — ${gem.town}, Marinduque`,
+            description: gem.description?.slice(0, 155) ?? `A hidden gem in ${gem.town}, Marinduque.`,
+            url: `https://marinduquemarket.com/gems/${id}`,
+            type: 'article',
+            images: gem.images?.[0] ? [{ url: gem.images[0], alt: gem.title }] : undefined,
+        },
+        alternates: { canonical: `https://marinduquemarket.com/gems/${id}` },
+    };
+}
+
 
 export default async function GemDetail({
     params

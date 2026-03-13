@@ -1,12 +1,19 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { getBarangayPosts, getUserBarangay } from '@/app/actions/barangay-board';
 import BarangayFeed from '@/components/BarangayFeed';
 
-export const metadata = {
-    title: 'Barangay Board — Marinduque Market Hub',
-    description: 'Hyperlocal community posts visible only to your barangay.',
+export const metadata: Metadata = {
+    title: 'Barangay Board',
+    description: 'Hyperlocal community posts visible only to your barangay in Marinduque. Share news, announcements, and updates with your immediate neighbors.',
+    keywords: ['barangay Marinduque', 'community board Philippines', 'local community posts', 'hyperlocal Marinduque'],
+    openGraph: {
+        title: 'Barangay Board — Marinduque',
+        description: 'Hyperlocal posts for your barangay community in Marinduque.',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/my-barangay/board' },
 };
 
 export const dynamic = 'force-dynamic';

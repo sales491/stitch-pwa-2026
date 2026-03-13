@@ -1,12 +1,20 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { getPalengkePrices } from '@/app/actions/palengke';
 import { MUNICIPALITIES, Municipality } from '@/lib/palengke-constants';
 import PalengkeDisplay from '@/components/PalengkeDisplay';
 import Link from 'next/link';
 
-export const metadata = {
-    title: 'Palengke Prices — Marinduque Market Hub',
-    description: 'Today\'s fish, produce, and meat prices from palengke markets across all six Marinduque municipalities.',
+export const metadata: Metadata = {
+    title: 'Palengke Prices — Live Market Prices',
+    description: "Today's fish, produce, and meat prices from palengke markets across all six Marinduque municipalities. Updated daily by local vendors.",
+    keywords: ['palengke prices Marinduque', 'market prices Philippines', 'fish prices Boac', 'produce prices Marinduque', 'local market Marinduque'],
+    openGraph: {
+        title: 'Palengke Prices — Marinduque Live Market',
+        description: "Live fish, produce, and meat prices from Marinduque's local markets.",
+        url: 'https://marinduquemarket.com/island-life/palengke',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/island-life/palengke' },
 };
 
 export const revalidate = 300; // Revalidate every 5 minutes

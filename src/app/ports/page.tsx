@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import PortsClientShell from '@/components/PortsClientShell';
+
+export const metadata: Metadata = {
+    title: 'RoRo Port Schedules & Updates — Marinduque',
+    description: 'Live RoRo ferry schedule, departure status, and port updates for Marinduque. Balanacan Port (Mogpog) and Buyabod Port (Santa Cruz) — real-time community reports.',
+    keywords: ['RoRo Marinduque', 'ferry schedule Philippines', 'Balanacan Port', 'Buyabod Port', 'Marinduque ferry', 'BAPOR MARINDUQUE'],
+    openGraph: {
+        title: 'RoRo Port Schedules & Updates — Marinduque',
+        description: 'Live ferry schedules and port status updates for Marinduque island.',
+        url: 'https://marinduquemarket.com/ports',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/ports' },
+};
 
 export default async function PortsPage() {
     const supabase = await createClient();

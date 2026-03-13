@@ -1,5 +1,19 @@
 export const revalidate = 60;
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Job Listings in Marinduque',
+    description: 'Find local job opportunities in Marinduque, Philippines. Browse full-time, part-time, and freelance positions across Boac, Gasan, Mogpog, Santa Cruz, Torrijos, and Buenavista.',
+    keywords: ['jobs Marinduque', 'job vacancies Philippines', 'work Marinduque', 'employment Boac', 'job opportunities Marinduque island'],
+    openGraph: {
+        title: 'Job Listings in Marinduque',
+        description: 'Discover full-time, part-time, and freelance jobs across Marinduque island.',
+        url: 'https://marinduquemarket.com/jobs',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/jobs' },
+};
+
 import MarinduqueJobsListingFeed from '@/components/MarinduqueJobsListingFeed';
 import { createClient } from '@/utils/supabase/server';
 

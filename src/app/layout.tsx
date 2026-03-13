@@ -16,9 +16,66 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
+const SITE_URL = 'https://marinduquemarket.com';
+const SITE_NAME = 'Marinduque Market Hub';
+const SITE_DESCRIPTION =
+  'The digital hub for Marinduque — buy & sell locally, find jobs, discover island hopping tours, track RoRo ferry schedules, explore businesses, and stay connected with your community.';
+
 export const metadata: Metadata = {
-  title: "Marinduque Market Hub",
-  description: "Your local digital hub for Marinduque",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  keywords: [
+    'Marinduque', 'Marinduque market', 'buy and sell Marinduque',
+    'jobs Marinduque', 'island hopping Marinduque', 'RoRo ferry schedule',
+    'Boac', 'Mogpog', 'Gasan', 'Santa Cruz', 'Torrijos', 'Buenavista',
+    'Marinduque community', 'Marinduque classifieds', 'Marinduque businesses',
+    'Philippines island community', 'OFW Marinduque', 'palengke prices',
+  ],
+  authors: [{ name: 'Marinduque Market Hub', url: SITE_URL }],
+  creator: 'Marinduque Market Hub',
+  publisher: 'Marinduque Market Hub',
+  category: 'Community & Marketplace',
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_PH',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Marinduque Market Hub — Community platform for Marinduque island, Philippines',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: ['/og-image.png'],
+    creator: '@marinduquemarket',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -27,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-PH" suppressHydrationWarning>
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
@@ -37,6 +94,59 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="MarketHub" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        {/* Local SEO geo tags */}
+        <meta name="geo.region" content="PH-MAR" />
+        <meta name="geo.placename" content="Marinduque, Philippines" />
+        <meta name="geo.position" content="13.3767;122.0252" />
+        <meta name="ICBM" content="13.3767, 122.0252" />
+        {/* Organization + WebSite JSON-LD for AEO (Google AI, ChatGPT, Perplexity) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Marinduque Market Hub',
+                url: 'https://marinduquemarket.com',
+                logo: 'https://marinduquemarket.com/icons/icon-192.png',
+                description: 'The digital community hub for the people of Marinduque island, Philippines. Buy & sell locally, find jobs, discover island hopping tours, and stay connected.',
+                areaServed: {
+                  '@type': 'AdministrativeArea',
+                  name: 'Marinduque',
+                  containedInPlace: { '@type': 'Country', name: 'Philippines' },
+                },
+                sameAs: [
+                  'https://facebook.com/marinduquemarket',
+                ],
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  contactType: 'customer support',
+                  url: 'https://marinduquemarket.com/contact',
+                },
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: 'Marinduque Market Hub',
+                url: 'https://marinduquemarket.com',
+                description: 'Community platform for Marinduque island — marketplace, jobs, events, island hopping, RoRo ferry schedules, and barangay tools.',
+                potentialAction: {
+                  '@type': 'SearchAction',
+                  target: {
+                    '@type': 'EntryPoint',
+                    urlTemplate: 'https://marinduquemarket.com/marketplace?query={search_term_string}',
+                  },
+                  'query-input': 'required name=search_term_string',
+                },
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'Marinduque Market Hub',
+                },
+              },
+            ]),
+          }}
+        />
       </head>
       <body className={`${plusJakartaSans.variable} font-display antialiased bg-gray-100 text-gray-900 overflow-hidden`} suppressHydrationWarning>
         <ThemeProvider>

@@ -1,8 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata = {
-    title: 'Policies | Marinduque Market Hub',
-    description: 'Terms of Service, Privacy Policy, and Community Guidelines for Marinduque Market Hub.',
+export const metadata: Metadata = {
+    title: 'Policies',
+    description: 'Terms of Service, Privacy Policy, and Community Guidelines for Marinduque Market Hub. Data privacy compliance under the Philippines Data Privacy Act of 2012 (RA 10173).',
+    keywords: ['Marinduque Market Hub terms', 'data privacy Philippines', 'community guidelines Marinduque', 'RA 10173 compliance'],
+    openGraph: {
+        title: 'Policies — Marinduque Market Hub',
+        description: 'Terms of Service, Privacy Policy, and Community Guidelines.',
+        url: 'https://marinduquemarket.com/policies',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/policies' },
 };
 
 const sections = [

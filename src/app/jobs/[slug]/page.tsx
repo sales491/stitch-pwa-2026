@@ -1,8 +1,38 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Link from 'next/link';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const supabase = await createClient();
+    const { data: job } = await supabase
+        .from('jobs')
+        .select('title, company_name, description, location, employment_type, created_at, slug')
+        .eq('slug', slug)
+        .single();
+
+    if (!job) return { title: 'Job Not Found' };
+
+    return {
+        title: `${job.title} — ${job.company_name}`,
+        description: job.description?.slice(0, 155) ?? `${job.title} at ${job.company_name} in ${job.location}, Marinduque.`,
+        openGraph: {
+            title: `${job.title} at ${job.company_name}`,
+            description: job.description?.slice(0, 155) ?? `Job opportunity in Marinduque.`,
+            url: `https://marinduquemarket.com/jobs/${job.slug}`,
+            type: 'article',
+        },
+        alternates: { canonical: `https://marinduquemarket.com/jobs/${job.slug}` },
+    };
+}
+
 
 export default async function JobDetail({
     params
@@ -28,6 +58,33 @@ export default async function JobDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
+            {/* JobPosting JSON-LD for Google Rich Results */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'JobPosting',
+                    title: job.title,
+                    description: job.description,
+                    datePosted: job.created_at,
+                    hiringOrganization: {
+                        '@type': 'Organization',
+                        name: job.company_name,
+                    },
+                    jobLocation: {
+                        '@type': 'Place',
+                        address: {
+                            '@type': 'PostalAddress',
+                            addressLocality: job.location,
+                            addressRegion: 'MIMAROPA',
+                            addressCountry: 'PH',
+                        },
+                    },
+                    employmentType: job.employment_type?.toUpperCase().replace(' ', '_') ?? 'FULL_TIME',
+                    ...(job.salary_range && { baseSalary: { '@type': 'MonetaryAmount', currency: 'PHP', value: { '@type': 'QuantitativeValue', description: job.salary_range } } }),
+                    applicantLocationRequirements: { '@type': 'Country', name: 'Philippines' },
+                }) }}
+            />
             {/* High Impact Header */}
             <div className="bg-moriones-red dark:bg-moriones-red/80 h-48 md:h-64 relative overflow-hidden rounded-b-[3rem] shadow-2xl flex items-end">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />

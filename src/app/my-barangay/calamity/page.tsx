@@ -1,11 +1,18 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { getCalamityAlerts } from '@/app/actions/calamity';
 import CalamityFeed from '@/components/CalamityFeed';
 
-export const metadata = {
-    title: 'Calamity Board — Marinduque Market Hub',
-    description: 'Community calamity alerts: typhoons, floods, earthquakes, fires, and road closures across Marinduque Island.',
+export const metadata: Metadata = {
+    title: 'Calamity Board — Emergency Alerts Marinduque',
+    description: 'Community calamity and emergency alerts for Marinduque island. Reports on typhoons, floods, earthquakes, fires, and road closures. Always follow official NDRRMC/PAGASA advisories.',
+    keywords: ['typhoon Marinduque', 'flood alert Philippines', 'calamity board Marinduque', 'emergency alerts Philippines', 'NDRRMC Marinduque'],
+    openGraph: {
+        title: 'Calamity Board — Marinduque Emergency Alerts',
+        description: 'Community calamity alerts: typhoons, floods, and emergencies in Marinduque.',
+    },
+    alternates: { canonical: 'https://marinduquemarket.com/my-barangay/calamity' },
 };
 
 export const dynamic = 'force-dynamic';
