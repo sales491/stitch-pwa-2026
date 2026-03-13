@@ -39,7 +39,7 @@ export default async function CalamityPage() {
                         <p className="text-rose-200 text-xs font-medium">Community alerts · Stay safe</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Report and track typhoons, floods, earthquakes, fires, and road closures across Marinduque. Community-sourced — mark resolved when the situation clears.
                 </p>
                 {/* Disclaimer banner */}

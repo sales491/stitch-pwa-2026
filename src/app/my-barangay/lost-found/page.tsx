@@ -37,7 +37,7 @@ export default async function LostFoundPage() {
                         <p className="text-rose-200 text-xs font-medium">Report lost items, animals &amp; documents</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Help reunite Marinduque communities with missing belongings. Post a report or browse to see if someone found what you&apos;re looking for.
                 </p>
             </div>

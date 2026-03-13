@@ -81,7 +81,7 @@ export default function MyBarangayPage() {
                         <p className="text-indigo-200 text-xs font-medium">Community tools for Marinduque locals</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-3 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-3 leading-relaxed max-w-sm">
                     Set your barangay in your profile to unlock hyperlocal features visible only to your community.
                 </p>
             </div>

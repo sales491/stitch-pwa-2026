@@ -88,7 +88,7 @@ export default async function BarangayBoardPage() {
                         </p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     A local board just for your community. Posts are visible only to residents of {barangay}.
                 </p>
             </div>
