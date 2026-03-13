@@ -27,7 +27,7 @@ export default async function PalengkePage() {
                 </Link>
                 <div>
                     <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🐟 Palengke Vendors</p>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Island Life</p>
+                    <p className="text-[10px] text-white font-black uppercase tracking-[0.15em] pl-1">Island Life</p>
                 </div>
             </header>
             {/* Gradient hero */}
@@ -41,7 +41,7 @@ export default async function PalengkePage() {
                         <p className="text-yellow-100 text-xs font-medium">Vendor posted · updated live</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Vendors post their items, prices, and stall locations every day. Find what&apos;s available before you head to the market.
                 </p>
             </div>
