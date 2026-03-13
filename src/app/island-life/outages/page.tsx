@@ -39,7 +39,7 @@ export default async function OutagesPage() {
                         <p className="text-yellow-100 text-xs font-medium">Community-reported power &amp; water outages</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Report and track power &amp; water outages across Marinduque. Reports are community-sourced — mark resolved when service returns.
                 </p>
             </div>
