@@ -5,6 +5,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { listingSchema, ListingInput } from '@/lib/validations/listing';
 import { revalidatePath } from 'next/cache';
 import { isAdmin } from '@/utils/roles';
+import { checkContent, checkRateLimit } from '@/lib/moderation/contentFilter';
 
 async function isUserAdmin(user: any): Promise<boolean> {
     if (isAdmin(user.email)) return true;
@@ -27,14 +28,27 @@ export async function createListing(data: ListingInput) {
     // Validation
     const validated = listingSchema.parse(data);
 
+    // --- Content Filter (bilingual profanity / spam / prohibited items) ---
+    const textToScan = `${validated.title} ${validated.description}`;
+    const contentResult = checkContent(textToScan);
+    if (contentResult.blocked) {
+        throw new Error(contentResult.reason);
+    }
+
+    // --- Rate Limit: 5 active listings per user per 24 hours ---
+    const rateLimitResult = await checkRateLimit(user.id, supabase);
+    if (rateLimitResult.limited) {
+        throw new Error(
+            `You've reached the daily listing limit (${rateLimitResult.maxAllowed} listings per 24 hours). Please try again later.`
+        );
+    }
+
     const { error } = await supabase
         .from('listings')
         .insert({
             ...validated,
             user_id: user.id,
             seller_id: user.id,
-            // Auto-approve: validation (Zod + client-side) acts as the filter.
-            // Admin can delete flagged content after the fact via the admin panel.
             status: 'active',
         });
 
