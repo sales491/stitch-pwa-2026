@@ -38,7 +38,7 @@ export default async function SkillsPage() {
                         <p className="text-purple-200 text-xs font-medium">Locals offering skills · 60-day listings</p>
                     </div>
                 </div>
-                <p className="text-white/60 text-[11px] mt-2 leading-relaxed max-w-sm">
+                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
                     Find someone who can teach, fix, cook, or create. Post your own skills and let the community find you.
                 </p>
             </div>
