@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
+import BarangayPicker from '@/components/BarangayPicker';
 
 const TOWNS = ['Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
 
@@ -217,7 +218,7 @@ export default function UserProfileDashboard2() {
                 <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="town">Home Town</label>
                 <select
                   value={town}
-                  onChange={(e) => setTown(e.target.value)}
+                  onChange={(e) => { setTown(e.target.value); setBarangay(''); }}
                   className="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white focus:ring-0 sm:text-sm font-medium appearance-none"
                   id="town"
                 >
@@ -231,13 +232,13 @@ export default function UserProfileDashboard2() {
                 <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="barangay">
                   Barangay <span className="font-normal text-neutral-400">(optional)</span>
                 </label>
-                <input
-                  className="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white placeholder-neutral-300 focus:ring-0 sm:text-sm font-medium"
+                <BarangayPicker
                   id="barangay"
-                  placeholder="e.g. Barangay Sico, Laylay, Agot…"
-                  type="text"
                   value={barangay}
-                  onChange={(e) => setBarangay(e.target.value)}
+                  onChange={setBarangay}
+                  municipality={town}
+                  accentColor="teal"
+                  inputClassName="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white placeholder-neutral-300 focus:ring-0 sm:text-sm font-medium"
                 />
               </div>
             </div>

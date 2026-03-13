@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCalamityAlert, CalamityType, CalamitySeverity } from '@/app/actions/calamity';
 import SuccessToast from '@/components/SuccessToast';
+import BarangayPicker from '@/components/BarangayPicker';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -121,7 +122,7 @@ export default function CreateCalamityForm() {
                 <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Municipality</label>
                 <select
                     value={municipality}
-                    onChange={e => setMunicipality(e.target.value)}
+                    onChange={e => { setMunicipality(e.target.value); setBarangay(''); }}
                     className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-400 appearance-none"
                 >
                     {MUNICIPALITIES.map(m => <option key={m} value={m}>{m}</option>)}
@@ -129,16 +130,14 @@ export default function CreateCalamityForm() {
             </div>
 
             {/* Barangay */}
-            <div>
-                <label className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">Barangay <span className="text-slate-300 dark:text-zinc-600 font-normal">(optional)</span></label>
-                <input
-                    type="text"
-                    value={barangay}
-                    onChange={e => setBarangay(e.target.value)}
-                    placeholder="e.g. Barangay Sico, Agot, Laylay…"
-                    className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[13px] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-400"
-                />
-            </div>
+            <BarangayPicker
+                value={barangay}
+                onChange={setBarangay}
+                municipality={municipality}
+                accentColor="red"
+                label="Barangay"
+                optional
+            />
 
             {/* Description */}
             <div>
