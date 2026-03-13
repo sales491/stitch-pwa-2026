@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { CalamityAlert, resolveCalamityAlert, deleteCalamityAlert } from '@/app/actions/calamity';
 
 const TYPE_META: Record<string, { icon: string; label: string }> = {
@@ -51,11 +52,21 @@ export default function CalamityCard({ alert, canManage }: Props) {
     const isResolved = alert.status === 'resolved';
     const borderClass = isResolved ? 'border-slate-200 dark:border-zinc-800' : SEVERITY_BORDER[alert.severity] ?? 'border-slate-200';
     const iconBgClass = isResolved ? 'bg-slate-100 dark:bg-zinc-800' : SEVERITY_ICON_BG[alert.severity] ?? 'bg-slate-100';
+    const [actionError, setActionError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleResolve = async () => { await resolveCalamityAlert(alert.id); };
+    const handleResolve = async () => {
+        setLoading(true); setActionError(null);
+        const res = await resolveCalamityAlert(alert.id);
+        if (!res.success) setActionError(res.error ?? 'Could not resolve.');
+        setLoading(false);
+    };
     const handleDelete = async () => {
         if (!confirm('Delete this alert?')) return;
-        await deleteCalamityAlert(alert.id);
+        setLoading(true); setActionError(null);
+        const res = await deleteCalamityAlert(alert.id);
+        if (!res.success) setActionError(res.error ?? 'Could not delete.');
+        setLoading(false);
     };
 
     return (
@@ -101,19 +112,26 @@ export default function CalamityCard({ alert, canManage }: Props) {
                             {timeAgo(alert.created_at)}
                         </span>
                         {canManage && !isResolved && (
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={handleResolve}
-                                    className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline"
-                                >
-                                    Mark Resolved
-                                </button>
-                                <button
-                                    onClick={handleDelete}
-                                    className="text-[10px] font-black text-rose-400 hover:underline"
-                                >
-                                    Delete
-                                </button>
+                            <div className="flex flex-col items-end gap-1">
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={handleResolve}
+                                        disabled={loading}
+                                        className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-50"
+                                    >
+                                        Mark Resolved
+                                    </button>
+                                    <button
+                                        onClick={handleDelete}
+                                        disabled={loading}
+                                        className="text-[10px] font-black text-rose-400 hover:underline disabled:opacity-50"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                                {actionError && (
+                                    <p className="text-[10px] text-rose-500 dark:text-rose-400 font-semibold">{actionError}</p>
+                                )}
                             </div>
                         )}
                     </div>

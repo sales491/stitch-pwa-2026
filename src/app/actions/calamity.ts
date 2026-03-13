@@ -90,6 +90,27 @@ export async function resolveCalamityAlert(id: string) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { success: false, error: 'Not authenticated.' };
 
+    // Fetch the alert to check ownership
+    const { data: alert } = await supabase
+        .from('calamity_alerts')
+        .select('reported_by')
+        .eq('id', id)
+        .single();
+
+    // Fetch caller's role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    const isOwner = alert?.reported_by === user.id;
+    const isPrivileged = profile?.role === 'admin' || profile?.role === 'moderator';
+
+    if (!isOwner && !isPrivileged) {
+        return { success: false, error: 'You can only resolve alerts you reported.' };
+    }
+
     const { error } = await supabase
         .from('calamity_alerts')
         .update({ status: 'resolved', resolved_at: new Date().toISOString() })
@@ -104,6 +125,27 @@ export async function deleteCalamityAlert(id: string) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { success: false, error: 'Not authenticated.' };
+
+    // Fetch the alert to check ownership
+    const { data: alert } = await supabase
+        .from('calamity_alerts')
+        .select('reported_by')
+        .eq('id', id)
+        .single();
+
+    // Fetch caller's role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    const isOwner = alert?.reported_by === user.id;
+    const isPrivileged = profile?.role === 'admin' || profile?.role === 'moderator';
+
+    if (!isOwner && !isPrivileged) {
+        return { success: false, error: 'You can only delete alerts you reported.' };
+    }
 
     const { error } = await supabase.from('calamity_alerts').delete().eq('id', id);
     if (error) return { success: false, error: error.message };
