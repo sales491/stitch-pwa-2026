@@ -10,7 +10,7 @@ export const listingSchema = z.object({
     images: z.array(z.string().url()).optional(),
     img: z.string().url().optional(),
     slug: z.string().optional(),
-    price_value: z.number().optional(),
+    price_value: z.number().min(0.01, "Price must be greater than ₱0").optional(),
     status: z.enum(['active', 'pending', 'sold', 'draft']).optional(),
     contact_details: z.record(z.string(), z.string()).optional(),
     delivery: z.boolean().optional(),

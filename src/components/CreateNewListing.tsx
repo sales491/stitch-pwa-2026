@@ -71,7 +71,9 @@ export default function CreateNewListing() {
   }, [editId, supabase]);
 
   const hasContact = fbUsername.trim() || phone.trim() || email.trim();
-  const isFormValid = title.trim() && price.trim() && category && town && description.trim() && hasContact;
+  const parsedPrice = parseFloat(price);
+  const isPriceValid = price.trim() !== '' && !isNaN(parsedPrice) && parsedPrice > 0;
+  const isFormValid = title.trim() && isPriceValid && category && town && description.trim() && hasContact;
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -293,12 +295,23 @@ export default function CreateNewListing() {
                 required
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 focus:border-primary focus:ring-1 focus:ring-primary py-3 pl-8 pr-4 text-slate-900 dark:text-slate-100 placeholder-stone-400"
+                className={`w-full rounded-lg bg-white dark:bg-stone-900 border focus:ring-1 focus:ring-primary py-3 pl-8 pr-4 text-slate-900 dark:text-slate-100 placeholder-stone-400 ${
+                  price && !isPriceValid
+                    ? 'border-red-400 focus:border-red-400'
+                    : 'border-stone-200 dark:border-stone-800 focus:border-primary'
+                }`}
                 placeholder="0.00"
                 type="number"
                 step="0.01"
+                min="0.01"
               />
             </div>
+            {price && !isPriceValid && (
+              <p className="text-xs text-red-500 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[13px]">error</span>
+                Price must be greater than ₱0
+              </p>
+            )}
           </div>
 
           {/* Category */}
