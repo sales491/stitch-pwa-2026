@@ -46,7 +46,7 @@ export const HUB_ITEMS: HubItem[] = [
         categoryLabel: 'JOBS',
         title: 'Test Store Manager',
         subtitle: 'Test Boac Trading Post',
-        image: '/images/hub/store_manager.png',
+        image: '/images/hub/store_manager.webp',
         link: '/job/test-store-manager-boac',
         extraInfo: '₱15k - ₱20k'
     },
@@ -56,7 +56,7 @@ export const HUB_ITEMS: HubItem[] = [
         categoryLabel: 'JOBS',
         title: 'Test Tricycle Driver',
         subtitle: 'Test Local Hirer • Gasan',
-        image: '/images/hub/tricycle_driver.png',
+        image: '/images/hub/tricycle_driver.webp',
         link: '/job/test-tricycle-driver-gasan',
         extraInfo: '₱500/day'
     },
@@ -76,7 +76,7 @@ export const HUB_ITEMS: HubItem[] = [
         categoryLabel: 'TRANSPORT',
         title: 'Test Boac Delivery Rider',
         subtitle: 'Kuya Tonyo',
-        image: '/images/hub/delivery_rider.png',
+        image: '/images/hub/delivery_rider.webp',
         link: '/commuter-delivery-hub',
         extraInfo: 'From ₱50'
     },
@@ -136,7 +136,7 @@ export const HUB_ITEMS: HubItem[] = [
         categoryLabel: 'RORO PORT',
         title: 'Test Port Status: Cawit',
         subtitle: 'Live Terminal Updates',
-        image: '/images/hub/cawit_port.png',
+        image: '/images/hub/cawit_port.webp',
         link: '/roro-port-information-hub',
         extraInfo: 'Normal'
     }

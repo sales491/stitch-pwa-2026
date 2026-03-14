@@ -47,7 +47,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     jobs?.forEach(j => items.push({
         id: j.id, type: 'jobs', categoryLabel: 'JOBS',
         title: j.title, subtitle: `${j.company_name} • ${j.location}`,
-        image: j.images?.[0] || j.logo_url || '/images/hub/store_manager.png',
+        image: j.images?.[0] || j.logo_url || '/images/hub/store_manager.webp',
         link: `/job/${j.slug || j.id}`,
         extraInfo: j.salary_range,
     }));
@@ -71,7 +71,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     transport?.forEach(t => items.push({
         id: t.id, type: 'transport', categoryLabel: 'TRANSPORT',
         title: `${t.vehicle_type}: ${t.base_town || 'Marinduque'}`, subtitle: t.driver_name,
-        image: t.images?.[0] || '/images/hub/delivery_rider.png',
+        image: t.images?.[0] || '/images/hub/delivery_rider.webp',
         link: '/commuter-delivery-hub',
         extraInfo: (t.price_per_seat || t.base_fare) ? `From ₱${t.price_per_seat || t.base_fare}` : undefined,
     }));
@@ -87,7 +87,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     roro?.forEach(r => items.push({
         id: r.id, type: 'roro', categoryLabel: 'RORO PORT',
         title: `Port Status: ${r.port_name}`, subtitle: r.message,
-        image: '/images/hub/cawit_port.png',
+        image: '/images/hub/cawit_port.webp',
         link: '/roro-port-information-hub',
         extraInfo: r.status,
     }));
