@@ -10,6 +10,22 @@ function getPublicClient() {
     );
 }
 
+const SUPABASE_HOST = 'rhrkxuoybkdfdrknckjd.supabase.co';
+
+/**
+ * For images stored in Supabase Storage, append transform params so they are
+ * served at 400px wide (enough for a 2-col mobile card on 2x display), instead
+ * of their original size which can be 500KB–2MB.
+ * Non-Supabase URLs (Unsplash, Google, etc.) are returned unchanged.
+ */
+function thumbUrl(url: string | null | undefined, width = 400): string | undefined {
+    if (!url) return undefined;
+    if (url.includes(SUPABASE_HOST) && url.includes('/storage/v1/object/public/')) {
+        return `${url}?width=${width}&resize=cover`;
+    }
+    return url;
+}
+
 export async function getLiveHubItems(): Promise<HubItem[]> {
     const supabase = getPublicClient();
 
@@ -39,7 +55,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     listings?.forEach(l => items.push({
         id: l.id, type: 'classifieds', categoryLabel: 'CLASSIFIEDS',
         title: l.title, subtitle: l.town,
-        image: l.images?.[0] || l.img || 'https://images.unsplash.com/photo-1523474253046-2cd2c78b681e?w=800&q=80',
+        image: thumbUrl(l.images?.[0]) || thumbUrl(l.img) || 'https://images.unsplash.com/photo-1523474253046-2cd2c78b681e?w=400&q=75',
         link: `/listing/${l.slug || l.id}`,
         extraInfo: l.price ? `₱${l.price}` : undefined,
     }));
@@ -47,7 +63,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     jobs?.forEach(j => items.push({
         id: j.id, type: 'jobs', categoryLabel: 'JOBS',
         title: j.title, subtitle: `${j.company_name} • ${j.location}`,
-        image: j.images?.[0] || j.logo_url || '/images/hub/store_manager.webp',
+        image: thumbUrl(j.images?.[0]) || thumbUrl(j.logo_url) || '/images/hub/store_manager.webp',
         link: `/job/${j.slug || j.id}`,
         extraInfo: j.salary_range,
     }));
@@ -55,7 +71,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     gems?.forEach(g => items.push({
         id: g.id, type: 'gems', categoryLabel: 'LOCAL GEMS',
         title: g.title, subtitle: g.town,
-        image: g.images?.[0] || '',
+        image: thumbUrl(g.images?.[0]) || '',
         link: `/gem/${g.id}`,
         extraInfo: 'Trending',
     }));
@@ -63,7 +79,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     businesses?.forEach(b => items.push({
         id: b.id, type: 'businesses', categoryLabel: 'BUSINESS',
         title: b.business_name, subtitle: `${b.location} • ${b.business_type}`,
-        image: b.gallery_image || '',
+        image: thumbUrl(b.gallery_image) || '',
         link: `/directory/${b.id}`,
         extraInfo: b.average_rating ? `${b.average_rating.toFixed(1)} ★` : undefined,
     }));
@@ -79,7 +95,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     events?.forEach(e => items.push({
         id: e.id, type: 'event', categoryLabel: 'EVENTS',
         title: e.title, subtitle: e.location,
-        image: e.image_url || '',
+        image: thumbUrl(e.image_url) || '',
         link: `/events/${e.id}`,
         extraInfo: 'Featured',
     }));
@@ -95,7 +111,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     blog?.forEach(b => items.push({
         id: b.id, type: 'blog', categoryLabel: 'THE HIDDEN FOREIGNER',
         title: b.title, subtitle: b.location_tag || 'Undisclosed',
-        image: b.cover_image || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=800&q=80',
+        image: thumbUrl(b.cover_image) || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=400&q=75',
         link: `/the-hidden-foreigner-blog-feed/${b.id}`,
         extraInfo: 'New',
     }));

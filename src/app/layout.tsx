@@ -99,6 +99,8 @@ export default function RootLayout({
         {/* Preconnect to Google Fonts CDN for Material Symbols (icon font) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect to ui-avatars.com — used for user avatar fallbacks */}
+        <link rel="preconnect" href="https://ui-avatars.com" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f2d00d" />
