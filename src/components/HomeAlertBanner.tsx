@@ -1,6 +1,9 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getCalamityAlerts } from '@/app/actions/calamity';
-import { getOutageReports } from '@/app/actions/outages';
+import type { CalamityAlert } from '@/app/actions/calamity';
+import type { OutageReport } from '@/app/actions/outages';
 
 // Severity color mapping for calamity
 const SEVERITY_COLOR: Record<string, string> = {
@@ -19,12 +22,24 @@ const CALAMITY_ICON: Record<string, string> = {
     other:      '⚠️',
 };
 
-export default async function HomeAlertBanner() {
-    // Fetch in parallel — always fast, short timeout if needed
-    const [calamityAlerts, outageReports] = await Promise.all([
-        getCalamityAlerts({ status: 'active', page: 0 }).then(a => a.slice(0, 3)).catch(() => []),
-        getOutageReports({ status: 'active', page: 0 }).then(r => r.slice(0, 3)).catch(() => []),
-    ]);
+export default function HomeAlertBanner() {
+    const [calamityAlerts, setCalamityAlerts] = useState<CalamityAlert[]>([]);
+    const [outageReports, setOutageReports] = useState<OutageReport[]>([]);
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        fetch('/api/alerts')
+            .then(r => r.ok ? r.json() : { calamityAlerts: [], outageReports: [] })
+            .then(({ calamityAlerts, outageReports }) => {
+                setCalamityAlerts(calamityAlerts ?? []);
+                setOutageReports(outageReports ?? []);
+            })
+            .catch(() => {/* silent — no alerts is fine */})
+            .finally(() => setLoaded(true));
+    }, []);
+
+    // Don't render anything until loaded (avoids layout shift)
+    if (!loaded) return null;
 
     const totalCount = calamityAlerts.length + outageReports.length;
     if (totalCount === 0) return null;

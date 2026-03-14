@@ -1,10 +1,11 @@
-import { Suspense } from 'react';
 import MarinduqueConnectHomeFeed from '@/components/MarinduqueConnectHomeFeed';
 import HomeAlertBanner from '@/components/HomeAlertBanner';
 import { getLiveHubItems } from '@/lib/hub-data';
 
-// ISR: serve cached HTML from Vercel edge, rebuild in background every 60s
-// Replaces force-dynamic which was causing ~2.3s TTFB on every request
+// Run at Vercel's global edge — zero cold starts, instant TTFB from CDN cache
+export const runtime = 'edge';
+
+// ISR: rebuild cached HTML in the background every 60s
 export const revalidate = 60;
 
 export default async function Home() {
@@ -12,11 +13,7 @@ export default async function Home() {
   return (
     <MarinduqueConnectHomeFeed
       initialItems={liveItems}
-      alertBanner={
-        <Suspense fallback={null}>
-          <HomeAlertBanner />
-        </Suspense>
-      }
+      alertBanner={<HomeAlertBanner />}
     />
   );
 }

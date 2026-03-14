@@ -2,6 +2,15 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl;
+
+    // ── Homepage Fast-Path ───────────────────────────────────────────────
+    // The homepage is public and runs on edge runtime with ISR.
+    // Skip the Supabase auth call entirely — saves 300-500ms on every request.
+    if (pathname === '/') {
+        return NextResponse.next();
+    }
+
     let response = NextResponse.next({
         request: {
             headers: request.headers,
