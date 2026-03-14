@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import LeftSidebar from '@/components/LeftSidebar';
 import RightSidebar from '@/components/RightSidebar';
@@ -7,13 +7,23 @@ import BottomNav from '@/components/BottomNav';
 import MobileTopHeader from '@/components/MobileTopHeader';
 import ThemeProvider from "@/components/ThemeProvider";
 import { NotificationProvider } from "@/components/NotificationProvider";
-import { AuthProvider } from "@/components/AuthProvider"; // Touch to trigger recompile
+import { AuthProvider } from "@/components/AuthProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Self-hosted via next/font — eliminates the render-blocking Playfair external link
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["700", "900"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 const SITE_URL = 'https://marinduquemarket.com';
@@ -86,8 +96,10 @@ export default function RootLayout({
   return (
     <html lang="en-PH" suppressHydrationWarning>
       <head>
+        {/* Preconnect to Google Fonts CDN for Material Symbols (icon font) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f2d00d" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -148,7 +160,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${plusJakartaSans.variable} font-display antialiased bg-gray-100 text-gray-900 overflow-hidden`} suppressHydrationWarning>
+      <body className={`${plusJakartaSans.variable} ${playfairDisplay.variable} font-display antialiased bg-gray-100 text-gray-900 overflow-hidden`} suppressHydrationWarning>
         <ThemeProvider>
           <ServiceWorkerRegistration />
           <AuthProvider>

@@ -116,7 +116,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
 
                 {/* ── 3. Quick-Action Cards (static, horizontal scroll) ───── */}
                 <div className="flex gap-3 overflow-x-auto px-4 mb-5 no-scrollbar pb-1">
-                    {QUICK_CARDS.map(card => (
+                    {QUICK_CARDS.map((card, i) => (
                         <Link
                             key={card.href}
                             href={card.href}
@@ -126,6 +126,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                                 src={card.image}
                                 alt={card.label}
                                 className="absolute inset-0 w-full h-full object-cover"
+                                // First card is the LCP element — prioritise it
+                                fetchPriority={i === 0 ? 'high' : 'low'}
+                                loading={i === 0 ? 'eager' : 'lazy'}
+                                decoding={i === 0 ? 'sync' : 'async'}
                             />
                             {/* Gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
