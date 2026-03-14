@@ -13,15 +13,20 @@ function getPublicClient() {
 const SUPABASE_HOST = 'rhrkxuoybkdfdrknckjd.supabase.co';
 
 /**
- * For images stored in Supabase Storage, append transform params so they are
- * served at 400px wide (enough for a 2-col mobile card on 2x display), instead
- * of their original size which can be 500KB–2MB.
+ * For images stored in Supabase Storage, rewrite the URL to use
+ * Supabase's image transform API (/render/image/public/...) which actually
+ * resizes and re-encodes the image server-side.
+ *
+ * Original: https://[project].supabase.co/storage/v1/object/public/[bucket]/[path]
+ * Transform: https://[project].supabase.co/storage/v1/render/image/public/[bucket]/[path]?width=400&quality=75
+ *
  * Non-Supabase URLs (Unsplash, Google, etc.) are returned unchanged.
  */
 function thumbUrl(url: string | null | undefined, width = 400): string | undefined {
     if (!url) return undefined;
     if (url.includes(SUPABASE_HOST) && url.includes('/storage/v1/object/public/')) {
-        return `${url}?width=${width}&resize=cover`;
+        const transformed = url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
+        return `${transformed}?width=${width}&quality=75&resize=cover`;
     }
     return url;
 }
