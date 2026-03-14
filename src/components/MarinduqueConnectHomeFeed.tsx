@@ -26,19 +26,19 @@ const QUICK_CARDS = [
         label: 'Island Hopping',
         sub: 'Book a boat trip',
         href: '/island-hopping',
-        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+        image: '/images/quick-card-island-hopping.webp',
     },
     {
         label: 'Marketplace',
         sub: 'Buy & sell local',
         href: '/marketplace',
-        image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80',
+        image: '/images/quick-card-marketplace.webp',
     },
     {
         label: 'Jobs',
         sub: 'Find work here',
         href: '/jobs',
-        image: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=600&q=80',
+        image: '/images/quick-card-jobs.webp',
     },
 ];
 
