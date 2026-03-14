@@ -1,8 +1,17 @@
-import { createClient } from '@/utils/supabase/server';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { HubItem } from '@/data/hub-items';
 
+// Use a plain anon client — no cookies() call, so Next.js can ISR-render this route
+// All queries here are public data (no RLS auth required)
+function getPublicClient() {
+    return createSupabaseClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+}
+
 export async function getLiveHubItems(): Promise<HubItem[]> {
-    const supabase = await createClient();
+    const supabase = getPublicClient();
 
     // Fire all 8 queries in parallel — reduces TTFB from ~2.3s to ~300-500ms
     const [
