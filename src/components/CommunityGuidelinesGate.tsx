@@ -53,15 +53,15 @@ export default function CommunityGuidelinesGate({
 
             {/* Bottom Sheet */}
             <div className="fixed bottom-0 left-0 right-0 z-[999] flex justify-center">
-                <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-t-[2.5rem] shadow-2xl animate-in slide-in-from-bottom-8 duration-300 overflow-hidden">
+                <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-t-[2.5rem] shadow-2xl animate-in slide-in-from-bottom-8 duration-300 flex flex-col max-h-[90vh]">
 
                     {/* Handle bar */}
-                    <div className="flex justify-center pt-3 pb-1">
+                    <div className="flex justify-center pt-3 pb-1 shrink-0">
                         <div className="w-10 h-1 rounded-full bg-slate-200 dark:bg-zinc-700" />
                     </div>
 
                     {/* Header */}
-                    <div className="px-6 pt-4 pb-5 text-center border-b border-slate-100 dark:border-zinc-800">
+                    <div className="px-6 pt-4 pb-5 text-center border-b border-slate-100 dark:border-zinc-800 shrink-0">
                         <div className="size-14 rounded-2xl bg-moriones-red/10 flex items-center justify-center mx-auto mb-3">
                             <span className="material-symbols-outlined text-[32px] text-moriones-red">forum</span>
                         </div>
@@ -73,8 +73,8 @@ export default function CommunityGuidelinesGate({
                         </p>
                     </div>
 
-                    {/* Rules */}
-                    <div className="px-5 py-4 space-y-3 max-h-[40vh] overflow-y-auto no-scrollbar">
+                    {/* Rules — scrollable middle section */}
+                    <div className="px-5 py-4 space-y-3 overflow-y-auto no-scrollbar">
                         {GUIDELINES.map((rule, i) => (
                             <div
                                 key={i}
@@ -91,8 +91,8 @@ export default function CommunityGuidelinesGate({
                         ))}
                     </div>
 
-                    {/* Agree checkbox + CTA */}
-                    <div className="px-5 pb-6 pt-3 space-y-3 border-t border-slate-100 dark:border-zinc-800">
+                    {/* Agree checkbox + CTA — sticky footer */}
+                    <div className="px-5 pb-6 pt-3 space-y-3 border-t border-slate-100 dark:border-zinc-800 shrink-0" style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 1.5rem))' }}>
                         {/* Checkbox */}
                         <button
                             onClick={() => setChecked(c => !c)}

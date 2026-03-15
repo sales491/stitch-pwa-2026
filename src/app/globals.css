@@ -78,6 +78,19 @@
   opacity: 1;               /* Firefox resets opacity on placeholders */
 }
 
+/* ─── iOS Safari: prevent auto-zoom on input focus ───────────────────────────
+   iOS Safari zooms in whenever a focused input/textarea/select has
+   font-size < 16px. Setting a 16px floor on touch-primary devices stops
+   the zoom trigger. Visual text size is still controlled by Tailwind classes.
+────────────────────────────────────────────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em) !important;
+  }
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
