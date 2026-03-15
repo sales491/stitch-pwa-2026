@@ -156,7 +156,18 @@ function BusinessOnboardingForm() {
                     throw new Error(updateError.message);
                 }
             } else {
-                // Insert
+                // Insert — check business count cap first (max 5 per user)
+                const { count, error: countError } = await supabase
+                    .from('business_profiles')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('owner_id', user.id);
+
+                if (countError) throw new Error(countError.message);
+
+                if ((count ?? 0) >= 5) {
+                    throw new Error('You have reached the maximum of 5 business listings per account.');
+                }
+
                 payload.owner_id = user.id;
                 payload.is_verified = false;
 
@@ -165,9 +176,9 @@ function BusinessOnboardingForm() {
                     .insert(payload);
 
                 if (insertError) {
-                    // Determine if it violated the unique owner_id constraint
+                    // 23505 = unique violation — the only unique constraint is on business_name
                     if (insertError.code === '23505') {
-                        throw new Error('You already have a registered business profile!');
+                        throw new Error('A business with that name is already registered. Please use a different business name.');
                     }
                     throw new Error(insertError.message);
                 }
