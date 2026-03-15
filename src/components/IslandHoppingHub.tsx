@@ -228,7 +228,6 @@ export default function IslandHoppingHub() {
                     uv?.forEach(v => userVouches.add(v.service_id));
                 }
                 const mapped: BoatOperator[] = services
-                    .filter((d: any) => d.is_approved === true || d.provider_id === user?.id)
                     .map((d: any) => ({
                         id: d.id, operator_name: d.operator_name, boat_type: d.boat_type, service_type: d.service_type,
                         destinations: d.destinations || [], base_municipality: d.base_municipality,

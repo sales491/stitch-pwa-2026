@@ -276,8 +276,10 @@ export function getListingBySlug(slug: string): Listing | undefined {
 }
 
 export function generateSlug(title: string, town: string): string {
-    return `${title}-${town}`
+    const base = `${title}-${town}`
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
+    const suffix = Math.random().toString(36).substring(2, 7);
+    return `${base}-${suffix}`;
 }

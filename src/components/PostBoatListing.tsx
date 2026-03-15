@@ -227,7 +227,7 @@ export default function PostBoatListing() {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
-            <SuccessToast visible={showSuccess} message={editId ? 'Listing updated!' : 'Boat service submitted for review!'} />
+            <SuccessToast visible={showSuccess} message={editId ? 'Listing updated! Taking you back…' : "You're listed! Taking you to the operator page…"} />
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
                 <Link href="/island-hopping" className="text-slate-800 dark:text-slate-200">

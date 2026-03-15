@@ -175,7 +175,15 @@ export default function CreateNewListing() {
           router.refresh();
         }, 2000);
       } catch (err: any) {
-        setFilterError(err.message || 'Something went wrong. Please try again.');
+        const raw: string = err?.message ?? '';
+        // Next.js production builds hide real server action errors behind a generic string.
+        // Detect it and show a user-friendly fallback instead.
+        const isNextServerError = raw.includes('Server Components render') || raw.includes('digest');
+        setFilterError(
+          isNextServerError
+            ? 'Something went wrong on our end. Please check your connection and try again.'
+            : raw || 'Something went wrong. Please try again.'
+        );
       }
     });
   };

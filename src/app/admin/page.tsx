@@ -4,6 +4,7 @@ import OperatorManagementPanel from '@/components/OperatorManagementPanel';
 import DbHealthWidget from '@/components/DbHealthWidget';
 import ContactInbox from '@/components/ContactInbox';
 
+
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
@@ -17,6 +18,7 @@ export default async function AdminDashboard() {
         { data: contactMessages },
         { data: boatServices },
         { data: transportServices },
+        { data: pendingBusinesses },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('business_profiles').select('id, business_name, is_verified, created_at').order('created_at', { ascending: false }).limit(6),
@@ -25,12 +27,104 @@ export default async function AdminDashboard() {
         supabase.from('contact_messages').select('id, name, email, subject, message, is_read, created_at').order('created_at', { ascending: false }).limit(20),
         supabase.from('boat_services').select('id, operator_name, boat_type, service_type, base_municipality, contact_number, created_at').order('created_at', { ascending: false }),
         supabase.from('transport_services').select('id, driver_name, vehicle_type, service_type, municipality, contact_number, created_at').order('created_at', { ascending: false }),
+        supabase.from('business_profiles').select('id, business_name, business_type, location, gallery_image, created_at').eq('is_verified', false).order('created_at', { ascending: false }),
     ]);
 
     const unreadMessages = (contactMessages ?? []).filter(m => !m.is_read).length;
+    const totalPendingApprovals = (pendingBusinesses ?? []).length;
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 space-y-8 sm:space-y-12 pb-24 font-display">
+
+            {/* ── PENDING APPROVALS — Always at Top ── */}
+            <section className={`rounded-[2rem] sm:rounded-[3rem] border p-6 sm:p-8 shadow-sm relative overflow-hidden ${
+                totalPendingApprovals > 0
+                    ? 'bg-amber-50 border-amber-200'
+                    : 'bg-emerald-50 border-emerald-200'
+            }`}>
+                <div className="absolute top-0 right-0 w-48 h-48 blur-3xl rounded-full pointer-events-none" style={{ background: totalPendingApprovals > 0 ? '#fde68a40' : '#6ee7b740' }} />
+                <div className="flex items-center justify-between mb-6 relative z-10">
+                    <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
+                            totalPendingApprovals > 0 ? 'bg-amber-500' : 'bg-emerald-500'
+                        }`}>
+                            <span className="material-symbols-outlined text-white text-[20px]">
+                                {totalPendingApprovals > 0 ? 'pending_actions' : 'task_alt'}
+                            </span>
+                        </div>
+                        <div>
+                            <h2 className={`font-black text-sm uppercase tracking-[0.2em] ${
+                                totalPendingApprovals > 0 ? 'text-amber-700' : 'text-emerald-700'
+                            }`}>Pending Approvals</h2>
+                            <p className="text-[10px] font-bold text-slate-500 mt-0.5">
+                                {totalPendingApprovals > 0
+                                    ? `${totalPendingApprovals} item${totalPendingApprovals !== 1 ? 's' : ''} awaiting your review`
+                                    : 'All content is reviewed and approved — great work!'}
+                            </p>
+                        </div>
+                    </div>
+                    {totalPendingApprovals > 0 && (
+                        <span className="bg-amber-500 text-white text-xs font-black px-3 py-1.5 rounded-full animate-pulse">
+                            {totalPendingApprovals} pending
+                        </span>
+                    )}
+                </div>
+
+                {totalPendingApprovals === 0 ? (
+                    <div className="flex items-center gap-3 bg-white/70 rounded-2xl px-5 py-4 border border-emerald-200 relative z-10">
+                        <span className="material-symbols-outlined text-emerald-500 text-2xl" style={{ fontVariationSettings: '"FILL" 1' }}>check_circle</span>
+                        <p className="text-sm font-black text-emerald-700">No items pending approval across all categories.</p>
+                    </div>
+                ) : (
+                    <div className="space-y-6 relative z-10">
+
+                        {/* Business Profiles */}
+                        {(pendingBusinesses ?? []).length > 0 && (
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-3 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[14px]">storefront</span>
+                                    Business Directory Profiles ({pendingBusinesses!.length})
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    {pendingBusinesses!.map(biz => (
+                                        <div key={biz.id} className="bg-white border border-amber-200 rounded-2xl p-4 flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
+                                                {biz.gallery_image
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    ? <img src={biz.gallery_image} alt={biz.business_name} className="w-full h-full object-cover" />
+                                                    : <span className="material-symbols-outlined text-slate-400">store</span>}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-black text-slate-900 text-sm truncate">{biz.business_name}</p>
+                                                <p className="text-[11px] text-slate-500 truncate">{biz.business_type} · {biz.location}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                <Link
+                                                    href={`/directory/${biz.id}`}
+                                                    target="_blank"
+                                                    className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-black hover:bg-slate-200 transition-colors"
+                                                >
+                                                    View
+                                                </Link>
+                                                <Link
+                                                    href={`/admin/dashboard`}
+                                                    className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors"
+                                                >
+                                                    Approve →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="text-[10px] text-slate-400 font-bold mt-2 text-center">
+                                    Full approval controls in <Link href="/admin/dashboard" className="text-teal-600 hover:underline">Business Dashboard →</Link>
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </section>
+
             {/* Dashboard Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8 sm:pb-10">
                 <div>

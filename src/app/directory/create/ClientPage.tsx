@@ -132,7 +132,7 @@ export default function CreateBusiness() {
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
-            <SuccessToast visible={showSuccess} message="Business profile created!" />
+            <SuccessToast visible={showSuccess} message="Profile submitted for review! We'll publish it after approval." />
             {/* Premium Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
                 <div className="flex items-center gap-4 mb-4">

@@ -34,6 +34,7 @@
 }
 
 :root {
+  color-scheme: light;
   --text-main: #0F172A;
   /* slate-900 */
   --text-muted: #64748B;
@@ -45,6 +46,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --text-main: #F1F5F9;
   /* slate-100 */
   --text-muted: #94A3B8;
@@ -53,6 +55,27 @@
   /* slate-800 or zinc-800 */
   --background-main: #0F0F10;
   --surface-main: #1A1B1E;
+}
+
+/* ─── Dark mode input safety net ────────────────────────────────────────────
+   Prevents iOS Safari / WebKit UA stylesheet from injecting dark text onto
+   dark backgrounds in form controls when the PWA runs in dark mode.
+   Per-component Tailwind dark: classes still override these.
+────────────────────────────────────────────────────────────────────────────── */
+.dark input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+.dark textarea,
+.dark select {
+  color: #F1F5F9;           /* --text-main dark: slate-100 */
+  background-color: #27272a; /* zinc-800 */
+  border-color: #3f3f46;    /* zinc-700 */
+  -webkit-text-fill-color: #F1F5F9; /* iOS Safari specifically ignores `color` in some contexts */
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #71717a;           /* zinc-500 */
+  -webkit-text-fill-color: #71717a;
+  opacity: 1;               /* Firefox resets opacity on placeholders */
 }
 
 @layer utilities {

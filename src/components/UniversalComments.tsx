@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatRelativeTime } from '@/utils/dateUtils';
 import FlagButton from '@/components/FlagButton';
+import SuccessToast from '@/components/SuccessToast';
 
 type CommentProps = {
     entityId: string;
@@ -18,6 +19,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
     const [comments, setComments] = useState<any[]>([]);
     const [newComment, setNewComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const supabase = useMemo(() => createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -121,6 +123,8 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
             if (!error && insertedComment) {
                 setComments([...comments, insertedComment]); // Add to UI instantly
                 setNewComment(''); // Clear input
+                setShowSuccess(true);
+                setTimeout(() => setShowSuccess(false), 3000);
             } else if (error) {
                 console.error('Comment error:', error);
             }
@@ -149,6 +153,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
 
     return (
         <div className="mt-8 border-t border-slate-100 dark:border-zinc-800 pt-8">
+            <SuccessToast visible={showSuccess} message="Comment posted!" autoDismiss={3000} onDismiss={() => setShowSuccess(false)} />
             <div className="flex items-center gap-3 mb-6">
                 <h3 className="font-black text-xl tracking-tight text-text-main">Community Hub</h3>
                 <span className="bg-background-main border border-border-main text-text-muted px-3 py-1 rounded-full text-xs font-black">
@@ -226,7 +231,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                     <div className="flex-1 relative">
                         <input
                             type="text"
-                            className="w-full bg-background-main border-none rounded-2xl px-5 py-3.5 text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all text-text-main placeholder:text-text-muted/40"
+                            className="w-full bg-white dark:bg-zinc-800 border-none rounded-2xl px-5 py-3.5 text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500"
                             placeholder="Write a message..."
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}

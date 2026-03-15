@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { createBarangayPost } from '@/app/actions/barangay-board';
+import SuccessToast from '@/components/SuccessToast';
 
 type Props = {
     barangay: string;
@@ -32,6 +33,8 @@ export default function CreateBarangayPostForm({ barangay, municipality, onPoste
     };
 
     return (
+        <>
+        <SuccessToast visible={showSuccess} message="Post shared with your barangay!" autoDismiss={2500} onDismiss={() => setShowSuccess(false)} />
         <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl px-4 py-4 shadow-sm">
             <textarea
                 value={content}
@@ -60,5 +63,6 @@ export default function CreateBarangayPostForm({ barangay, municipality, onPoste
                 </button>
             </div>
         </form>
+        </>
     );
 }

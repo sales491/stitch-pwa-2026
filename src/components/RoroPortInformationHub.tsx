@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import { PostStatus, RoroCommunityPost, SHIPPING_LINES } from '@/data/roro';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function RoroPortInformationHub() {
   const [isPosting, setIsPosting] = useState(false);
@@ -12,6 +13,7 @@ export default function RoroPortInformationHub() {
   const [postStatus, setPostStatus] = useState<PostStatus>('Normal');
   const [posts, setPosts] = useState<RoroCommunityPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const supabase = createClient();
 
@@ -148,7 +150,14 @@ export default function RoroPortInformationHub() {
       });
 
       if (error) throw error;
-      window.location.reload();
+      setPostText('');
+      setImageFiles([]);
+      setIsPosting(false);
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        window.location.reload();
+      }, 2000);
     } catch (err: any) {
       alert('Error: ' + err.message);
     }
@@ -156,6 +165,7 @@ export default function RoroPortInformationHub() {
 
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+      <SuccessToast visible={showSuccess} message="Port update posted!" autoDismiss={2000} />
       {/* Header */}
       <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-4">

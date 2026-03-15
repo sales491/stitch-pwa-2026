@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
+import SuccessToast from '@/components/SuccessToast';
 
 const STATUS_OPTIONS = [
     { value: 'info', emoji: 'ℹ️', label: 'General info / update' },
@@ -44,6 +45,7 @@ export default function CreatePortUpdate() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -79,8 +81,11 @@ export default function CreatePortUpdate() {
             setError(err.message);
             setIsSubmitting(false);
         } else {
-            router.push('/ports');
-            router.refresh();
+            setShowSuccess(true);
+            setTimeout(() => {
+                router.push('/ports');
+                router.refresh();
+            }, 2000);
         }
     };
 
@@ -88,6 +93,7 @@ export default function CreatePortUpdate() {
 
     return (
         <div className="flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
+            <SuccessToast visible={showSuccess} message="Port update shared!" />
 
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">

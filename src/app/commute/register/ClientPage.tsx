@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
+import SuccessToast from '@/components/SuccessToast';
 
 export default function RegisterDriver() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -22,6 +23,7 @@ export default function RegisterDriver() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [existingProfile, setExistingProfile] = useState<any>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -87,13 +89,17 @@ export default function RegisterDriver() {
             setError(response.error.message);
             setIsSubmitting(false);
         } else {
-            router.push('/commute');
-            router.refresh();
+            setShowSuccess(true);
+            setTimeout(() => {
+                router.push('/commute');
+                router.refresh();
+            }, 2000);
         }
     };
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display text-slate-900 dark:text-white">
+            <SuccessToast visible={showSuccess} message={existingProfile ? 'Profile updated!' : "You're now registered!"} />
 
             {/* Visual Hub Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 py-8 border-b border-border-light dark:border-zinc-800 mb-8 rounded-b-[2rem] shadow-sm">
