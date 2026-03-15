@@ -38,7 +38,7 @@ export default function MarinduqueConnectAdminDashboard() {
   const [claimLoading, setClaimLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [unverifiedProfiles, setUnverifiedProfiles] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<'moderation' | 'users' | 'claims' | 'import' | 'blog' | 'pending'>('moderation');
+  const [activeTab, setActiveTab] = useState<'moderation' | 'users' | 'claims' | 'import' | 'pending'>('moderation');
   const supabase = useMemo(() => createClient(), []);
 
   const fetchUsers = useCallback(async () => {
@@ -273,12 +273,6 @@ export default function MarinduqueConnectAdminDashboard() {
               className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'import' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
             >
               Import
-            </button>
-            <button
-              onClick={() => setActiveTab('blog')}
-              className={`flex-1 py-2 text-[10px] font-bold rounded-lg transition-all ${activeTab === 'blog' ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary' : 'text-slate-500'}`}
-            >
-              Blog
             </button>
           </div>
         </div>
@@ -583,48 +577,6 @@ export default function MarinduqueConnectAdminDashboard() {
                 </div>
               ))
             )}
-          </div>
-        ) : activeTab === 'blog' ? (
-          <div className="mt-6 px-4 space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Blog Management</h2>
-              <Link
-                href="/admin-create-blog-post"
-                className="flex items-center gap-2 bg-moriones-red text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition-all"
-              >
-                <span className="material-symbols-outlined text-[18px]">add</span>
-                New Post
-              </Link>
-            </div>
-
-            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-moriones-red/10 rounded-2xl flex items-center justify-center text-moriones-red">
-                  <span className="material-symbols-outlined">explore</span>
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">The Hidden Foreigner</h3>
-                  <p className="text-xs text-slate-500">Manage blog entries and status</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 pt-2">
-                <Link
-                  href="/blog"
-                  className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-zinc-800/50 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors border border-slate-100 dark:border-zinc-700"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-slate-400">visibility</span>
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">View Public Feed</span>
-                  </div>
-                  <span className="material-symbols-outlined text-slate-300 text-[18px]">chevron_right</span>
-                </Link>
-
-                <div className="p-4 rounded-xl border border-dashed border-slate-200 dark:border-zinc-700 text-center">
-                  <p className="text-[11px] text-slate-400 italic">Editing existing posts is coming soon in the content manager.</p>
-                </div>
-              </div>
-            </div>
           </div>
         ) : activeTab === 'import' ? (
           <div className="mt-6 px-4">

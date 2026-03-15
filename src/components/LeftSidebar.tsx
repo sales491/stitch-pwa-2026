@@ -17,7 +17,6 @@ const mainNav = [
     { label: 'Community Board', href: '/community', icon: 'groups' },
     { label: 'RoRo & Port Info', href: '/ports', icon: 'anchor' },
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
-    { label: 'Foreigner', href: '/blog', icon: 'article' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
     { label: 'Policies', href: '/policies', icon: 'gavel' },
 ];

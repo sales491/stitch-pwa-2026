@@ -344,9 +344,7 @@ export default function CommunityBoardCommuterHub() {
           <Link href="/events" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-moriones-red">event</span> Events
           </Link>
-          <Link href="/blog" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-[14px] text-purple-500">public</span> Foreigner
-          </Link>
+
           <Link href="/gems" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
             <span className="material-symbols-outlined text-[14px] text-blue-500">diamond</span> Gems
           </Link>

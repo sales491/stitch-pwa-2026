@@ -1,6 +1,6 @@
 export type HubItem = {
     id: string;
-    type: 'classifieds' | 'jobs' | 'transport' | 'businesses' | 'gems' | 'event' | 'roro' | 'blog';
+    type: 'classifieds' | 'jobs' | 'transport' | 'businesses' | 'gems' | 'event' | 'roro';
     categoryLabel: string;
     title: string;
     subtitle: string;
@@ -10,16 +10,6 @@ export type HubItem = {
 };
 
 export const HUB_ITEMS: HubItem[] = [
-    {
-        id: 'bl1',
-        type: 'blog',
-        categoryLabel: 'THE HIDDEN FOREIGNER',
-        title: 'Observations from an Unseen Guest',
-        subtitle: 'Latest Entry',
-        image: 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=800&q=80',
-        link: '/the-hidden-foreigner-blog-feed',
-        extraInfo: 'New'
-    },
     {
         id: 'c1',
         type: 'classifieds',

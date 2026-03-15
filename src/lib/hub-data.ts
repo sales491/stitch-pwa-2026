@@ -43,7 +43,6 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         { data: transport },
         { data: events },
         { data: roro },
-        { data: blog },
     ] = await Promise.all([
         supabase.from('listings').select('*').eq('status', 'active').limit(4).order('created_at', { ascending: false }),
         supabase.from('jobs').select('*').eq('status', 'active').limit(4).order('created_at', { ascending: false }),
@@ -52,7 +51,6 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         supabase.from('transport_services').select('*').eq('is_available', true).limit(2),
         supabase.from('events').select('*').limit(1).order('event_date', { ascending: true }),
         supabase.from('port_updates').select('*').limit(1).order('created_at', { ascending: false }),
-        supabase.from('foreigner_blog').select('*').eq('status', 'published').limit(1).order('created_at', { ascending: false }),
     ]);
 
     const items: HubItem[] = [];
@@ -113,13 +111,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         extraInfo: r.status,
     }));
 
-    blog?.forEach(b => items.push({
-        id: b.id, type: 'blog', categoryLabel: 'THE HIDDEN FOREIGNER',
-        title: b.title, subtitle: b.location_tag || 'Undisclosed',
-        image: thumbUrl(b.cover_image) || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=400&q=75',
-        link: `/the-hidden-foreigner-blog-feed/${b.id}`,
-        extraInfo: 'New',
-    }));
+
 
     return items;
 }

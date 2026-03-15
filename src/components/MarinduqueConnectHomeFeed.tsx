@@ -13,7 +13,7 @@ const CATEGORY_GRID = [
     { emoji: '🏝️', label: 'Hopping',     href: '/island-hopping'                 },
     { emoji: '🚢️', label: 'RoRo',        href: '/ports'                          },
     { emoji: '💎️', label: 'Gems',        href: '/gems'                           },
-    { emoji: '🏆️', label: 'Boac',        href: '/best-of-boac-monthly-spotlight' },
+
     { emoji: '🛵️', label: `Commute &\nDelivery`, href: '/commute'               },
     { emoji: '🌿️', label: `Island\nLife`,  href: '/island-life'                  },
     { emoji: '🏘️', label: `My\nBarangay`, href: '/my-barangay'                   },
@@ -144,9 +144,9 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                     ))}
                 </div>
 
-                {/* ── 3. Category Icon Grid (4 cols × 3 rows, all static) ── */}
-                <div className="px-4 mb-6">
-                    <div className="grid grid-cols-4 gap-3">
+                {/* ── 3. Category Icon Grid (3 cols × 3 rows, all static) ── */}
+                <div className="px-8 mb-6">
+                    <div className="grid grid-cols-3 gap-6">
                         {CATEGORY_GRID.map(cat => (
                             <Link
                                 key={cat.href}
@@ -154,10 +154,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                                 className="active:scale-95 transition-transform"
                             >
                                 <div className="w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-0.5 py-2 px-1 bg-white dark:bg-zinc-800 shadow-md border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                                    <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '24px', lineHeight: 1 }}>
+                                    <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '34px', lineHeight: 1 }}>
                                         {cat.emoji}
                                     </span>
-                                    <span className="text-[8px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 w-full text-center mt-0.5 whitespace-pre-line">
+                                    <span className="text-[11px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 w-full text-center mt-0.5 whitespace-pre-line">
                                         {cat.label}
                                     </span>
                                 </div>
@@ -191,7 +191,6 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                                 transport: '/commute',
                                 businesses: '/directory',
                                 gems: '/gems',
-                                blog: '/blog',
                             };
 
                             return (

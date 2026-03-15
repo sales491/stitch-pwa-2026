@@ -12,7 +12,6 @@ const CATEGORIES = [
     { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
     { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
     { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },
-    { label: 'Foreigner', icon: '🌏', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/blog' },
     { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/jobs' },
     { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
     { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marketplace' },
