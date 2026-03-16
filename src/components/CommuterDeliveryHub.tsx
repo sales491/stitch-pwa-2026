@@ -527,10 +527,10 @@ export default function CommuterDeliveryHub() {
         <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-md pointer-events-none z-[60] flex justify-end px-4">
           <Link
             href="/post-commute-or-delivery-listing"
-            className="flex items-center gap-1 bg-moriones-red text-white font-black px-3.5 py-2.5 rounded-full shadow-2xl shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 whitespace-nowrap border-[1.5px] border-white/20 pointer-events-auto"
+            className="flex items-center gap-1 bg-moriones-red text-white font-black px-2.5 py-1.5 rounded-full shadow-xl shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 whitespace-nowrap border-[1.5px] border-white/20 pointer-events-auto"
           >
-            <span className="material-symbols-outlined font-black text-lg">add_circle</span>
-            <span className="text-[9px] tracking-widest uppercase text-white/90">List Service</span>
+            <span className="material-symbols-outlined font-black text-sm">add_circle</span>
+            <span className="text-[8px] tracking-widest uppercase text-white/90">List Service</span>
           </Link>
         </div>
       </div>
