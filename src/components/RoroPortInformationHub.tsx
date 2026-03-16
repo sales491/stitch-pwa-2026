@@ -210,10 +210,9 @@ export default function RoroPortInformationHub() {
           </div>
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-border-light dark:border-zinc-700 shadow-xl">
             <iframe
-              src="https://www.vesselfinder.com/aismap?zoom=9&lat=13.7&lon=121.8&width=100%25&height=300&names=true&mmsi=&show_track=false&select=&clicktoact=false&ra=false&hd=false"
+              src="https://www.marinetraffic.com/en/ais/embed/zoom:10/centery:13.71/centerx:121.74/maptype:4/shownames:true/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"
               title="Vessel Tracking"
               className="w-full h-full border-0"
-              loading="lazy"
             />
           </div>
         </section>

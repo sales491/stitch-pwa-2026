@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
+import { optimizeImage } from '@/utils/image-optimization'
+import SuccessToast from '@/components/SuccessToast';
 
 const CATEGORIES = [
     "Food & Dining",
@@ -41,10 +43,11 @@ function BusinessOnboardingForm() {
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [facebook, setFacebook] = useState('');
+    const [messenger, setMessenger] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [existingGalleryImage, setExistingGalleryImage] = useState<string | null>(null);
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [uploadingImages, setUploadingImages] = useState(false);
+    const [showSuccessToast, setShowSuccessToast] = useState(false);
 
     // Auto-fill email if available from Google OAuth
     useEffect(() => {
@@ -67,12 +70,16 @@ function BusinessOnboardingForm() {
                 setPhone(data.contact_info?.phone || '');
                 setEmail(data.contact_info?.email || '');
                 setFacebook(data.social_media?.facebook || '');
+                setMessenger(data.social_media?.messenger || '');
                 setOperatingHours(data.operating_hours || '');
 
-                if (data.gallery_image) {
-                    setImagePreview(data.gallery_image);
-                    setExistingGalleryImage(data.gallery_image);
+                const urls: string[] = [];
+                if (data.gallery_images && data.gallery_images.length > 0) {
+                    urls.push(...data.gallery_images);
+                } else if (data.gallery_image) {
+                    urls.push(data.gallery_image);
                 }
+                setImageUrls(urls);
             }
         }
         fetchBusiness();
@@ -85,11 +92,42 @@ function BusinessOnboardingForm() {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            setImageFile(file);
-            setImagePreview(URL.createObjectURL(file));
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        setUploadingImages(true);
+        setErrorMsg('');
+
+        try {
+            const newUrls: string[] = [];
+            const toProcess = Array.from(files).slice(0, 4 - imageUrls.length);
+
+            for (const file of toProcess) {
+                const optimizedFile = await optimizeImage(file, { maxWidth: 1440, quality: 0.9 });
+                const fileExt = 'jpg';
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+                const filePath = `business-photos/${fileName}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from('listings')
+                    .upload(filePath, optimizedFile);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from('listings')
+                    .getPublicUrl(filePath);
+
+                newUrls.push(publicUrl);
+            }
+
+            setImageUrls(prev => [...prev, ...newUrls].slice(0, 4));
+        } catch (err: any) {
+            setErrorMsg(err.message || "Failed to upload photo");
+        } finally {
+            setUploadingImages(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
         }
     };
 
@@ -110,29 +148,13 @@ function BusinessOnboardingForm() {
         setIsSubmitting(true);
 
         try {
-            let galleryImageUrl = existingGalleryImage;
-
-            // 1. Upload Image (If any)
-            if (imageFile) {
-                const fileExt = imageFile.name.split('.').pop();
-                const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-
-                const { error: uploadError } = await supabase.storage
-                    .from('business-images')
-                    .upload(fileName, imageFile);
-
-                if (uploadError) throw new Error('Image upload failed: ' + uploadError.message);
-
-                const { data } = supabase.storage
-                    .from('business-images')
-                    .getPublicUrl(fileName);
-
-                galleryImageUrl = data.publicUrl;
-            }
-
             // 2. Insert or Update database
             const contactInfo = { phone: phone.trim(), email: email.trim(), address: address.trim() };
-            const socialMedia = { facebook: facebook.trim(), messenger: facebook.trim() };
+            const socialMedia = { 
+                facebook: facebook.trim(), 
+                messenger: messenger.trim() || facebook.trim(), // Fallback to FB page if empty
+                logo: imageUrls[0] || undefined 
+            };
 
             const payload: any = {
                 business_name: businessName,
@@ -142,8 +164,11 @@ function BusinessOnboardingForm() {
                 operating_hours: operatingHours,
                 contact_info: contactInfo,
                 social_media: socialMedia,
-                gallery_image: galleryImageUrl,
+                gallery_image: imageUrls[0] || null,
+                gallery_images: imageUrls,
             };
+
+            let newBusinessId = edit_id;
 
             if (edit_id) {
                 // Update
@@ -171,9 +196,11 @@ function BusinessOnboardingForm() {
                 payload.owner_id = user.id;
                 payload.is_verified = false;
 
-                const { error: insertError } = await supabase
+                const { data: newProfile, error: insertError } = await supabase
                     .from('business_profiles')
-                    .insert(payload);
+                    .insert(payload)
+                    .select('id')
+                    .single();
 
                 if (insertError) {
                     // 23505 = unique violation — the only unique constraint is on business_name
@@ -182,14 +209,15 @@ function BusinessOnboardingForm() {
                     }
                     throw new Error(insertError.message);
                 }
+
+                newBusinessId = newProfile.id;
             }
 
-            // Redirect automatically to the Business Directory
-            if (edit_id) {
-                router.push(`/business/${edit_id}`);
-            } else {
-                router.push('/directory');
-            }
+            // Show success toast, wait, then redirect to the specific business profile
+            setShowSuccessToast(true);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            router.push(`/directory/${newBusinessId}`);
+            
         } catch (err: any) {
             setErrorMsg(err.message || 'An unexpected error occurred.');
         } finally {
@@ -228,40 +256,59 @@ function BusinessOnboardingForm() {
                         </div>
                     )}
 
-                    {/* Image Upload */}
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Cover Image</label>
-                        <div
-                            onClick={() => fileInputRef.current?.click()}
-                            className={`relative aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all duration-300
-                                ${imagePreview ? 'border-transparent' : 'border-slate-300 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-moriones-red/50'}
-                            `}
-                        >
-                            {imagePreview ? (
-                                <>
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
-                                        <span className="text-white font-bold flex items-center gap-2 drop-shadow-md">
-                                            <span className="material-symbols-outlined">edit</span> Change Image
-                                        </span>
-                                    </div>
-                                    <img src={imagePreview} className="w-full h-full object-cover" alt="Preview" />
-                                </>
-                            ) : (
-                                <div className="text-center p-6 text-slate-500 dark:text-gray-400">
-                                    <div className="w-12 h-12 mx-auto bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-                                        <span className="material-symbols-outlined text-slate-400 dark:text-gray-500">add_photo_alternate</span>
-                                    </div>
-                                    <span className="font-medium">Upload Image</span>
-                                    <p className="text-xs opacity-70 mt-1">High quality, wide format works best</p>
+                    {/* Photos */}
+                    <div className="flex flex-col mb-4">
+                        <div className="flex items-center justify-between mb-1">
+                            <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Business Photos</label>
+                            <span className="text-[10px] bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-black uppercase tracking-widest px-2 py-1 rounded">Max 4 Photos</span>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1 mb-2">
+                            The <strong className="text-moriones-red">first photo</strong> you upload will be used as your main directory card cover. Show off your storefront, products, or services!
+                        </p>
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            ref={fileInputRef}
+                            onChange={handleImageUpload}
+                            className="hidden"
+                        />
+
+                        <div className="grid grid-cols-2 gap-3">
+                            {imageUrls.map((url, idx) => (
+                                <div key={idx} className="relative aspect-video rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-50 shadow-sm">
+                                    <img src={url} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
+                                    <button
+                                        type="button"
+                                        onClick={() => setImageUrls(prev => prev.filter((_, i) => i !== idx))}
+                                        className="absolute top-2 right-2 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors z-10"
+                                    >
+                                        <span className="material-symbols-outlined text-sm">delete</span>
+                                    </button>
+                                    {idx === 0 && <div className="absolute bottom-0 left-0 right-0 bg-moriones-red py-1.5 text-[8px] font-black text-white text-center tracking-widest leading-none shadow-t-sm z-10">MAIN DIRECTORY CARD</div>}
                                 </div>
+                            ))}
+
+                            {imageUrls.length < 4 && (
+                                <button
+                                    type="button"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    disabled={uploadingImages}
+                                    className="aspect-video rounded-2xl border-2 border-dashed border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/5 flex flex-col items-center justify-center gap-2 hover:border-moriones-red/50 transition-all group cursor-pointer overflow-hidden"
+                                >
+                                    {uploadingImages ? (
+                                        <div className="w-6 h-6 border-2 border-moriones-red border-t-transparent rounded-full animate-spin" />
+                                    ) : (
+                                        <>
+                                            <div className="w-10 h-10 rounded-full bg-white dark:bg-zinc-800 shadow-md flex items-center justify-center text-moriones-red group-hover:scale-110 transition-transform">
+                                                <span className="material-symbols-outlined">add_a_photo</span>
+                                            </div>
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{imageUrls.length}/4 Photos</span>
+                                        </>
+                                    )}
+                                </button>
                             )}
-                            <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*"
-                                ref={fileInputRef}
-                                onChange={handleImageChange}
-                            />
                         </div>
                     </div>
 
@@ -329,6 +376,17 @@ function BusinessOnboardingForm() {
                     </div>
 
                     <div className="space-y-1.5">
+                        <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Operating Hours</label>
+                        <input
+                            type="text"
+                            value={operatingHours}
+                            onChange={(e) => setOperatingHours(e.target.value)}
+                            placeholder="e.g., Mon-Sat: 8AM - 5PM, Sun: Closed"
+                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-moriones-red/50 transition-all font-medium placeholder:font-normal placeholder:text-slate-400"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
                         <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Contact Details</label>
                         <div className="grid grid-cols-2 gap-4">
                             <input
@@ -348,25 +406,49 @@ function BusinessOnboardingForm() {
                         </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Social & Hours</label>
+                    <div className="space-y-1.5 ">
+                        <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Social Media</label>
                         <div className="grid grid-cols-1 gap-4">
-                            <input
-                                type="text"
-                                value={operatingHours}
-                                onChange={(e) => setOperatingHours(e.target.value)}
-                                placeholder="Operating Hours (e.g., Mon-Sat: 8AM - 5PM)"
-                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-moriones-red/50 transition-all font-medium placeholder:font-normal placeholder:text-slate-400"
-                            />
-                            <div className="relative">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">@</span>
-                                <input
-                                    type="text"
-                                    value={facebook}
-                                    onChange={(e) => setFacebook(e.target.value)}
-                                    placeholder="Facebook Page Username (e.g. BoacCafe)"
-                                    className="w-full pl-9 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-moriones-red/50 transition-all font-medium placeholder:font-normal placeholder:text-slate-400"
-                                />
+                            <div>
+                                <div className="relative flex items-center bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-moriones-red/50 transition-all">
+                                    <div className="pl-4 pr-1 py-3.5 bg-slate-100 dark:bg-white/10 border-r border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 text-sm font-medium shrink-0 flex items-center">
+                                        <svg className="w-4 h-4 mr-1.5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                        </svg>
+                                        facebook.com/
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={facebook}
+                                        onChange={(e) => setFacebook(e.target.value.replace(/^(?:https?:\/\/)?(?:www\.)?facebook\.com\//i, '').replace(/^\//, ''))}
+                                        placeholder="your.username"
+                                        className="w-full bg-transparent border-none px-3 py-3.5 focus:outline-none focus:ring-0 font-bold placeholder:font-normal placeholder:text-slate-400"
+                                    />
+                                </div>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 ml-1 leading-relaxed">
+                                    <strong>How to find your FB username:</strong> Open the Facebook App &gt; Go to your Business Page &gt; Tap the <strong>three dots (...)</strong> below your cover photo &gt; Tap <strong>Copy Page Link</strong>. Paste it here!
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <div className="relative flex items-center bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-500/50 transition-all">
+                                    <div className="pl-4 pr-1 py-3.5 bg-slate-100 dark:bg-white/10 border-r border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 text-sm font-medium shrink-0 flex items-center">
+                                        <svg className="w-4 h-4 mr-1.5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z"/>
+                                        </svg>
+                                        m.me/
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={messenger}
+                                        onChange={(e) => setMessenger(e.target.value.replace(/^(?:https?:\/\/)?(?:www\.)?m\.me\//i, '').replace(/^\//, ''))}
+                                        placeholder="your.username"
+                                        className="w-full bg-transparent border-none px-3 py-3.5 focus:outline-none focus:ring-0 font-bold placeholder:font-normal placeholder:text-slate-400"
+                                    />
+                                </div>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 ml-1 leading-relaxed">
+                                    <strong>Messenger Link:</strong> Your chat username is often the same as your FB Account username. If left blank, we will try to use your Facebook Page username.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -407,6 +489,10 @@ function BusinessOnboardingForm() {
 
                 </form>
             </div>
+            <SuccessToast 
+                visible={showSuccessToast} 
+                message={edit_id ? "Business profile updated successfully!" : "Business profile submitted for review!"} 
+            />
         </div>
     )
 }

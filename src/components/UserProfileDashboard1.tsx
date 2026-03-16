@@ -20,6 +20,7 @@ export default function UserProfileDashboard1() {
   const [transportListing, setTransportListing] = useState<any>(null);
   const [classListings, setClassListings] = useState<any[]>([]);
   const [jobPostings, setJobPostings] = useState<any[]>([]);
+  const [businessListings, setBusinessListings] = useState<any[]>([]);
 
   useEffect(() => {
     // Check active session
@@ -70,6 +71,14 @@ export default function UserProfileDashboard1() {
         .eq('employer_id', userId)
         .order('created_at', { ascending: false });
       setJobPostings(jobs || []);
+
+      // Businesses
+      const { data: businesses } = await supabase
+        .from('business_profiles')
+        .select('id, name, type, is_verified, images, created_at')
+        .eq('owner_id', userId)
+        .order('created_at', { ascending: false });
+      setBusinessListings(businesses || []);
 
       setLoading(false);
     };
@@ -245,7 +254,7 @@ export default function UserProfileDashboard1() {
 
             {/* Active Listing Management */}
             <div className="w-full max-w-sm mt-8 space-y-4">
-              {(transportListing || classListings.length > 0 || jobPostings.length > 0) && (
+              {(transportListing || classListings.length > 0 || jobPostings.length > 0 || businessListings.length > 0) && (
                 <div className="flex items-center justify-between px-2">
                   <h3 className="text-[11px] font-black text-text-muted uppercase tracking-[0.2em]">My Active Posts</h3>
                 </div>
@@ -317,6 +326,38 @@ export default function UserProfileDashboard1() {
                   />
                 </div>
               ))}
+
+              {/* Business Listings */}
+              {businessListings.map(biz => (
+                <div key={biz.id} className="bg-background-main border border-border-main rounded-2xl p-3 shadow-sm flex items-center gap-3 group">
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-background-dark shrink-0">
+                    {biz.images?.[0] ? (
+                      <Image src={biz.images[0]} fill className="object-cover" alt={biz.name} />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-text-muted/20">
+                        <span className="material-symbols-outlined text-4xl">storefront</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-sm text-text-main truncate flex items-center gap-1">
+                      {biz.name}
+                      {biz.is_verified ? (
+                         <span className="material-symbols-outlined text-teal-500 text-[14px]" title="Community verified">verified</span>
+                      ) : (
+                         <span className="bg-yellow-100 text-yellow-800 text-[9px] px-1.5 py-0.5 rounded font-black tracking-widest uppercase">Pending</span>
+                      )}
+                    </h4>
+                    <p className="text-xs text-moriones-red font-bold mt-0.5 truncate">{biz.type}</p>
+                  </div>
+                  <AdminActions
+                    contentType="business"
+                    contentId={biz.id}
+                    authorId={user.id}
+                    onDelete={() => window.dispatchEvent(new Event('adminActionRefresh'))}
+                  />
+                </div>
+              ))}
             </div>
 
             {/* Stats Grid */}
@@ -324,7 +365,7 @@ export default function UserProfileDashboard1() {
               <div className="grid grid-cols-3 gap-3">
                 <div className="bg-background-main p-4 rounded-xl border border-border-main flex flex-col items-center justify-center shadow-sm">
                   <span className="text-2xl font-bold text-text-main">
-                    {classListings.length + jobPostings.length + (transportListing ? 1 : 0)}
+                    {classListings.length + jobPostings.length + businessListings.length + (transportListing ? 1 : 0)}
                   </span>
                   <span className="text-[10px] font-black text-text-muted uppercase tracking-wider mt-1">Posts</span>
                 </div>

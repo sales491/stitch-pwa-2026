@@ -82,7 +82,7 @@ export async function adminDeleteContent(contentType: string, contentId: string)
             const { data: item } = await adminSupabase.from(tableName).select('*').eq('id', contentId).single();
             if (!item) throw new Error('Content not found');
 
-            const ownerId = item.user_id || item.author_id || item.employer_id || item.driver_id || item.provider_id;
+            const ownerId = item.user_id || item.author_id || item.employer_id || item.driver_id || item.provider_id || item.owner_id;
             if (ownerId !== user.id) throw new Error('Forbidden: You can only delete your own content.');
         }
 

@@ -8,7 +8,7 @@
 
 const VESSEL_FINDER_URL =
     'https://www.vesselfinder.com/aismap' +
-    '?zoom=10' +
+    '?zoom=9' +
     '&lat=13.71' +
     '&lon=121.74' +
     '&width=800' +
@@ -17,7 +17,7 @@ const VESSEL_FINDER_URL =
     '&show_track=false';
 
 const VESSEL_FINDER_FULLSCREEN =
-    'https://www.vesselfinder.com/?zoom=10&lat=13.71&lon=121.74';
+    'https://www.vesselfinder.com/?zoom=9&lat=13.71&lon=121.74';
 
 export default function VesselTrackerEmbed() {
     return (
@@ -44,9 +44,9 @@ export default function VesselTrackerEmbed() {
                 href={VESSEL_FINDER_FULLSCREEN}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="absolute top-2 right-2 z-10 flex items-center gap-1.5 bg-moriones-red text-white text-[9px] font-black px-3 py-1.5 rounded-lg shadow-lg shadow-moriones-red/30 hover:bg-red-700 transition-all active:scale-95"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center gap-2 bg-moriones-red text-white text-xs font-black px-5 py-3 rounded-xl shadow-2xl shadow-moriones-red/50 hover:bg-red-700 hover:scale-105 transition-all active:scale-95 border border-white/20"
             >
-                <span className="material-symbols-outlined text-[13px]">directions_boat</span>
+                <span className="material-symbols-outlined text-[18px]">directions_boat</span>
                 See Live Ships
             </a>
         </div>

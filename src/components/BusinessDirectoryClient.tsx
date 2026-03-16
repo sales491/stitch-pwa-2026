@@ -158,11 +158,11 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             <div className="fixed bottom-28 left-0 right-0 z-50 max-w-md mx-auto px-6 pointer-events-none flex justify-end">
                 <Link
                     href="/onboarding/business"
-                    className="flex items-center gap-2 h-14 px-6 rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 pointer-events-auto group"
+                    className="flex items-center gap-2 h-10 px-4 rounded-full bg-moriones-red text-white shadow-lg shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 pointer-events-auto group"
                     title="Add Listing"
                 >
-                    <span className="material-symbols-outlined text-[24px] group-hover:rotate-12 transition-transform">add_business</span>
-                    <span className="font-black text-[11px] uppercase tracking-widest leading-none mt-0.5">Add Listing</span>
+                    <span className="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">add_business</span>
+                    <span className="font-black text-[9px] uppercase tracking-widest leading-none mt-0.5">Add Listing</span>
                 </Link>
             </div>
         </div >

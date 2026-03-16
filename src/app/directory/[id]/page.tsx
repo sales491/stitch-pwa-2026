@@ -1,8 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
-import UniversalComments from '@/components/UniversalComments';
+import BusinessReviews from '@/components/BusinessReviews';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { isAdmin, isModerator } from '@/utils/roles';
+import BusinessImageGallery from '@/components/BusinessImageGallery';
 
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 
@@ -29,7 +31,18 @@ export default async function BusinessProfileDetailPage({
     // Fetch viewer permissions
     const { data: { user } } = await supabase.auth.getUser();
     const { data: viewerProfile } = user ? await supabase.from('profiles').select('id, role').eq('id', user.id).single() : { data: null };
-    const canEdit = user && (viewerProfile?.id === business.owner_id || viewerProfile?.role === 'admin' || viewerProfile?.role === 'moderator');
+    const canEdit = user && (
+        viewerProfile?.id === business.owner_id || 
+        viewerProfile?.role === 'admin' || 
+        viewerProfile?.role === 'moderator' ||
+        isAdmin(user.email) ||
+        isModerator(user.email)
+    );
+
+    // Restrict public access to unverified, user-created businesses
+    if (!business.is_verified && business.owner_id && !canEdit) {
+        return notFound();
+    }
 
     const contactInfo = business.contact_info || {};
     const socialMedia = business.social_media || {};
@@ -45,7 +58,7 @@ export default async function BusinessProfileDetailPage({
                 </Link>
                 <div className="flex items-center gap-2">
                     {canEdit && (
-                        <Link href={`/onboarding/business?edit_id=${id}`} className="h-10 px-5 flex items-center justify-center bg-white dark:bg-zinc-900 rounded-full text-slate-900 dark:text-white shadow-sm active:scale-95 transition-transform border border-slate-200 dark:border-zinc-800 gap-2 font-black text-[10px] uppercase tracking-widest hover:border-slate-300 dark:hover:border-zinc-700">
+                        <Link href={`/onboarding/business?edit_id=${id}`} className="h-10 px-5 flex items-center justify-center bg-moriones-red rounded-full text-white shadow-md active:scale-95 transition-all hover:bg-red-600 gap-2 font-black text-[10px] uppercase tracking-widest border border-red-700">
                             <span className="material-symbols-outlined text-sm">edit_note</span>
                             Manage
                         </Link>
@@ -55,25 +68,13 @@ export default async function BusinessProfileDetailPage({
 
             {/* Main Content Container (Max Width for layout feel) */}
             <div className="max-w-lg mx-auto px-6 pb-24 w-full">
-                {/* Hero Image */}
-                <div className="w-full h-56 md:h-64 relative rounded-[2rem] overflow-hidden shadow-sm mb-6 border border-slate-100 dark:border-zinc-800/50 bg-slate-100 dark:bg-zinc-900">
-                    {business.gallery_image ? (
-                        <Image src={business.gallery_image} alt={business.business_name} fill className="object-cover" />
-                    ) : (
-                        !business.is_verified ? (
-                            <Link href={`/claim-business/${business.id}`} className="w-full h-full flex flex-col items-center justify-center bg-teal-50 hover:bg-teal-100 dark:bg-teal-900/10 dark:hover:bg-teal-900/20 transition-all group cursor-pointer text-teal-600 dark:text-teal-500">
-                                <span className="material-symbols-outlined text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">add_a_photo</span>
-                                <span className="text-[11px] font-black uppercase tracking-widest text-center shadow-sm">Claim to Add Photos</span>
-                            </Link>
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                                <span className="text-6xl font-black text-slate-300 dark:text-zinc-700">
-                                    {business.business_name.charAt(0)}
-                                </span>
-                            </div>
-                        )
-                    )}
-                </div>
+                {/* Image Gallery */}
+                <BusinessImageGallery 
+                    businessId={business.id}
+                    businessName={business.business_name}
+                    images={business.gallery_images && business.gallery_images.length > 0 ? business.gallery_images : (business.gallery_image ? [business.gallery_image] : [])}
+                    isVerified={business.is_verified}
+                />
 
                 {/* Title & Rating */}
                 <div className="flex flex-col items-center text-center mb-10">
@@ -132,8 +133,8 @@ export default async function BusinessProfileDetailPage({
                     {messenger ? (
                         <a href={`https://m.me/${messenger}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2.5 group">
                             <div className="w-14 h-14 rounded-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center text-[#00B2FF] shadow-sm group-hover:bg-[#00B2FF] group-hover:text-white group-hover:border-[#00B2FF] group-hover:shadow-md transition-all active:scale-95">
-                                <svg className="w-[20px] h-[20px]" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
+                                <svg className="w-[24px] h-[24px]" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.36 2 1.8 6.13 1.8 11.24c0 2.91 1.48 5.51 3.79 7.17.18.13.29.35.29.58v1.89c0 .41.46.65.81.43l2.45-1.5c.16-.1.35-.14.54-.12 1.15.11 2.33.17 3.53.17 5.64 0 10.2-4.13 10.2-9.24S17.64 2 12 2zm1.09 13.06-2.58-2.75c-.2-.21-.53-.21-.73 0l-4.75 5.09c-.31.34-.84-.04-.62-.42l4.81-8.31c.2-.34.69-.36.92-.04l2.58 2.75c.2.21.53.21.73 0l4.75-5.09c.31-.34.84.04.62.42l-4.81 8.31c-.2.34-.69.36-.92.04z" />
                                 </svg>
                             </div>
                             <span className="text-[10px] font-bold text-slate-500 tracking-wide">Messenger</span>
@@ -218,24 +219,39 @@ export default async function BusinessProfileDetailPage({
                     </div>
                 </div>
 
-                {/* Verify Banner (if not verified) */}
+                {/* Verify / Pending Banner (if not verified) */}
                 {!business.is_verified && (
                     <div className="mb-10 p-6 bg-slate-900 text-white rounded-[2rem] relative overflow-hidden shadow-xl">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 blur-3xl rounded-full translate-x-10 -translate-y-10"></div>
-                        <p className="text-sm font-black mb-1 flex items-center gap-2 text-teal-400">
-                            <span className="material-symbols-outlined text-base">verified_user</span>
-                            Unverified Profile
-                        </p>
-                        <p className="text-xs font-medium text-slate-400 mb-6 tracking-tight leading-relaxed max-w-[90%]">Claim this page to unlock analytics and start responding to reviews.</p>
-                        <Link href={`/claim-business/${business.id}`} className="inline-block bg-white text-slate-900 hover:bg-slate-100 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-md">
-                            Claim This Business
-                        </Link>
+                        
+                        {business.owner_id && canEdit ? (
+                            <>
+                                <p className="text-sm font-black mb-1 flex items-center gap-2 text-yellow-500">
+                                    <span className="material-symbols-outlined text-base">hourglass_empty</span>
+                                    Pending Verification
+                                </p>
+                                <p className="text-xs font-medium text-slate-400 tracking-tight leading-relaxed max-w-[90%]">
+                                    Your business profile has been submitted and is currently under review by our community moderators. It will appear publicly once verified.
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-sm font-black mb-1 flex items-center gap-2 text-teal-400">
+                                    <span className="material-symbols-outlined text-base">verified_user</span>
+                                    Unverified Profile
+                                </p>
+                                <p className="text-xs font-medium text-slate-400 mb-6 tracking-tight leading-relaxed max-w-[90%]">Claim this page to unlock analytics and start responding to reviews.</p>
+                                <Link href={`/claim-business/${business.id}`} className="inline-block bg-white text-slate-900 hover:bg-slate-100 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-md">
+                                    Claim This Business
+                                </Link>
+                            </>
+                        )}
                     </div>
                 )}
 
                 {/* Comments / Reviews */}
-                <div className="border-t border-slate-200 dark:border-zinc-800/80 pt-10">
-                    <UniversalComments entityId={business.id} entityType="business" />
+                <div className="pt-10">
+                    <BusinessReviews businessId={business.id} />
                 </div>
             </div>
         </div>

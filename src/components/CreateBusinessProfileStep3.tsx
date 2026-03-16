@@ -161,9 +161,14 @@ export default function CreateBusinessProfileStep3() {
 
         {/* Photos */}
         <section className="mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-black text-slate-900 dark:text-white">Business Gallery</h3>
-            <span className="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-500 font-black uppercase tracking-widest px-2 py-1 rounded">Max 4 Photos</span>
+          <div className="flex flex-col mb-4">
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-lg font-black text-slate-900 dark:text-white">Business Photos</h3>
+              <span className="text-[10px] bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-black uppercase tracking-widest px-2 py-1 rounded">Max 4 Photos</span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              The <strong className="text-moriones-red">first photo</strong> you upload will be used as your main directory card cover. Show off your storefront, products, or services!
+            </p>
           </div>
 
           <input
@@ -185,7 +190,7 @@ export default function CreateBusinessProfileStep3() {
                 >
                   <span className="material-symbols-outlined text-sm">delete</span>
                 </button>
-                {idx === 0 && <div className="absolute bottom-0 left-0 right-0 bg-moriones-red py-1 text-[8px] font-black text-white text-center">MAIN COVER</div>}
+                {idx === 0 && <div className="absolute bottom-0 left-0 right-0 bg-moriones-red py-1.5 text-[8px] font-black text-white text-center tracking-widest leading-none shadow-t-sm">MAIN DIRECTORY CARD</div>}
               </div>
             ))}
 

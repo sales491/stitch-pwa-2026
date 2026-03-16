@@ -113,7 +113,7 @@ export default function AdminActions({
                 router.push(`/create-new-listing?id=${contentId}`);
                 break;
             case 'business':
-                router.push(`/directory/${contentId}/edit`);
+                router.push(`/onboarding/business?edit_id=${contentId}`);
                 break;
             case 'commute':
                 router.push(`/post-commute-or-delivery-listing?id=${contentId}`);
