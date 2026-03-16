@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
         supabase.from('listings').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('contact_messages').select('id, name, email, subject, message, is_read, created_at').order('created_at', { ascending: false }).limit(20),
         supabase.from('boat_services').select('id, operator_name, boat_type, service_type, base_municipality, contact_number, created_at').order('created_at', { ascending: false }),
-        supabase.from('transport_services').select('id, driver_name, vehicle_type, service_type, municipality, contact_number, created_at').order('created_at', { ascending: false }),
+        supabase.from('transport_services').select('id, driver_name, vehicle_type, service_type, base_town, contact_number, created_at').order('created_at', { ascending: false }),
         supabase.from('business_profiles').select('id, business_name, business_type, location, gallery_image, created_at').eq('is_verified', false).order('created_at', { ascending: false }),
     ]);
 

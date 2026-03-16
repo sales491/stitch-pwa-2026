@@ -13,6 +13,7 @@ type Operator = {
     service_type?: string;
     base_municipality?: string;
     municipality?: string;
+    base_town?: string;
     contact_number?: string;
     created_at: string;
 };
@@ -34,7 +35,7 @@ function OperatorCard({
     const [deleted, setDeleted] = useState(false);
 
     const name = op.operator_name || op.driver_name || 'Unknown Operator';
-    const location = op.base_municipality || op.municipality || '—';
+    const location = op.base_municipality || op.base_town || op.municipality || '—';
     const detail = op.boat_type || op.vehicle_type || op.service_type || '—';
 
     const handleDelete = () => {
@@ -133,7 +134,7 @@ export default function OperatorManagementPanel({
                     key={op.id}
                     op={op}
                     table={table}
-                    editHref={`${editBasePath}/${op.id}/edit`}
+                    editHref={table === 'boat_services' ? `/island-hopping/list?id=${op.id}` : `/post-commute-or-delivery-listing?id=${op.id}`}
                     onDeleted={handleDeleted}
                 />
             ))}

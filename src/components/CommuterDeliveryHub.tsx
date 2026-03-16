@@ -355,8 +355,6 @@ export default function CommuterDeliveryHub() {
         }
 
         const mapped: Operator[] = services
-          // Only show operators whose profile is admin-verified
-          .filter((d: any) => d.provider?.is_verified === true)
           .map((d: any) => ({
             id: d.id,
             name: `${d.vehicle_type}: ${d.base_town}`,
