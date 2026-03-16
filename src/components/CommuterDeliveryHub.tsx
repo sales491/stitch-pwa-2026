@@ -132,7 +132,12 @@ function OperatorCard({ op }: { op: Operator }) {
   const isOwner = user?.id === op.provider_id;
 
   return (
-    <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-moriones-red/30 shadow-xl shadow-moriones-red/5 ring-1 ring-moriones-red/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'}`}>
+    <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-moriones-red/30 shadow-xl shadow-moriones-red/5 ring-1 ring-moriones-red/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''}`}>
+      {!isAvailable && (
+        <div className="absolute top-0 left-0 right-0 z-10 bg-slate-500/10 backdrop-blur-[1px] flex items-center justify-center py-1">
+          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
+        </div>
+      )}
       {isOwner && (
         <div className="absolute top-4 left-4 z-40 bg-moriones-red text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5">
           <span className="material-symbols-outlined text-[12px]">person</span>
@@ -379,8 +384,11 @@ export default function CommuterDeliveryHub() {
             fb: d.contact_details?.fb_username,
             email: d.contact_details?.email
           }))
-          // Sort by trust_score descending — highest-rated first
-          .sort((a, b) => b.rating - a.rating);
+          // Sort: available first (by trust_score), then unavailable (by trust_score)
+          .sort((a, b) => {
+            if (a.available !== b.available) return a.available ? -1 : 1;
+            return b.rating - a.rating;
+          });
 
         setOperators(mapped);
       }

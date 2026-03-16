@@ -94,7 +94,12 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
     };
 
     return (
-        <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-cyan-400/30 shadow-xl shadow-cyan-500/5 ring-1 ring-cyan-400/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'}`}>
+        <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-cyan-400/30 shadow-xl shadow-cyan-500/5 ring-1 ring-cyan-400/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''}`}>
+            {!isAvailable && (
+                <div className="absolute top-0 left-0 right-0 z-10 bg-slate-500/10 backdrop-blur-[1px] flex items-center justify-center py-1">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
+                </div>
+            )}
             {isOwner && (
                 <div className="absolute top-4 left-4 z-40 bg-cyan-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-[12px]">person</span>Your Listing
@@ -237,7 +242,10 @@ export default function IslandHoppingHub() {
                         images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
                         vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id), trust_score: d.provider?.trust_score ?? 0,
                     }))
-                    .sort((a, b) => (b.trust_score ?? 0) - (a.trust_score ?? 0));
+                    .sort((a, b) => {
+                        if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
+                        return (b.trust_score ?? 0) - (a.trust_score ?? 0);
+                    });
                 setOperators(mapped);
             }
             setLoading(false);
