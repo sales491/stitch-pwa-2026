@@ -14,6 +14,7 @@ interface Listing {
     title: string;
     price_value: number | null;
     town: string;
+    category: string;
     images: string[] | null;
     seller_id: string | null;
     user_id: string | null;
@@ -29,6 +30,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTown, setSelectedTown] = useState('All');
+    const [selectedCategory, setSelectedCategory] = useState('All');
     // Hydrate from server-rendered initial data — no spinner on first load
     const [listings, setListings] = useState<Listing[]>(initialListings);
     const [loading, setLoading] = useState(false);
@@ -64,7 +66,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
 
         const { data, error: fetchError } = await supabase
             .from('listings')
-            .select('id, title, price_value, town, images, seller_id, user_id')
+            .select('id, title, price_value, town, category, images, seller_id, user_id')
             .eq('status', 'active')
             .order('created_at', { ascending: false })
             .range(from, to);
@@ -115,9 +117,10 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
             const matchesSearch = !searchQuery ||
                 listing.title?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesTown = selectedTown === 'All' || listing.town === selectedTown;
-            return matchesSearch && matchesTown;
+            const matchesCategory = selectedCategory === 'All' || listing.category === selectedCategory;
+            return matchesSearch && matchesTown && matchesCategory;
         });
-    }, [listings, searchQuery, selectedTown]);
+    }, [listings, searchQuery, selectedTown, selectedCategory]);
 
     if (error) {
         return (
@@ -168,7 +171,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                 </div>
 
                 {/* Search Bar & Town Filter Row */}
-                <div className="flex gap-2 mb-6">
+                <div className="flex flex-col sm:flex-row gap-2 mb-6">
                     {/* Search Box */}
                     <div className="flex-[1.5] relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-moriones-red/60">
@@ -182,20 +185,43 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                             className="w-full bg-slate-50 dark:bg-zinc-800 border-2 border-transparent rounded-[1.25rem] py-3 pl-11 pr-4 text-sm font-bold text-slate-800 dark:text-white focus:bg-white dark:focus:bg-zinc-700/50 focus:border-moriones-red/20 outline-none transition-all placeholder:text-slate-400"
                         />
                     </div>
+                    
+                    <div className="flex gap-2 flex-1">
+                        {/* Category Filter Dropdown */}
+                        <div className="flex-1 relative group min-w-0">
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="w-full h-full appearance-none bg-slate-50 dark:bg-zinc-800 border-2 border-transparent rounded-[1.25rem] py-3 px-4 pl-10 text-[10px] sm:text-xs font-black uppercase tracking-widest text-moriones-red focus:bg-white dark:focus:bg-zinc-700/50 focus:border-moriones-red/20 outline-none transition-all cursor-pointer truncate"
+                            >
+                                <option value="All">ALL CATEGORIES</option>
+                                {[
+                                    'Baby Items', 'Barter', 'Bikes & Parts', 'Boats & Parts', 'Business', 'Cars, Trucks & Parts', 'Clothes & Accessories',
+                                    'Construction & Materials', 'Crafts', 'Education', 'Electronics', 'Farm & Garden', 'Foods',
+                                    'General', 'Health & Beauty', 'Heavy Equipment', 'Home & Appliances', 'Motorcycles & Parts',
+                                    'Services', 'Tools', 'Toys & Games', 'Wanted'
+                                ].map((cat) => (
+                                    <option key={cat} value={cat}>{cat.toUpperCase()}</option>
+                                ))}
+                            </select>
+                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-[16px] pointer-events-none">category</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none group-active:rotate-180 transition-transform">expand_more</span>
+                        </div>
 
-                    {/* Town Filter Dropdown */}
-                    <div className="flex-1 relative group">
-                        <select
-                            value={selectedTown}
-                            onChange={(e) => setSelectedTown(e.target.value)}
-                            className="w-full h-full appearance-none bg-slate-50 dark:bg-zinc-800 border-2 border-transparent rounded-[1.25rem] py-3 px-4 pl-10 text-xs font-black uppercase tracking-widest text-moriones-red focus:bg-white dark:focus:bg-zinc-700/50 focus:border-moriones-red/20 outline-none transition-all cursor-pointer"
-                        >
-                            {TOWNS.map((town) => (
-                                <option key={town} value={town}>{town === 'All' ? 'ALL TOWNS' : town.toUpperCase()}</option>
-                            ))}
-                        </select>
-                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-lg pointer-events-none">location_on</span>
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none group-active:rotate-180 transition-transform">expand_more</span>
+                        {/* Town Filter Dropdown */}
+                        <div className="flex-[0.8] relative group min-w-[110px]">
+                            <select
+                                value={selectedTown}
+                                onChange={(e) => setSelectedTown(e.target.value)}
+                                className="w-full h-full appearance-none bg-slate-50 dark:bg-zinc-800 border-2 border-transparent rounded-[1.25rem] py-3 px-4 pl-9 text-[10px] sm:text-xs font-black uppercase tracking-widest text-moriones-red focus:bg-white dark:focus:bg-zinc-700/50 focus:border-moriones-red/20 outline-none transition-all cursor-pointer truncate"
+                            >
+                                {TOWNS.map((town) => (
+                                    <option key={town} value={town}>{town === 'All' ? 'ALL TOWNS' : town.toUpperCase()}</option>
+                                ))}
+                            </select>
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-[16px] pointer-events-none">location_on</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none group-active:rotate-180 transition-transform">expand_more</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,7 +275,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                                 <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-tight">No listings found</h3>
                                 <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1 px-10 leading-relaxed">Try changing your search or selecting a different town</p>
                                 <button
-                                    onClick={() => { setSearchQuery(''); setSelectedTown('All'); }}
+                                    onClick={() => { setSearchQuery(''); setSelectedTown('All'); setSelectedCategory('All'); }}
                                     className="mt-6 text-moriones-red font-black text-[11px] uppercase tracking-widest hover:underline"
                                 >
                                     Clear all filters

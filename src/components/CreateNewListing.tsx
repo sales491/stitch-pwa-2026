@@ -333,6 +333,7 @@ export default function CreateNewListing() {
                 className="w-full rounded-lg bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 focus:border-primary focus:ring-1 focus:ring-primary py-3 px-4 text-slate-900 dark:text-slate-100 appearance-none"
               >
                 <option disabled value="">Select Category</option>
+                <option value="Baby Items">Baby Items</option>
                 <option value="Barter">Barter</option>
                 <option value="Health & Beauty">Health & Beauty</option>
                 <option value="Bikes & Parts">Bikes & Parts</option>

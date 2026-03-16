@@ -95,20 +95,20 @@ export default function MarinduqueClassifiedsMarketplace({ initialListings }: Ma
       <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
         {/* Header */}
         <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-          <div className="flex items-center justify-between px-4 pt-4 pb-2">
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
             <div className="flex items-center gap-2">
               <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-                <span className="material-symbols-outlined text-[28px]">arrow_back</span>
+                <span className="material-symbols-outlined text-[24px]">arrow_back</span>
               </Link>
               <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Marinduque Classifieds</h1>
             </div>
           </div>
 
           {/* Search Bar */}
-          <div className="px-4 pb-3 pt-1">
-            <div className="relative flex items-center w-full h-12 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
-              <div className="grid place-items-center h-full w-12 text-text-muted dark:text-text-muted-dark">
-                <span className="material-symbols-outlined">search</span>
+          <div className="px-4 pb-2 pt-1">
+            <div className="relative flex items-center w-full h-10 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
+              <div className="grid place-items-center h-full w-10 text-text-muted dark:text-text-muted-dark">
+                <span className="material-symbols-outlined text-[20px]">search</span>
               </div>
               <input
                 className="peer h-full w-full outline-none bg-transparent text-sm text-text-main dark:text-text-main-dark placeholder:text-text-muted dark:placeholder:text-text-muted-dark"
@@ -119,8 +119,8 @@ export default function MarinduqueClassifiedsMarketplace({ initialListings }: Ma
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="mr-1 p-2 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-moriones-red transition-colors">
-                  <span className="material-symbols-outlined text-[20px]">close</span>
+                <button onClick={() => setSearchQuery('')} className="mr-1 p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-moriones-red transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">close</span>
                 </button>
               )}
             </div>

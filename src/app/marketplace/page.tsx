@@ -22,7 +22,7 @@ export default async function MarketplacePage() {
     // Server-render page 0 — users see listings instantly without a loading spinner
     const { data: initialListings } = await supabase
         .from('listings')
-        .select('id, title, price_value, town, images, seller_id, user_id')
+        .select('id, title, price_value, town, category, images, seller_id, user_id')
         .eq('status', 'active')
         .order('created_at', { ascending: false })
         .range(0, 9);

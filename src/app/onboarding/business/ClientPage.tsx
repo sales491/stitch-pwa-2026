@@ -7,6 +7,7 @@ import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
+import { deleteBusinessProfile } from '@/app/actions/business';
 
 const CATEGORIES = [
     "Food & Dining",
@@ -48,6 +49,7 @@ function BusinessOnboardingForm() {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [uploadingImages, setUploadingImages] = useState(false);
     const [showSuccessToast, setShowSuccessToast] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Auto-fill email if available from Google OAuth
     useEffect(() => {
@@ -222,6 +224,34 @@ function BusinessOnboardingForm() {
             setErrorMsg(err.message || 'An unexpected error occurred.');
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const handleDeleteClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setShowDeleteConfirm(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!edit_id) return;
+        setIsSubmitting(true);
+        setErrorMsg('');
+
+        try {
+            console.log('Calling deleteBusinessProfile action...'); 
+            await deleteBusinessProfile(edit_id);
+            console.log('Action successful.'); 
+
+            // Give the database and Next.js cache a moment to settle
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Redirect to directory page and refresh
+            window.location.href = '/directory';
+        } catch (err: any) {
+            console.error('Delete action failed:', err); 
+            setErrorMsg(err.message || 'Failed to delete business profile.');
+            setIsSubmitting(false);
+            setShowDeleteConfirm(false);
         }
     };
 
@@ -465,7 +495,7 @@ function BusinessOnboardingForm() {
                         ></textarea>
                     </div>
 
-                    <div className="pt-4 pb-2">
+                    <div className="pt-4 pb-2 space-y-3">
                         <button
                             type="submit"
                             disabled={isSubmitting || !user}
@@ -485,6 +515,47 @@ function BusinessOnboardingForm() {
                                 </>
                             )}
                         </button>
+
+                        {edit_id && !showDeleteConfirm && (
+                            <button
+                                type="button"
+                                disabled={isSubmitting}
+                                onClick={handleDeleteClick}
+                                className="w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/10 dark:text-red-500 dark:hover:bg-red-900/20 transition-all border border-red-100 dark:border-red-900/30"
+                            >
+                                <span className="material-symbols-outlined text-[20px]">delete_forever</span>
+                                Delete Business
+                            </button>
+                        )}
+                        
+                        {showDeleteConfirm && (
+                            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl p-4 flex flex-col items-center justify-center text-center mt-4">
+                                <span className="material-symbols-outlined text-red-500 mb-2">warning</span>
+                                <p className="text-sm font-bold text-red-700 dark:text-red-400 mb-4">Are you sure you want to delete this business profile? This cannot be undone.</p>
+                                <div className="flex gap-3 w-full">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowDeleteConfirm(false)}
+                                        disabled={isSubmitting}
+                                        className="flex-1 py-2 rounded-lg font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 dark:bg-zinc-800 dark:text-slate-300 dark:border-zinc-700 dark:hover:bg-zinc-700 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={confirmDelete}
+                                        disabled={isSubmitting}
+                                        className="flex-1 py-2 rounded-lg font-bold text-white bg-red-600 hover:bg-red-700 active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2"
+                                    >
+                                        {isSubmitting ? (
+                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        ) : (
+                                            'Yes, Delete'
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                 </form>

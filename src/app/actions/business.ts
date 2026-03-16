@@ -31,7 +31,7 @@ export async function createBusinessProfile(data: BusinessInput) {
         .from('business_profiles')
         .insert({
             ...validated,
-            user_id: user.id,
+            owner_id: user.id,
         });
 
     if (error) throw new Error(error.message);
@@ -65,7 +65,7 @@ export async function updateBusinessProfile(id: string, data: BusinessInput) {
             .from('business_profiles')
             .update(validated)
             .eq('id', id)
-            .eq('user_id', user.id); // Ensure ownership
+            .eq('owner_id', user.id); // Ensure ownership
 
         if (error) throw new Error(error.message);
     }
@@ -76,30 +76,61 @@ export async function updateBusinessProfile(id: string, data: BusinessInput) {
 }
 
 export async function deleteBusinessProfile(id: string) {
+    console.log('[deleteBusinessProfile] Starting for ID:', id);
     const supabase = await createClient();
 
     // Auth Check
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('Unauthorized');
+    if (!user) {
+        console.error('[deleteBusinessProfile] Unauthorized: No user found');
+        throw new Error('Unauthorized');
+    }
 
     const hasAdminAccess = await isUserAdmin(user);
+    console.log('[deleteBusinessProfile] User Email:', user.email, 'hasAdminAccess:', hasAdminAccess);
 
     if (hasAdminAccess) {
+        console.log('[deleteBusinessProfile] Proceeding with Admin privileges');
         const adminClient = await createAdminClient();
-        const { error } = await adminClient
-            .from('business_profiles')
+        
+        // Let's explicitly check if business_reviews prevents this.
+        // If there's a foreign key constraint without CASCADE, we must delete reviews first.
+        const { error: reviewsError } = await adminClient
+            .from('business_reviews')
             .delete()
+            .eq('business_id', id);
+        
+        if (reviewsError) {
+             console.error('[deleteBusinessProfile] Error deleting reviews:', reviewsError.message);
+             // We can proceed, if it fails below we'll know.
+        }
+
+        const { error, count } = await adminClient
+            .from('business_profiles')
+            .delete({ count: 'exact' })
             .eq('id', id);
 
-        if (error) throw new Error(error.message);
-    } else {
-        const { error } = await supabase
-            .from('business_profiles')
-            .delete()
-            .eq('id', id)
-            .eq('user_id', user.id);
+        if (error) {
+            console.error('[deleteBusinessProfile] Admin delete error:', error.message);
+            throw new Error(error.message);
+        }
+        console.log('[deleteBusinessProfile] Admin delete success. Rows affected:', count);
+        if (count === 0) throw new Error('Business profile not found or already deleted');
 
-        if (error) throw new Error(error.message);
+    } else {
+        console.log('[deleteBusinessProfile] Proceeding as regular user');
+        const { error, count } = await supabase
+            .from('business_profiles')
+            .delete({ count: 'exact' })
+            .eq('id', id)
+            .eq('owner_id', user.id);
+
+        if (error) {
+            console.error('[deleteBusinessProfile] User delete error:', error.message);
+            throw new Error(error.message);
+        }
+        console.log('[deleteBusinessProfile] User delete success. Rows affected:', count);
+        if (count === 0) throw new Error('Business profile not found or you lack permission to delete it');
     }
 
     revalidatePath('/directory');

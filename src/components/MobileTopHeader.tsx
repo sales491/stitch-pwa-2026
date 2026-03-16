@@ -106,20 +106,20 @@ export default function MobileTopHeader() {
                 </div>
 
                 {/* Bottom Section: Sub-navigation */}
-                <div className="flex items-center gap-8 px-5 pb-3 pt-1 border-b border-gray-100 dark:border-white/[0.03]">
-                    <Link href="/" className="text-[15px] font-bold text-slate-900 dark:text-white pb-1 border-b-2 border-transparent hover:border-slate-900 dark:hover:border-white transition-all">
+                <div className="flex items-center gap-8 px-5 pb-2 pt-0.5 border-b border-gray-100 dark:border-white/[0.03]">
+                    <Link href="/" className="text-[12px] uppercase tracking-wider font-bold text-slate-900 dark:text-white pb-0.5 border-b-2 border-transparent hover:border-slate-900 dark:hover:border-white transition-all">
                         Home
                     </Link>
                     <button
                         onClick={() => setIsMenuOpen(true)}
-                        className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors"
+                        className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors"
                     >
                         Categories
                     </button>
-                    <Link href="/marketplace" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                    <Link href="/marketplace" className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
                         Buy-Sell
                     </Link>
-                    <Link href="/about" className="text-[15px] font-medium text-slate-400 dark:text-white/40 pb-1 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                    <Link href="/about" className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
                         About Us
                     </Link>
                 </div>

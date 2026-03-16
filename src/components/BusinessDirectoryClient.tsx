@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import BusinessCard from '@/components/BusinessCard';
 import Link from 'next/link';
 
@@ -13,97 +13,130 @@ type Business = {
     average_rating: number;
     review_count: number;
     gallery_image?: string;
+    categories?: string[];
 };
 
-const TOWNS = ['All', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
+const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
+const CATEGORIES = [
+    'All Categories', 'Food & Beverage', 'Retail', 'Handicrafts', 'Accommodation',
+    'Transport', 'Services', 'Tours & Travel', 'Others'
+];
+
+function FilterChip({
+    icon, label, options, value, onChange,
+}: {
+    icon: string; label: string; options: string[]; value: string;
+    onChange: (v: string) => void;
+}) {
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    const isFiltered = value !== options[0];
+
+    useEffect(() => {
+        function outside(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+        }
+        document.addEventListener('mousedown', outside);
+        return () => document.removeEventListener('mousedown', outside);
+    }, []);
+
+    return (
+        <div className="relative flex-1" ref={ref}>
+            <button
+                onClick={() => setOpen(!open)}
+                className={`w-full flex items-center justify-between gap-1.5 rounded-xl border px-3 py-2 text-xs font-medium transition-colors ${isFiltered
+                    ? 'bg-moriones-red/10 border-moriones-red text-moriones-red'
+                    : 'bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark text-text-main dark:text-text-main-dark hover:border-moriones-red/50'
+                    }`}
+            >
+                <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="material-symbols-outlined text-[16px] shrink-0">{icon}</span>
+                    <span className="truncate">{isFiltered ? value : label}</span>
+                </div>
+                <span className={`material-symbols-outlined text-[16px] shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>expand_more</span>
+            </button>
+
+            {open && (
+                <div className="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-700 rounded-xl shadow-xl overflow-hidden">
+                    <div className="max-h-56 overflow-y-auto w-full">
+                        {options.map((opt) => (
+                            <button
+                                key={opt}
+                                onClick={() => { onChange(opt); setOpen(false); }}
+                                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${value === opt
+                                    ? 'bg-moriones-red/10 text-moriones-red font-semibold'
+                                    : 'text-text-main dark:text-text-main-dark hover:bg-slate-50 dark:hover:bg-zinc-800'
+                                    }`}
+                            >
+                                {opt}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
 
 export default function BusinessDirectoryClient({ initialBusinesses }: { initialBusinesses: Business[] }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedTown, setSelectedTown] = useState('All');
-    const [isTownMenuOpen, setIsTownMenuOpen] = useState(false);
+    const [selectedTown, setSelectedTown] = useState('All Towns');
+    const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
     const filteredBusinesses = useMemo(() => {
         return initialBusinesses.filter((biz) => {
             const matchesSearch =
                 biz.business_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 biz.business_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                biz.location.toLowerCase().includes(searchQuery.toLowerCase());
+                biz.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (biz.categories && biz.categories.some(c => c.toLowerCase().includes(searchQuery.toLowerCase())));
 
-            const matchesTown = selectedTown === 'All' || biz.location === selectedTown;
+            const matchesTown = selectedTown === 'All Towns' || biz.location.includes(selectedTown);
+            const matchesCategory = selectedCategory === 'All Categories' || (biz.categories && biz.categories.includes(selectedCategory));
 
-            return matchesSearch && matchesTown;
+            return matchesSearch && matchesTown && matchesCategory;
         });
-    }, [initialBusinesses, searchQuery, selectedTown]);
+    }, [initialBusinesses, searchQuery, selectedTown, selectedCategory]);
 
     return (
-        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-white dark:bg-[#0F0F10] shadow-2xl">
-            <header className="sticky top-0 z-30 flex flex-col bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03]">
+        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
+            <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
                 <div className="flex items-center justify-between px-4 pt-3 pb-1">
-                    <div className="flex items-center gap-3">
-                        <Link href="/" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[26px]">arrow_back</span>
+                    <div className="flex items-center gap-2">
+                        <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[24px]">arrow_back</span>
                         </Link>
                         <div>
-                            <h1 className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">Business Directory</h1>
-                            <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Verified Local Partners & Local Businesses</p>
+                            <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Business Directory</h1>
+                            <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.15em] pl-1">Verified Local Partners</p>
                         </div>
                     </div>
                 </div>
-                <div className="px-4 pb-3 flex items-center gap-2">
-                    {/* Search Box */}
-                    <div className="w-[42%] relative group">
+
+                <div className="px-4 pb-2 pt-1">
+                    <div className="relative flex items-center w-full h-10 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
+                        <div className="grid place-items-center h-full w-10 text-text-muted dark:text-text-muted-dark">
+                            <span className="material-symbols-outlined text-[20px]">search</span>
+                        </div>
                         <input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search..."
-                            className="w-full bg-slate-50 dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.05] rounded-2xl p-2.5 pl-11 text-sm font-bold text-slate-800 dark:text-white/90 shadow-sm focus:border-moriones-red/30 focus:bg-white dark:focus:bg-white/5 outline-none transition-all placeholder:text-slate-400"
+                            placeholder="Search businesses, services..."
+                            className="peer h-full w-full outline-none bg-transparent text-sm text-text-main dark:text-text-main-dark placeholder:text-text-muted dark:placeholder:text-text-muted-dark"
                         />
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-[18px] group-focus-within:scale-110 transition-transform">search</span>
-                    </div>
-
-                    {/* Categories / Towns Dropdown */}
-                    <div className="flex-1 relative">
-                        <button
-                            onClick={() => setIsTownMenuOpen(!isTownMenuOpen)}
-                            className="w-full flex items-center justify-between bg-slate-50 dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.1] rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-white/90 shadow-sm hover:bg-slate-100 dark:hover:bg-white/5 transition-all active:scale-[0.98]"
-                        >
-                            <div className="flex items-center gap-2 truncate">
-                                <span className="material-symbols-outlined text-moriones-red/60 text-[20px] flex-shrink-0">location_on</span>
-                                <span className="text-moriones-red uppercase tracking-tight text-[11px] font-black truncate">{selectedTown === 'All' ? 'EVERYWHERE' : selectedTown.toUpperCase()}</span>
-                            </div>
-                            <span className={`material-symbols-outlined text-slate-400 text-lg flex-shrink-0 transition-transform duration-300 ${isTownMenuOpen ? 'rotate-180' : ''}`}>
-                                expand_more
-                            </span>
-                        </button>
-
-                        {/* Dropdown Menu */}
-                        {isTownMenuOpen && (
-                            <>
-                                <div
-                                    className="fixed inset-0 z-40 bg-black/5 backdrop-blur-sm"
-                                    onClick={() => setIsTownMenuOpen(false)}
-                                />
-                                <div className="absolute top-full right-0 mt-3 z-50 bg-white dark:bg-[#1A1A1C] border border-slate-100 dark:border-white/[0.1] rounded-3xl shadow-2xl p-3 grid grid-cols-2 gap-2 min-w-[200px] animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200">
-                                    {TOWNS.map((town) => (
-                                        <button
-                                            key={town}
-                                            onClick={() => {
-                                                setSelectedTown(town);
-                                                setIsTownMenuOpen(false);
-                                            }}
-                                            className={`flex items-center justify-center text-center px-2 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border ${selectedTown === town
-                                                ? 'bg-moriones-red text-white border-moriones-red shadow-lg shadow-moriones-red/20 scale-[1.02]'
-                                                : 'bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white/30 border-slate-100 dark:border-white/10 hover:border-moriones-red/30'
-                                                }`}
-                                        >
-                                            {town}
-                                        </button>
-                                    ))}
-                                </div>
-                            </>
+                        {searchQuery && (
+                            <button onClick={() => setSearchQuery('')} className="mr-1 p-1.5 rounded-lg text-text-muted dark:text-text-muted-dark hover:text-moriones-red transition-colors">
+                                <span className="material-symbols-outlined text-[18px]">close</span>
+                            </button>
                         )}
                     </div>
+                </div>
+
+                {/* Filter Chips */}
+                <div className="px-4 pb-3 flex gap-2">
+                    <FilterChip icon="category" label="Category" options={CATEGORIES} value={selectedCategory} onChange={setSelectedCategory} />
+                    <FilterChip icon="location_on" label="Town" options={TOWNS} value={selectedTown} onChange={setSelectedTown} />
                 </div>
             </header>
 
@@ -112,7 +145,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
 
                 <div className="flex items-center justify-between px-2">
                     <h2 className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">
-                        {selectedTown === 'All' ? 'ALL BUSINESSES' : `IN ${selectedTown.toUpperCase()}`}
+                        {selectedTown === 'All Towns' ? 'ALL BUSINESSES' : `IN ${selectedTown.toUpperCase()}`}
                     </h2>
                     <div className="flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-lg uppercase italic">
                         <span className="material-symbols-outlined text-[12px] font-black">storefront</span>
@@ -142,9 +175,9 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
                                 <span className="material-symbols-outlined text-text-muted/30 text-5xl">search_off</span>
                             </div>
                             <h3 className="text-lg font-black text-text-main dark:text-text-main-dark mb-2">No Businesses Found</h3>
-                            <p className="text-text-muted text-xs font-bold max-w-[240px] mb-8 leading-relaxed">We couldn't find any businesses in {selectedTown} matching your search.</p>
+                            <p className="text-text-muted text-xs font-bold max-w-[240px] mb-8 leading-relaxed">We couldn't find any businesses matching your search.</p>
                             <button
-                                onClick={() => { setSearchQuery(''); setSelectedTown('All'); }}
+                                onClick={() => { setSearchQuery(''); setSelectedTown('All Towns'); setSelectedCategory('All Categories'); }}
                                 className="px-8 py-3 bg-moriones-red text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-moriones-red/20 active:scale-95 transition-all"
                             >
                                 Clear all filters
