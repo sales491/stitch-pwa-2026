@@ -46,13 +46,16 @@ export async function createTransportService(data: any, editId?: string | null) 
             if (error) throw new Error(error.message);
         }
     } else {
-        // CREATE new record — stamped with the caller's provider_id
+        // CREATE / UPDATE own listing — upsert on provider_id (one per regular user)
+        // Admins also upsert on their own provider_id when creating from the form
         const { error } = await supabase
             .from('transport_services')
-            .insert({
+            .upsert({
                 ...validated,
                 provider_id: user.id,
                 updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'provider_id'
             });
         if (error) throw new Error(error.message);
     }

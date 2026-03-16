@@ -41,13 +41,15 @@ export async function createBoatService(data: any, editId?: string | null) {
             if (error) throw new Error(error.message);
         }
     } else {
-        // CREATE new record — stamped with the caller's provider_id
+        // CREATE / UPDATE own listing — upsert on provider_id (one per user)
         const { error } = await supabase
             .from('boat_services')
-            .insert({
+            .upsert({
                 ...data,
                 provider_id: user.id,
                 updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'provider_id'
             });
         if (error) throw new Error(error.message);
     }
