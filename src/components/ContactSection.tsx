@@ -47,7 +47,7 @@ export default function ContactSection({
                         <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" />
                     </svg>
                     Facebook Username
-                    <span className="font-normal text-slate-400">(generates Messenger &amp; Page links)</span>
+                    <span className="font-normal text-slate-400">(for Messenger button)</span>
                 </label>
                 <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 focus-within:border-blue-400 transition-colors">
                     <span className="text-slate-400 text-sm shrink-0 select-none">facebook.com/</span>
@@ -59,6 +59,11 @@ export default function ContactSection({
                         className="flex-1 bg-transparent text-sm text-slate-900 dark:text-white outline-none placeholder-slate-400"
                     />
                 </div>
+                {/* Helper tip */}
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 leading-relaxed">
+                    <span className="font-bold text-slate-500 dark:text-slate-400">How to find your username:</span>{' '}
+                    Open the Facebook app → tap your profile photo → your username appears below your name (e.g. <span className="font-mono">juan.dela.cruz.123</span>). Or go to <span className="font-mono">facebook.com/settings</span> → Username.
+                </p>
                 {fbUsername.trim() && (
                     <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                         {/* Messenger link */}
