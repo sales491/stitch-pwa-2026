@@ -14,8 +14,8 @@ const SUPER_ADMIN_EMAILS = [
     'mspeninv1@gmail.com', // M Spencer — platform owner
 ];
 
-const ADMIN_EMAILS = [
-    'msdeanmarquez@gmail.com',
+const ADMIN_EMAILS: string[] = [
+    // Add hardcoded admin emails here if needed
 ];
 
 const MODERATOR_EMAILS = [
