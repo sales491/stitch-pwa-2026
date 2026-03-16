@@ -2,24 +2,24 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { isAdmin } from '@/utils/roles';
+import { isSuperAdmin, isAdmin } from '@/utils/roles';
 import { revalidatePath } from 'next/cache';
 
 /**
  * Ensures the currently authenticated user is an administrator.
- * Returns true if admin, throws an error otherwise.
+ * Returns 'super_admin', 'admin', or 'moderator' — or throws.
  */
-async function verifyAdminServer() {
+async function verifyAdminServer(): Promise<string> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-        throw new Error('Unauthorized');
-    }
+    if (!user) throw new Error('Unauthorized');
 
-    if (isAdmin(user.email)) {
-        return true;
-    }
+    // Hardcoded super admin check (highest trust)
+    if (isSuperAdmin(user.email)) return 'super_admin';
+
+    // Hardcoded admin check
+    if (isAdmin(user.email)) return 'admin';
 
     const { data: profile } = await supabase
         .from('profiles')
@@ -27,11 +27,19 @@ async function verifyAdminServer() {
         .eq('id', user.id)
         .single();
 
-    if (profile?.role === 'admin' || profile?.role === 'moderator') {
-        return true;
-    }
+    const role = profile?.role;
+    if (role === 'super_admin') return 'super_admin';
+    if (role === 'admin') return 'admin';
+    if (role === 'moderator') return 'moderator';
 
     throw new Error('Forbidden: Admin access required.');
+}
+
+/** Check if current user is super_admin */
+async function verifySuperAdmin() {
+    const role = await verifyAdminServer();
+    if (role !== 'super_admin') throw new Error('Forbidden: Super admin access required.');
+    return true;
 }
 
 export async function adminDeleteContent(contentType: string, contentId: string) {
@@ -41,12 +49,14 @@ export async function adminDeleteContent(contentType: string, contentId: string)
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('Unauthorized');
 
-        let is_admin = false;
+        let callerRole: string = '';
         try {
-            is_admin = await verifyAdminServer();
+            callerRole = await verifyAdminServer();
         } catch (e) {
-            is_admin = false;
+            callerRole = '';
         }
+
+        const is_privileged = callerRole !== '';
 
         // Initialize the admin client to bypass RLS
         const adminSupabase = await createAdminClient();
@@ -65,18 +75,23 @@ export async function adminDeleteContent(contentType: string, contentId: string)
         };
 
         const tableName = tableMap[contentType];
-        if (!tableName) {
-            throw new Error(`Unknown content type: ${contentType}`);
-        }
+        if (!tableName) throw new Error(`Unknown content type: ${contentType}`);
 
-        if (!is_admin) {
-            // Not an admin, verify ownership
+        if (!is_privileged) {
+            // Not an admin/moderator, verify ownership
             const { data: item } = await adminSupabase.from(tableName).select('*').eq('id', contentId).single();
             if (!item) throw new Error('Content not found');
 
             const ownerId = item.user_id || item.author_id || item.employer_id || item.driver_id || item.provider_id;
-            if (ownerId !== user.id) {
-                throw new Error('Forbidden: You can only delete your own content.');
+            if (ownerId !== user.id) throw new Error('Forbidden: You can only delete your own content.');
+        }
+
+        // If deleting a user/profile, prevent admins from deleting other admins — only super_admin can
+        if (contentType === 'user') {
+            const { data: targetProfile } = await adminSupabase.from('profiles').select('role').eq('id', contentId).single();
+            const targetRole = targetProfile?.role;
+            if ((targetRole === 'admin' || targetRole === 'super_admin' || targetRole === 'moderator') && callerRole !== 'super_admin') {
+                throw new Error('Forbidden: Only super admins can delete admin or moderator accounts.');
             }
         }
 
@@ -179,12 +194,17 @@ export async function adminDeleteBusiness(businessId: string) {
 
 export async function adminBanUser(userId: string) {
     try {
-        await verifyAdminServer();
+        const callerRole = await verifyAdminServer();
         const adminSupabase = await createAdminClient();
-        const { error } = await adminSupabase
-            .from('profiles')
-            .update({ role: 'banned' })
-            .eq('id', userId);
+
+        // Only super_admin can ban other admins/moderators
+        const { data: targetProfile } = await adminSupabase.from('profiles').select('role').eq('id', userId).single();
+        const targetRole = targetProfile?.role;
+        if ((targetRole === 'admin' || targetRole === 'super_admin' || targetRole === 'moderator') && callerRole !== 'super_admin') {
+            throw new Error('Forbidden: Only super admins can ban admin or moderator accounts.');
+        }
+
+        const { error } = await adminSupabase.from('profiles').update({ role: 'banned' }).eq('id', userId);
         if (error) throw new Error(error.message);
         revalidatePath('/admin/users');
         return { success: true };
