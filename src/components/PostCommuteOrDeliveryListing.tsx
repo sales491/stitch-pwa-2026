@@ -314,7 +314,7 @@ export default function PostCommuteOrDeliveryListing() {
                             images: [...existingImages, ...uploadedImages]
                         };
 
-                        await createTransportService(payload);
+                        await createTransportService(payload, editId);
                         setShowSuccess(true);
                         setTimeout(() => {
                             router.push("/commute");

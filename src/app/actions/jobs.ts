@@ -28,17 +28,29 @@ export async function createJob(data: JobInput, id?: string) {
     const validated = jobSchema.parse(data);
 
     if (id) {
-        // Update existing job
-        const { error } = await supabase
-            .from('jobs')
-            .update({
-                ...validated,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', id)
-            .eq('employer_id', user.id);
-
-        if (error) throw new Error(error.message);
+        // UPDATE existing job
+        const hasAdminAccess = await isUserAdmin(user);
+        if (hasAdminAccess) {
+            const adminClient = await createAdminClient();
+            const { error } = await adminClient
+                .from('jobs')
+                .update({
+                    ...validated,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', id);
+            if (error) throw new Error(error.message);
+        } else {
+            const { error } = await supabase
+                .from('jobs')
+                .update({
+                    ...validated,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', id)
+                .eq('employer_id', user.id);
+            if (error) throw new Error(error.message);
+        }
     } else {
         // Create new job
         const { error } = await supabase

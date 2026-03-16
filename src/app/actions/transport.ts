@@ -17,7 +17,7 @@ async function isUserAdmin(user: any): Promise<boolean> {
     return profile?.role === 'admin' || profile?.role === 'moderator';
 }
 
-export async function createTransportService(data: any) {
+export async function createTransportService(data: any, editId?: string | null) {
     const supabase = await createClient();
 
     // Auth Check
@@ -27,18 +27,35 @@ export async function createTransportService(data: any) {
     // Validation
     const validated = transportServiceSchema.parse(data);
 
-    // Upsert based on provider_id which is unique (one listing per user)
-    const { error } = await supabase
-        .from('transport_services')
-        .upsert({
-            ...validated,
-            provider_id: user.id,
-            updated_at: new Date().toISOString()
-        }, {
-            onConflict: 'provider_id'
-        });
-
-    if (error) throw new Error(error.message);
+    if (editId) {
+        // UPDATE existing record — admin can update any, regular users only their own
+        const hasAdminAccess = await isUserAdmin(user);
+        if (hasAdminAccess) {
+            const adminClient = await createAdminClient();
+            const { error } = await adminClient
+                .from('transport_services')
+                .update({ ...validated, updated_at: new Date().toISOString() })
+                .eq('id', editId);
+            if (error) throw new Error(error.message);
+        } else {
+            const { error } = await supabase
+                .from('transport_services')
+                .update({ ...validated, updated_at: new Date().toISOString() })
+                .eq('id', editId)
+                .eq('provider_id', user.id);
+            if (error) throw new Error(error.message);
+        }
+    } else {
+        // CREATE new record — stamped with the caller's provider_id
+        const { error } = await supabase
+            .from('transport_services')
+            .insert({
+                ...validated,
+                provider_id: user.id,
+                updated_at: new Date().toISOString()
+            });
+        if (error) throw new Error(error.message);
+    }
 
     revalidatePath('/commuter-delivery-hub');
     return { success: true };

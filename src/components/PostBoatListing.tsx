@@ -199,7 +199,7 @@ export default function PostBoatListing() {
                         notes,
                         is_available: isAvailable,
                         images: [...existingImages, ...uploadedImages],
-                    });
+                    }, editId);
                     setShowSuccess(true);
                     setTimeout(() => {
                         router.push('/island-hopping');
