@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useNotifications } from './NotificationProvider';
 import ThemeToggle from './ThemeToggle';
+import { QRCodeSVG } from 'qrcode.react';
 
 const CATEGORIES = [
     { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
@@ -27,6 +28,7 @@ export default function MobileTopHeader() {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [qrOpen, setQrOpen] = useState(false);
 
     useEffect(() => {
         setIsMenuOpen(false);
@@ -87,6 +89,15 @@ export default function MobileTopHeader() {
                             <ThemeToggle />
                         </div>
 
+                        {/* QR Code button */}
+                        <button
+                            onClick={() => setQrOpen(true)}
+                            className="w-8 h-8 flex items-center justify-center text-slate-600 dark:text-white/70 hover:text-moriones-red transition-colors"
+                            aria-label="Show QR code"
+                        >
+                            <span className="material-symbols-outlined text-[22px]" style={{ fontWeight: 300 }}>qr_code_2</span>
+                        </button>
+
                         <Link href="/profile" className="ml-1 relative flex items-center justify-center">
                             {/* Profile image with matching colored border from mockup */}
                             <div className="h-8 w-8 rounded-full overflow-hidden border-[1.5px] border-slate-200 dark:border-white/20 shadow-sm">
@@ -124,6 +135,37 @@ export default function MobileTopHeader() {
                     </Link>
                 </div>
             </header>
+
+            {/* QR Code popup */}
+            {qrOpen && (
+                <div
+                    className="fixed inset-0 z-[200] flex items-start justify-center pt-20 px-6"
+                    onClick={() => setQrOpen(false)}
+                >
+                    <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+                    <div
+                        className="relative bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl p-5 flex flex-col items-center gap-3 w-full max-w-[300px] border border-slate-100 dark:border-zinc-800"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => setQrOpen(false)}
+                            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                            <span className="material-symbols-outlined text-[16px]">close</span>
+                        </button>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-1">Scan to open on another phone</p>
+                        <div className="bg-white p-3 rounded-2xl shadow-inner border border-slate-100">
+                            <QRCodeSVG
+                                value="https://marinduquemarket.com"
+                                size={220}
+                                level="M"
+                                marginSize={1}
+                            />
+                        </div>
+                        <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500">marinduquemarket.com</p>
+                    </div>
+                </div>
+            )}
 
             {/* Categories Slide-Over Menu overlay */}
             {isMenuOpen && (
