@@ -95,6 +95,7 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
     };
 
     return (
+        <>
         <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-cyan-400/30 shadow-xl shadow-cyan-500/5 ring-1 ring-cyan-400/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''}`}>
             {!isAvailable && (
                 <div className="absolute top-0 left-0 right-0 z-10 bg-slate-500/10 backdrop-blur-[1px] flex items-center justify-center py-1">
@@ -252,7 +253,7 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                 />
             </div>
         )}
-    </div>
+        </>
     );
 }
 
