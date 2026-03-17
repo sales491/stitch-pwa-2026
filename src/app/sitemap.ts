@@ -26,11 +26,10 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/my-barangay/lost-found`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
   { url: `${BASE}/my-barangay/calamity`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.7 },
   { url: `${BASE}/my-barangay/ofw`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
-  { url: `${BASE}/gems-of-marinduque-feed`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
+
   { url: `${BASE}/best-of-boac-monthly-spotlight`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
 
-  { url: `${BASE}/commuter-delivery-hub`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
-  { url: `${BASE}/roro-port-information-hub`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
+
   { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   { url: `${BASE}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
   { url: `${BASE}/policies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
