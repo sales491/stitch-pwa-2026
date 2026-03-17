@@ -116,7 +116,6 @@ export default function PostCommuteOrDeliveryListing() {
     const [showSuccess, setShowSuccess] = useState(false);
 
     // On-demand-specific state
-    const [baseRate, setBaseRate] = useState('');
     const [availHours, setAvailHours] = useState('');
     const [isAvailable, setIsAvailable] = useState(true);
 
@@ -155,8 +154,7 @@ export default function PostCommuteOrDeliveryListing() {
                 }
 
                 setSeats(data.seats_available || 10);
-                setPricePerSeat(data.price_per_seat?.toString() || '');
-                setBaseRate(data.price_per_seat?.toString() || ''); // Reused
+                setPricePerSeat('0');
                 setAvailHours(data.notes || '');
 
                 setCharterAvail(data.charter_avail || false);
@@ -248,7 +246,6 @@ export default function PostCommuteOrDeliveryListing() {
             if (!routeFrom.trim()) errors.push("Origin (From)");
             if (!routeTo.trim()) errors.push("Destination (To)");
             if (scheduleList.length === 0) errors.push("At least one Departure Schedule entry");
-            if (!pricePerSeat || parseFloat(pricePerSeat) <= 0) errors.push("Price per Seat");
         } else {
             if (!availHours.trim()) errors.push("Availability Hours");
         }
@@ -312,7 +309,7 @@ export default function PostCommuteOrDeliveryListing() {
                                 notes: charterNotes
                             } : undefined,
                             seats_available: seats,
-                            price_per_seat: parseFloat(pricePerSeat) || parseFloat(baseRate) || 0,
+                            price_per_seat: 0,
                             contact_details: {
                                 fb_username: fbUsername,
                                 email: email
@@ -419,6 +416,7 @@ export default function PostCommuteOrDeliveryListing() {
                                 type="text"
                                 placeholder="e.g. Mang Jun or Jun's Express"
                                 value={driverName}
+                                maxLength={30}
                                 onChange={(e) => setDriverName(e.target.value)}
                                 className="w-full h-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 outline-none text-slate-900 dark:text-white focus:border-moriones-red placeholder-slate-400"
                             />
@@ -530,29 +528,17 @@ export default function PostCommuteOrDeliveryListing() {
                             </div>
                         </div>
 
-                        {/* Base Rate & Hours */}
+                        {/* Availability Hours */}
                         {!isScheduled && (
-                            <div className="flex gap-4">
-                                <div className="flex-1">
-                                    <label className="block text-sm font-bold text-moriones-red mb-1">Base Rate (₱)</label>
-                                    <input
-                                        type="number"
-                                        placeholder="e.g. 50"
-                                        value={baseRate}
-                                        onChange={(e) => setBaseRate(e.target.value)}
-                                        className="w-full h-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 outline-none text-slate-900 dark:text-white focus:border-moriones-red placeholder-slate-400"
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <label className="block text-sm font-bold text-moriones-red mb-1">Hours</label>
-                                    <input
-                                        type="text"
-                                        placeholder="e.g. 6AM–8PM"
-                                        value={availHours}
-                                        onChange={(e) => setAvailHours(e.target.value)}
-                                        className="w-full h-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 outline-none text-slate-900 dark:text-white focus:border-moriones-red placeholder-slate-400"
-                                    />
-                                </div>
+                            <div>
+                                <label className="block text-sm font-bold text-moriones-red mb-1">Hours</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. 6AM–8PM"
+                                    value={availHours}
+                                    onChange={(e) => setAvailHours(e.target.value)}
+                                    className="w-full h-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 outline-none text-slate-900 dark:text-white focus:border-moriones-red placeholder-slate-400"
+                                />
                             </div>
                         )}
 
@@ -678,37 +664,25 @@ export default function PostCommuteOrDeliveryListing() {
                             </div>
                         </div>
 
-                        {/* Seats & Price */}
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <label className="block text-sm font-bold text-moriones-red mb-1">
-                                    {operatorType === 'Van / UV Express' ? 'Seats' : 'Capacity'}
-                                </label>
-                                <div className="flex items-center justify-between bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl p-1 h-12 shadow-sm">
-                                    <button
-                                        onClick={() => setSeats((s) => Math.max(1, s - 1))}
-                                        className="w-10 h-10 flex items-center justify-center text-moriones-red"
-                                    >
-                                        <span className="material-symbols-outlined">remove</span>
-                                    </button>
-                                    <span className="text-slate-900 dark:text-white text-lg font-bold">{seats}</span>
-                                    <button
-                                        onClick={() => setSeats((s) => s + 1)}
-                                        className="w-10 h-10 flex items-center justify-center text-moriones-red"
-                                    >
-                                        <span className="material-symbols-outlined">add</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="flex-1">
-                                <label className="block text-sm font-bold text-moriones-red mb-1">Price / Seat (₱)</label>
-                                <input
-                                    type="number"
-                                    placeholder="0.00"
-                                    value={pricePerSeat}
-                                    onChange={(e) => setPricePerSeat(e.target.value)}
-                                    className="w-full h-12 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 outline-none text-slate-900 dark:text-white focus:border-moriones-red placeholder-slate-400 text-lg shadow-sm"
-                                />
+                        {/* Capacity */}
+                        <div className="flex-1">
+                            <label className="block text-sm font-bold text-moriones-red mb-1">
+                                {operatorType === 'Van / UV Express' ? 'Seats' : 'Capacity'}
+                            </label>
+                            <div className="flex items-center justify-between bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl p-1 h-12 shadow-sm">
+                                <button
+                                    onClick={() => setSeats((s) => Math.max(1, s - 1))}
+                                    className="w-10 h-10 flex items-center justify-center text-moriones-red"
+                                >
+                                    <span className="material-symbols-outlined">remove</span>
+                                </button>
+                                <span className="text-slate-900 dark:text-white text-lg font-bold">{seats}</span>
+                                <button
+                                    onClick={() => setSeats((s) => s + 1)}
+                                    className="w-10 h-10 flex items-center justify-center text-moriones-red"
+                                >
+                                    <span className="material-symbols-outlined">add</span>
+                                </button>
                             </div>
                         </div>
 

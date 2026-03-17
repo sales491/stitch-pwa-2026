@@ -92,7 +92,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         title: `${t.vehicle_type}: ${t.base_town || 'Marinduque'}`, subtitle: t.driver_name,
         image: t.images?.[0] || '/images/hub/delivery_rider.webp',
         link: '/commuter-delivery-hub',
-        extraInfo: (t.price_per_seat || t.base_fare) ? `From ₱${t.price_per_seat || t.base_fare}` : undefined,
+        extraInfo: undefined,
     }));
 
     events?.forEach(e => items.push({

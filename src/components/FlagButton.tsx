@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 interface FlagButtonProps {
     contentType: 'listing' | 'job' | 'post' | 'comment' | 'business' | 'commute' | 'review';
     contentId: string;
+    className?: string;
 }
 
 const REPORT_REASONS = [
@@ -17,7 +18,7 @@ const REPORT_REASONS = [
     'Other',
 ] as const;
 
-export default function FlagButton({ contentType, contentId }: FlagButtonProps) {
+export default function FlagButton({ contentType, contentId, className = '' }: FlagButtonProps) {
     const [open, setOpen] = useState(false);
     const [reason, setReason] = useState<string>('');
     const [details, setDetails] = useState<string>('');
@@ -93,7 +94,7 @@ export default function FlagButton({ contentType, contentId }: FlagButtonProps) 
             <button
                 onClick={() => setOpen(true)}
                 title="Report this content"
-                className="flex items-center gap-1 text-slate-400 hover:text-red-500 transition-colors text-xs"
+                className={`p-2 rounded-full transition-all active:scale-95 flex items-center justify-center bg-white/90 dark:bg-zinc-800/90 text-slate-400 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 border border-slate-200 dark:border-zinc-700 backdrop-blur-md shadow-sm ${className}`}
             >
                 <span className="material-symbols-outlined text-[16px]">flag</span>
                 <span className="sr-only">Report</span>

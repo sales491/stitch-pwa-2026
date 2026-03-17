@@ -100,28 +100,49 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
                 </div>
             )}
-            {isOwner && (
-                <div className="absolute top-4 left-4 z-40 bg-cyan-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[12px]">person</span>Your Listing
-                </div>
-            )}
+
             <div className="relative">
                 <div className="h-3 bg-gradient-to-r from-cyan-500 to-blue-500" />
                 <div className="absolute top-3 right-3">
-                    <button onClick={toggleAvailability} disabled={isToggling || !isOwner}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm border transition-all active:scale-95 ${isAvailable ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400' : 'bg-slate-50 dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400'} ${isToggling ? 'opacity-50 cursor-wait' : ''} ${!isOwner ? 'pointer-events-none' : ''}`}>
-                        <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
-                        {isAvailable ? 'Active' : 'Offline'}
-                    </button>
+                    {isOwner ? (
+                        <button onClick={toggleAvailability} disabled={isToggling}
+                            className={`flex flex-col items-center gap-0 px-2 py-1 rounded-lg border-2 shadow-md transition-all active:scale-95 ${isAvailable ? 'bg-emerald-500 border-emerald-600 text-white shadow-emerald-300/50' : 'bg-slate-700 border-slate-600 text-slate-200 shadow-slate-900/30 dark:bg-zinc-700 dark:border-zinc-600'} ${isToggling ? 'opacity-60 cursor-wait' : ''}`}>
+                            <div className="flex items-center gap-1">
+                                <span className={`w-1.5 h-1.5 rounded-full bg-white ${isAvailable ? 'animate-pulse' : 'opacity-40'}`} />
+                                <span className="text-[10px] font-black uppercase tracking-wider">{isAvailable ? 'Active' : 'Offline'}</span>
+                                <span className="material-symbols-outlined text-[12px] opacity-80">swap_vert</span>
+                            </div>
+                            <span className="text-[7px] font-bold uppercase tracking-widest opacity-75">Tap to toggle</span>
+                        </button>
+                    ) : (
+                        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm border pointer-events-none ${isAvailable ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400' : 'bg-slate-50 dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400'}`}>
+                            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+                            {isAvailable ? 'Active' : 'Offline'}
+                        </div>
+                    )}
                 </div>
                 <div className="p-4 flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                        {op.images && op.images.length > 0
-                            ? <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator_name} />
-                            : <span className="text-3xl">{bm.emoji}</span>}
+                    <div className="relative shrink-0">
+                        <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center border border-slate-100 dark:border-zinc-700 overflow-hidden">
+                            {op.images && op.images.length > 0
+                                ? <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator_name} />
+                                : <span className="text-3xl">{bm.emoji}</span>}
+                        </div>
+                        {isOwner && (
+                            <span className="absolute -top-3 -right-3 material-symbols-outlined text-[18px] text-[#E8722A] drop-shadow-sm" style={{ fontVariationSettings: '"FILL" 1' }}>star</span>
+                        )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-slate-900 dark:text-white text-base truncate pr-20">{op.operator_name}</h3>
+                    <div className="flex-1 min-w-0 pr-[72px]">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                            <h3 className="font-bold text-slate-900 dark:text-white text-base truncate min-w-0">{op.operator_name}</h3>
+                            <ShareButton
+                                title={`${op.operator_name} on Marinduque Market Hub`}
+                                text={`Check out ${op.operator_name} for island hopping or boat charters!`}
+                                url="/island-hopping"
+                                variant="icon"
+                                className="scale-75 shrink-0"
+                            />
+                        </div>
                         <div className="flex items-center gap-2 mt-0.5">
                             <span className="text-[10px] bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-tight">{bm.label}</span>
                             <span className="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-tight flex items-center gap-1">
@@ -144,25 +165,15 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                     </div>
                     <div className="flex items-center gap-2">
                         <button onClick={toggleVouch} disabled={isVouching}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wide transition-all active:scale-95 border shadow-sm ${hasVouched ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600'} ${isVouching ? 'opacity-50 animate-pulse' : ''}`}>
+                            className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide transition-all active:scale-95 border shadow-sm ${hasVouched ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600'} ${isVouching ? 'opacity-50 animate-pulse' : ''}`}>
                             <div className="relative">
-                                <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}>thumb_up</span>
-                                {vouchCount > 0 && <span className={`absolute -top-2 -right-2 min-w-[16px] h-4 px-0.5 rounded-full text-[9px] font-black flex items-center justify-center leading-none ${hasVouched ? 'bg-white text-sky-600' : 'bg-sky-500 text-white'}`}>{vouchCount}</span>}
+                                <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}>thumb_up</span>
+                                {vouchCount > 0 && <span className={`absolute -top-1.5 -right-2 min-w-[14px] h-3.5 px-0.5 rounded-full text-[8px] font-black flex items-center justify-center leading-none ${hasVouched ? 'bg-white text-sky-600' : 'bg-sky-500 text-white'}`}>{vouchCount}</span>}
                             </div>
                             {hasVouched ? 'Vouched' : 'Vouch'}
                         </button>
-                        <div className={`flex items-center gap-1 p-1 rounded-2xl transition-all ${isOwner ? 'bg-cyan-500/5 ring-1 ring-cyan-500/20 pr-2' : ''}`}>
-                            <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className={`${isOwner ? 'scale-90' : 'scale-75'} origin-right`} />
-                            {isOwner && <span className="text-[10px] font-black text-cyan-600 uppercase tracking-tight -ml-1">Manage</span>}
-                        </div>
-                        <ShareButton 
-                            title={`${op.operator_name} on Marinduque Market Hub`}
-                            text={`Check out ${op.operator_name} for island hopping or boat charters!`}
-                            url="/island-hopping"
-                            variant="icon"
-                            className="scale-90"
-                        />
-                        <FlagButton contentType="commute" contentId={op.id.toString()} />
+                        <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
+                        <FlagButton contentType="commute" contentId={op.id.toString()} className="ml-auto" />
                     </div>
                 </div>
 
@@ -223,12 +234,15 @@ export default function IslandHoppingHub() {
     const [municipalityFilter, setMunicipalityFilter] = useState<string>('All');
     const [operators, setOperators] = useState<BoatOperator[]>([]);
     const [loading, setLoading] = useState(true);
+    const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
+    const [filterOpen, setFilterOpen] = useState(false);
     const supabase = createClient();
 
     React.useEffect(() => {
         async function fetchOperators() {
             setLoading(true);
             const { data: { user } } = await supabase.auth.getUser();
+            setCurrentUser(user);
             const { data: services } = await supabase.from('boat_services').select(`*, provider:profiles!boat_services_provider_id_fkey(trust_score, is_verified, phone)`);
             if (services) {
                 const { data: vouchesData } = await supabase.from('boat_vouches').select('service_id');
@@ -250,6 +264,10 @@ export default function IslandHoppingHub() {
                         vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id)
                     }))
                     .sort((a, b) => {
+                        if (user) {
+                            if (a.provider_id === user.id) return -1;
+                            if (b.provider_id === user.id) return 1;
+                        }
                         if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
                         return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
                     });
@@ -268,50 +286,169 @@ export default function IslandHoppingHub() {
         return boatMatch && svcMatch && munMatch;
     });
 
+    // Active filter count for badge
+    const activeFilterCount = [
+        boatFilter !== 'all',
+        serviceFilter !== 'all',
+        municipalityFilter !== 'All',
+    ].filter(Boolean).length;
+
     return (
         <>
             <div className="relative w-full max-w-md mx-auto bg-slate-50 dark:bg-zinc-950 shadow-2xl">
                 <header className="sticky top-0 z-30 flex flex-col bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
-                    <div className="flex items-center justify-between px-4 pt-4 pb-2">
+                    <div className="flex items-center justify-between px-4 pt-4 pb-3">
                         <div className="flex items-center gap-2">
                             <Link href="/" className="text-slate-800 dark:text-slate-200 p-1 rounded-full hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center">
                                 <span className="material-symbols-outlined text-[28px]">arrow_back</span>
                             </Link>
                             <div>
                                 <h1 className="text-lg font-bold leading-tight tracking-tight text-cyan-600 dark:text-cyan-400 pl-1">🏝️ Island Hopping</h1>
-                                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Boat Operators & Tour Services</p>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Boat Operators &amp; Tour Services</p>
                             </div>
                         </div>
-                        <div className="flex gap-1 bg-slate-100 dark:bg-zinc-800 rounded-xl p-0.5 shadow-inner">
-                            {[{ key: 'all', label: 'All' }, { key: 'Island Hopping', label: 'Tours' }, { key: 'Charter', label: 'Charter' }].map(f => (
-                                <button key={f.key} onClick={() => setServiceFilter(f.key)}
-                                    className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${serviceFilter === f.key ? 'bg-white dark:bg-zinc-700 text-cyan-600 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
-                                    {f.label}
+                        {/* Filter Button */}
+                        <button
+                            onClick={() => setFilterOpen(true)}
+                            className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 font-black text-[11px] uppercase tracking-wider transition-all hover:border-cyan-500/50 active:scale-95"
+                        >
+                            <span className="material-symbols-outlined text-[16px]">tune</span>
+                            Filters
+                            {activeFilterCount > 0 && (
+                                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-cyan-600 text-white text-[9px] font-black flex items-center justify-center">
+                                    {activeFilterCount}
+                                </span>
+                            )}
+                        </button>
+                    </div>
+
+                    {/* Active filter chips */}
+                    {activeFilterCount > 0 && (
+                        <div className="flex items-center gap-1.5 px-4 pb-2 overflow-x-auto scrollbar-none">
+                            {boatFilter !== 'all' && (
+                                <span className="shrink-0 flex items-center gap-1 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-cyan-500/20">
+                                    {[{ key: 'Outrigger Bangka', emoji: '🚤' }, { key: 'Motorboat', emoji: '⛵' }, { key: 'Speedboat', emoji: '💨' }, { key: 'Passenger Ferry', emoji: '🛳️' }].find(b => b.key === boatFilter)?.emoji} {boatFilter}
+                                    <button onClick={() => setBoatFilter('all')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                                </span>
+                            )}
+                            {serviceFilter !== 'all' && (
+                                <span className="shrink-0 flex items-center gap-1 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-cyan-500/20">
+                                    {serviceFilter}
+                                    <button onClick={() => setServiceFilter('all')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                                </span>
+                            )}
+                            {municipalityFilter !== 'All' && (
+                                <span className="shrink-0 flex items-center gap-1 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-cyan-500/20">
+                                    {municipalityFilter}
+                                    <button onClick={() => setMunicipalityFilter('All')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                                </span>
+                            )}
+                        </div>
+                    )}
+
+                    {/* CTA banner — only shown to users without a listing */}
+                    {!currentUser || !operators.some(op => op.provider_id === currentUser?.id) ? (
+                        <Link
+                            href="/island-hopping/list"
+                            className="flex items-center gap-3 mx-4 mb-3 px-4 py-2.5 rounded-2xl bg-cyan-500/5 dark:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/50 transition-all active:scale-[0.98] group"
+                        >
+                            <span className="text-xl">🏝️</span>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-[11px] font-black text-slate-800 dark:text-white leading-tight">Are you a boat operator?</p>
+                                <p className="text-[10px] text-slate-400 font-medium">List your service free — get discovered</p>
+                            </div>
+                            <span className="material-symbols-outlined text-[18px] text-cyan-600 group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+                        </Link>
+                    ) : null}
+                </header>
+
+                {/* Filter Bottom Sheet */}
+                {filterOpen && (
+                    <div className="fixed inset-0 z-[80] flex items-end justify-center">
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setFilterOpen(false)} />
+                        <div className="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-t-3xl shadow-2xl z-10 pb-10">
+                            <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-slate-100 dark:border-zinc-800">
+                                <h2 className="text-base font-black text-slate-900 dark:text-white">Filter Operators</h2>
+                                <div className="flex items-center gap-2">
+                                    {activeFilterCount > 0 && (
+                                        <button
+                                            onClick={() => { setBoatFilter('all'); setServiceFilter('all'); setMunicipalityFilter('All'); }}
+                                            className="text-[10px] font-black text-cyan-600 uppercase tracking-widest"
+                                        >
+                                            Clear all
+                                        </button>
+                                    )}
+                                    <button onClick={() => setFilterOpen(false)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-[18px]">close</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="px-5 pt-4 space-y-5 overflow-y-auto max-h-[70vh]">
+                                {/* Boat Type */}
+                                <div>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Boat Type</p>
+                                    <div className="grid grid-cols-3 gap-2">
+                                        {([{ key: 'all', emoji: '🗂️', label: 'All' }, { key: 'Outrigger Bangka', emoji: '🚤', label: 'Bangka' }, { key: 'Motorboat', emoji: '⛵', label: 'Motorboat' }, { key: 'Speedboat', emoji: '💨', label: 'Speedboat' }, { key: 'Passenger Ferry', emoji: '🛳️', label: 'Ferry' }] as const).map(f => (
+                                            <button key={f.key} onClick={() => setBoatFilter(f.key)}
+                                                className={`flex items-center justify-center gap-2 h-11 px-2 rounded-xl text-xs font-bold transition-all border ${
+                                                    boatFilter === f.key
+                                                        ? 'bg-cyan-600 border-cyan-600 text-white shadow-lg shadow-cyan-600/20'
+                                                        : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'
+                                                }`}>
+                                                <span className="text-xl">{f.emoji}</span>
+                                                <span className="truncate">{f.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Service Type */}
+                                <div>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Service Type</p>
+                                    <div className="flex gap-2">
+                                        {([{ key: 'all', label: 'All' }, { key: 'Island Hopping', label: 'Tours' }, { key: 'Charter', label: 'Charter' }] as const).map(f => (
+                                            <button key={f.key} onClick={() => setServiceFilter(f.key)}
+                                                className={`flex-1 py-2.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all ${
+                                                    serviceFilter === f.key
+                                                        ? 'border-cyan-600 bg-cyan-500/5 text-cyan-600'
+                                                        : 'border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400'
+                                                }`}>
+                                                {f.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Municipality */}
+                                <div>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Municipality</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {municipalities.map(m => (
+                                            <button key={m} onClick={() => setMunicipalityFilter(m)}
+                                                className={`px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all ${
+                                                    municipalityFilter === m
+                                                        ? 'bg-cyan-600 border-cyan-600 text-white'
+                                                        : 'border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400 bg-white dark:bg-zinc-900'
+                                                }`}>
+                                                {m}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="px-5 pt-4">
+                                <button
+                                    onClick={() => setFilterOpen(false)}
+                                    className="w-full py-3.5 rounded-2xl bg-cyan-600 text-white font-black text-sm uppercase tracking-widest shadow-lg shadow-cyan-600/30 active:scale-[0.98] transition-all"
+                                >
+                                    {activeFilterCount > 0 ? `Show Results (${filtered.length})` : 'View All Operators'}
                                 </button>
-                            ))}
+                            </div>
                         </div>
                     </div>
-
-                    <div className="grid grid-cols-5 gap-1.5 px-4 pb-3 pt-2">
-                        {[{ key: 'all', emoji: '🗂️', label: 'All' }, { key: 'Outrigger Bangka', emoji: '🚤', label: 'Bangka' }, { key: 'Motorboat', emoji: '⛵', label: 'Motor' }, { key: 'Speedboat', emoji: '💨', label: 'Speed' }, { key: 'Passenger Ferry', emoji: '🛳️', label: 'Ferry' }].map(f => (
-                            <button key={f.key} onClick={() => setBoatFilter(f.key)}
-                                className={`flex flex-col items-center justify-center gap-1 h-14 px-1 rounded-xl text-[10px] font-bold transition-all border ${boatFilter === f.key ? 'bg-cyan-600 border-cyan-600 text-white shadow-lg shadow-cyan-600/20' : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'}`}>
-                                <span className="text-xl">{f.emoji}</span>
-                                <span className="truncate w-full text-center leading-none">{f.label}</span>
-                            </button>
-                        ))}
-                    </div>
-
-                    <div className="flex justify-between items-center w-full px-4 pb-3 pt-1 border-t border-slate-50 dark:border-zinc-800/50">
-                        {municipalities.map(m => (
-                            <button key={m} onClick={() => setMunicipalityFilter(m)}
-                                className={`flex shrink-0 items-center gap-1 text-[11px] font-bold transition-all relative py-1 ${municipalityFilter === m ? 'text-cyan-600 dark:text-cyan-400' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'}`}>
-                                {m}
-                                {municipalityFilter === m && <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-500 rounded-full" />}
-                            </button>
-                        ))}
-                    </div>
-                </header>
+                )}
 
                 <div className="bg-slate-50/50 dark:bg-zinc-950/50 px-4 pt-3 pb-32 space-y-4">
                     <p className="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest">
@@ -329,12 +466,6 @@ export default function IslandHoppingHub() {
                     ) : filtered.map(op => <BoatOperatorCard key={op.id} op={op} />)}
                 </div>
 
-                <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-md pointer-events-none z-[60] flex justify-end px-4">
-                    <Link href="/island-hopping/list" className="flex items-center gap-1 bg-cyan-600 text-white font-black px-3.5 py-2.5 rounded-full shadow-2xl shadow-cyan-600/40 transition-all hover:scale-105 active:scale-95 whitespace-nowrap border-[1.5px] border-white/20 pointer-events-auto">
-                        <span className="material-symbols-outlined font-black text-lg">add_circle</span>
-                        <span className="text-[9px] tracking-widest uppercase text-white/90">List Your Boat</span>
-                    </Link>
-                </div>
             </div>
         </>
     );

@@ -59,7 +59,7 @@ export default function ShareButton({ title, text, url, variant = 'icon', classN
                 title={copied ? "Link Copied!" : "Share"}
             >
                 <span className="material-symbols-outlined text-[18px]">
-                    {copied ? 'check' : 'ios_share'}
+                    {copied ? 'check' : 'share'}
                 </span>
             </button>
         );
@@ -74,7 +74,7 @@ export default function ShareButton({ title, text, url, variant = 'icon', classN
                 } ${className}`}
             >
                 <span className="material-symbols-outlined text-[14px]">
-                    {copied ? 'check' : 'ios_share'}
+                    {copied ? 'check' : 'share'}
                 </span>
                 <span className="text-[10px] uppercase font-black tracking-widest leading-none mt-0.5">
                     {copied ? 'Copied' : 'Share'}
@@ -94,7 +94,7 @@ export default function ShareButton({ title, text, url, variant = 'icon', classN
             } ${className}`}
         >
             <span className="material-symbols-outlined text-[16px]">
-                {copied ? 'check' : 'ios_share'}
+                {copied ? 'check' : 'share'}
             </span>
             {copied ? 'Copied Link!' : 'Share'}
         </button>

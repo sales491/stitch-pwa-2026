@@ -138,40 +138,64 @@ function OperatorCard({ op }: { op: Operator }) {
           <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
         </div>
       )}
-      {isOwner && (
-        <div className="absolute top-4 left-4 z-40 bg-moriones-red text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5">
-          <span className="material-symbols-outlined text-[12px]">person</span>
-          Your Listing
-        </div>
-      )}
+
       {/* Upper Section */}
       <div className="relative">
         <div className="h-3 bg-gradient-to-r from-moriones-red to-moriones-red/80" />
         <div className="absolute top-3 right-3">
-          <button
-            onClick={toggleAvailability}
-            disabled={isToggling}
-            title="Tap to toggle availability"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm border transition-all active:scale-95 ${isAvailable
+          {isOwner ? (
+            <button
+              onClick={toggleAvailability}
+              disabled={isToggling}
+              className={`flex flex-col items-center gap-0 px-2 py-1 rounded-lg border-2 shadow-md transition-all active:scale-95 ${isAvailable
+                ? 'bg-emerald-500 border-emerald-600 text-white shadow-emerald-300/50'
+                : 'bg-slate-700 border-slate-600 text-slate-200 shadow-slate-900/30 dark:bg-zinc-700 dark:border-zinc-600'
+              } ${isToggling ? 'opacity-60 cursor-wait' : ''}`}
+            >
+              <div className="flex items-center gap-1">
+                <span className={`w-1.5 h-1.5 rounded-full bg-white ${isAvailable ? 'animate-pulse' : 'opacity-40'}`} />
+                <span className="text-[10px] font-black uppercase tracking-wider">
+                  {isAvailable ? 'Active' : 'Offline'}
+                </span>
+                <span className="material-symbols-outlined text-[12px] opacity-80">swap_vert</span>
+              </div>
+              <span className="text-[7px] font-bold uppercase tracking-widest opacity-75">Tap to toggle</span>
+            </button>
+          ) : (
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm border pointer-events-none ${isAvailable
               ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400'
               : 'bg-slate-50 dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400'
-              } ${isToggling ? 'opacity-50 cursor-wait' : ''}`}
-          >
-            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-500' : 'bg-slate-400'} ${isAvailable ? 'animate-pulse' : ''}`} />
-            {isAvailable ? 'Active' : 'Offline'}
-          </button>
+            }`}>
+              <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+              {isAvailable ? 'Active' : 'Offline'}
+            </div>
+          )}
         </div>
 
         <div className="p-4 flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 border border-slate-100 dark:border-zinc-700 overflow-hidden">
-            {op.images && op.images.length > 0 ? (
-            <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator} />
-            ) : (
-              <span className="text-3xl">{vm.emoji}</span>
+          <div className="relative shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center border border-slate-100 dark:border-zinc-700 overflow-hidden">
+              {op.images && op.images.length > 0 ? (
+              <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator} />
+              ) : (
+                <span className="text-3xl">{vm.emoji}</span>
+              )}
+            </div>
+            {isOwner && (
+              <span className="absolute -top-3 -right-3 material-symbols-outlined text-[18px] text-[#E8722A] drop-shadow-sm" style={{ fontVariationSettings: '"FILL" 1' }}>star</span>
             )}
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-slate-900 dark:text-white text-base truncate pr-20">{op.operator}</h3>
+          <div className="flex-1 min-w-0 pr-[72px]">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <h3 className="font-bold text-slate-900 dark:text-white text-base truncate min-w-0">{op.operator}</h3>
+              <ShareButton
+                title={`${op.operator} on Marinduque Market Hub`}
+                text={`Book a ride or delivery with ${op.operator} (${op.vehicleType}) on the Marinduque Market Hub!`}
+                url="/commute"
+                variant="icon"
+                className="scale-75 shrink-0"
+              />
+            </div>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-[10px] bg-moriones-red/10 text-moriones-red font-bold px-1.5 py-0.5 rounded uppercase tracking-tight">
                 {vm.label}
@@ -187,31 +211,23 @@ function OperatorCard({ op }: { op: Operator }) {
 
       {/* Details Section */}
       <div className="px-4 pb-4 space-y-3">
-        {/* Price + Community Trust row */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div>
-              <span className="text-moriones-red font-black text-lg">₱{op.price}</span>
-              <span className="text-[11px] text-slate-400 font-medium"> / {isScheduled ? 'seat' : 'base'}</span>
-            </div>
-          </div>
           <div className="flex items-center gap-2">
             {/* Primary Vouch Button */}
             <button
               onClick={toggleVouch}
               disabled={isVouching}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wide transition-all active:scale-95 border shadow-sm ${hasVouched
+              className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide transition-all active:scale-95 border shadow-sm ${hasVouched
                 ? 'bg-sky-500 border-sky-500 text-white shadow-sky-300/40'
                 : 'bg-white dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600'
                 } ${isVouching ? 'opacity-50 animate-pulse' : ''}`}
             >
               <div className="relative">
                 <span
-                  className="material-symbols-outlined text-[16px]"
+                  className="material-symbols-outlined text-[13px]"
                   style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}
                 >thumb_up</span>
                 {vouchCount > 0 && (
-                  <span className={`absolute -top-2 -right-2 min-w-[16px] h-4 px-0.5 rounded-full text-[9px] font-black flex items-center justify-center leading-none ${hasVouched
+                  <span className={`absolute -top-1.5 -right-2 min-w-[14px] h-3.5 px-0.5 rounded-full text-[8px] font-black flex items-center justify-center leading-none ${hasVouched
                     ? 'bg-white text-sky-600'
                     : 'bg-sky-500 text-white'
                     }`}>
@@ -221,20 +237,9 @@ function OperatorCard({ op }: { op: Operator }) {
               </div>
               {hasVouched ? 'Vouched' : 'Vouch'}
             </button>
-            <div className={`flex items-center gap-1 p-1 rounded-2xl transition-all ${isOwner ? 'bg-moriones-red/5 ring-1 ring-moriones-red/20 pr-2' : ''}`}>
-              <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className={`${isOwner ? 'scale-90' : 'scale-75'} origin-right`} />
-              {isOwner && <span className="text-[10px] font-black text-moriones-red uppercase tracking-tight -ml-1">Manage</span>}
-            </div>
-            <ShareButton 
-                title={`${op.operator} on Marinduque Market Hub`}
-                text={`Book a ride or delivery with ${op.operator} (${op.vehicleType}) on the Marinduque Market Hub!`}
-                url="/commute"
-                variant="icon"
-                className="scale-90"
-            />
-            <FlagButton contentType="commute" contentId={op.id.toString()} />
+            <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
+            <FlagButton contentType="commute" contentId={op.id.toString()} className="ml-auto" />
           </div>
-        </div>
 
         {/* Route (for scheduled types) */}
         {isScheduled && op.route && (
@@ -333,6 +338,8 @@ export default function CommuterDeliveryHub() {
 
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const supabase = createClient();
 
@@ -341,6 +348,7 @@ export default function CommuterDeliveryHub() {
       setLoading(true);
 
       const { data: { user } } = await supabase.auth.getUser();
+      setCurrentUser(user);
 
       // Fetch services with provider trust scores, verification and phone via join
       const { data: services, error: serviceError } = await supabase
@@ -379,7 +387,7 @@ export default function CommuterDeliveryHub() {
             vehicleType: d.vehicle_type,
             serviceType: d.service_type,
             towns: d.towns_covered || [d.base_town],
-            price: d.price_per_seat?.toString() || '0',
+            price: '0',
             vouchCount: countsByService[d.id] || 0,
             hasVouched: userVouches.has(d.id),
             available: d.is_available,
@@ -394,8 +402,12 @@ export default function CommuterDeliveryHub() {
             fb: d.contact_details?.fb_username,
             email: d.contact_details?.email
           }))
-          // Sort: available first, then unavailable. Within each group, sort by vouchCount descending
+          // Sort: owner's card first, then available, then by vouchCount
           .sort((a, b) => {
+            if (user) {
+              if (a.provider_id === user.id) return -1;
+              if (b.provider_id === user.id) return 1;
+            }
             if (a.available !== b.available) return a.available ? -1 : 1;
             return b.vouchCount - a.vouchCount;
           });
@@ -430,14 +442,21 @@ export default function CommuterDeliveryHub() {
     return vehicleMatch && serviceMatch && townMatch && routeMatch;
   });
 
-  const isScheduledFilterActive = vehicleFilter === 'Jeepney' || vehicleFilter === 'Van / UV Express';
+  // Count active (non-default) filters for badge
+  const activeFilterCount = [
+    vehicleFilter !== 'all',
+    serviceFilter !== 'all',
+    townFilter !== 'All',
+    routeFromFilter !== '',
+    routeToFilter !== '',
+  ].filter(Boolean).length;
 
   return (
     <>
       <div className="relative w-full max-w-md mx-auto bg-slate-50 dark:bg-zinc-950 shadow-2xl">
         {/* Sticky Header */}
         <header className="sticky top-0 z-30 flex flex-col bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
-          <div className="flex items-center justify-between px-4 pt-4 pb-2">
+          <div className="flex items-center justify-between px-4 pt-4 pb-3">
             <div className="flex items-center gap-2">
               <Link
                 href="/"
@@ -450,128 +469,217 @@ export default function CommuterDeliveryHub() {
                 <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Find Rides &amp; Cargo Services</p>
               </div>
             </div>
-            {/* Service Filter Pills */}
-            <div className="flex gap-1 bg-slate-100 dark:bg-zinc-800 rounded-xl p-0.5 shadow-inner">
-              {([
-                { key: 'all', label: 'All' },
-                { key: 'rides', label: 'Rides' },
-                { key: 'delivery', label: 'Delivery' },
-              ] as const).map((f) => (
-                <button
-                  key={f.key}
-                  onClick={() => setServiceFilter(f.key)}
-                  className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${serviceFilter === f.key
-                    ? 'bg-white dark:bg-zinc-700 text-moriones-red shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400'
-                    }`}
-                >
-                  {f.label}
-                </button>
-              ))}
-            </div>
+            {/* Filter Button */}
+            <button
+              onClick={() => setFilterOpen(true)}
+              className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 font-black text-[11px] uppercase tracking-wider transition-all hover:border-moriones-red/50 active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[16px]">tune</span>
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-moriones-red text-white text-[9px] font-black flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
           </div>
 
-          {/* Vehicle Type Filter Grid */}
-          <div className="grid grid-cols-3 gap-2 px-4 pb-3 pt-2">
-            {([
-              { key: 'all', emoji: '🗂️', label: 'All' },
-              { key: 'Motorcycle', emoji: '🏍️', label: 'Motorcycle' },
-              { key: 'Tricycle', emoji: '🛺', label: 'Tricycle' },
-              { key: 'Private Car', emoji: '🚗', label: 'Car' },
-              { key: 'Jeepney', emoji: '🚌', label: 'Jeepney' },
-              { key: 'Van / UV Express', emoji: '🚐', label: 'Van' },
-            ] as const).map((f) => (
-              <button
-                key={f.key}
-                onClick={() => {
-                  setVehicleFilter(f.key);
-                  // Clear route filters when switching off scheduled vehicles
-                  if (f.key !== 'Jeepney' && f.key !== 'Van / UV Express') {
-                    setRouteFromFilter('');
-                    setRouteToFilter('');
-                  }
-                }}
-                className={`flex items-center justify-center gap-2 h-11 px-2 rounded-xl text-xs font-bold transition-all border ${vehicleFilter === f.key
-                  ? 'bg-moriones-red border-moriones-red text-white shadow-lg shadow-moriones-red/20'
-                  : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'
-                  }`}
-              >
-                <span className="text-xl">{f.emoji}</span>
-                <span className="truncate">{f.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Route Filter (Visible only when Scheduled vehicle selected) */}
-          {isScheduledFilterActive && (
-            <div className="px-4 pb-3 pt-1 border-t border-slate-50 dark:border-zinc-800/50 flex gap-2 animate-in slide-in-from-top-2 fade-in">
-              <div className="flex-1 relative">
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">From</span>
-                <select
-                  value={routeFromFilter}
-                  onChange={(e) => setRouteFromFilter(e.target.value)}
-                  className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-12 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer"
-                >
-                  <option value="">Any Origin</option>
-                  <option value="Boac">Boac</option>
-                  <option value="Buyabod">Buyabod Port</option>
-                  <option value="Balanacan">Balanacan Port</option>
-                  <option value="Gasan">Gasan</option>
-                  <option value="Lucena">Lucena</option>
-                  <option value="Manila">Manila</option>
-                  <option value="Mogpog">Mogpog</option>
-                  <option value="Sta. Cruz">Sta. Cruz</option>
-                  <option value="Torrijos">Torrijos</option>
-                  <option value="Buenavista">Buenavista</option>
-                </select>
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
-              </div>
-
-              <div className="flex-1 relative">
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">To</span>
-                <select
-                  value={routeToFilter}
-                  onChange={(e) => setRouteToFilter(e.target.value)}
-                  className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-8 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer"
-                >
-                  <option value="">Any Destination</option>
-                  <option value="Boac">Boac</option>
-                  <option value="Buyabod">Buyabod Port</option>
-                  <option value="Balanacan">Balanacan Port</option>
-                  <option value="Gasan">Gasan</option>
-                  <option value="Lucena">Lucena</option>
-                  <option value="Manila">Manila</option>
-                  <option value="Mogpog">Mogpog</option>
-                  <option value="Sta. Cruz">Sta. Cruz</option>
-                  <option value="Torrijos">Torrijos</option>
-                  <option value="Buenavista">Buenavista</option>
-                </select>
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
-              </div>
+          {/* Active filter summary chips */}
+          {activeFilterCount > 0 && (
+            <div className="flex items-center gap-1.5 px-4 pb-2 overflow-x-auto scrollbar-none">
+              {vehicleFilter !== 'all' && (
+                <span className="shrink-0 flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-full border border-moriones-red/20">
+                  {[{ key: 'Motorcycle', emoji: '🏍️' }, { key: 'Tricycle', emoji: '🛺' }, { key: 'Private Car', emoji: '🚗' }, { key: 'Jeepney', emoji: '🚌' }, { key: 'Van / UV Express', emoji: '🚐' }].find(v => v.key === vehicleFilter)?.emoji} {vehicleFilter === 'Van / UV Express' ? 'Van' : vehicleFilter}
+                  <button onClick={() => { setVehicleFilter('all'); setRouteFromFilter(''); setRouteToFilter(''); }} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                </span>
+              )}
+              {serviceFilter !== 'all' && (
+                <span className="shrink-0 flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-full border border-moriones-red/20">
+                  {serviceFilter === 'rides' ? 'Rides' : 'Delivery'}
+                  <button onClick={() => setServiceFilter('all')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                </span>
+              )}
+              {townFilter !== 'All' && (
+                <span className="shrink-0 flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-full border border-moriones-red/20">
+                  {townFilter}
+                  <button onClick={() => setTownFilter('All')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                </span>
+              )}
+              {routeFromFilter && (
+                <span className="shrink-0 flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-full border border-moriones-red/20">
+                  From: {routeFromFilter}
+                  <button onClick={() => setRouteFromFilter('')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                </span>
+              )}
+              {routeToFilter && (
+                <span className="shrink-0 flex items-center gap-1 bg-moriones-red/10 text-moriones-red text-[10px] font-black px-2 py-0.5 rounded-full border border-moriones-red/20">
+                  To: {routeToFilter}
+                  <button onClick={() => setRouteToFilter('')} className="ml-0.5"><span className="material-symbols-outlined text-[11px]">close</span></button>
+                </span>
+              )}
             </div>
           )}
 
-          {/* Town Filter (Evenly Spaced) - Only show if not scheduled to avoid clutter */}
-          {!isScheduledFilterActive && (
-            <div className="flex justify-between items-center w-full px-4 pb-3 pt-2 border-t border-slate-50 dark:border-zinc-800/50">
-              {towns.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTownFilter(t)}
-                  className={`flex shrink-0 items-center gap-1 text-[11px] font-bold transition-all relative py-1 ${townFilter === t
-                    ? 'text-moriones-red'
-                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'
-                    }`}
-                >
-                  {t}
-                  {townFilter === t && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-moriones-red rounded-full shadow-[0_0_8px_rgba(185,28,28,0.5)]" />
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* CTA banner — only shown to users without a listing */}
+          {!currentUser || !operators.some(op => op.provider_id === currentUser?.id) ? (
+            <Link
+              href="/post-commute-or-delivery-listing"
+              className="flex items-center gap-3 mx-4 mb-3 px-4 py-2.5 rounded-2xl bg-moriones-red/5 dark:bg-moriones-red/10 border border-moriones-red/20 hover:border-moriones-red/50 transition-all active:scale-[0.98] group"
+            >
+              <span className="text-xl">🚗</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-black text-slate-800 dark:text-white leading-tight">Are you a transport operator?</p>
+                <p className="text-[10px] text-slate-400 font-medium">List your service free — get discovered</p>
+              </div>
+              <span className="material-symbols-outlined text-[18px] text-moriones-red group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+            </Link>
+          ) : null}
         </header>
+
+        {/* Filter Bottom Sheet */}
+        {filterOpen && (
+          <div
+            className="fixed inset-0 z-[80] flex items-end justify-center"
+            onClick={(e) => { if (e.target === e.currentTarget) setFilterOpen(false); }}
+          >
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setFilterOpen(false)} />
+            <div className="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-t-3xl shadow-2xl z-10 pb-10">
+              {/* Drawer handle */}
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-slate-100 dark:border-zinc-800">
+                <h2 className="text-base font-black text-slate-900 dark:text-white">Filter Operators</h2>
+                <div className="flex items-center gap-2">
+                  {activeFilterCount > 0 && (
+                    <button
+                      onClick={() => { setVehicleFilter('all'); setServiceFilter('all'); setTownFilter('All'); setRouteFromFilter(''); setRouteToFilter(''); }}
+                      className="text-[10px] font-black text-moriones-red uppercase tracking-widest"
+                    >
+                      Clear all
+                    </button>
+                  )}
+                  <button onClick={() => setFilterOpen(false)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[18px]">close</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="px-5 pt-4 space-y-5 overflow-y-auto max-h-[70vh]">
+                {/* Vehicle Type */}
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Vehicle Type</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {([
+                      { key: 'all', emoji: '🗂️', label: 'All' },
+                      { key: 'Motorcycle', emoji: '🏍️', label: 'Motorcycle' },
+                      { key: 'Tricycle', emoji: '🛺', label: 'Tricycle' },
+                      { key: 'Private Car', emoji: '🚗', label: 'Car' },
+                      { key: 'Jeepney', emoji: '🚌', label: 'Jeepney' },
+                      { key: 'Van / UV Express', emoji: '🚐', label: 'Van' },
+                    ] as const).map((f) => (
+                      <button
+                        key={f.key}
+                        onClick={() => {
+                          setVehicleFilter(f.key);
+                          if (f.key !== 'Jeepney' && f.key !== 'Van / UV Express') {
+                            setRouteFromFilter('');
+                            setRouteToFilter('');
+                          }
+                        }}
+                        className={`flex items-center justify-center gap-2 h-11 px-2 rounded-xl text-xs font-bold transition-all border ${vehicleFilter === f.key
+                          ? 'bg-moriones-red border-moriones-red text-white shadow-lg shadow-moriones-red/20'
+                          : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'
+                        }`}
+                      >
+                        <span className="text-xl">{f.emoji}</span>
+                        <span className="truncate">{f.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Service Type */}
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Service Type</p>
+                  <div className="flex gap-2">
+                    {([
+                      { key: 'all', label: 'All' },
+                      { key: 'rides', label: 'Rides' },
+                      { key: 'delivery', label: 'Delivery' },
+                    ] as const).map((f) => (
+                      <button
+                        key={f.key}
+                        onClick={() => setServiceFilter(f.key)}
+                        className={`flex-1 py-2.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all ${
+                          serviceFilter === f.key
+                            ? 'border-moriones-red bg-moriones-red/5 text-moriones-red'
+                            : 'border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400'
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Route (scheduled only) */}
+                {(vehicleFilter === 'Jeepney' || vehicleFilter === 'Van / UV Express') && (
+                  <div>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Route</p>
+                    <div className="flex gap-2">
+                      <div className="flex-1 relative">
+                        <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">From</span>
+                        <select value={routeFromFilter} onChange={(e) => setRouteFromFilter(e.target.value)}
+                          className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-12 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer">
+                          <option value="">Any Origin</option>
+                          {['Boac','Buyabod Port','Balanacan Port','Gasan','Lucena','Manila','Mogpog','Sta. Cruz','Torrijos','Buenavista'].map(o => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
+                      </div>
+                      <div className="flex-1 relative">
+                        <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">To</span>
+                        <select value={routeToFilter} onChange={(e) => setRouteToFilter(e.target.value)}
+                          className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-8 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer">
+                          <option value="">Any Destination</option>
+                          {['Boac','Buyabod Port','Balanacan Port','Gasan','Lucena','Manila','Mogpog','Sta. Cruz','Torrijos','Buenavista'].map(o => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Town */}
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Town</p>
+                  <div className="flex flex-wrap gap-2">
+                    {towns.map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTownFilter(t)}
+                        className={`px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all ${
+                          townFilter === t
+                            ? 'bg-moriones-red border-moriones-red text-white'
+                            : 'border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400 bg-white dark:bg-zinc-900'
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Done button */}
+              <div className="px-5 pt-4">
+                <button
+                  onClick={() => setFilterOpen(false)}
+                  className="w-full py-3.5 rounded-2xl bg-moriones-red text-white font-black text-sm uppercase tracking-widest shadow-lg shadow-moriones-red/30 active:scale-[0.98] transition-all"
+                >
+                  {activeFilterCount > 0 ? `Show Results (${filtered.length})` : 'View All Operators'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Listings */}
         <div className="bg-slate-50/50 dark:bg-zinc-950/50 px-4 pt-3 pb-32 space-y-4">
@@ -605,16 +713,6 @@ export default function CommuterDeliveryHub() {
           )}
         </div>
 
-        {/* Post FAB - Fixed to screen but constrained to max-w-md */}
-        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-md pointer-events-none z-[60] flex justify-end px-4">
-          <Link
-            href="/post-commute-or-delivery-listing"
-            className="flex items-center gap-1 bg-moriones-red text-white font-black px-2.5 py-1.5 rounded-full shadow-xl shadow-moriones-red/40 transition-all hover:scale-105 active:scale-95 whitespace-nowrap border-[1.5px] border-white/20 pointer-events-auto"
-          >
-            <span className="material-symbols-outlined font-black text-sm">add_circle</span>
-            <span className="text-[8px] tracking-widest uppercase text-white/90">List Service</span>
-          </Link>
-        </div>
       </div>
     </>
   );
