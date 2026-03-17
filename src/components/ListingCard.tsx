@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
+import SellerVouchBadge from './SellerVouchBadge';
+import ShareButton from './ShareButton';
 
 type ListingProps = {
     id: string;
@@ -89,11 +91,23 @@ export default function ListingCard({ id, title, price, town, imageUrl, sellerId
                 </div>
 
                 {/* Content Area */}
-                <div className="p-5">
+                <div className="p-5 flex flex-col gap-1.5">
                     <h3 className="font-black text-[17px] text-text-main truncate tracking-tight leading-tight">{title}</h3>
-                    <div className="flex items-center gap-1.5 mt-2">
-                        <span className="material-symbols-outlined text-moriones-red/60 text-[16px]">location_on</span>
-                        <p className="text-text-muted text-[11px] font-black uppercase tracking-[0.1em]">{town}</p>
+                    <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-1.5">
+                            <span className="material-symbols-outlined text-moriones-red/60 text-[16px]">location_on</span>
+                            <p className="text-text-muted text-[11px] font-black uppercase tracking-[0.1em]">{town}</p>
+                        </div>
+                        {/* We stop propagation so clicking the button doesn't trigger the Link routing */}
+                        <div className="flex items-center gap-2" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                            <SellerVouchBadge sellerId={sellerId} />
+                            <ShareButton 
+                                title={title}
+                                text={`Check out this ${title} for ₱${price.toLocaleString()} in ${town} on Marinduque Market Hub!`}
+                                url={`/marketplace/${id}`}
+                                variant="icon"
+                            />
+                        </div>
                     </div>
                 </div>
             </Link>

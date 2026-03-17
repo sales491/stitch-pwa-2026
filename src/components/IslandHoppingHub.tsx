@@ -7,6 +7,7 @@ import AdminActions from './AdminActions';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
+import ShareButton from './ShareButton';
 
 export type BoatType = 'Outrigger Bangka' | 'Motorboat' | 'Speedboat' | 'Passenger Ferry';
 export type BoatServiceType = 'Island Hopping' | 'Point-to-Point' | 'Charter' | 'All';
@@ -31,7 +32,6 @@ export interface BoatOperator {
     provider_id?: string;
     vouchCount?: number;
     hasVouched?: boolean;
-    trust_score?: number;
 }
 
 const BOAT_META: Record<string, { emoji: string; label: string }> = {
@@ -155,6 +155,13 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                             <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className={`${isOwner ? 'scale-90' : 'scale-75'} origin-right`} />
                             {isOwner && <span className="text-[10px] font-black text-cyan-600 uppercase tracking-tight -ml-1">Manage</span>}
                         </div>
+                        <ShareButton 
+                            title={`${op.operator_name} on Marinduque Market Hub`}
+                            text={`Check out ${op.operator_name} for island hopping or boat charters!`}
+                            url="/island-hopping"
+                            variant="icon"
+                            className="scale-90"
+                        />
                         <FlagButton contentType="commute" contentId={op.id.toString()} />
                     </div>
                 </div>
@@ -240,11 +247,11 @@ export default function IslandHoppingHub() {
                         charter_details: d.charter_details, schedule: d.schedule,
                         contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details,
                         images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
-                        vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id), trust_score: d.provider?.trust_score ?? 0,
+                        vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id)
                     }))
                     .sort((a, b) => {
                         if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
-                        return (b.trust_score ?? 0) - (a.trust_score ?? 0);
+                        return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
                     });
                 setOperators(mapped);
             }

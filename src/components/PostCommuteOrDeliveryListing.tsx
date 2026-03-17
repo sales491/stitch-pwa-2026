@@ -11,6 +11,13 @@ import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
+const PREDEFINED_ROUTES = [
+    '', // Empty for default
+    'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz',
+    'Balanacan Port', 'Buyabod Port',
+    'Lucena', 'Manila',
+    'Other' // Added an 'Other' as a catchall or future custom
+];
 
 type VehicleType = 'Tricycle' | 'Motorcycle' | 'Jeepney' | 'Van / UV Express' | 'Private Car' | 'Truck';
 type ServiceType = 'Passenger' | 'Delivery' | 'Both';
@@ -587,23 +594,29 @@ export default function PostCommuteOrDeliveryListing() {
 
                                 <div>
                                     <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">From (Origin)</label>
-                                    <input
-                                        type="text"
-                                        placeholder={operatorType === 'Van / UV Express' ? 'e.g. Boac, Marinduque' : 'e.g. Boac'}
+                                    <select
                                         value={routeFrom}
                                         onChange={(e) => setRouteFrom(e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:border-moriones-red placeholder-slate-400"
-                                    />
+                                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none"
+                                    >
+                                        <option value="" disabled>Select Origin</option>
+                                        {PREDEFINED_ROUTES.filter(r => r !== '').map(route => (
+                                            <option key={route} value={route}>{route}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">To (Destination)</label>
-                                    <input
-                                        type="text"
-                                        placeholder={operatorType === 'Van / UV Express' ? 'e.g. Manila (via RoRo)' : 'e.g. Sta. Cruz'}
+                                    <select
                                         value={routeTo}
                                         onChange={(e) => setRouteTo(e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:border-moriones-red placeholder-slate-400"
-                                    />
+                                        className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none"
+                                    >
+                                        <option value="" disabled>Select Destination</option>
+                                        {PREDEFINED_ROUTES.filter(r => r !== '').map(route => (
+                                            <option key={route} value={route}>{route}</option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                         </div>

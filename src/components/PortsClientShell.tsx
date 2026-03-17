@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 import VesselTrackerEmbed from '@/components/VesselTrackerEmbed';
+import ShareButton from './ShareButton';
 
 const STATUS_STYLES: Record<string, string> = {
     delayed: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
@@ -186,6 +187,14 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
                                 <p className="text-xs text-slate-700 dark:text-slate-300 font-medium leading-snug line-clamp-2">
                                     {latestAlert.message}
                                 </p>
+                                <div className="mt-2 flex justify-end">
+                                    <ShareButton 
+                                        title={`Barko Watch: ${latestAlert.port_name}`}
+                                        text={`Update from ${latestAlert.port_name}: ${latestAlert.message}`}
+                                        url="/ports"
+                                        variant="subtle"
+                                    />
+                                </div>
                             </div>
                         </div>
                     )}

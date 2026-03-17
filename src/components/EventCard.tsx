@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
+import ShareButton from './ShareButton';
 
 type EventProps = {
     id: string;
@@ -86,8 +87,19 @@ export default function EventCard({ id, title, date, time, location, town, categ
                 </div>
 
                 {/* Action Pointer */}
-                <div className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center text-slate-300 group-hover:text-red-500 group-hover:bg-red-50 dark:group-hover:bg-red-900/20 transition-all">
-                    <span className="material-symbols-outlined">arrow_forward</span>
+                <div className="flex flex-col gap-2 items-center justify-center">
+                    <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                        <ShareButton 
+                            title={title}
+                            text={`Check out this event: ${title} on ${month} ${day} at ${location}!`}
+                            url={`/events/${id}`}
+                            variant="icon"
+                            className="w-10 h-10 border-none shadow-none text-slate-400 hover:text-cyan-500 bg-slate-50 dark:bg-zinc-800"
+                        />
+                    </div>
+                    <div className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center text-slate-300 group-hover:text-red-500 group-hover:bg-red-50 dark:group-hover:bg-red-900/20 transition-all">
+                        <span className="material-symbols-outlined">arrow_forward</span>
+                    </div>
                 </div>
             </Link>
 

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { LostFoundPost } from '@/app/actions/lost-found';
+import ShareButton from './ShareButton';
 
 const CATEGORY_ICONS: Record<string, string> = {
     animal: '🐾',
@@ -99,9 +100,20 @@ export default function LostFoundCard({ post }: { post: LostFoundPost }) {
                 </div>
             </div>
 
-            {/* Chevron */}
-            <div className="flex-shrink-0 flex items-center pr-3">
-                <span className="material-symbols-outlined text-slate-300 dark:text-zinc-600 text-[18px]">chevron_right</span>
+            {/* Action Column */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-between py-3 pr-3">
+                <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                    <ShareButton 
+                        title={`Stitch: ${isLost ? 'Missing' : 'Found'} ${CATEGORY_LABELS[post.category]}`}
+                        text={`Help spread the word! ${isLost ? 'Missing' : 'Found'}: ${post.title}`}
+                        url={`/my-barangay/lost-found/${post.id}`}
+                        variant="icon"
+                        className="w-8 h-8 rounded-full border-none shadow-none text-slate-400 hover:text-rose-500 dark:hover:text-rose-400"
+                    />
+                </div>
+                <div className="flex items-center justify-center w-8 h-8 bg-slate-50 dark:bg-zinc-800 rounded-full group-hover:bg-slate-100 dark:group-hover:bg-zinc-700 transition-colors">
+                    <span className="material-symbols-outlined text-slate-300 dark:text-zinc-500 text-[18px]">chevron_right</span>
+                </div>
             </div>
         </Link>
     );

@@ -7,6 +7,7 @@ import AdminActions from './AdminActions';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
+import ShareButton from './ShareButton';
 
 export type ServiceType = 'Passenger' | 'Delivery' | 'Both';
 export type VehicleType = 'Tricycle' | 'Motorcycle' | 'Jeepney' | 'Van / UV Express' | 'Private Car' | 'Truck';
@@ -19,7 +20,6 @@ export interface Operator {
   serviceType: ServiceType;
   towns: string[];
   price: string;
-  rating: number;
   vouchCount?: number;
   hasVouched?: boolean;
   available: boolean;
@@ -225,6 +225,13 @@ function OperatorCard({ op }: { op: Operator }) {
               <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className={`${isOwner ? 'scale-90' : 'scale-75'} origin-right`} />
               {isOwner && <span className="text-[10px] font-black text-moriones-red uppercase tracking-tight -ml-1">Manage</span>}
             </div>
+            <ShareButton 
+                title={`${op.operator} on Marinduque Market Hub`}
+                text={`Book a ride or delivery with ${op.operator} (${op.vehicleType}) on the Marinduque Market Hub!`}
+                url="/commute"
+                variant="icon"
+                className="scale-90"
+            />
             <FlagButton contentType="commute" contentId={op.id.toString()} />
           </div>
         </div>
@@ -319,6 +326,11 @@ export default function CommuterDeliveryHub() {
   const [vehicleFilter, setVehicleFilter] = useState<string | 'all'>('all');
   const [serviceFilter, setServiceFilter] = useState<string | 'all'>('all');
   const [townFilter, setTownFilter] = useState<string>('All');
+  
+  // Route Filters for Scheduled Rides
+  const [routeFromFilter, setRouteFromFilter] = useState<string>('');
+  const [routeToFilter, setRouteToFilter] = useState<string>('');
+
   const [operators, setOperators] = useState<Operator[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -368,8 +380,6 @@ export default function CommuterDeliveryHub() {
             serviceType: d.service_type,
             towns: d.towns_covered || [d.base_town],
             price: d.price_per_seat?.toString() || '0',
-            // Live trust_score from profiles — highest-rated drivers sort first
-            rating: d.provider?.trust_score ?? 0,
             vouchCount: countsByService[d.id] || 0,
             hasVouched: userVouches.has(d.id),
             available: d.is_available,
@@ -384,10 +394,10 @@ export default function CommuterDeliveryHub() {
             fb: d.contact_details?.fb_username,
             email: d.contact_details?.email
           }))
-          // Sort: available first (by trust_score), then unavailable (by trust_score)
+          // Sort: available first, then unavailable. Within each group, sort by vouchCount descending
           .sort((a, b) => {
             if (a.available !== b.available) return a.available ? -1 : 1;
-            return b.rating - a.rating;
+            return b.vouchCount - a.vouchCount;
           });
 
         setOperators(mapped);
@@ -405,8 +415,22 @@ export default function CommuterDeliveryHub() {
       (serviceFilter === 'rides' && (op.serviceType === 'Passenger' || op.serviceType === 'Both')) ||
       (serviceFilter === 'delivery' && (op.serviceType === 'Delivery' || op.serviceType === 'Both'));
     const townMatch = townFilter === 'All' || op.towns.includes(townFilter);
-    return vehicleMatch && serviceMatch && townMatch;
+
+    // Route Match for Scheduled Types
+    let routeMatch = true;
+    if (op.vehicleType === 'Jeepney' || op.vehicleType === 'Van / UV Express') {
+      if (routeFromFilter && op.route?.from) {
+        routeMatch = routeMatch && op.route.from.toLowerCase().includes(routeFromFilter.toLowerCase());
+      }
+      if (routeToFilter && op.route?.to) {
+        routeMatch = routeMatch && op.route.to.toLowerCase().includes(routeToFilter.toLowerCase());
+      }
+    }
+
+    return vehicleMatch && serviceMatch && townMatch && routeMatch;
   });
+
+  const isScheduledFilterActive = vehicleFilter === 'Jeepney' || vehicleFilter === 'Van / UV Express';
 
   return (
     <>
@@ -459,7 +483,14 @@ export default function CommuterDeliveryHub() {
             ] as const).map((f) => (
               <button
                 key={f.key}
-                onClick={() => setVehicleFilter(f.key)}
+                onClick={() => {
+                  setVehicleFilter(f.key);
+                  // Clear route filters when switching off scheduled vehicles
+                  if (f.key !== 'Jeepney' && f.key !== 'Van / UV Express') {
+                    setRouteFromFilter('');
+                    setRouteToFilter('');
+                  }
+                }}
                 className={`flex items-center justify-center gap-2 h-11 px-2 rounded-xl text-xs font-bold transition-all border ${vehicleFilter === f.key
                   ? 'bg-moriones-red border-moriones-red text-white shadow-lg shadow-moriones-red/20'
                   : 'bg-white dark:bg-zinc-900 border-slate-100 dark:border-zinc-800 text-slate-600 dark:text-slate-400'
@@ -471,24 +502,75 @@ export default function CommuterDeliveryHub() {
             ))}
           </div>
 
-          {/* Town Filter (Evenly Spaced) */}
-          <div className="flex justify-between items-center w-full px-4 pb-3 pt-2 border-t border-slate-50 dark:border-zinc-800/50">
-            {towns.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTownFilter(t)}
-                className={`flex shrink-0 items-center gap-1 text-[11px] font-bold transition-all relative py-1 ${townFilter === t
-                  ? 'text-moriones-red'
-                  : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'
-                  }`}
-              >
-                {t}
-                {townFilter === t && (
-                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-moriones-red rounded-full shadow-[0_0_8px_rgba(185,28,28,0.5)]" />
-                )}
-              </button>
-            ))}
-          </div>
+          {/* Route Filter (Visible only when Scheduled vehicle selected) */}
+          {isScheduledFilterActive && (
+            <div className="px-4 pb-3 pt-1 border-t border-slate-50 dark:border-zinc-800/50 flex gap-2 animate-in slide-in-from-top-2 fade-in">
+              <div className="flex-1 relative">
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">From</span>
+                <select
+                  value={routeFromFilter}
+                  onChange={(e) => setRouteFromFilter(e.target.value)}
+                  className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-12 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer"
+                >
+                  <option value="">Any Origin</option>
+                  <option value="Boac">Boac</option>
+                  <option value="Buyabod">Buyabod Port</option>
+                  <option value="Balanacan">Balanacan Port</option>
+                  <option value="Gasan">Gasan</option>
+                  <option value="Lucena">Lucena</option>
+                  <option value="Manila">Manila</option>
+                  <option value="Mogpog">Mogpog</option>
+                  <option value="Sta. Cruz">Sta. Cruz</option>
+                  <option value="Torrijos">Torrijos</option>
+                  <option value="Buenavista">Buenavista</option>
+                </select>
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
+              </div>
+
+              <div className="flex-1 relative">
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase text-moriones-red tracking-widest">To</span>
+                <select
+                  value={routeToFilter}
+                  onChange={(e) => setRouteToFilter(e.target.value)}
+                  className="w-full h-10 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-8 pr-3 text-xs font-bold text-slate-900 dark:text-white outline-none focus:border-moriones-red appearance-none shadow-sm cursor-pointer"
+                >
+                  <option value="">Any Destination</option>
+                  <option value="Boac">Boac</option>
+                  <option value="Buyabod">Buyabod Port</option>
+                  <option value="Balanacan">Balanacan Port</option>
+                  <option value="Gasan">Gasan</option>
+                  <option value="Lucena">Lucena</option>
+                  <option value="Manila">Manila</option>
+                  <option value="Mogpog">Mogpog</option>
+                  <option value="Sta. Cruz">Sta. Cruz</option>
+                  <option value="Torrijos">Torrijos</option>
+                  <option value="Buenavista">Buenavista</option>
+                </select>
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">expand_more</span>
+              </div>
+            </div>
+          )}
+
+          {/* Town Filter (Evenly Spaced) - Only show if not scheduled to avoid clutter */}
+          {!isScheduledFilterActive && (
+            <div className="flex justify-between items-center w-full px-4 pb-3 pt-2 border-t border-slate-50 dark:border-zinc-800/50">
+              {towns.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTownFilter(t)}
+                  className={`flex shrink-0 items-center gap-1 text-[11px] font-bold transition-all relative py-1 ${townFilter === t
+                    ? 'text-moriones-red'
+                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'
+                    }`}
+                >
+                  {t}
+                  {townFilter === t && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-moriones-red rounded-full shadow-[0_0_8px_rgba(185,28,28,0.5)]" />
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
         </header>
 
         {/* Listings */}

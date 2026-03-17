@@ -1,6 +1,7 @@
 'use client';
 
 import { OutageReport, resolveOutageReport, deleteOutageReport } from '@/app/actions/outages';
+import ShareButton from './ShareButton';
 
 function timeAgo(date: string) {
     const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
@@ -72,10 +73,20 @@ export default function OutageCard({ report, canManage }: Props) {
                     )}
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between mt-2">
-                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
-                            {isResolved ? `Resolved · ` : ''}{timeAgo(report.created_at)}
-                        </span>
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-zinc-800/50">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-medium">
+                                {isResolved ? `Resolved · ` : ''}{timeAgo(report.created_at)}
+                            </span>
+                            {!isResolved && (
+                                <ShareButton 
+                                    title={`${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}`}
+                                    text={`Reported: ${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}, ${report.municipality}.`}
+                                    url="/my-barangay"
+                                    variant="subtle"
+                                />
+                            )}
+                        </div>
                         {canManage && !isResolved && (
                             <div className="flex gap-2">
                                 <button
