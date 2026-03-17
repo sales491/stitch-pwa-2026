@@ -56,6 +56,7 @@ function OperatorCard({ op }: { op: Operator }) {
   const [hasVouched, setHasVouched] = useState(op.hasVouched || false);
   const [isToggling, setIsToggling] = useState(false);
   const [isVouching, setIsVouching] = useState(false);
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const vm = VEHICLE_META[op.vehicleType] || { emoji: '🚗', label: op.vehicleType };
   const svc = SERVICE_LABELS[op.serviceType] || { label: op.serviceType, icon: 'commute' };
@@ -174,7 +175,12 @@ function OperatorCard({ op }: { op: Operator }) {
 
         <div className="p-4 flex items-center gap-4">
           <div className="relative shrink-0">
-            <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center border border-slate-100 dark:border-zinc-700 overflow-hidden">
+            <div
+              className={`w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center border border-slate-100 dark:border-zinc-700 overflow-hidden ${
+                op.images && op.images.length > 0 ? 'cursor-zoom-in active:scale-95 transition-transform' : ''
+              }`}
+              onClick={() => op.images && op.images.length > 0 && setLightboxImg(op.images[0])}
+            >
               {op.images && op.images.length > 0 ? (
               <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator} />
               ) : (
@@ -323,6 +329,27 @@ function OperatorCard({ op }: { op: Operator }) {
           )}
         </div>
       </div>
+
+      {/* Lightbox overlay */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setLightboxImg(null)}
+        >
+          <button
+            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white"
+            onClick={() => setLightboxImg(null)}
+          >
+            <span className="material-symbols-outlined text-[20px]">close</span>
+          </button>
+          <img
+            src={lightboxImg}
+            alt="Operator photo"
+            className="max-w-[92vw] max-h-[80vh] rounded-2xl object-contain shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
