@@ -116,21 +116,22 @@ export default function MobileTopHeader() {
                     </div>
                 </div>
 
-                {/* Bottom Section: Sub-navigation */}
-                <div className="flex items-center gap-8 px-5 pb-2 pt-0.5 border-b border-gray-100 dark:border-white/[0.03]">
-                    <Link href="/" className="text-[12px] uppercase tracking-wider font-bold text-slate-900 dark:text-white pb-0.5 border-b-2 border-transparent hover:border-slate-900 dark:hover:border-white transition-all">
+                {/* Bottom Section: Sub-navigation pills */}
+                <div className="grid grid-cols-4 gap-1.5 px-3 pb-2.5 pt-1 border-b border-gray-100 dark:border-white/[0.03]">
+                    <Link href="/"
+                        className="flex items-center justify-center px-2 py-1.5 rounded-full bg-moriones-red text-white text-[10px] font-black uppercase tracking-wider transition-all active:scale-95">
                         Home
                     </Link>
-                    <button
-                        onClick={() => setIsMenuOpen(true)}
-                        className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors"
-                    >
+                    <button onClick={() => setIsMenuOpen(true)}
+                        className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
                         Categories
                     </button>
-                    <Link href="/marketplace" className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                    <Link href="/marketplace"
+                        className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
                         Buy-Sell
                     </Link>
-                    <Link href="/about" className="text-[12px] uppercase tracking-wider font-bold text-slate-400 dark:text-white/40 pb-0.5 hover:text-slate-600 dark:hover:text-white/80 transition-colors">
+                    <Link href="/about"
+                        className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
                         About Us
                     </Link>
                 </div>

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { CALAMITY_EXPIRY_HOURS, expiresAt } from '@/lib/alert-expiry';
 
 export type CalamityType = 'typhoon' | 'flood' | 'earthquake' | 'fire' | 'road' | 'other';
 export type CalamitySeverity = 'low' | 'moderate' | 'high' | 'critical';
@@ -17,6 +18,7 @@ export type CalamityAlert = {
     description: string | null;
     status: 'active' | 'resolved';
     resolved_at: string | null;
+    expires_at: string | null;
     created_at: string;
 };
 
@@ -77,6 +79,7 @@ export async function createCalamityAlert(data: CreateCalamityData) {
         title: data.title.trim(),
         description: data.description?.trim() || null,
         status: 'active',
+        expires_at: expiresAt(CALAMITY_EXPIRY_HOURS[data.type] ?? 24),
     }]);
 
     if (error) { console.error('[createCalamityAlert]', error); return { success: false, error: error.message }; }
@@ -118,6 +121,7 @@ export async function resolveCalamityAlert(id: string) {
 
     if (error) return { success: false, error: error.message };
     revalidatePath('/my-barangay/calamity');
+    revalidatePath('/');
     return { success: true };
 }
 

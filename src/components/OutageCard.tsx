@@ -2,6 +2,7 @@
 
 import { OutageReport, resolveOutageReport, deleteOutageReport } from '@/app/actions/outages';
 import ShareButton from './ShareButton';
+import { expiryLabel } from '@/lib/alert-expiry';
 
 function timeAgo(date: string) {
     const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
@@ -15,9 +16,10 @@ function timeAgo(date: string) {
 type Props = {
     report: OutageReport;
     canManage?: boolean;
+    isOwner?: boolean;
 };
 
-export default function OutageCard({ report, canManage }: Props) {
+export default function OutageCard({ report, canManage, isOwner }: Props) {
     const isPower = report.type === 'power';
     const isResolved = report.status === 'resolved';
 
@@ -74,20 +76,27 @@ export default function OutageCard({ report, canManage }: Props) {
 
                     {/* Footer */}
                     <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-zinc-800/50">
-                        <div className="flex items-center gap-3">
-                            <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-medium">
-                                {isResolved ? `Resolved · ` : ''}{timeAgo(report.created_at)}
-                            </span>
-                            {!isResolved && (
-                                <ShareButton 
-                                    title={`${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}`}
-                                    text={`Reported: ${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}, ${report.municipality}.`}
-                                    url="/my-barangay"
-                                    variant="subtle"
-                                />
+                        <div className="flex flex-col gap-0.5">
+                            <div className="flex items-center gap-3">
+                                <span className="text-[10px] text-slate-400 dark:text-zinc-500 font-medium">
+                                    {isResolved ? `Resolved · ` : ''}{timeAgo(report.created_at)}
+                                </span>
+                                {!isResolved && (
+                                    <ShareButton
+                                        title={`${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}`}
+                                        text={`Reported: ${isPower ? 'Power Outage' : 'Water Interruption'} in ${report.barangay}, ${report.municipality}.`}
+                                        url="/my-barangay"
+                                        variant="subtle"
+                                    />
+                                )}
+                            </div>
+                            {report.expires_at && !isResolved && (
+                                <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-600">
+                                    ⏱ {expiryLabel(report.expires_at)}
+                                </span>
                             )}
                         </div>
-                        {canManage && !isResolved && (
+                        {(canManage || isOwner) && !isResolved && (
                             <div className="flex gap-2">
                                 <button
                                     onClick={handleResolve}

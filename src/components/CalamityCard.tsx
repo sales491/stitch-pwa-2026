@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CalamityAlert, resolveCalamityAlert, deleteCalamityAlert } from '@/app/actions/calamity';
+import { expiryLabel } from '@/lib/alert-expiry';
 
 const TYPE_META: Record<string, { icon: string; label: string }> = {
     typhoon:    { icon: '🌀', label: 'Typhoon' },
@@ -45,9 +46,10 @@ function timeAgo(date: string) {
 type Props = {
     alert: CalamityAlert;
     canManage?: boolean;
+    isOwner?: boolean;
 };
 
-export default function CalamityCard({ alert, canManage }: Props) {
+export default function CalamityCard({ alert, canManage, isOwner }: Props) {
     const meta = TYPE_META[alert.type] ?? TYPE_META.other;
     const isResolved = alert.status === 'resolved';
     const borderClass = isResolved ? 'border-slate-200 dark:border-zinc-800' : SEVERITY_BORDER[alert.severity] ?? 'border-slate-200';
@@ -108,10 +110,17 @@ export default function CalamityCard({ alert, canManage }: Props) {
 
                     {/* Footer */}
                     <div className="flex items-center justify-between mt-2">
-                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
-                            {timeAgo(alert.created_at)}
-                        </span>
-                        {canManage && !isResolved && (
+                        <div className="flex flex-col gap-0.5">
+                            <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                                {timeAgo(alert.created_at)}
+                            </span>
+                            {alert.expires_at && !isResolved && (
+                                <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-600">
+                                    ⏱ {expiryLabel(alert.expires_at)}
+                                </span>
+                            )}
+                        </div>
+                        {(canManage || isOwner) && !isResolved && (
                             <div className="flex flex-col items-end gap-1">
                                 <div className="flex gap-2">
                                     <button

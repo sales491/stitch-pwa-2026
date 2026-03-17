@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { OUTAGE_EXPIRY_HOURS, expiresAt } from '@/lib/alert-expiry';
 
 export type OutageReport = {
     id: string;
@@ -11,6 +12,7 @@ export type OutageReport = {
     municipality: string;
     description: string | null;
     status: 'active' | 'resolved';
+    expires_at: string | null;
     created_at: string;
     resolved_at: string | null;
 };
@@ -65,6 +67,7 @@ export async function createOutageReport(data: CreateOutageData) {
         barangay: data.barangay?.trim() || null,
         description: data.description?.trim() || null,
         status: 'active',
+        expires_at: expiresAt(OUTAGE_EXPIRY_HOURS[data.type] ?? 12),
     }]);
 
     if (error) { console.error('[createOutageReport]', error); return { success: false, error: error.message }; }
@@ -78,6 +81,15 @@ export async function resolveOutageReport(id: string) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { success: false, error: 'Not authenticated.' };
 
+    // Check ownership or admin role
+    const { data: report } = await supabase
+        .from('outage_reports').select('reported_by').eq('id', id).single();
+    const { data: profile } = await supabase
+        .from('profiles').select('role').eq('id', user.id).single();
+    const isOwner = report?.reported_by === user.id;
+    const isPrivileged = profile?.role === 'admin' || profile?.role === 'moderator';
+    if (!isOwner && !isPrivileged) return { success: false, error: 'You can only resolve reports you submitted.' };
+
     const { error } = await supabase
         .from('outage_reports')
         .update({ status: 'resolved', resolved_at: new Date().toISOString() })
@@ -85,6 +97,7 @@ export async function resolveOutageReport(id: string) {
 
     if (error) return { success: false, error: error.message };
     revalidatePath('/island-life/outages');
+    revalidatePath('/');
     return { success: true };
 }
 

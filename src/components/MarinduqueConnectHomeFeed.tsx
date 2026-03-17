@@ -117,19 +117,29 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                 {/* ── 2. Alert Banner (active calamity/outage alerts) ────── */}
                 {alertBanner}
 
-                {/* ── 3. Quick-Action Cards (static, horizontal scroll) ───── */}
-                <div className="flex gap-3 overflow-x-auto px-4 mb-5 no-scrollbar pb-1">
+                {/* ── 3. Quick-Action Cards (static, horizontal scroll, centred on Marketplace) ───── */}
+                <div
+                    ref={(el) => {
+                        if (el) {
+                            // Scroll so Marketplace (card index 1) is centred on mount
+                            const card = el.children[1] as HTMLElement;
+                            if (card) {
+                                el.scrollLeft = card.offsetLeft - (el.clientWidth / 2) + (card.offsetWidth / 2);
+                            }
+                        }
+                    }}
+                    className="flex gap-3 overflow-x-auto px-4 mb-5 no-scrollbar pb-1 snap-x snap-mandatory scroll-smooth"
+                >
                     {QUICK_CARDS.map((card, i) => (
                         <Link
                             key={card.href}
                             href={card.href}
-                            className="relative flex-shrink-0 w-44 h-24 rounded-2xl overflow-hidden shadow-sm active:scale-[0.97] transition-transform"
+                            className="relative flex-shrink-0 w-44 h-24 rounded-2xl overflow-hidden shadow-sm active:scale-[0.97] transition-transform snap-center"
                         >
                             <img
                                 src={card.image}
                                 alt={card.label}
                                 className="absolute inset-0 w-full h-full object-cover"
-                                // First card is the LCP element — prioritise it
                                 fetchPriority={i === 0 ? 'high' : 'low'}
                                 loading={i === 0 ? 'eager' : 'lazy'}
                                 decoding={i === 0 ? 'sync' : 'async'}
