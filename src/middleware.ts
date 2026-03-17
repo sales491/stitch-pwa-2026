@@ -99,13 +99,50 @@ export async function middleware(request: NextRequest) {
     }
 
     // ── General Protected Routes ─────────────────────────────────────────
-    // Protect private routes here! Add any routes you want to lock down.
-    const isProtectedRoute = request.nextUrl.pathname.startsWith('/profile') ||
-        request.nextUrl.pathname.startsWith('/post');
+    // Any route that CREATES content requires authentication.
+    // People can browse/view everything — but posting, listing, commenting,
+    // or creating any profile requires sign-in.
+    const PROTECTED_PREFIXES = [
+        // Profiles & account
+        '/profile',
+        '/my-profile',
+        '/my-barangay',        // calamity/new, lost-found/new, etc.
+        // Marketplace
+        '/marketplace/create',
+        '/create-new-listing',
+        // Jobs
+        '/create-new-job-post-screen',
+        '/jobs/create',
+        // Events
+        '/events/create',
+        '/create-event-post-screen',
+        // Business directory
+        '/directory/create',
+        '/create-business-profile-step1',
+        '/create-business-profile-step2',
+        '/create-business-profile-step3',
+        '/claim-business',
+        // Transport & boats
+        '/commute/register',
+        '/commute/create',
+        '/post-commute-or-delivery-listing',
+        '/island-hopping/list',
+        // Gems / community
+        '/gems/create',
+        '/community/create',
+        // Island life reporting
+        '/island-life/outages/new',
+        '/post',
+    ];
+
+    const isProtectedRoute = PROTECTED_PREFIXES.some(prefix =>
+        request.nextUrl.pathname.startsWith(prefix)
+    );
 
     if (isProtectedRoute && !user) {
-        // Kick them back to the login page
-        return NextResponse.redirect(new URL('/login', request.url))
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('next', request.nextUrl.pathname);
+        return NextResponse.redirect(loginUrl);
     }
 
     return response
