@@ -43,11 +43,11 @@ export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
     e.stopPropagation();
 
     if (!userId) {
-      alert('Sign in to vouch for this seller.');
+      alert('Sign in to recommend this seller.');
       return;
     }
     
-    // Don't let users vouch for themselves
+    // Don't let users recommend themselves
     if (userId === sellerId) return;
 
     setIsVouching(true);
@@ -85,12 +85,12 @@ export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
           ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm' 
           : 'bg-white dark:bg-zinc-800 border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-slate-400 hover:border-emerald-300 hover:text-emerald-600'
       } ${isVouching ? 'opacity-50 animate-pulse' : ''} ${userId === sellerId ? 'pointer-events-none opacity-80' : ''}`}
-      title={userId === sellerId ? "You cannot vouch for yourself" : (hasVouched ? 'Un-vouch' : 'Vouch for this seller')}
+      title={userId === sellerId ? "You cannot recommend yourself" : (hasVouched ? 'Remove recommendation' : 'Recommend this seller')}
     >
       <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}>
         thumb_up
       </span>
-      {vouchCount > 0 ? `${vouchCount} Vouch${vouchCount !== 1 ? 'es' : ''}` : 'Vouch'}
+      {vouchCount > 0 ? `${vouchCount} Recommend${vouchCount !== 1 ? 's' : ''}` : 'Recommend'}
     </button>
   );
 }

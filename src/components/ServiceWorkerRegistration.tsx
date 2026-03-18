@@ -6,6 +6,15 @@ export default function ServiceWorkerRegistration() {
     useEffect(() => {
         if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
+        // Never run the service worker in development — it causes stale cache issues
+        if (process.env.NODE_ENV !== 'production') {
+            // Unregister any previously installed SW so it doesn't block hot reloads
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                registrations.forEach((r) => r.unregister());
+            });
+            return;
+        }
+
         window.addEventListener('load', () => {
             navigator.serviceWorker
                 .register('/sw.js', { scope: '/' })

@@ -2,6 +2,8 @@ import { createClient } from '@/utils/supabase/server';
 import { createClient as createDirectClient } from '@supabase/supabase-js';
 import Image from 'next/image';
 import UniversalComments from '@/components/UniversalComments';
+import SellerVouchBadge from '@/components/SellerVouchBadge';
+import ListingContactButtons from '@/components/ListingContactButtons';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
@@ -129,48 +131,40 @@ export default async function ListingDetail({
                 </div>
 
                 {/* 5. Seller Info Card */}
-                <div className="bg-slate-900 text-white rounded-[2.5rem] p-6 flex flex-col gap-6 mb-12 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
-                    {/* Background Texture Decoration */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div className="bg-slate-100 dark:bg-zinc-800 rounded-[2.5rem] p-6 flex flex-col gap-5 mb-12 shadow-sm">
 
+                    {/* Seller identity row */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 rounded-2xl overflow-hidden relative bg-slate-800 border-2 border-slate-800 shadow-xl">
+                            <div className="w-14 h-14 rounded-2xl overflow-hidden relative bg-slate-200 dark:bg-zinc-700 border-2 border-slate-200 dark:border-zinc-700 shadow-sm">
                                 {sellerProfile?.avatar_url ? (
                                     <Image src={sellerProfile.avatar_url} alt="Seller" fill className="object-cover" />
                                 ) : (
-                                    <div className="flex items-center justify-center h-full text-slate-500 font-black text-sm">
-                                        {(sellerProfile?.full_name || 'U').charAt(0)}
+                                    <div className="flex items-center justify-center h-full text-slate-400 dark:text-zinc-500 font-black text-lg">
+                                        {(sellerProfile?.full_name || listing.seller?.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                 )}
                             </div>
                             <div>
-                                <p className="font-black text-lg tracking-tight flex items-center gap-1.5">
+                                <p className="font-black text-lg tracking-tight text-slate-900 dark:text-white">
                                     {sellerProfile?.full_name || listing.seller?.name || 'Marinduque Seller'}
                                 </p>
-                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Digital Town Square verified</p>
+                                {/* Vouch button replaces the verified badge */}
+                                <SellerVouchBadge sellerId={sellerId || ''} />
                             </div>
                         </div>
-
-                        <div className="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/10">
-                            <span className="material-symbols-outlined text-primary">verified_user</span>
-                        </div>
                     </div>
 
-                    <div className="flex gap-3">
-                        <button className="flex-1 bg-white text-black font-black py-4 rounded-2xl text-xs uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2">
-                            <span className="material-symbols-outlined text-lg">chat</span>
-                            Message
-                        </button>
-                        <button className="flex-1 bg-primary text-black font-black py-4 rounded-2xl text-xs uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2">
-                            <span className="material-symbols-outlined text-lg">call</span>
-                            Call Now
-                        </button>
-                    </div>
+                    {/* 3 Contact Buttons — client component (onClick requires client) */}
+                    <ListingContactButtons
+                        phone={listing.contact_details?.phone || ''}
+                        fbUsername={listing.contact_details?.fb_username || ''}
+                    />
                 </div>
 
                 {/* 6. Universal Comments Component */}
                 <UniversalComments entityId={listing.id} entityType="listing" />
+
             </div>
         </div>
     );
