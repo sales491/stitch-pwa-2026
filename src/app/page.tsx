@@ -7,7 +7,7 @@ import { getLiveHubItems } from '@/lib/hub-data';
 export const runtime = 'edge';
 
 // ISR: rebuild cached HTML in the background every 60s
-export const revalidate = 60;
+export const revalidate = 0; // Always dynamic — home feed content changes frequently
 
 export default async function Home() {
   // Preload the LCP image from the server component so the browser gets

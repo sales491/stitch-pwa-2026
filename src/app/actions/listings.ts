@@ -56,6 +56,7 @@ export async function createListing(data: ListingInput) {
 
     revalidatePath('/marketplace');
     revalidatePath('/marinduque-classifieds-marketplace');
+    revalidatePath('/');
     revalidatePath('/admin');
     return { success: true };
 }
@@ -124,6 +125,7 @@ export async function deleteListing(id: string) {
 
     revalidatePath('/marketplace');
     revalidatePath('/marinduque-classifieds-marketplace');
+    revalidatePath('/');
     return { success: true };
 }
 

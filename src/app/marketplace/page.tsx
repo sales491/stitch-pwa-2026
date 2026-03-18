@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     alternates: { canonical: 'https://marinduquemarket.com/marketplace' },
 };
 
-export const revalidate = 60; // Serve cached first page; revalidate in background every 60s
+export const revalidate = 0; // Always dynamic — listings change frequently
 
 export default async function MarketplacePage() {
     const supabase = await createClient();

@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const revalidate = 0; // Always dynamic — jobs change frequently
 
 import type { Metadata } from 'next';
 
