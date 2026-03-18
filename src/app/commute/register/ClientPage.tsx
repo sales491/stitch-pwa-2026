@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
@@ -10,6 +10,8 @@ import SuccessToast from '@/components/SuccessToast';
 export default function RegisterDriver() {
     const { profile, isLoading: authLoading } = useAuth();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit'); // if set, we're editing an existing listing
 
     const [formData, setFormData] = useState({
         driver_name: '',
@@ -22,7 +24,7 @@ export default function RegisterDriver() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [existingProfile, setExistingProfile] = useState<any>(null);
+    const [isEditing, setIsEditing] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const supabase = createBrowserClient(
@@ -30,35 +32,38 @@ export default function RegisterDriver() {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
+    // If ?edit=<id> is present, load that specific listing for editing
     useEffect(() => {
-        if (profile) {
-            checkExistingProfile();
-        }
-    }, [profile]);
+        if (!editId || !profile) return;
 
-    const checkExistingProfile = async () => {
-        const { data, error } = await supabase
-            .from('transport_services')
-            .select('*')
-            .eq('provider_id', profile?.id)
-            .single();
+        async function loadListing() {
+            const { data, error } = await supabase
+                .from('transport_services')
+                .select('*')
+                .eq('id', editId)
+                .eq('provider_id', profile!.id) // security: only own listings
+                .single();
 
-        if (data) {
-            setExistingProfile(data);
-            setFormData({
-                driver_name: data.driver_name,
-                vehicle_type: data.vehicle_type,
-                service_type: data.service_type,
-                base_town: data.base_town,
-                contact_number: data.contact_number,
-                notes: data.notes || ''
-            });
+            if (data) {
+                setIsEditing(true);
+                setFormData({
+                    driver_name: data.driver_name,
+                    vehicle_type: data.vehicle_type,
+                    service_type: data.service_type,
+                    base_town: data.base_town,
+                    contact_number: data.contact_number,
+                    notes: data.notes || ''
+                });
+            }
         }
-    };
+
+        loadListing();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editId, profile]);
 
     if (authLoading) return <div className="p-20 text-center font-black animate-pulse uppercase tracking-widest text-slate-400">Synchronizing Logistics Channels...</div>;
     if (!profile) {
-        router.push('/login');
+        router.push('/login?next=/commute/register');
         return null;
     }
 
@@ -70,16 +75,19 @@ export default function RegisterDriver() {
         const submissionData = {
             ...formData,
             provider_id: profile.id,
-            is_available: existingProfile ? existingProfile.is_available : false
+            is_available: true,
         };
 
         let response;
-        if (existingProfile) {
+        if (isEditing && editId) {
+            // Update the specific listing being edited
             response = await supabase
                 .from('transport_services')
                 .update(submissionData)
-                .eq('id', existingProfile.id);
+                .eq('id', editId)
+                .eq('provider_id', profile.id);
         } else {
+            // Always insert — operators can have multiple listings
             response = await supabase
                 .from('transport_services')
                 .insert(submissionData);
@@ -99,7 +107,7 @@ export default function RegisterDriver() {
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display text-slate-900 dark:text-white">
-            <SuccessToast visible={showSuccess} message={existingProfile ? 'Profile updated!' : "You're now registered!"} />
+            <SuccessToast visible={showSuccess} message={isEditing ? 'Listing updated!' : "You're now listed!"} />
 
             {/* Visual Hub Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 py-8 border-b border-border-light dark:border-zinc-800 mb-8 rounded-b-[2rem] shadow-sm">
@@ -109,7 +117,7 @@ export default function RegisterDriver() {
                     </Link>
                     <div>
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-moriones-red">
-                            {existingProfile ? 'Update Profile' : 'Register as Provider'}
+                            {isEditing ? 'Edit Listing' : 'Add a Vehicle Listing'}
                         </h1>
                         <p className="text-[10px] font-black text-text-muted dark:text-text-muted-dark uppercase tracking-widest mt-0.5">Commute &amp; Delivery Hub</p>
                     </div>
@@ -248,8 +256,8 @@ export default function RegisterDriver() {
                             </>
                         ) : (
                             <>
-                                <span className="material-symbols-outlined">{existingProfile ? 'sync' : 'assignment_ind'}</span>
-                                {existingProfile ? 'SAVE LOGISTICS UPDATE' : 'INITIALIZE REGISTRY'}
+                                <span className="material-symbols-outlined">{isEditing ? 'sync' : 'add_circle'}</span>
+                                {isEditing ? 'SAVE CHANGES' : 'ADD LISTING'}
                             </>
                         )}
                     </button>
