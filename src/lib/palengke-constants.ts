@@ -24,6 +24,7 @@ export type PalengkePrice = {
     posted_by: string | null;
     created_at: string;
     poster_name?: string | null;
+    fb_username?: string | null;
 };
 
 export type PricesByCategory = {

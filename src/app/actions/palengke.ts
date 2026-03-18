@@ -19,6 +19,7 @@ export async function getPalengkePrices(municipality: Municipality): Promise<Pri
     const rows: PalengkePrice[] = (data ?? []).map((r: any) => ({
         ...r,
         poster_name: r.profiles?.full_name ?? null,
+        fb_username: r.fb_username ?? null,
         profiles: undefined,
     }));
 
@@ -44,6 +45,7 @@ export async function submitPrice(formData: FormData) {
     const note = (formData.get('note') as string)?.trim() || null;
     const stall_location = (formData.get('stall_location') as string)?.trim() || null;
     const availability_tag = (formData.get('availability_tag') as string) || 'available';
+    const fb_username = (formData.get('fb_username') as string)?.trim() || null;
 
     if (!municipality || !category || !item_name || isNaN(price) || price <= 0) {
         return { error: 'Please fill in all required fields.' };
@@ -60,6 +62,7 @@ export async function submitPrice(formData: FormData) {
             note,
             stall_location,
             availability_tag,
+            fb_username,
             posted_by: user.id,
         })
         .select('*, profiles(full_name)')

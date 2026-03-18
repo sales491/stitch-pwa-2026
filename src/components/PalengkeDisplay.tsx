@@ -60,6 +60,19 @@ function PriceRow({ row, currentUserId, onDelete }: { row: PalengkePrice; curren
                     </button>
                 )}
             </div>
+            {row.fb_username && (
+                <div className="mt-2">
+                    <a
+                        href={row.fb_username.includes('facebook.com') || row.fb_username.includes('m.me') ? row.fb_username : `https://m.me/${row.fb_username}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0084FF] hover:bg-[#0074E0] text-white text-[11px] font-black transition-all active:scale-95"
+                    >
+                        <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" /></svg>
+                        Message Seller
+                    </a>
+                </div>
+            )}
         </div>
     );
 }
@@ -324,6 +337,17 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
                                 <div>
                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">Your stall / location</label>
                                     <input name="stall_location" placeholder="e.g. Stall 12, near the entrance, 2nd row" className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-[13px] text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-zinc-600" />
+                                </div>
+
+                                <div>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">Messenger Username (optional)</label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                                            <svg className="w-4 h-4 text-[#0084FF]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.88 1.424 5.45 3.655 7.13.19.14.304.371.31.62l.063 1.937a.5.5 0 00.703.44l2.16-.952a.527.527 0 01.354-.032c.904.247 1.863.38 2.855.38 5.523 0 10-4.145 10-9.259S17.523 2 12 2z" /></svg>
+                                        </span>
+                                        <input name="fb_username" placeholder="e.g. juandelacruz" className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl pl-9 pr-3 py-2.5 text-[13px] text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-zinc-600" />
+                                    </div>
+                                    <p className="text-[10px] text-slate-400 mt-1 ml-1">Buyers can message you directly on Messenger</p>
                                 </div>
 
                                 <div>
