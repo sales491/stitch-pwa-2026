@@ -192,6 +192,15 @@ function BoatOperatorCard({ op, highlighted }: { op: BoatOperator; highlighted?:
                             className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600 shadow-sm transition-all active:scale-95"
                         />
                         <div className="ml-auto flex items-center gap-1">
+                            {isOwner && (
+                                <Link
+                                  href={`/island-hopping/list?id=${op.id}`}
+                                  className="flex items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-500 dark:text-slate-400 hover:border-cyan-500/50 hover:text-cyan-600 transition-all"
+                                >
+                                  <span className="material-symbols-outlined text-[13px]">edit</span>
+                                  Edit
+                                </Link>
+                            )}
                             <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
                             <FlagButton contentType="commute" contentId={op.id.toString()} />
                         </div>
@@ -406,20 +415,30 @@ export default function IslandHoppingHub() {
                         </div>
                     )}
 
-                    {/* CTA banner — only shown to users without a listing */}
-                    {!currentUser || !operators.some(op => op.provider_id === currentUser?.id) ? (
-                        <Link
-                            href="/island-hopping/list"
-                            className="flex items-center gap-3 mx-4 mb-3 px-4 py-2.5 rounded-2xl bg-cyan-500/5 dark:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/50 transition-all active:scale-[0.98] group"
-                        >
-                            <span className="text-xl">🏝️</span>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[11px] font-black text-slate-800 dark:text-white leading-tight">Are you a boat operator?</p>
-                                <p className="text-[10px] text-slate-400 font-medium">List your service free — get discovered</p>
-                            </div>
-                            <span className="material-symbols-outlined text-[18px] text-cyan-600 group-hover:translate-x-0.5 transition-transform">chevron_right</span>
-                        </Link>
-                    ) : null}
+                    {/* CTA banner — always visible. Non-logged-in users go to login first. Existing operators can add another boat. */}
+                    {(() => {
+                        const isExistingOperator = currentUser && operators.some(op => op.provider_id === currentUser.id);
+                        const href = !currentUser
+                            ? '/login?next=/island-hopping/list'
+                            : '/island-hopping/list';
+                        return (
+                            <Link
+                                href={href}
+                                className="flex items-center gap-3 mx-4 mb-3 px-4 py-2.5 rounded-2xl bg-cyan-500/5 dark:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/50 transition-all active:scale-[0.98] group"
+                            >
+                                <span className="text-xl">{isExistingOperator ? '➕' : '🏝️'}</span>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[11px] font-black text-slate-800 dark:text-white leading-tight">
+                                        {isExistingOperator ? 'Add another boat listing' : 'Are you a boat operator?'}
+                                    </p>
+                                    <p className="text-[10px] text-slate-400 font-medium">
+                                        {isExistingOperator ? 'Register a second boat or route' : 'List your service free — get discovered'}
+                                    </p>
+                                </div>
+                                <span className="material-symbols-outlined text-[18px] text-cyan-600 group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+                            </Link>
+                        );
+                    })()}
                 </header>
 
                 {/* Filter Bottom Sheet */}
