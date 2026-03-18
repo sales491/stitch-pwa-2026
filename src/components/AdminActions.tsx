@@ -210,7 +210,7 @@ export default function AdminActions({
     return (
         <div
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-            className={`flex items-center gap-1 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm p-1 rounded-lg border border-slate-200 dark:border-zinc-700 shadow-md ${className}`}
+            className={`flex items-center gap-1 bg-yellow-400 dark:bg-yellow-500 backdrop-blur-sm p-1 rounded-lg border border-yellow-500 dark:border-yellow-600 shadow-md ${className}`}
         >
             <button
                 type="button"

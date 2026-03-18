@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import FlagButton from './FlagButton';
@@ -8,6 +8,7 @@ import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
+import { useSearchParams } from 'next/navigation';
 
 export type BoatType = 'Outrigger Bangka' | 'Motorboat' | 'Speedboat' | 'Passenger Ferry';
 export type BoatServiceType = 'Island Hopping' | 'Point-to-Point' | 'Charter' | 'All';
@@ -48,13 +49,20 @@ const SERVICE_META: Record<string, { label: string; icon: string }> = {
     'All': { label: 'All Services', icon: 'water' },
 };
 
-function BoatOperatorCard({ op }: { op: BoatOperator }) {
+function BoatOperatorCard({ op, highlighted }: { op: BoatOperator; highlighted?: boolean }) {
     const { user } = useAuth();
     const [isAvailable, setIsAvailable] = useState(op.is_available);
     const [vouchCount, setVouchCount] = useState(op.vouchCount || 0);
     const [hasVouched, setHasVouched] = useState(op.hasVouched || false);
     const [isToggling, setIsToggling] = useState(false);
     const [isVouching, setIsVouching] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (highlighted && cardRef.current) {
+            cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [highlighted]);
     const [lightboxImg, setLightboxImg] = useState<string | null>(null);
     const bm = BOAT_META[op.boat_type] || { emoji: '🚤', label: op.boat_type };
     const svc = SERVICE_META[op.service_type] || { label: op.service_type, icon: 'water' };
@@ -96,7 +104,11 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
 
     return (
         <>
-        <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-cyan-400/30 shadow-xl shadow-cyan-500/5 ring-1 ring-cyan-400/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''}`}>
+        <div
+            id={`operator-${op.id}`}
+            ref={cardRef}
+            className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-700 ${isOwner ? 'border-cyan-400/30 shadow-xl shadow-cyan-500/5 ring-1 ring-cyan-400/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''} ${highlighted ? 'ring-4 ring-yellow-400 ring-offset-2 animate-pulse [animation-iteration-count:3]' : ''}`}
+        >
             {!isAvailable && (
                 <div className="absolute top-0 left-0 right-0 z-10 bg-slate-500/10 backdrop-blur-[1px] flex items-center justify-center py-1">
                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
@@ -142,13 +154,6 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                     <div className="flex-1 min-w-0 pr-[72px]">
                         <div className="flex items-center gap-1.5 min-w-0">
                             <h3 className="font-bold text-slate-900 dark:text-white text-base truncate min-w-0">{op.operator_name}</h3>
-                            <ShareButton
-                                title={`${op.operator_name} on Marinduque Market Hub`}
-                                text={`Check out ${op.operator_name} for island hopping or boat charters!`}
-                                url="/island-hopping"
-                                variant="icon"
-                                className="scale-75 shrink-0"
-                            />
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
                             <span className="text-[10px] bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-tight">{bm.label}</span>
@@ -177,10 +182,19 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
                                 <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: hasVouched ? '"FILL" 1' : '"FILL" 0' }}>thumb_up</span>
                                 {vouchCount > 0 && <span className={`absolute -top-1.5 -right-2 min-w-[14px] h-3.5 px-0.5 rounded-full text-[8px] font-black flex items-center justify-center leading-none ${hasVouched ? 'bg-white text-sky-600' : 'bg-sky-500 text-white'}`}>{vouchCount}</span>}
                             </div>
-                            {hasVouched ? 'Vouched' : 'Vouch'}
+                            {hasVouched ? 'Recommended' : 'Recommend'}
                         </button>
-                        <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
-                        <FlagButton contentType="commute" contentId={op.id.toString()} className="ml-auto" />
+                        <ShareButton
+                            title={`${op.operator_name} on Marinduque Market Hub`}
+                            text={`Check out ${op.operator_name} for island hopping or boat charters!`}
+                            url={`/island-hopping?operator=${op.id}`}
+                            variant="subtle"
+                            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600 shadow-sm transition-all active:scale-95"
+                        />
+                        <div className="ml-auto flex items-center gap-1">
+                            <AdminActions contentType="boat" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
+                            <FlagButton contentType="commute" contentId={op.id.toString()} />
+                        </div>
                     </div>
                 </div>
 
@@ -259,6 +273,9 @@ function BoatOperatorCard({ op }: { op: BoatOperator }) {
 
 
 export default function IslandHoppingHub() {
+    const searchParams = useSearchParams();
+    const highlightedId = searchParams.get('operator');
+
     const [boatFilter, setBoatFilter] = useState<string>('all');
     const [serviceFilter, setServiceFilter] = useState<string>('all');
     const [municipalityFilter, setMunicipalityFilter] = useState<string>('All');
@@ -493,7 +510,7 @@ export default function IslandHoppingHub() {
                             <p className="text-slate-500 dark:text-slate-400 font-bold">No boat operators found</p>
                             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Try adjusting filters or add your service!</p>
                         </div>
-                    ) : filtered.map(op => <BoatOperatorCard key={op.id} op={op} />)}
+                    ) : filtered.map(op => <BoatOperatorCard key={op.id} op={op} highlighted={op.id === highlightedId} />)}
                 </div>
 
             </div>

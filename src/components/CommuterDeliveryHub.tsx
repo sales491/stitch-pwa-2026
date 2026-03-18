@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import FlagButton from './FlagButton';
@@ -8,6 +8,7 @@ import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
+import { useSearchParams } from 'next/navigation';
 
 export type ServiceType = 'Passenger' | 'Delivery' | 'Both';
 export type VehicleType = 'Tricycle' | 'Motorcycle' | 'Jeepney' | 'Van / UV Express' | 'Private Car' | 'Truck';
@@ -49,7 +50,7 @@ const SERVICE_LABELS: Record<string, { label: string; icon: string }> = {
   'Both': { label: 'Rides & Delivery', icon: 'swap_horiz' },
 };
 
-function OperatorCard({ op }: { op: Operator }) {
+function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean }) {
   const { user } = useAuth();
   const [isAvailable, setIsAvailable] = useState(op.available);
   const [vouchCount, setVouchCount] = useState(op.vouchCount || 0);
@@ -57,6 +58,13 @@ function OperatorCard({ op }: { op: Operator }) {
   const [isToggling, setIsToggling] = useState(false);
   const [isVouching, setIsVouching] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (highlighted && cardRef.current) {
+      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [highlighted]);
 
   const vm = VEHICLE_META[op.vehicleType] || { emoji: '🚗', label: op.vehicleType };
   const svc = SERVICE_LABELS[op.serviceType] || { label: op.serviceType, icon: 'commute' };
@@ -133,7 +141,11 @@ function OperatorCard({ op }: { op: Operator }) {
   const isOwner = user?.id === op.provider_id;
 
   return (
-    <div className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-300 ${isOwner ? 'border-moriones-red/30 shadow-xl shadow-moriones-red/5 ring-1 ring-moriones-red/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''}`}>
+    <div
+      id={`operator-${op.id}`}
+      ref={cardRef}
+      className={`relative bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border transition-all duration-700 ${isOwner ? 'border-moriones-red/30 shadow-xl shadow-moriones-red/5 ring-1 ring-moriones-red/10' : 'border-slate-100 dark:border-zinc-800 shadow-sm'} ${!isAvailable ? 'opacity-60' : ''} ${highlighted ? 'ring-4 ring-yellow-400 ring-offset-2 animate-pulse [animation-iteration-count:3]' : ''}`}
+    >
       {!isAvailable && (
         <div className="absolute top-0 left-0 right-0 z-10 bg-slate-500/10 backdrop-blur-[1px] flex items-center justify-center py-1">
           <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Currently Offline — Contact Info Still Available</span>
@@ -194,13 +206,6 @@ function OperatorCard({ op }: { op: Operator }) {
           <div className="flex-1 min-w-0 pr-[72px]">
             <div className="flex items-center gap-1.5 min-w-0">
               <h3 className="font-bold text-slate-900 dark:text-white text-base truncate min-w-0">{op.operator}</h3>
-              <ShareButton
-                title={`${op.operator} on Marinduque Market Hub`}
-                text={`Book a ride or delivery with ${op.operator} (${op.vehicleType}) on the Marinduque Market Hub!`}
-                url="/commute"
-                variant="icon"
-                className="scale-75 shrink-0"
-              />
             </div>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-[10px] bg-moriones-red/10 text-moriones-red font-bold px-1.5 py-0.5 rounded uppercase tracking-tight">
@@ -218,7 +223,7 @@ function OperatorCard({ op }: { op: Operator }) {
       {/* Details Section */}
       <div className="px-4 pb-4 space-y-3">
           <div className="flex items-center gap-2">
-            {/* Primary Vouch Button */}
+            {/* Primary Recommend Button */}
             <button
               onClick={toggleVouch}
               disabled={isVouching}
@@ -241,10 +246,19 @@ function OperatorCard({ op }: { op: Operator }) {
                   </span>
                 )}
               </div>
-              {hasVouched ? 'Vouched' : 'Vouch'}
+              {hasVouched ? 'Recommended' : 'Recommend'}
             </button>
-            <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
-            <FlagButton contentType="commute" contentId={op.id.toString()} className="ml-auto" />
+            <ShareButton
+              title={`${op.operator} on Marinduque Market Hub`}
+              text={`Book a ride or delivery with ${op.operator} (${op.vehicleType}) on the Marinduque Market Hub!`}
+              url={`/commute?operator=${op.id}`}
+              variant="subtle"
+              className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-600 dark:text-slate-300 hover:border-sky-300 hover:text-sky-600 shadow-sm transition-all active:scale-95"
+            />
+            <div className="ml-auto flex items-center gap-1">
+              <AdminActions contentType="commute" contentId={op.id} authorId={op.provider_id} variant="icon" className="scale-75 origin-right" />
+              <FlagButton contentType="commute" contentId={op.id.toString()} />
+            </div>
           </div>
 
         {/* Route (for scheduled types) */}
@@ -355,6 +369,9 @@ function OperatorCard({ op }: { op: Operator }) {
 }
 
 export default function CommuterDeliveryHub() {
+  const searchParams = useSearchParams();
+  const highlightedId = searchParams.get('operator');
+
   const [vehicleFilter, setVehicleFilter] = useState<string | 'all'>('all');
   const [serviceFilter, setServiceFilter] = useState<string | 'all'>('all');
   const [townFilter, setTownFilter] = useState<string>('All');
@@ -736,7 +753,7 @@ export default function CommuterDeliveryHub() {
               <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Try adjusting your filters or towns</p>
             </div>
           ) : (
-            filtered.map((op) => <OperatorCard key={op.id} op={op} />)
+            filtered.map((op) => <OperatorCard key={op.id} op={op} highlighted={op.id === highlightedId} />)
           )}
         </div>
 

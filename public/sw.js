@@ -1,20 +1,10 @@
 // ============================================================
-// Marinduque Market Hub — Service Worker v4
-// Strategy: Cache-First for shell assets, Network-First for API
+// Marinduque Market Hub — Service Worker v6
+// Strategy: Network-First for HTML pages, Cache-First for assets
+// This ensures users always get fresh content after a deploy.
 // ============================================================
 
-const CACHE_NAME = 'mhub-shell-v5';
-
-// Core app shell — pages that must load instantly, even offline
-const SHELL_URLS = [
-    '/',
-    '/community',
-    '/marketplace',
-    '/commute',
-    '/directory',
-    '/login',
-    '/profile',
-];
+const CACHE_NAME = 'mhub-shell-v6';
 
 // Static assets to pre-cache (loaded on first install)
 const STATIC_ASSETS = [
@@ -22,14 +12,12 @@ const STATIC_ASSETS = [
     '/manifest.json',
 ];
 
-// ── Install: pre-cache the shell ──────────────────────────────
+// ── Install: pre-cache static assets only ─────────────────────
 self.addEventListener('install', (e) => {
-    self.skipWaiting();
+    self.skipWaiting(); // Activate new SW immediately
     e.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            // Cache shell pages and static assets
-            return cache.addAll([...SHELL_URLS, ...STATIC_ASSETS]).catch((err) => {
-                // Don't fail install if a single page is unavailable (e.g. login page redirects)
+            return cache.addAll(STATIC_ASSETS).catch((err) => {
                 console.warn('[SW] Pre-cache warning (non-fatal):', err);
             });
         })
@@ -52,71 +40,90 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-// ── Fetch: Cache-First for shell, Network-First for API ────────
+// ── Fetch ──────────────────────────────────────────────────────
 self.addEventListener('fetch', (e) => {
     const { request } = e;
     const url = new URL(request.url);
 
-    // Skip non-GET requests and cross-origin requests
+    // Only handle GET requests from our own origin
     if (request.method !== 'GET') return;
     if (url.origin !== self.location.origin && !url.hostname.includes('supabase.co')) return;
 
-    // Skip Supabase API calls — always go to network for live data
+    // ① Supabase / API calls — always network, never cache
     if (url.hostname.includes('supabase.co') || url.pathname.startsWith('/api/')) {
         e.respondWith(
-            fetch(request).catch(() => {
-                // No offline fallback for API — just fail gracefully
-                return new Response(JSON.stringify({ error: 'Offline' }), {
+            fetch(request).catch(() =>
+                new Response(JSON.stringify({ error: 'Offline' }), {
                     status: 503,
                     headers: { 'Content-Type': 'application/json' },
-                });
+                })
+            )
+        );
+        return;
+    }
+
+    // ② Next.js static chunks (_next/static) — Cache-First (content-hashed, safe to cache forever)
+    if (url.pathname.startsWith('/_next/static/')) {
+        e.respondWith(
+            caches.open(CACHE_NAME).then(async (cache) => {
+                const cached = await cache.match(request);
+                if (cached) return cached;
+                const fresh = await fetch(request);
+                if (fresh && fresh.status === 200) cache.put(request, fresh.clone());
+                return fresh;
             })
         );
         return;
     }
 
-    // Skip Next.js internal requests
+    // ③ Other _next/ requests (HMR, image optimization) — network only
     if (url.pathname.startsWith('/_next/')) {
+        e.respondWith(fetch(request));
+        return;
+    }
+
+    // ④ Page navigations — NETWORK-FIRST so deploys are reflected immediately
+    //    Falls back to cached shell only when offline
+    if (request.mode === 'navigate') {
         e.respondWith(
-            caches.match(request).then((cached) => cached || fetch(request))
+            fetch(request)
+                .then((fresh) => {
+                    // Store a fresh copy for offline fallback
+                    if (fresh && fresh.status === 200) {
+                        const clone = fresh.clone();
+                        caches.open(CACHE_NAME).then((c) => c.put(request, clone));
+                    }
+                    return fresh;
+                })
+                .catch(async () => {
+                    // Offline — serve cached page or home shell
+                    const cached = await caches.match(request);
+                    if (cached) return cached;
+                    const home = await caches.match('/');
+                    return home || new Response('Offline — please check your connection.', {
+                        status: 503,
+                        headers: { 'Content-Type': 'text/plain' },
+                    });
+                })
         );
         return;
     }
 
-    // Cache-First for everything else (pages, images, fonts)
+    // ⑤ Everything else (images, fonts, manifests) — Cache-First with background revalidation
     e.respondWith(
         caches.open(CACHE_NAME).then(async (cache) => {
             const cached = await cache.match(request);
             if (cached) {
-                // Serve from cache immediately, revalidate in background
-                fetch(request)
-                    .then((fresh) => {
-                        if (fresh && fresh.status === 200) {
-                            cache.put(request, fresh.clone());
-                        }
-                    })
-                    .catch(() => {/* ignore network errors during bg refresh */ });
+                // Serve stale immediately, refresh in background
+                fetch(request).then((fresh) => {
+                    if (fresh && fresh.status === 200) cache.put(request, fresh.clone());
+                }).catch(() => {});
                 return cached;
             }
-
-            // Cache miss — try network, then store result
-            try {
-                const fresh = await fetch(request);
-                if (fresh && fresh.status === 200) {
-                    cache.put(request, fresh.clone());
-                }
-                return fresh;
-            } catch {
-                // Network failed — try serving the home shell as fallback for navigation
-                if (request.mode === 'navigate') {
-                    const fallback = await cache.match('/');
-                    return fallback || new Response('Offline — please check your connection.', {
-                        status: 503,
-                        headers: { 'Content-Type': 'text/plain' },
-                    });
-                }
-                throw new Error('Offline');
-            }
+            const fresh = await fetch(request);
+            if (fresh && fresh.status === 200) cache.put(request, fresh.clone());
+            return fresh;
         })
     );
 });
+
