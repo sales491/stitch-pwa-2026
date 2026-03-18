@@ -166,7 +166,7 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
         e.preventDefault();
         setFormError(null);
         const fd = new FormData(e.currentTarget);
-        fd.set('municipality', activeMuni);
+        // municipality comes from the form's own select — no override needed
         const result = await submitPrice(fd);
         if (result.error) { setFormError(result.error); return; }
 
@@ -174,10 +174,13 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
         if (result.item) {
             const newItem = result.item as any;
             const cat = newItem.category as keyof PricesByCategory;
+            const muni = (newItem.municipality ?? activeMuni) as Municipality;
             setPricesByMuni(prev => {
-                const current = prev[activeMuni] ?? { fish: [], produce: [], meat: [], other: [] };
-                return { ...prev, [activeMuni]: { ...current, [cat]: [newItem, ...current[cat]] } };
+                const current = prev[muni] ?? { fish: [], produce: [], meat: [], other: [] };
+                return { ...prev, [muni]: { ...current, [cat]: [newItem, ...current[cat]] } };
             });
+            // Switch view to the town the vendor just posted in
+            if (muni !== activeMuni) switchMuni(muni);
         }
 
         setShowForm(false);
@@ -292,15 +295,28 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
                         >
                             <div className="w-10 h-1 bg-slate-200 dark:bg-zinc-700 rounded-full mx-auto mb-4" />
                             <p className="font-black text-slate-900 dark:text-white text-[16px] mb-0.5">Post Your Items</p>
-                            <p className="text-[11px] text-slate-400 dark:text-zinc-500 mb-4">{activeMuni} palengke · today</p>
+                            <p className="text-[11px] text-slate-400 dark:text-zinc-500 mb-4">Today's palengke · visible for 24 hours</p>
 
                             <form ref={formRef} onSubmit={handleSubmit} className="space-y-3">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">Your Name *</label>
+                                        <input name="vendor_name" required placeholder="e.g. Aling Rosa" className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-[13px] text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-zinc-600" />
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">Town *</label>
+                                        <select name="municipality" required defaultValue={activeMuni} className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-[13px] text-slate-900 dark:text-white font-bold">
+                                            <option value="" disabled>Select town</option>
+                                            {MUNICIPALITIES.map(m => <option key={m} value={m}>{m}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
                                 <div>
                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block mb-1">Category</label>
                                     <select name="category" required className="w-full bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-[13px] text-slate-900 dark:text-white font-bold">
-                                        <option value="fish">🐟 Fish & Seafood</option>
-                                        <option value="produce">🥬 Vegetables & Fruit</option>
-                                        <option value="meat">🥩 Meat & Poultry</option>
+                                        <option value="fish">🐟 Fish &amp; Seafood</option>
+                                        <option value="produce">🥬 Vegetables &amp; Fruit</option>
+                                        <option value="meat">🥩 Meat &amp; Poultry</option>
                                         <option value="other">📦 Other</option>
                                     </select>
                                 </div>
