@@ -11,6 +11,7 @@ import ShareButton from './ShareButton';
 
 type ListingProps = {
     id: string;
+    slug: string;
     title: string;
     price: number;
     town: string;
@@ -18,7 +19,7 @@ type ListingProps = {
     sellerId: string;
 };
 
-export default function ListingCard({ id, title, price, town, imageUrl, sellerId }: ListingProps) {
+export default function ListingCard({ id, slug, title, price, town, imageUrl, sellerId }: ListingProps) {
     const { profile } = useAuth();
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);

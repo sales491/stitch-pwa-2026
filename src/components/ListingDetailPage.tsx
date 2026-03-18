@@ -21,7 +21,7 @@ export default function ListingDetailPage({ listing }: { listing: Listing }) {
     }[listing.condition];
 
     return (
-        <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-900 pb-4">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-900 pb-28">
             {/* Sticky header */}
             <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-b border-slate-100 dark:border-zinc-800">
                 <Link href="/marketplace" className="flex items-center gap-1 text-text-muted hover:text-primary transition-colors">

@@ -11,6 +11,7 @@ const PAGE_SIZE = 10;
 
 interface Listing {
     id: string;
+    slug: string;
     title: string;
     price_value: number | null;
     town: string;
@@ -66,7 +67,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
 
         const { data, error: fetchError } = await supabase
             .from('listings')
-            .select('id, title, price_value, town, category, images, seller_id, user_id')
+            .select('id, slug, title, price_value, town, category, images, seller_id, user_id')
             .eq('status', 'active')
             .order('created_at', { ascending: false })
             .range(from, to);
@@ -239,6 +240,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                             <ListingCard
                                 key={listing.id}
                                 id={String(listing.id)}
+                                slug={listing.slug || listing.id}
                                 title={listing.title}
                                 price={listing.price_value || 0}
                                 town={listing.town}

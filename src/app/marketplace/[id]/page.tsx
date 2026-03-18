@@ -30,23 +30,28 @@ export default async function ListingDetail({
     const { id } = await params;
     const supabase = await createClient();
 
-    // Fetch the listing AND the seller's profile data at the same time!
+    // Step 1: Fetch the listing — avoid ambiguous FK join with profiles
     const { data: listing, error } = await supabase
         .from('listings')
-        .select(`
-      *,
-      seller:profiles(id, full_name, avatar_url, role)
-    `)
+        .select('*')
         .eq('id', id)
         .single();
 
     // If someone types in a fake URL, show the Next.js 404 page
     if (error || !listing) return notFound();
 
+    // Step 2: Fetch the seller profile separately using seller_id (or user_id as fallback)
+    const sellerId = listing.seller_id || listing.user_id;
+    const { data: sellerProfile } = sellerId
+        ? await supabase.from('profiles').select('id, full_name, avatar_url, role').eq('id', sellerId).single()
+        : { data: null };
+
     // Fetch the current user to check permissions
     const { data: { user } } = await supabase.auth.getUser();
-    const { data: viewerProfile } = user ? await supabase.from('profiles').select('id, role').eq('id', user.id).single() : { data: null };
-    const canEdit = user && (viewerProfile?.id === (listing.seller_id || listing.user_id) || viewerProfile?.role === 'admin' || viewerProfile?.role === 'moderator');
+    const { data: viewerProfile } = user
+        ? await supabase.from('profiles').select('id, role').eq('id', user.id).single()
+        : { data: null };
+    const canEdit = user && (viewerProfile?.id === sellerId || viewerProfile?.role === 'admin' || viewerProfile?.role === 'moderator');
 
     return (
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
@@ -131,17 +136,17 @@ export default async function ListingDetail({
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <div className="w-14 h-14 rounded-2xl overflow-hidden relative bg-slate-800 border-2 border-slate-800 shadow-xl">
-                                {listing.seller?.avatar_url ? (
-                                    <Image src={listing.seller.avatar_url} alt="Seller" fill className="object-cover" />
+                                {sellerProfile?.avatar_url ? (
+                                    <Image src={sellerProfile.avatar_url} alt="Seller" fill className="object-cover" />
                                 ) : (
                                     <div className="flex items-center justify-center h-full text-slate-500 font-black text-sm">
-                                        {(listing.seller?.full_name || 'U').charAt(0)}
+                                        {(sellerProfile?.full_name || 'U').charAt(0)}
                                     </div>
                                 )}
                             </div>
                             <div>
                                 <p className="font-black text-lg tracking-tight flex items-center gap-1.5">
-                                    {listing.seller?.full_name || 'Marinduque Seller'}
+                                    {sellerProfile?.full_name || listing.seller?.name || 'Marinduque Seller'}
                                 </p>
                                 <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Digital Town Square verified</p>
                             </div>
