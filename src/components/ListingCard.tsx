@@ -75,9 +75,9 @@ export default function ListingCard({ id, slug, title, price, town, imageUrl, se
         <div className={`bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] overflow-hidden mb-4 shadow-sm relative transition-all hover:shadow-md group ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
             <Link href={`/marketplace/${id}`}>
                 {/* Image Area */}
-                <div className="w-full h-56 relative bg-slate-100 dark:bg-white/[0.02] overflow-hidden">
+                <div className="w-full h-56 relative bg-white dark:bg-[#111] overflow-hidden">
                     {imageUrl ? (
-                        <Image src={imageUrl} alt={title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <Image src={imageUrl} alt={title} fill className="object-contain group-hover:scale-105 transition-transform duration-700" />
                     ) : (
                         <div className="flex flex-col items-center justify-center h-full text-text-muted/20">
                             <span className="material-symbols-outlined text-4xl mb-1">image</span>

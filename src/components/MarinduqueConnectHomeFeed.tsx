@@ -224,10 +224,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                                                 href={item.link}
                                                 className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                                             >
-                                                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                                                <div className="relative aspect-square w-full overflow-hidden bg-white dark:bg-zinc-900">
                                                     <img
                                                         alt={item.title}
-                                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                                        className="w-full h-full object-contain"
                                                         src={item.image}
                                                     />
                                                     {item.extraInfo && (
@@ -277,10 +277,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                                             href={item.link}
                                             className="group relative flex flex-col overflow-hidden rounded-2xl bg-background-main border border-border-main shadow-sm hover:shadow-md transition-all h-full"
                                         >
-                                            <div className="relative aspect-square overflow-hidden">
+                                            <div className="relative aspect-square w-full overflow-hidden bg-white dark:bg-zinc-900">
                                                 <img
                                                     alt={item.title}
-                                                    className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
+                                                    className="w-full h-full object-contain grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
                                                     src={item.image}
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />

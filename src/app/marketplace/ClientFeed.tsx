@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
@@ -32,7 +32,6 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTown, setSelectedTown] = useState('All');
     const [selectedCategory, setSelectedCategory] = useState('All');
-    // Hydrate from server-rendered initial data — no spinner on first load
     const [listings, setListings] = useState<Listing[]>(initialListings);
     const [loading, setLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -52,37 +51,41 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
         }
     }, [showSuccessToast]);
 
-    const fetchListings = useCallback(async (pageNum: number, reset = false) => {
+    const fetchListings = useCallback(async (
+        pageNum: number,
+        query: string,
+        town: string,
+        category: string,
+        reset = false
+    ) => {
         if (isFetchingRef.current) return;
         isFetchingRef.current = true;
 
-        if (reset) {
-            setLoading(true);
-        } else {
-            setIsLoadingMore(true);
-        }
+        if (reset) setLoading(true);
+        else setIsLoadingMore(true);
 
         const from = pageNum * PAGE_SIZE;
         const to = from + PAGE_SIZE - 1;
 
-        const { data, error: fetchError } = await supabase
+        let q = supabase
             .from('listings')
             .select('id, slug, title, price_value, town, category, images, seller_id, user_id')
             .eq('status', 'active')
             .order('created_at', { ascending: false })
             .range(from, to);
 
+        if (query.trim()) q = q.ilike('title', `%${query.trim()}%`);
+        if (town !== 'All') q = q.eq('town', town);
+        if (category !== 'All') q = q.eq('category', category);
+
+        const { data, error: fetchError } = await q;
+
         if (fetchError) {
-            const detail = (fetchError as any).details || fetchError.message;
-            console.error('Marketplace fetch error details:', detail);
-            setError(detail);
+            setError((fetchError as any).details || fetchError.message);
         } else {
             const newItems = data || [];
-            if (reset) {
-                setListings(newItems);
-            } else {
-                setListings((prev) => [...prev, ...newItems]);
-            }
+            if (reset) setListings(newItems);
+            else setListings((prev) => [...prev, ...newItems]);
             setHasMore(newItems.length === PAGE_SIZE);
         }
 
@@ -91,7 +94,17 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
         isFetchingRef.current = false;
     }, [supabase]);
 
-    // Infinite scroll via IntersectionObserver — starts at page 1 since page 0 is server-rendered
+    // Debounce search/filter changes — reset and re-fetch from page 0 against all DB listings
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setPage(0);
+            fetchListings(0, searchQuery, selectedTown, selectedCategory, true);
+        }, 350);
+        return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchQuery, selectedTown, selectedCategory]);
+
+    // Infinite scroll via IntersectionObserver
     const sentinelRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -99,29 +112,18 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                 if (entries[0].isIntersecting && hasMore && !isLoadingMore && !loading) {
                     setPage((prev) => {
                         const nextPage = prev + 1;
-                        fetchListings(nextPage);
+                        fetchListings(nextPage, searchQuery, selectedTown, selectedCategory);
                         return nextPage;
                     });
                 }
             },
             { rootMargin: '200px' }
         );
-
         const sentinel = sentinelRef.current;
         if (sentinel) observer.observe(sentinel);
         return () => { if (sentinel) observer.unobserve(sentinel); };
-    }, [hasMore, isLoadingMore, loading, fetchListings]);
-
-    // Client-side filter on already-fetched items
-    const filteredListings = useMemo(() => {
-        return listings.filter((listing) => {
-            const matchesSearch = !searchQuery ||
-                listing.title?.toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesTown = selectedTown === 'All' || listing.town === selectedTown;
-            const matchesCategory = selectedCategory === 'All' || listing.category === selectedCategory;
-            return matchesSearch && matchesTown && matchesCategory;
-        });
-    }, [listings, searchQuery, selectedTown, selectedCategory]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hasMore, isLoadingMore, loading]);
 
     if (error) {
         return (
@@ -164,31 +166,34 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                     </div>
                     <Link
                         href="/marketplace/create"
-                        className="bg-moriones-red text-white px-5 py-2.5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-moriones-red/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2"
+                        className="bg-green-600 text-white px-5 py-2.5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-green-600/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined text-[18px]">add_circle</span>
                         Sell Item
                     </Link>
                 </div>
 
-                {/* Search Bar & Town Filter Row */}
+                {/* Search Bar & Filters */}
                 <div className="flex flex-col sm:flex-row gap-2 mb-6">
                     {/* Search Box */}
                     <div className="flex-[1.5] relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-moriones-red/60">
-                            <span className="material-symbols-outlined text-lg">search</span>
+                            {loading
+                                ? <span className="w-[18px] h-[18px] border-2 border-moriones-red/30 border-t-moriones-red rounded-full animate-spin" />
+                                : <span className="material-symbols-outlined text-lg">search</span>
+                            }
                         </div>
                         <input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search..."
+                            placeholder="Search all listings..."
                             className="w-full bg-slate-50 dark:bg-zinc-800 border-2 border-transparent rounded-[1.25rem] py-3 pl-11 pr-4 text-sm font-bold text-slate-800 dark:text-white focus:bg-white dark:focus:bg-zinc-700/50 focus:border-moriones-red/20 outline-none transition-all placeholder:text-slate-400"
                         />
                     </div>
-                    
+
                     <div className="flex gap-2 flex-1">
-                        {/* Category Filter Dropdown */}
+                        {/* Category Filter */}
                         <div className="flex-1 relative group min-w-0">
                             <select
                                 value={selectedCategory}
@@ -206,10 +211,10 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                                 ))}
                             </select>
                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-[16px] pointer-events-none">category</span>
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none group-active:rotate-180 transition-transform">expand_more</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none">expand_more</span>
                         </div>
 
-                        {/* Town Filter Dropdown */}
+                        {/* Town Filter */}
                         <div className="flex-[0.8] relative group min-w-[110px]">
                             <select
                                 value={selectedTown}
@@ -221,22 +226,24 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                                 ))}
                             </select>
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-moriones-red/60 text-[16px] pointer-events-none">location_on</span>
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none group-active:rotate-180 transition-transform">expand_more</span>
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg pointer-events-none">expand_more</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Grid Feed */}
+            {/* Listings Feed */}
             <div className="px-6 pb-24">
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20">
                         <div className="w-12 h-12 border-4 border-moriones-red/20 border-t-moriones-red rounded-full animate-spin"></div>
-                        <p className="mt-4 text-xs font-black text-slate-400 uppercase tracking-widest">Loading Marketplace...</p>
+                        <p className="mt-4 text-xs font-black text-slate-400 uppercase tracking-widest">
+                            {searchQuery ? `Searching for "${searchQuery}"…` : 'Loading Marketplace...'}
+                        </p>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-2">
-                        {filteredListings.map((listing) => (
+                        {listings.map((listing) => (
                             <ListingCard
                                 key={listing.id}
                                 id={String(listing.id)}
@@ -259,23 +266,26 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                             </div>
                         )}
 
-                        {/* End of feed indicator */}
+                        {/* End of results */}
                         {!hasMore && listings.length > 0 && (
                             <div className="flex flex-col items-center py-8 text-center">
                                 <div className="w-12 h-px bg-slate-200 dark:bg-white/10 mb-4" />
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                    {listings.length} listings shown • You&apos;re all caught up
+                                    {listings.length} listing{listings.length !== 1 ? 's' : ''} found • End of results
                                 </p>
                             </div>
                         )}
 
-                        {filteredListings.length === 0 && !loading && (
+                        {/* Empty state */}
+                        {listings.length === 0 && !loading && (
                             <div className="flex flex-col items-center justify-center py-20 text-center bg-slate-50 dark:bg-zinc-800/50 rounded-[2.5rem] mt-4 border border-slate-100 dark:border-white/[0.03]">
                                 <div className="w-20 h-20 bg-white dark:bg-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm border border-slate-100 dark:border-zinc-700">
                                     <span className="material-symbols-outlined text-slate-300 dark:text-zinc-600 text-4xl">inventory_2</span>
                                 </div>
                                 <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-tight">No listings found</h3>
-                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1 px-10 leading-relaxed">Try changing your search or selecting a different town</p>
+                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1 px-10 leading-relaxed">
+                                    {searchQuery ? `No results for "${searchQuery}"` : 'Try changing your filters'}
+                                </p>
                                 <button
                                     onClick={() => { setSearchQuery(''); setSelectedTown('All'); setSelectedCategory('All'); }}
                                     className="mt-6 text-moriones-red font-black text-[11px] uppercase tracking-widest hover:underline"

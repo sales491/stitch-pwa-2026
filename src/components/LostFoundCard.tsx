@@ -44,12 +44,12 @@ export default function LostFoundCard({ post }: { post: LostFoundPost }) {
             {/* Photo strip */}
             {post.image_url ? (
                 <div className="w-24 h-full flex-shrink-0 bg-slate-100 dark:bg-zinc-800">
-                    <img
-                        src={post.image_url}
-                        alt={post.title}
-                        className="w-24 h-full object-cover"
-                        style={{ minHeight: '96px' }}
-                    />
+                        <img
+                            src={post.image_url}
+                            alt={post.title}
+                            className="w-24 h-full object-contain"
+                            style={{ minHeight: '96px' }}
+                        />
                 </div>
             ) : (
                 <div className="w-16 flex-shrink-0 flex items-center justify-center bg-slate-50 dark:bg-zinc-800 text-3xl">

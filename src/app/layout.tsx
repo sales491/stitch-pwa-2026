@@ -11,6 +11,11 @@ import { AuthProvider } from "@/components/AuthProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
+const isDev = process.env.NODE_ENV === 'development';
+const DevInspector = isDev
+  ? require('@/components/DevInspector').default
+  : null;
+
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
@@ -216,6 +221,7 @@ export default function RootLayout({
             </NotificationProvider>
           </AuthProvider>
         </ThemeProvider>
+        {isDev && DevInspector && <DevInspector />}
       </body>
     </html>
   );

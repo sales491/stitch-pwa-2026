@@ -26,7 +26,7 @@ function thumbUrl(url: string | null | undefined, width = 400): string | undefin
     if (!url) return undefined;
     if (url.includes(SUPABASE_HOST) && url.includes('/storage/v1/object/public/')) {
         const transformed = url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
-        return `${transformed}?width=${width}&quality=75&resize=cover`;
+        return `${transformed}?width=${width}&quality=75&resize=contain`;
     }
     return url;
 }

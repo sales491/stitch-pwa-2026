@@ -31,7 +31,7 @@ export default function BusinessCard({
             {/* Logo / Image Area */}
             <div className="w-16 h-16 bg-slate-50 dark:bg-white/[0.03] text-moriones-red dark:text-[#F44336] rounded-2xl flex items-center justify-center font-black text-2xl flex-shrink-0 shadow-inner overflow-hidden relative border border-transparent dark:border-white/[0.05]">
                 {imageUrl ? (
-                    <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <Image src={imageUrl} alt={name} fill className="object-contain group-hover:scale-110 transition-transform duration-500" />
                 ) : (
                     !isVerified ? (
                         <Link href={`/claim-business/${id}`} className="relative z-10 w-full h-full flex flex-col items-center justify-center bg-teal-50 hover:bg-teal-100 dark:bg-teal-900/30 dark:hover:bg-teal-900/50 transition-colors pointer-events-auto shadow-sm">
