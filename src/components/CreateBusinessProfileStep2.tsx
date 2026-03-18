@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import BarangayPicker from '@/components/BarangayPicker';
 
 export default function CreateBusinessProfileStep2() {
   const [phone, setPhone] = useState('');
@@ -8,6 +9,7 @@ export default function CreateBusinessProfileStep2() {
   const [fbPageUsername, setFbPageUsername] = useState('');
   const [email, setEmail] = useState('');
   const [town, setTown] = useState('');
+  const [barangay, setBarangay] = useState('');
   const [address, setAddress] = useState('');
 
   useEffect(() => {
@@ -17,6 +19,7 @@ export default function CreateBusinessProfileStep2() {
       setFbPageUsername(localStorage.getItem('bp_fb_page') || '');
       setEmail(localStorage.getItem('bp_email') || '');
       setTown(localStorage.getItem('bp_location')?.split(',')[0] || '');
+      setBarangay(localStorage.getItem('bp_barangay') || '');
       setAddress(localStorage.getItem('bp_address') || '');
     }
   }, []);
@@ -28,6 +31,8 @@ export default function CreateBusinessProfileStep2() {
   const handleTownChange = (val: string) => {
     setTown(val);
     save('bp_location', val);
+    setBarangay('');
+    save('bp_barangay', '');
   };
 
   return (
@@ -83,10 +88,20 @@ export default function CreateBusinessProfileStep2() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-1">Street Address / Barangay</label>
+                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-1">Barangay (optional)</label>
+                <BarangayPicker
+                  value={barangay}
+                  onChange={(v) => { setBarangay(v); save('bp_barangay', v); }}
+                  municipality={town}
+                  accentColor="red"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-1">Street Address (optional)</label>
                 <input
                   className="w-full rounded-2xl bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800 px-4 py-4 text-base text-slate-900 dark:text-white focus:border-moriones-red focus:ring-4 focus:ring-moriones-red/5 outline-none placeholder:text-slate-400 transition-all shadow-sm"
-                  placeholder="e.g. Purok 2, Brgy. Balanacan"
+                  placeholder="e.g. Purok 2, near the plaza"
                   type="text"
                   value={address}
                   onChange={(e) => { setAddress(e.target.value); save('bp_address', e.target.value); }}

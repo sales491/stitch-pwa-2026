@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import BarangayPicker from '@/components/BarangayPicker';
 
-const TOWNS = ['Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
+const TOWNS = ['Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];
 
 type ToastType = 'success' | 'error';
 
@@ -214,7 +214,7 @@ export default function UserProfileDashboard2() {
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
-              <div className="border-b border-neutral-100 dark:border-neutral-700">
+              <div>
                 <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="town">Home Town</label>
                 <select
                   value={town}
@@ -228,19 +228,20 @@ export default function UserProfileDashboard2() {
                   ))}
                 </select>
               </div>
-              <div>
-                <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="barangay">
-                  Barangay <span className="font-normal text-neutral-400">(optional)</span>
-                </label>
-                <BarangayPicker
-                  id="barangay"
-                  value={barangay}
-                  onChange={setBarangay}
-                  municipality={town}
-                  accentColor="teal"
-                  inputClassName="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white placeholder-neutral-300 focus:ring-0 sm:text-sm font-medium"
-                />
-              </div>
+            </div>
+            {/* Barangay in its own card — overflow-visible so dropdown isn't clipped */}
+            <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow-sm">
+              <label className="block px-4 pt-3 pb-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400" htmlFor="barangay">
+                Barangay <span className="font-normal text-neutral-400">(optional)</span>
+              </label>
+              <BarangayPicker
+                id="barangay"
+                value={barangay}
+                onChange={setBarangay}
+                municipality={town}
+                accentColor="teal"
+                inputClassName="w-full px-4 pb-3 pt-0 border-0 bg-transparent text-neutral-900 dark:text-white placeholder-neutral-300 focus:ring-0 sm:text-sm font-medium"
+              />
             </div>
           </div>
 
