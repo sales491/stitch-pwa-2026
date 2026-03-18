@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition, useRef } from 'react';
+import { useState, useTransition, useRef, useMemo } from 'react';
 import { MUNICIPALITIES, MARKET_SCHEDULE, AVAILABILITY_TAGS, Municipality, PricesByCategory, PalengkePrice } from '@/lib/palengke-constants';
 import { submitPrice, deletePrice } from '@/app/actions/palengke';
 
@@ -102,10 +102,26 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
     const [showPosted, setShowPosted] = useState(false);
     const [, startTransition] = useTransition();
     const formRef = useRef<HTMLFormElement>(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const prices = pricesByMuni[activeMuni];
-    const schedule = MARKET_SCHEDULE[activeMuni];
-    const hasAny = prices && Object.values(prices).some(arr => arr.length > 0);
+
+    // Filter prices across all categories by search query
+    const filteredPrices = useMemo(() => {
+        if (!prices) return prices;
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return prices;
+        const filterArr = (arr: PalengkePrice[]) =>
+            arr.filter(p => p.item_name.toLowerCase().includes(q));
+        return {
+            fish: filterArr(prices.fish),
+            produce: filterArr(prices.produce),
+            meat: filterArr(prices.meat),
+            other: filterArr(prices.other),
+        };
+    }, [prices, searchQuery]);
+
+    const hasAny = filteredPrices && Object.values(filteredPrices).some(arr => arr.length > 0);
 
     async function switchMuni(muni: Municipality) {
         setActiveMuni(muni);
@@ -166,31 +182,39 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
 
     return (
         <div className="pb-8">
-            {/* Municipality tabs */}
-            <div className="overflow-x-auto px-4 pt-4 pb-2">
-                <div className="flex gap-2 min-w-max">
-                    {MUNICIPALITIES.map(m => (
+            {/* Search + Town row */}
+            <div className="flex gap-2 px-4 pt-4 pb-2">
+                {/* Search input */}
+                <div className="relative flex-[3]">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-slate-400 pointer-events-none">search</span>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder="Search items…"
+                        className="w-full pl-8 pr-8 py-2 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-[12px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-orange-400 transition-colors"
+                    />
+                    {searchQuery && (
                         <button
-                            key={m}
-                            onClick={() => switchMuni(m)}
-                            className={`px-3 py-1.5 rounded-full text-[11px] font-black whitespace-nowrap transition-all ${
-                                activeMuni === m
-                                    ? 'bg-orange-500 text-white shadow-sm'
-                                    : 'bg-white dark:bg-zinc-900 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-zinc-800'
-                            }`}
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors"
                         >
-                            {m}
+                            <span className="material-symbols-outlined text-[15px]">close</span>
                         </button>
-                    ))}
+                    )}
                 </div>
-            </div>
-
-            {/* Market schedule strip */}
-            <div className="mx-4 mt-2 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 flex items-center gap-3">
-                <span className="text-xl">🕗</span>
-                <div className="flex-1">
-                    <span className="text-[11px] font-black text-slate-900 dark:text-white">{schedule.schedule}</span>
-                    <span className="text-[11px] text-slate-400 dark:text-zinc-500"> · {schedule.tip}</span>
+                {/* Town dropdown */}
+                <div className="relative flex-[2]">
+                    <select
+                        value={activeMuni}
+                        onChange={e => switchMuni(e.target.value as Municipality)}
+                        className="w-full appearance-none bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl pl-3 pr-7 py-2 text-[12px] font-black text-slate-800 dark:text-white outline-none focus:border-orange-400 transition-colors cursor-pointer"
+                    >
+                        {MUNICIPALITIES.map(m => (
+                            <option key={m} value={m}>{m}</option>
+                        ))}
+                    </select>
+                    <span className="absolute right-1.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-[14px] text-slate-400 pointer-events-none">expand_more</span>
                 </div>
             </div>
 
@@ -204,7 +228,7 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
                             <CategorySection
                                 key={cat}
                                 category={cat}
-                                prices={prices[cat]}
+                                prices={filteredPrices![cat]}
                                 currentUserId={currentUserId}
                                 onDelete={handleDelete}
                             />
@@ -213,9 +237,11 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
                 ) : (
                     <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl px-4 py-8 text-center">
                         <p className="text-3xl mb-2">🐟</p>
-                        <p className="font-black text-slate-900 dark:text-white text-[13px] mb-1">No vendor listings yet today</p>
+                        <p className="font-black text-slate-900 dark:text-white text-[13px] mb-1">
+                            {searchQuery ? `No results for "${searchQuery}"` : 'No vendor listings yet today'}
+                        </p>
                         <p className="text-[11px] text-slate-400 dark:text-zinc-500">
-                            {isLoggedIn ? 'Selling at the palengke today? Post your items!' : 'Log in to post your items for sale.'}
+                            {searchQuery ? 'Try a different search term.' : isLoggedIn ? 'Selling at the palengke today? Post your items!' : 'Log in to post your items for sale.'}
                         </p>
                     </div>
                 )}

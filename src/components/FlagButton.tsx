@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { useAuth } from './AuthProvider';
 
 interface FlagButtonProps {
     contentType: 'listing' | 'job' | 'post' | 'comment' | 'business' | 'commute' | 'review';
@@ -19,12 +21,22 @@ const REPORT_REASONS = [
 ] as const;
 
 export default function FlagButton({ contentType, contentId, className = '' }: FlagButtonProps) {
+    const { user } = useAuth();
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [reason, setReason] = useState<string>('');
     const [details, setDetails] = useState<string>('');
     const [submitting, setSubmitting] = useState(false);
     const [done, setDone] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const handleOpen = () => {
+        if (!user) {
+            router.push(`/login?next=${encodeURIComponent(window.location.pathname)}`);
+            return;
+        }
+        setOpen(true);
+    };
 
     const handleSubmit = async () => {
         if (!reason || !details.trim()) {
@@ -92,7 +104,7 @@ export default function FlagButton({ contentType, contentId, className = '' }: F
         <>
             {/* Flag trigger button */}
             <button
-                onClick={() => setOpen(true)}
+                onClick={handleOpen}
                 title="Report this content"
                 className={`p-2 rounded-full transition-all active:scale-95 flex items-center justify-center bg-white/90 dark:bg-zinc-800/90 text-slate-400 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 border border-slate-200 dark:border-zinc-700 backdrop-blur-md shadow-sm ${className}`}
             >
