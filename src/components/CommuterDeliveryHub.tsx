@@ -460,7 +460,22 @@ export default function CommuterDeliveryHub() {
       }
       setLoading(false);
     }
+
+    // Silent background poll — only refreshes availability, no spinner
+    async function pollAvailability() {
+      const { data } = await supabase
+        .from('transport_services')
+        .select('id, is_available');
+      if (data) {
+        const statusMap: Record<string, boolean> = {};
+        data.forEach((s: any) => { statusMap[s.id] = s.is_available; });
+        setOperators(prev => prev.map(op => ({ ...op, available: statusMap[op.id] ?? op.available })));
+      }
+    }
+
     fetchOperators();
+    const poll = setInterval(pollAvailability, 30_000);
+    return () => clearInterval(poll);
   }, [supabase]);
 
   const towns = ['All', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];

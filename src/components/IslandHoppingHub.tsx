@@ -323,6 +323,19 @@ export default function IslandHoppingHub() {
             setLoading(false);
         }
         fetchOperators();
+
+        // Silent background poll — refreshes availability every 30s, no spinner
+        async function pollAvailability() {
+            const { data } = await supabase.from('boat_services').select('id, is_available');
+            if (data) {
+                const statusMap: Record<string, boolean> = {};
+                data.forEach((s: any) => { statusMap[s.id] = s.is_available; });
+                setOperators(prev => prev.map(op => ({ ...op, is_available: statusMap[op.id] ?? op.is_available })));
+            }
+        }
+
+        const poll = setInterval(pollAvailability, 30_000);
+        return () => clearInterval(poll);
     }, []);
 
     const municipalities = ['All', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];
