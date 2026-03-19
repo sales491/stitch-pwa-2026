@@ -6,32 +6,58 @@ export const dynamic = 'force-dynamic';
 export default async function ModerationPage() {
     const supabase = await createClient();
 
-    // Fetch pending listings with seller profile info
-    const { data: pendingListings, error } = await supabase
-        .from('listings')
+    // ── 1. Community flags (all content types) ───────────────────────────────
+    const { data: communityFlags } = await supabase
+        .from('content_flags')
         .select(`
             id,
-            title,
-            description,
-            price,
-            price_value,
-            category,
-            town,
-            images,
+            content_type,
+            content_id,
+            reason,
+            details,
             created_at,
-            status,
-            user_id,
-            seller:profiles!listings_user_id_fkey (
+            resolved,
+            reporter:profiles!content_flags_flagged_by_fkey (
                 full_name,
                 avatar_url
             )
         `)
+        .or('resolved.is.null,resolved.eq.false')
+        .order('created_at', { ascending: true });
+
+    // ── 2. Pending new business profiles ────────────────────────────────────
+    const { data: pendingBusinesses } = await supabase
+        .from('business_profiles')
+        .select('id, name, category, town, description, created_at, owner_id, is_verified')
+        .eq('verification_status', 'pending')
+        .order('created_at', { ascending: true });
+
+    // ── 3. Pending business claim requests ───────────────────────────────────
+    const { data: claimRequests } = await supabase
+        .from('business_claim_requests')
+        .select(`
+            id,
+            business_id,
+            requester_name,
+            requester_email,
+            requester_phone,
+            message,
+            created_at,
+            status,
+            business:business_profiles!business_claim_requests_business_id_fkey (
+                name,
+                category,
+                town
+            )
+        `)
         .eq('status', 'pending')
-        .order('created_at', { ascending: true }); // Oldest first (FIFO queue)
+        .order('created_at', { ascending: true });
 
-    if (error) {
-        console.error('Error fetching pending listings:', error);
-    }
-
-    return <ModerationQueue listings={(pendingListings as any) || []} />;
+    return (
+        <ModerationQueue
+            communityFlags={(communityFlags as any) || []}
+            pendingBusinesses={(pendingBusinesses as any) || []}
+            claimRequests={(claimRequests as any) || []}
+        />
+    );
 }

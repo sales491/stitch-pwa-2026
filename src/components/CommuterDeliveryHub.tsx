@@ -58,6 +58,8 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
   const [isToggling, setIsToggling] = useState(false);
   const [isVouching, setIsVouching] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+  const [imgIndex, setImgIndex] = useState(0);
+  const touchStartX = useRef<number>(0);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -191,14 +193,35 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
               className={`w-16 h-16 rounded-2xl bg-slate-50 dark:bg-zinc-800 flex items-center justify-center border border-slate-100 dark:border-zinc-700 overflow-hidden ${
                 op.images && op.images.length > 0 ? 'cursor-zoom-in active:scale-95 transition-transform' : ''
               }`}
-              onClick={() => op.images && op.images.length > 0 && setLightboxImg(op.images[0])}
+              onClick={() => op.images && op.images.length > 0 && setLightboxImg(op.images[imgIndex])}
+              onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+              onTouchEnd={(e) => {
+                const delta = touchStartX.current - e.changedTouches[0].clientX;
+                if (Math.abs(delta) > 30 && op.images && op.images.length > 1) {
+                  setImgIndex(delta > 0 ? 1 : 0);
+                }
+              }}
             >
               {op.images && op.images.length > 0 ? (
-              <Image src={op.images[0]} width={64} height={64} className="w-full h-full object-cover" alt={op.operator} />
+                <Image src={op.images[imgIndex] ?? op.images[0]} width={64} height={64} className="w-full h-full object-cover transition-all duration-300" alt={op.operator} />
               ) : (
                 <span className="text-3xl">{vm.emoji}</span>
               )}
             </div>
+            {/* Dot indicators — only shown when there are 2 images */}
+            {op.images && op.images.length > 1 && (
+              <div className="flex justify-center gap-1 mt-1">
+                {op.images.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setImgIndex(i)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${
+                      imgIndex === i ? 'bg-moriones-red' : 'bg-slate-300 dark:bg-zinc-600'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
             {isOwner && (
               <span className="absolute -top-3 -right-3 material-symbols-outlined text-[18px] text-[#E8722A] drop-shadow-sm" style={{ fontVariationSettings: '"FILL" 1' }}>star</span>
             )}
@@ -258,7 +281,7 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
             <div className="ml-auto flex items-center gap-1">
               {isOwner && (
                 <Link
-                  href={`/commute/register?edit=${op.id}`}
+                  href={`/post-commute-or-delivery-listing?id=${op.id}`}
                   className="flex items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-500 dark:text-slate-400 hover:border-moriones-red/50 hover:text-moriones-red transition-all"
                 >
                   <span className="material-symbols-outlined text-[13px]">edit</span>
@@ -592,8 +615,8 @@ export default function CommuterDeliveryHub() {
           {(() => {
             const isExistingOperator = currentUser && operators.some(op => op.provider_id === currentUser.id);
             const href = !currentUser
-              ? '/login?next=/commute/register'
-              : '/commute/register';
+              ? '/login?next=/post-commute-or-delivery-listing'
+              : '/post-commute-or-delivery-listing';
             return (
               <Link
                 href={href}

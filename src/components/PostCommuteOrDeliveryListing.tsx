@@ -239,7 +239,7 @@ export default function PostCommuteOrDeliveryListing() {
         // Validation
         const errors: string[] = [];
         if (!driverName.trim()) errors.push("Driver/Contact Name");
-        if (imageFiles.length === 0 && existingImages.length === 0) errors.push("At least one verification photo (Selfie/Vehicle)");
+        if ((imageFiles.length + existingImages.length) < 2) errors.push("Both photos are required — a Selfie and a Vehicle photo");
         if (selectedTowns.length === 0) errors.push("At least one Town/Base Area");
 
         if (isScheduled) {
@@ -426,7 +426,7 @@ export default function PostCommuteOrDeliveryListing() {
                         <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
                             <div className="flex items-center justify-between mb-3">
                                 <div>
-                                    <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">Verification Photos</h3>
+                                    <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">Verification Photos <span className="font-bold text-moriones-red normal-case tracking-normal">Required</span></h3>
                                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">SELFIE & Vehicle Shots</p>
                                 </div>
                                 <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{(imageFiles.length + existingImages.length)}/2</span>
@@ -465,15 +465,20 @@ export default function PostCommuteOrDeliveryListing() {
                                     </div>
                                 ))}
 
-                                {(imageFiles.length + existingImages.length) < 2 && (
-                                    <label className="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/50 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-moriones-red/30 transition-all group">
-                                        <div className="w-8 h-8 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-moriones-red group-hover:scale-110 transition-transform">
-                                            <span className="material-symbols-outlined text-xl">add_a_photo</span>
-                                        </div>
-                                        <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">Add Photo</span>
-                                        <input type="file" accept="image/*" multiple className="hidden" onChange={handleImageChange} />
-                                    </label>
-                                )}
+                                {Array.from({ length: 2 - (imageFiles.length + existingImages.length) }).map((_, i) => {
+                                    const slotIndex = (existingImages.length + imageFiles.length) + i;
+                                    const label = slotIndex === 0 ? 'Selfie' : 'Vehicle';
+                                    const icon = slotIndex === 0 ? 'face' : 'directions_car';
+                                    return (
+                                        <label key={`slot-${i}`} className="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/50 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-moriones-red/30 transition-all group">
+                                            <div className="w-8 h-8 rounded-xl bg-white dark:bg-zinc-800 shadow-sm flex items-center justify-center text-moriones-red group-hover:scale-110 transition-transform">
+                                                <span className="material-symbols-outlined text-xl">{icon}</span>
+                                            </div>
+                                            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</span>
+                                            <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                                        </label>
+                                    );
+                                })}
                             </div>
                         </div>
 

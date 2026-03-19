@@ -46,16 +46,15 @@ export async function createTransportService(data: any, editId?: string | null) 
             if (error) throw new Error(error.message);
         }
     } else {
-        // CREATE / UPDATE own listing — upsert on provider_id (one per regular user)
-        // Admins also upsert on their own provider_id when creating from the form
+        // CREATE — insert a new listing. Multiple listings per provider are allowed
+        // (e.g. one tricycle + one van). Editing an existing listing uses the editId
+        // branch above, which does a targeted update instead.
         const { error } = await supabase
             .from('transport_services')
-            .upsert({
+            .insert({
                 ...validated,
                 provider_id: user.id,
                 updated_at: new Date().toISOString()
-            }, {
-                onConflict: 'provider_id'
             });
         if (error) throw new Error(error.message);
     }

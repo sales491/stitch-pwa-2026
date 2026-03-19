@@ -17,7 +17,7 @@ export default function UserProfileDashboard1() {
   const router = useRouter();
   const supabase = createClient();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  const [transportListing, setTransportListing] = useState<any>(null);
+  const [transportListings, setTransportListings] = useState<any[]>([]);
   const [classListings, setClassListings] = useState<any[]>([]);
   const [jobPostings, setJobPostings] = useState<any[]>([]);
   const [businessListings, setBusinessListings] = useState<any[]>([]);
@@ -48,13 +48,13 @@ export default function UserProfileDashboard1() {
 
     // Fetch all user content
     const fetchUserContent = async (userId: string) => {
-      // Transport
+      // Transport — multiple listings per operator are allowed
       const { data: transport } = await supabase
         .from('transport_services')
         .select('*')
         .eq('provider_id', userId)
-        .maybeSingle();
-      setTransportListing(transport);
+        .order('created_at', { ascending: false });
+      setTransportListings(transport || []);
 
       // Classifieds
       const { data: classifieds } = await supabase
@@ -254,37 +254,42 @@ export default function UserProfileDashboard1() {
 
             {/* Active Listing Management */}
             <div className="w-full max-w-sm mt-8 space-y-4">
-              {(transportListing || classListings.length > 0 || jobPostings.length > 0 || businessListings.length > 0) && (
+              {(transportListings.length > 0 || classListings.length > 0 || jobPostings.length > 0 || businessListings.length > 0) && (
                 <div className="flex items-center justify-between px-2">
                   <h3 className="text-[11px] font-black text-text-muted uppercase tracking-[0.2em]">My Active Posts</h3>
                 </div>
               )}
 
-              {/* Transport Listing */}
-              {transportListing && (
-                <div className="bg-background-main border border-border-main rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+              {/* Transport Listings — all of them */}
+              {transportListings.map(t => (
+                <div key={t.id} className="bg-background-main border border-border-main rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                   <div className="flex items-start justify-between relative">
                     <div className="flex gap-3">
-                      <div className="w-12 h-12 bg-moriones-red/10 rounded-xl flex items-center justify-center text-moriones-red">
-                        <span className="material-symbols-outlined text-[28px]">
-                          {transportListing.vehicle_type === 'Tricycle' ? 'pedal_bike' :
-                            transportListing.vehicle_type === 'Motorcycle' ? 'moped' : 'local_shipping'}
-                        </span>
+                      <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-moriones-red/10 flex items-center justify-center text-moriones-red shrink-0">
+                        {t.images?.[0] ? (
+                          <Image src={t.images[0]} fill className="object-cover" alt="" />
+                        ) : (
+                          <span className="material-symbols-outlined text-[28px]">
+                            {t.vehicle_type === 'Tricycle' ? 'pedal_bike' :
+                              t.vehicle_type === 'Motorcycle' ? 'moped' : 'local_shipping'}
+                          </span>
+                        )}
                       </div>
-                      <div>
-                        <h4 className="font-bold text-text-main">{transportListing.vehicle_type} Service</h4>
-                        <p className="text-xs text-text-muted mt-0.5">{transportListing.driver_name}</p>
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-text-main truncate">{t.vehicle_type} Operator</h4>
+                        <p className="text-xs text-text-muted mt-0.5">{t.driver_name}</p>
+                        {t.base_town && <p className="text-[10px] text-moriones-red font-bold mt-0.5 truncate">{t.base_town}</p>}
                       </div>
                     </div>
                     <AdminActions
                       contentType="commute"
-                      contentId={transportListing.id}
+                      contentId={t.id}
                       authorId={user.id}
                       onDelete={() => window.dispatchEvent(new Event('adminActionRefresh'))}
                     />
                   </div>
                 </div>
-              )}
+              ))}
 
               {/* Classifieds Listings */}
               {classListings.map(listing => (
@@ -365,7 +370,7 @@ export default function UserProfileDashboard1() {
               <div className="grid grid-cols-3 gap-3">
                 <div className="bg-background-main p-4 rounded-xl border border-border-main flex flex-col items-center justify-center shadow-sm">
                   <span className="text-2xl font-bold text-text-main">
-                    {classListings.length + jobPostings.length + businessListings.length + (transportListing ? 1 : 0)}
+                    {classListings.length + jobPostings.length + businessListings.length + transportListings.length}
                   </span>
                   <span className="text-[10px] font-black text-text-muted uppercase tracking-wider mt-1">Posts</span>
                 </div>

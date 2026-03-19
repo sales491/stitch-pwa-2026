@@ -270,3 +270,77 @@ export async function adminDeleteOperator(table: 'boat_services' | 'transport_se
     }
 }
 
+
+export async function adminApproveBusiness(businessId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('business_profiles')
+            .update({ verification_status: 'verified', is_verified: true })
+            .eq('id', businessId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/directory');
+        revalidatePath(`/directory/${businessId}`);
+        revalidatePath('/admin/moderation');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminRejectBusiness(businessId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('business_profiles')
+            .update({ verification_status: 'rejected' })
+            .eq('id', businessId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/directory');
+        revalidatePath('/admin/moderation');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminApproveClaimRequest(claimId: string, businessId: string, requesterId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error: bizError } = await adminSupabase
+            .from('business_profiles')
+            .update({ owner_id: requesterId, is_verified: true, verification_status: 'verified' })
+            .eq('id', businessId);
+        if (bizError) throw new Error(bizError.message);
+        const { error: claimError } = await adminSupabase
+            .from('business_claim_requests')
+            .update({ status: 'approved' })
+            .eq('id', claimId);
+        if (claimError) throw new Error(claimError.message);
+        revalidatePath('/directory');
+        revalidatePath(`/directory/${businessId}`);
+        revalidatePath('/admin/moderation');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+export async function adminRejectClaimRequest(claimId: string) {
+    try {
+        await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+        const { error } = await adminSupabase
+            .from('business_claim_requests')
+            .update({ status: 'rejected' })
+            .eq('id', claimId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin/moderation');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}

@@ -98,6 +98,7 @@ export default function ContactSection({
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
                     <span className="material-symbols-outlined text-[16px] text-green-500">call</span>
                     Phone Number
+                    <span className="font-bold text-moriones-red">Required</span>
                 </label>
                 <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl px-3 py-2.5 focus-within:border-green-400 transition-colors">
                     <span className="text-slate-400 text-sm shrink-0 select-none">+63</span>

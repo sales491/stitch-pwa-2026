@@ -172,3 +172,28 @@ export async function rejectListing(id: string) {
     revalidatePath('/admin/moderation');
     return { success: true };
 }
+
+export async function resolveFlag(flagId: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Unauthorized');
+
+    const hasAdminAccess = await isUserAdmin(user);
+    if (!hasAdminAccess) throw new Error('Forbidden');
+
+    const adminClient = await createAdminClient();
+    const { error } = await adminClient
+        .from('content_flags')
+        .update({
+            resolved: true,
+            resolved_at: new Date().toISOString(),
+            resolved_by: user.id,
+        })
+        .eq('id', flagId);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/admin');
+    revalidatePath('/admin/moderation');
+    return { success: true };
+}

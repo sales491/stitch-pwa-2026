@@ -1,12 +1,9 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '@/utils/supabase/server';
-import ClientPage from './ClientPage';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Page() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login?next=/commute/register');
-  return <ClientPage />;
+// Legacy route — consolidated into the full form.
+// Any old bookmarks or cached links will be sent to the correct page.
+export default function Page() {
+  redirect('/post-commute-or-delivery-listing');
 }

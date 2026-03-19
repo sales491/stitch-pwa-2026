@@ -32,6 +32,7 @@ export async function createBusinessProfile(data: BusinessInput) {
         .insert({
             ...validated,
             owner_id: user.id,
+            verification_status: 'pending',
         });
 
     if (error) throw new Error(error.message);

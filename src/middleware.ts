@@ -123,7 +123,6 @@ export async function middleware(request: NextRequest) {
         '/create-business-profile-step3',
         '/claim-business',
         // Transport & boats
-        '/commute/register',
         '/commute/create',
         '/post-commute-or-delivery-listing',
         '/island-hopping/list',
