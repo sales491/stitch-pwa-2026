@@ -17,6 +17,7 @@ const CATEGORIES = [
     { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
     { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marketplace' },
     { label: 'RoRo & Port Info', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/ports' },
+    { label: 'Gas Prices', icon: '⛽', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/island-life/gas-prices' },
     { label: 'Business Directory', icon: '🏪', color: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400', href: '/directory' },
     { label: 'Community Board', icon: '📣', color: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400', href: '/community' },
     { label: 'Policies', icon: '⚖️', color: 'bg-slate-50 text-slate-600 dark:bg-slate-800/40 dark:text-slate-400', href: '/policies' },

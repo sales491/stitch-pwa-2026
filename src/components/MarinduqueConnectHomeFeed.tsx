@@ -114,7 +114,19 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                     </div>
                 </div>
 
-                {/* ── 2. Alert Banner (active calamity/outage alerts) ────── */}
+                {/* ── 2. Gas Prices Quick Link ────────────────────────────── */}
+                <Link
+                    href="/island-life/gas-prices"
+                    className="mx-4 mb-3 flex items-center gap-2.5 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30 border border-orange-200/70 dark:border-orange-800/40 rounded-xl px-2.5 py-1.5 active:scale-[0.98] transition-transform shadow-sm"
+                >
+                    <span className="text-lg shrink-0" aria-hidden="true">⛽</span>
+                    <p className="flex-1 min-w-0 text-[11px] font-black uppercase tracking-widest text-orange-700 dark:text-orange-400 truncate">
+                        Gas Price Updates <span className="font-medium normal-case tracking-normal text-orange-500/80 dark:text-orange-500/60">· Community-sourced</span>
+                    </p>
+                    <span className="material-symbols-outlined text-[16px] text-orange-400 dark:text-orange-600 shrink-0">chevron_right</span>
+                </Link>
+
+                {/* ── 3. Alert Banner (active calamity/outage alerts) ────── */}
                 {alertBanner}
 
                 {/* ── 3. Quick-Action Cards (static, horizontal scroll, centred on Marketplace) ───── */}

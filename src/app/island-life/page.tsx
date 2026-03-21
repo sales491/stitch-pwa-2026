@@ -12,6 +12,16 @@ const FEATURES = [
         badge: 'Live',
     },
     {
+        emoji: '⛽',
+        label: 'Gas Prices',
+        sub: 'Community-sourced fuel prices by town',
+        href: '/island-life/gas-prices',
+        color: 'from-red-500 to-orange-500',
+        bg: 'bg-red-50 dark:bg-red-950/30',
+        border: 'border-red-100 dark:border-red-900/40',
+        badge: 'Live',
+    },
+    {
         emoji: '🌊',
         label: 'Tides & Fishing',
         sub: 'Tide times, moon phases & fishing conditions',

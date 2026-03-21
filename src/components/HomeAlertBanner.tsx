@@ -93,9 +93,12 @@ export default function HomeAlertBanner() {
             <div className="mx-4 mb-4">
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
                     <span className="text-base">✅</span>
-                    <p className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">
-                        No user reported active alerts in Marinduque
+                    <p className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest flex-1">
+                        No active alerts
                     </p>
+                    <Link href="/island-life/outages" className="text-[11px] font-black text-emerald-600/70 dark:text-emerald-500/60 uppercase tracking-wide hover:text-emerald-800 transition-colors whitespace-nowrap">💡 Outages</Link>
+                    <span className="text-emerald-300 dark:text-emerald-800 text-[11px]">·</span>
+                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-emerald-600/70 dark:text-emerald-500/60 uppercase tracking-wide hover:text-emerald-800 transition-colors whitespace-nowrap">🚨 Calamity</Link>
                 </div>
             </div>
         );
@@ -113,14 +116,17 @@ export default function HomeAlertBanner() {
                     <span className="text-[11px] font-black uppercase tracking-widest text-red-600 dark:text-red-400">
                         Active Alerts
                     </span>
-                    {/* Live count pill (idea A) */}
                     <span className="px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[9px] font-black leading-none">
                         {alerts.length}
                     </span>
                 </div>
-                <Link href="/my-barangay" className="text-[10px] font-black text-slate-400 dark:text-zinc-500 hover:text-slate-600 uppercase tracking-wider">
-                    View all →
-                </Link>
+                <div className="flex items-center gap-2">
+                    <Link href="/island-life/outages" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-yellow-600 uppercase tracking-wide transition-colors whitespace-nowrap">💡 Outages</Link>
+                    <span className="text-slate-300 dark:text-zinc-600 text-[11px]">·</span>
+                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-red-600 uppercase tracking-wide transition-colors whitespace-nowrap">🚨 Calamity</Link>
+                    <span className="text-slate-300 dark:text-zinc-600 text-[11px]">·</span>
+                    <Link href="/my-barangay" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-slate-600 uppercase tracking-wider">View all →</Link>
+                </div>
             </div>
 
             {/* Alert cards — horizontal scroll, priority sorted */}
