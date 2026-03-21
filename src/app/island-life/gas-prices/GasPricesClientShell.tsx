@@ -4,7 +4,6 @@ import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { getGasPrices, deleteGasPrice, type GasPrice } from '@/app/actions/gas-prices';
-import { isAdmin } from '@/utils/roles';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -132,12 +131,9 @@ export default function GasPricesClientShell({ initialPrices, initialMunicipalit
     const [entries, setEntries] = useState<GasPrice[]>(initialPrices);
     const [isPending, startTransition] = useTransition();
 
-    // Determine if the current user has elevated permissions
+    // Determine if the current user has elevated permissions (role from DB profile)
     const userIsAdmin = !!(profile && (
-        isAdmin(profile.email) ||
-        profile.role === 'admin' ||
-        profile.role === 'moderator' ||
-        profile.role === 'super_admin'
+        ['admin', 'moderator', 'super_admin'].includes(profile.role as string)
     ));
 
     // Re-fetch on mount to avoid stale server-render cache
