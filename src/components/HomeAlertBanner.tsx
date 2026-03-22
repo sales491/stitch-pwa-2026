@@ -91,7 +91,7 @@ export default function HomeAlertBanner() {
     if (alerts.length === 0) {
         return (
             <div className="mx-4 mb-4">
-                <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
+                <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
                     <span className="text-base">✅</span>
                     <p className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest flex-1">
                         No active alerts
