@@ -19,6 +19,7 @@ const mainNav = [
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
     { label: 'Policies', href: '/policies', icon: 'gavel' },
+    { label: 'Help & FAQ', href: '/faq', icon: 'help' },
 ];
 
 export default function LeftSidebar() {
