@@ -20,6 +20,12 @@ const CATEGORIES = [
     "Other"
 ];
 
+const FOOD_CATEGORY_TYPES = new Set([
+    'food & dining', 'restaurant', 'cafe', 'coffee shop', 'bar', 'eatery',
+    'bakery', 'karenderia', 'carinderia', 'fast food', 'catering', 'food stall',
+    'snack bar', 'bistro', 'grill', 'diner', 'buffet', 'kainan', 'ihaw-ihaw', 'bbq',
+]);
+
 export default function BusinessOnboarding() {
     return (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-500">Loading form...</div>}>
@@ -38,6 +44,7 @@ function BusinessOnboardingForm() {
     // Form State
     const [businessName, setBusinessName] = useState('');
     const [category, setCategory] = useState('');
+    const [businessType, setBusinessType] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const [address, setAddress] = useState('');
@@ -69,6 +76,7 @@ function BusinessOnboardingForm() {
             if (data && !error) {
                 setBusinessName(data.business_name || '');
                 setCategory(data.categories?.[0] || '');
+                setBusinessType(data.business_type || '');
                 setDescription(data.description || '');
                 setLocation(data.location || '');
                 setAddress(data.contact_info?.address || '');
@@ -467,38 +475,31 @@ function BusinessOnboardingForm() {
                     </div>
 
                     {/* ── Food & Dining Only: Delivery + Menu Images ─────── */}
-                    {category === 'Food & Dining' && (
+                    {(FOOD_CATEGORY_TYPES.has(category.toLowerCase()) || FOOD_CATEGORY_TYPES.has(businessType.toLowerCase())) && (
                         <>
-                            {/* Delivery Available toggle */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1 flex items-center gap-1.5">
-                                    <span className="material-symbols-outlined text-[16px] text-teal-500">delivery_dining</span>
+                            {/* Delivery Available — simple Yes/No toggle switch */}
+                            <div className="flex items-center justify-between bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5">
+                                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-gray-300 cursor-pointer" htmlFor="delivery-toggle">
+                                    <span className="material-symbols-outlined text-[18px] text-teal-500">delivery_dining</span>
                                     Delivery Available?
                                 </label>
-                                <div className="flex gap-3">
+                                <div className="flex items-center gap-3">
+                                    <span className={`text-sm font-black transition-colors ${deliveryAvailable ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-slate-500'}`}>
+                                        {deliveryAvailable ? 'Yes' : 'No'}
+                                    </span>
                                     <button
+                                        id="delivery-toggle"
                                         type="button"
-                                        onClick={() => setDeliveryAvailable(true)}
-                                        className={`flex-1 py-3 rounded-xl font-black text-sm flex items-center justify-center gap-2 border transition-all ${
-                                            deliveryAvailable
-                                                ? 'bg-teal-500 text-white border-teal-500 shadow-md shadow-teal-500/20'
-                                                : 'bg-slate-50 dark:bg-white/5 text-slate-500 border-slate-200 dark:border-white/10 hover:border-teal-400'
+                                        role="switch"
+                                        aria-checked={deliveryAvailable}
+                                        onClick={() => setDeliveryAvailable(d => !d)}
+                                        className={`relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+                                            deliveryAvailable ? 'bg-teal-500' : 'bg-slate-200 dark:bg-zinc-600'
                                         }`}
                                     >
-                                        <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                                        Yes, we deliver
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setDeliveryAvailable(false)}
-                                        className={`flex-1 py-3 rounded-xl font-black text-sm flex items-center justify-center gap-2 border transition-all ${
-                                            !deliveryAvailable
-                                                ? 'bg-slate-700 text-white border-slate-700 shadow-md'
-                                                : 'bg-slate-50 dark:bg-white/5 text-slate-500 border-slate-200 dark:border-white/10 hover:border-slate-400'
-                                        }`}
-                                    >
-                                        <span className="material-symbols-outlined text-[18px]">restaurant</span>
-                                        Dine-in Only
+                                        <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-200 ${
+                                            deliveryAvailable ? 'translate-x-7' : 'translate-x-1'
+                                        }`} />
                                     </button>
                                 </div>
                             </div>
