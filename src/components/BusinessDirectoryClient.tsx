@@ -19,9 +19,18 @@ type Business = {
 };
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
+
+// These MUST match the exact strings saved by the onboarding form's CATEGORIES array
 const CATEGORIES = [
-    'All Categories', 'Food & Beverage', 'Retail', 'Handicrafts', 'Accommodation',
-    'Transport', 'Services', 'Tours & Travel', 'Others'
+    'All Categories',
+    'Food & Dining',
+    'Retail & Shopping',
+    'Home Services',
+    'Professional Services',
+    'Health & Wellness',
+    'Accommodation',
+    'Automotive',
+    'Other',
 ];
 const PAGE_SIZE = 10;
 
@@ -136,13 +145,14 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             q = q.eq('is_verified', true);
         }
 
-        // Search across name, type, and location — each .or() is AND'd with others
+        // Search across name, type, location, and categories description
         if (query.trim()) {
             const safe = query.trim().replace(/'/g, "''");
-            q = q.or(`business_name.ilike.%${safe}%,business_type.ilike.%${safe}%,location.ilike.%${safe}%`);
+            q = q.or(`business_name.ilike.%${safe}%,business_type.ilike.%${safe}%,location.ilike.%${safe}%,description.ilike.%${safe}%`);
         }
 
         if (town !== 'All Towns') q = q.eq('location', town);
+        // Category filter: exact array-contains match on the canonical category string
         if (category !== 'All Categories') q = q.contains('categories', [category]);
 
         const { data, error } = await q;
