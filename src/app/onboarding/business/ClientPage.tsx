@@ -47,7 +47,10 @@ function BusinessOnboardingForm() {
     const [messenger, setMessenger] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
     const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [menuImageUrls, setMenuImageUrls] = useState<string[]>([]);
+    const [deliveryAvailable, setDeliveryAvailable] = useState(false);
     const [uploadingImages, setUploadingImages] = useState(false);
+    const [uploadingMenuImages, setUploadingMenuImages] = useState(false);
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -74,6 +77,7 @@ function BusinessOnboardingForm() {
                 setFacebook(data.social_media?.facebook || '');
                 setMessenger(data.social_media?.messenger || '');
                 setOperatingHours(data.operating_hours || '');
+                setDeliveryAvailable(data.delivery_available ?? false);
 
                 const urls: string[] = [];
                 if (data.gallery_images && data.gallery_images.length > 0) {
@@ -82,6 +86,10 @@ function BusinessOnboardingForm() {
                     urls.push(data.gallery_image);
                 }
                 setImageUrls(urls);
+
+                if (data.menu_images && data.menu_images.length > 0) {
+                    setMenuImageUrls(data.menu_images);
+                }
             }
         }
         fetchBusiness();
@@ -93,6 +101,7 @@ function BusinessOnboardingForm() {
     const [errorMsg, setErrorMsg] = useState('');
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const menuFileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -133,6 +142,45 @@ function BusinessOnboardingForm() {
         }
     };
 
+    const handleMenuImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        setUploadingMenuImages(true);
+        setErrorMsg('');
+
+        try {
+            const newUrls: string[] = [];
+            const toProcess = Array.from(files).slice(0, 8 - menuImageUrls.length);
+
+            for (const file of toProcess) {
+                const optimizedFile = await optimizeImage(file, { maxWidth: 1080, quality: 0.85 });
+                const fileExt = 'jpg';
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+                const filePath = `business-photos/menu/${fileName}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from('listings')
+                    .upload(filePath, optimizedFile);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from('listings')
+                    .getPublicUrl(filePath);
+
+                newUrls.push(publicUrl);
+            }
+
+            setMenuImageUrls(prev => [...prev, ...newUrls].slice(0, 8));
+        } catch (err: any) {
+            setErrorMsg(err.message || "Failed to upload menu photo");
+        } finally {
+            setUploadingMenuImages(false);
+            if (menuFileInputRef.current) menuFileInputRef.current.value = '';
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg('');
@@ -168,6 +216,8 @@ function BusinessOnboardingForm() {
                 social_media: socialMedia,
                 gallery_image: imageUrls[0] || null,
                 gallery_images: imageUrls,
+                delivery_available: deliveryAvailable,
+                menu_images: menuImageUrls,
             };
 
             let newBusinessId = edit_id;
@@ -415,6 +465,102 @@ function BusinessOnboardingForm() {
                             className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-moriones-red/50 transition-all font-medium placeholder:font-normal placeholder:text-slate-400"
                         />
                     </div>
+
+                    {/* ── Food & Dining Only: Delivery + Menu Images ─────── */}
+                    {category === 'Food & Dining' && (
+                        <>
+                            {/* Delivery Available toggle */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[16px] text-teal-500">delivery_dining</span>
+                                    Delivery Available?
+                                </label>
+                                <div className="flex gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setDeliveryAvailable(true)}
+                                        className={`flex-1 py-3 rounded-xl font-black text-sm flex items-center justify-center gap-2 border transition-all ${
+                                            deliveryAvailable
+                                                ? 'bg-teal-500 text-white border-teal-500 shadow-md shadow-teal-500/20'
+                                                : 'bg-slate-50 dark:bg-white/5 text-slate-500 border-slate-200 dark:border-white/10 hover:border-teal-400'
+                                        }`}
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                                        Yes, we deliver
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setDeliveryAvailable(false)}
+                                        className={`flex-1 py-3 rounded-xl font-black text-sm flex items-center justify-center gap-2 border transition-all ${
+                                            !deliveryAvailable
+                                                ? 'bg-slate-700 text-white border-slate-700 shadow-md'
+                                                : 'bg-slate-50 dark:bg-white/5 text-slate-500 border-slate-200 dark:border-white/10 hover:border-slate-400'
+                                        }`}
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">restaurant</span>
+                                        Dine-in Only
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Menu Images upload */}
+                            <div className="flex flex-col">
+                                <div className="flex items-center justify-between mb-1">
+                                    <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1 flex items-center gap-1.5">
+                                        <span className="material-symbols-outlined text-[16px] text-moriones-red">restaurant_menu</span>
+                                        Menu &amp; Dish Photos
+                                    </label>
+                                    <span className="text-[10px] bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-black uppercase tracking-widest px-2 py-1 rounded">Max 8</span>
+                                </div>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1 mb-3">
+                                    Upload your <strong className="text-moriones-red">menu board</strong> photo first, then add dish photos. These appear in the Menu carousel on your profile.
+                                </p>
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    ref={menuFileInputRef}
+                                    onChange={handleMenuImageUpload}
+                                    className="hidden"
+                                />
+
+                                <div className="grid grid-cols-3 gap-2">
+                                    {menuImageUrls.map((url, idx) => (
+                                        <div key={idx} className="relative aspect-[3/4] rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-50 shadow-sm">
+                                            <img src={url} alt={`Menu ${idx}`} className="w-full h-full object-cover" />
+                                            <button
+                                                type="button"
+                                                onClick={() => setMenuImageUrls(prev => prev.filter((_, i) => i !== idx))}
+                                                className="absolute top-1 right-1 bg-black/60 text-white w-6 h-6 rounded-full flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors z-10"
+                                            >
+                                                <span className="material-symbols-outlined text-[12px]">close</span>
+                                            </button>
+                                            {idx === 0 && <div className="absolute bottom-0 left-0 right-0 bg-moriones-red py-1 text-[7px] font-black text-white text-center tracking-widest">MENU BOARD</div>}
+                                        </div>
+                                    ))}
+
+                                    {menuImageUrls.length < 8 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => menuFileInputRef.current?.click()}
+                                            disabled={uploadingMenuImages}
+                                            className="aspect-[3/4] rounded-xl border-2 border-dashed border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/5 flex flex-col items-center justify-center gap-1.5 hover:border-moriones-red/50 transition-all group cursor-pointer"
+                                        >
+                                            {uploadingMenuImages ? (
+                                                <div className="w-5 h-5 border-2 border-moriones-red border-t-transparent rounded-full animate-spin" />
+                                            ) : (
+                                                <>
+                                                    <span className="material-symbols-outlined text-moriones-red text-[22px] group-hover:scale-110 transition-transform">add_a_photo</span>
+                                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">{menuImageUrls.length}/8</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
 
                     <div className="space-y-1.5">
                         <label className="text-sm font-bold text-slate-700 dark:text-gray-300 ml-1">Contact Details</label>

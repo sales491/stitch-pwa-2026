@@ -15,6 +15,7 @@ type Business = {
     review_count: number;
     gallery_image?: string;
     categories?: string[];
+    delivery_available?: boolean;
 };
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
@@ -122,7 +123,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
 
         let q = supabase
             .from('business_profiles')
-            .select('id, business_name, business_type, location, is_verified, average_rating, review_count, gallery_image, categories')
+            .select('id, business_name, business_type, location, is_verified, average_rating, review_count, gallery_image, categories, delivery_available')
             .order('is_verified', { ascending: false })
             .order('business_name', { ascending: true })
             .range(from, to);
@@ -265,6 +266,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
                                 rating={biz.average_rating || 0}
                                 reviewCount={biz.review_count || 0}
                                 imageUrl={biz.gallery_image}
+                                deliveryAvailable={biz.delivery_available}
                             />
                         ))}
 

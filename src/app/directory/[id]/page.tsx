@@ -191,6 +191,18 @@ export default async function BusinessProfileDetailPage({
                             <span className="text-[13px] font-bold text-slate-900 dark:text-white flex-1 min-w-0 truncate">{business.operating_hours}</span>
                         </div>
                     )}
+                    {/* Delivery — only for food businesses */}
+                    {isFoodBusiness(business.business_type) && (
+                        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800">
+                            <span className={`material-symbols-outlined text-[16px] shrink-0 ${business.delivery_available ? 'text-teal-500' : 'text-slate-300'}`}>delivery_dining</span>
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Delivery</span>
+                            {business.delivery_available ? (
+                                <span className="text-[13px] font-bold text-teal-600 dark:text-teal-400 flex-1">Available</span>
+                            ) : (
+                                <span className="text-[13px] font-bold text-slate-400 dark:text-zinc-500 flex-1">Dine-in Only</span>
+                            )}
+                        </div>
+                    )}
                     {/* Address */}
                     {contactInfo.address && (
                         <a

@@ -12,6 +12,7 @@ type BusinessProps = {
     rating: number;
     reviewCount: number;
     imageUrl?: string;
+    deliveryAvailable?: boolean;
 };
 
 export default function BusinessCard({
@@ -22,7 +23,8 @@ export default function BusinessCard({
     isVerified,
     rating,
     reviewCount,
-    imageUrl
+    imageUrl,
+    deliveryAvailable,
 }: BusinessProps) {
     return (
         <div className="bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] p-5 mb-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 relative group overflow-hidden">
@@ -65,12 +67,18 @@ export default function BusinessCard({
                 </div>
 
                 {/* Enhanced Rating Display */}
-                <div className="flex items-center gap-3 mt-2">
+                <div className="flex items-center gap-3 mt-2 flex-wrap">
                     <div className="flex items-center gap-1 bg-amber-50 dark:bg-white/[0.03] px-2 py-0.5 rounded-lg border border-transparent dark:border-white/[0.05]">
                         <span className="text-amber-500 material-symbols-outlined text-[14px] font-variation-settings-fill">star</span>
                         <span className="font-black text-amber-700 dark:text-amber-500 text-xs">{rating.toFixed(1)}</span>
                     </div>
                     <span className="text-slate-400 dark:text-white/20 text-[10px] font-black uppercase tracking-widest">{reviewCount} Reviews</span>
+                    {deliveryAvailable === true && (
+                        <span className="flex items-center gap-0.5 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider border border-teal-100 dark:border-teal-700/30">
+                            <span className="material-symbols-outlined text-[11px]">delivery_dining</span>
+                            Delivery
+                        </span>
+                    )}
                 </div>
             </div>
 
