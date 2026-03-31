@@ -17,7 +17,7 @@ export default function BottomNav() {
     const { unreadCount } = useNotifications();
 
     return (
-        <nav className="fixed md:absolute bottom-0 left-0 right-0 z-50 w-full pb-6 pointer-events-none">
+        <nav className="fixed md:absolute bottom-0 left-0 right-0 md:left-auto md:right-auto md:w-full z-50 pb-6 pointer-events-none">
             <div className="bg-white/90 dark:bg-[#1A1A1A]/90 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-2xl shadow-black/10 flex justify-between items-center px-1.5 pt-2.5 pb-2.5 pointer-events-auto ring-1 ring-black/[0.03] dark:ring-white/[0.03]">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));

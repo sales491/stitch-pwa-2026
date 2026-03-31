@@ -90,8 +90,8 @@ export default function HomeAlertBanner() {
     // ── All-clear zero-state (idea C) ────────────────────────────────────────
     if (alerts.length === 0) {
         return (
-            <div className="mx-4 mb-4">
-                <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
+            <div className="mx-4 mb-2">
+                <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
                     <span className="text-base">✅</span>
                     <p className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest flex-1">
                         No active alerts
@@ -105,7 +105,7 @@ export default function HomeAlertBanner() {
     }
 
     return (
-        <div className="mx-4 mb-4">
+        <div className="mx-4 mb-2">
             {/* Section header with live count pill (idea A) */}
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">

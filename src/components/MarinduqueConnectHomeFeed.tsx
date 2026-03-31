@@ -82,9 +82,9 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
             <div className="flex-1 pb-6 bg-background-light/30 dark:bg-background-dark/30">
 
                 {/* ── 1. Gradient Banner ─────────────────────────────────── */}
-                <div className="mx-4 mt-4 mb-5 rounded-2xl overflow-hidden shadow-lg"
+                <div className="mx-4 mt-1 mb-3 rounded-2xl overflow-hidden shadow-lg"
                     style={{ background: 'linear-gradient(135deg, #E53935 0%, #C62828 35%, #7B1010 70%, #2d2d2d 100%)' }}>
-                    <div className="px-5 py-0 flex items-center justify-between overflow-hidden">
+                    <div className="px-5 py-3 flex items-center justify-between overflow-hidden">
                         <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/70 flex items-center gap-1 mb-1">
                                 <span>📍</span> Marinduque Island, PH
@@ -100,8 +100,8 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                         <div
                             className="ml-2 flex-shrink-0"
                             style={{
-                                width: 130,
-                                height: 130,
+                                width: 90,
+                                height: 90,
                                 backgroundImage: 'url(/_next/image?url=%2Fimages%2Fmarinduque-island-silhouette.png&w=256&q=75)',
                                 backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
@@ -117,7 +117,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                 {/* ── 2. Gas Prices Quick Link ────────────────────────────── */}
                 <Link
                     href="/island-life/gas-prices"
-                    className="mx-4 mb-3 flex items-center gap-2.5 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30 border border-orange-200/70 dark:border-orange-800/40 rounded-xl px-2.5 py-1.5 active:scale-[0.98] transition-transform shadow-sm"
+                    className="mx-4 mb-2 flex items-center gap-2.5 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30 border border-orange-200/70 dark:border-orange-800/40 rounded-xl px-2.5 py-1 active:scale-[0.98] transition-transform shadow-sm"
                 >
                     <span className="text-lg shrink-0" aria-hidden="true">⛽</span>
                     <p className="flex-1 min-w-0 text-[11px] font-black uppercase tracking-widest text-orange-700 dark:text-orange-400 truncate">
