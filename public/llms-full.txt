@@ -1,0 +1,130 @@
+# Marinduque Market Hub — Full Platform Reference
+
+> Base URL: https://marinduquemarket.com
+> Also known as: Marinduque Connect, MarketHub
+> Contact: https://marinduquemarket.com/contact
+> Publisher: Marinduque Market Hub
+> Region: Marinduque, MIMAROPA, Philippines (PH-MAR)
+> Coordinates: 13.3767°N, 122.0252°E
+> Language: English (en-PH)
+
+---
+
+## What is Marinduque Market Hub?
+
+Marinduque Market Hub is a community-first Progressive Web App (PWA) built specifically for the residents, businesses, OFWs, and visitors of Marinduque Island, Philippines. It functions as the island's central digital infrastructure — replacing fragmented Facebook groups and chat threads with a structured, searchable, and reliable platform.
+
+The platform is designed for low-bandwidth, rural Philippine internet conditions. It is installable as a PWA on Android and iOS and works with minimal data usage.
+
+---
+
+## Core Features & Pages
+
+### Marketplace (`/marketplace`)
+A classifieds-style buy-and-sell board for the island. Residents can post and browse secondhand goods, appliances, vehicles, agricultural products, and daily commodities.
+- Supports searching by keyword and filtering by category
+- Listings include photos, price, seller contact, and barangay location
+- URL: https://marinduquemarket.com/marketplace
+
+### Jobs (`/jobs`)
+A job board tailored to Marinduque's local economy. Employers post vacancies and residents apply directly.
+- Job types include: local employment, OFW-adjacent skills, tradespeople, teachers, seasonal farm work
+- URL: https://marinduquemarket.com/jobs
+
+### Island Hopping & Tourism (`/island-hopping`)
+A curated guide to Marinduque's most popular island hopping destinations including Tres Reyes Islands (Gaspar, Melchor, Baltazar), Malbog Sulfur Springs, and Bathala Caves.
+- Lists local tour operators, bangka rates, and departure points
+- URL: https://marinduquemarket.com/island-hopping
+
+### Commute / Ferry Schedules (`/commute`)
+Up-to-date RoRo (Roll-on/Roll-off) ferry schedules between Marinduque (Balanacan Port, Buyabod Port, Cawit Port) and the mainland (Lucena, Pinamalayan, Dalahican).
+- Includes jeepney routes and tricycle zone information per municipality
+- URL: https://marinduquemarket.com/commute
+
+### Port Information (`/ports`)
+Detailed information on Marinduque's three major ports:
+- Balanacan Port (Mogpog) — primary inter-island gateway
+- Buyabod Port (Santa Cruz) — secondary gateway to Quezon
+- Cawit Port (Boac) — LCT cargo terminal
+
+### Business Directory (`/directory`)
+A local business discovery page organized by municipality and industry.
+- Covers: retail, food & beverage, health services, education, transport, accommodations, agriculture
+- Businesses listed include name, contact, address, barangay, and operating hours
+- URL: https://marinduquemarket.com/directory
+
+### Gems of Marinduque (`/gems`)
+A crowd-sourced feed of "hidden gems" — beautiful or interesting local spots submitted by residents and tourists.
+- URL: https://marinduquemarket.com/gems
+
+### Community Events (`/events`)
+A calendar of local events: fiestas, municipal programs, barangay meetings, and cultural festivals.
+- Marinduque is world-famous for the Moriones Festival (Lenten season, March/April)
+- URL: https://marinduquemarket.com/events
+
+### Island Life (`/island-life`)
+Editorial content about living in Marinduque — agriculture, crafts, fishing, and community stories.
+- URL: https://marinduquemarket.com/island-life
+
+### My Barangay (`/my-barangay`)
+A hyper-local feed filtered by the user's specific barangay. Surfaces relevant listings, jobs, and events.
+- Marinduque has 6 municipalities: Boac, Mogpog, Gasan, Santa Cruz, Torrijos, Buenavista
+- URL: https://marinduquemarket.com/my-barangay
+
+---
+
+## Help Center & FAQ (`/faq`)
+
+The FAQ page is server-side rendered and structured with Schema.org FAQPage JSON-LD. It provides question-and-answer content for four audience segments:
+
+### General Users
+Common questions about creating an account, using the marketplace, and navigating the app.
+
+### Businesses & SMEs
+Questions about claiming or creating a business profile, posting products, and reaching customers in Marinduque.
+
+### Operators (Transport & Tourism)
+Questions for tricycle drivers, jeepney operators, bangka/tour operators, and ferry port agents about listing services and schedules.
+
+### Palengke (Wet Market) Vendors
+Questions specific to Marinduque's physical markets (palengke) in Boac, Gasan, Santa Cruz, and Torrijos — including daily price posting and buyer communication.
+
+Full FAQ: https://marinduquemarket.com/faq
+
+---
+
+## Structured Data
+
+The following Schema.org types are implemented site-wide:
+- `Organization` — canonical identity of Marinduque Market Hub
+- `WebSite` — with `SearchAction` enabling sitelinks search
+- `FAQPage` — on `/faq` with individual `Question` + `Answer` entities
+- Future: `LocalBusiness`, `Event`, `JobPosting`, `Product` on respective pages
+
+---
+
+## About the Platform
+
+- **Technology**: Next.js 15 (App Router), Supabase (Postgres), deployed on Vercel
+- **PWA**: Full service worker, offline caching, installable on iOS and Android
+- **Accessibility**: WCAG AA compliant, mobile-first responsive design
+- **Data Privacy**: PDPA (Philippine Data Privacy Act) compliant
+- **Community**: Built by and for the people of Marinduque
+
+---
+
+## Key URLs Summary
+
+| Page | URL |
+|---|---|
+| Home | https://marinduquemarket.com/ |
+| Marketplace | https://marinduquemarket.com/marketplace |
+| Jobs | https://marinduquemarket.com/jobs |
+| Island Hopping | https://marinduquemarket.com/island-hopping |
+| Commute / Ferries| https://marinduquemarket.com/commute |
+| Directory | https://marinduquemarket.com/directory |
+| Events | https://marinduquemarket.com/events |
+| FAQ / Help | https://marinduquemarket.com/faq |
+| Contact | https://marinduquemarket.com/contact |
+| About | https://marinduquemarket.com/about |
+| Policies | https://marinduquemarket.com/policies |
