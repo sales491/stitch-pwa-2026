@@ -2,11 +2,30 @@ import { createClient } from '@/utils/supabase/server';
 import BusinessReviews from '@/components/BusinessReviews';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { isAdmin, isModerator } from '@/utils/roles';
 import BusinessImageGallery from '@/components/BusinessImageGallery';
-
+import MenuCarousel from '@/components/MenuCarousel';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
+
+// Business types that should show the Menu & Dishes carousel
+const FOOD_BUSINESS_TYPES = new Set([
+    'restaurant', 'cafe', 'coffee shop', 'bar', 'eatery', 'bakery',
+    'karenderia', 'carinderia', 'food stall', 'fast food', 'catering',
+    'snack bar', 'bistro', 'grill', 'diner', 'buffet', 'food cart',
+    'kainan', 'lutuan', 'ihaw-ihaw', 'bbq', 'turo-turo',
+]);
+
+const isFoodBusiness = (type: string | null) =>
+    !!type && FOOD_BUSINESS_TYPES.has(type.toLowerCase().trim());
+
+// Dev-only demo images — real menu board + dish photos
+const DEV_MENU_DEMO = process.env.NODE_ENV === 'development'
+    ? [
+        '/images/menu-demo-board.png',
+        '/images/menu-demo-adobo.png',
+        '/images/menu-demo-sinigang.png',
+    ]
+    : [];
 
 export default async function BusinessProfileDetailPage({
     params
@@ -77,7 +96,7 @@ export default async function BusinessProfileDetailPage({
                 />
 
                 {/* Title & Rating */}
-                <div className="flex flex-col items-center text-center mb-10">
+                <div className="flex flex-col items-center text-center mb-6">
                     <div className="flex items-center gap-2 mb-2">
                         <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">{business.business_name}</h1>
                         {business.is_verified && (
@@ -100,7 +119,7 @@ export default async function BusinessProfileDetailPage({
                 </div>
 
                 {/* Quick Action Buttons (Circular row) */}
-                <div className="flex justify-center gap-6 mb-12">
+                <div className="flex justify-center gap-6 mb-6">
                     {/* Call */}
                     <a href={`tel:${formatPhPhoneForLink(phone)}`} className="flex flex-col items-center gap-2.5 group">
                         <div className="w-14 h-14 rounded-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center text-moriones-red shadow-sm group-hover:bg-moriones-red group-hover:text-white group-hover:border-moriones-red group-hover:shadow-md transition-all active:scale-95">
@@ -149,61 +168,67 @@ export default async function BusinessProfileDetailPage({
                     )}
                 </div>
 
-                {/* List Items (Details) */}
-                <div className="space-y-4 mb-12">
+                {/* ── Menu & Dishes Carousel (food businesses only) ─────── */}
+                {isFoodBusiness(business.business_type) && (
+                    <MenuCarousel
+                        images={
+                            business.menu_images && business.menu_images.length > 0
+                                ? (business.menu_images as string[])
+                                : DEV_MENU_DEMO
+                        }
+                        businessName={business.business_name}
+                        isDemoMode={!(business.menu_images && business.menu_images.length > 0) && DEV_MENU_DEMO.length > 0}
+                    />
+                )}
+
+                {/* ── Compact Info Strip ───────────────────────────────────── */}
+                <div className="bg-white dark:bg-zinc-900/80 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800/80 mb-8 overflow-hidden">
                     {/* Operating Hours */}
                     {business.operating_hours && (
-                        <div className="bg-white dark:bg-zinc-900/80 rounded-3xl p-5 flex items-center gap-5 shadow-sm border border-slate-100 dark:border-zinc-800/80">
-                            <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-zinc-800/50 flex items-center justify-center text-slate-400 border border-slate-100 dark:border-zinc-800 shrink-0">
-                                <span className="material-symbols-outlined text-[18px]">schedule</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1 truncate">Operating Hours</h3>
-                                <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug break-words">{business.operating_hours}</p>
-                            </div>
+                        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800">
+                            <span className="material-symbols-outlined text-[16px] text-slate-400 shrink-0">schedule</span>
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Hours</span>
+                            <span className="text-[13px] font-bold text-slate-900 dark:text-white flex-1 min-w-0 truncate">{business.operating_hours}</span>
                         </div>
                     )}
-
-                    {/* Location */}
+                    {/* Address */}
                     {contactInfo.address && (
-                        <div className="bg-white dark:bg-zinc-900/80 rounded-3xl p-5 flex items-center gap-5 shadow-sm border border-slate-100 dark:border-zinc-800/80">
-                            <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-zinc-800/50 flex items-center justify-center text-slate-400 border border-slate-100 dark:border-zinc-800 shrink-0">
-                                <span className="material-symbols-outlined text-[18px]">location_on</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1 truncate">Address</h3>
-                                <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug break-words">{contactInfo.address}</p>
-                            </div>
-                        </div>
+                        <a
+                            href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo.address)}`}
+                            target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors group"
+                        >
+                            <span className="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-teal-600 shrink-0 transition-colors">location_on</span>
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Address</span>
+                            <span className="text-[13px] font-bold text-slate-900 dark:text-white flex-1 min-w-0 truncate">{contactInfo.address}</span>
+                            <span className="material-symbols-outlined text-[13px] text-slate-300 group-hover:text-teal-500 transition-colors shrink-0">open_in_new</span>
+                        </a>
                     )}
-
                     {/* Website */}
                     {business.website && (
-                        <div className="bg-white dark:bg-zinc-900/80 rounded-3xl p-5 flex items-center gap-5 shadow-sm border border-slate-100 dark:border-zinc-800/80 hover:border-slate-300 dark:hover:border-zinc-700 transition-all cursor-pointer relative group">
-                            <a href={business.website} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10"></a>
-                            <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-zinc-800/50 flex items-center justify-center text-slate-400 border border-slate-100 dark:border-zinc-800 shrink-0 group-hover:text-teal-600 group-hover:border-teal-100 dark:group-hover:border-teal-900/30 transition-all">
-                                <span className="material-symbols-outlined text-[18px]">language</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1 truncate">Website</h3>
-                                <p className="text-sm font-bold text-teal-700 dark:text-teal-400 leading-snug break-words truncate">{business.website.replace(/^https?:\/\//, '')}</p>
-                            </div>
-                        </div>
+                        <a
+                            href={business.website}
+                            target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors group"
+                        >
+                            <span className="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-teal-600 shrink-0 transition-colors">language</span>
+                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Website</span>
+                            <span className="text-[13px] font-bold text-teal-700 dark:text-teal-400 flex-1 min-w-0 truncate">{business.website.replace(/^https?:\/\//, '')}</span>
+                            <span className="material-symbols-outlined text-[13px] text-slate-300 group-hover:text-teal-500 transition-colors shrink-0">open_in_new</span>
+                        </a>
                     )}
-
-                    {/* Social - Facebook */}
+                    {/* Facebook */}
                     {socialMedia.facebook && (
-                        <div className="bg-white dark:bg-zinc-900/80 rounded-3xl p-5 flex items-center gap-5 shadow-sm border border-slate-100 dark:border-zinc-800/80 hover:border-blue-100 dark:hover:border-blue-900/30 transition-all cursor-pointer relative group">
-                            <a href={socialMedia.facebook.startsWith('http') ? socialMedia.facebook : `https://facebook.com/${socialMedia.facebook}`} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10"></a>
-                            <div className="w-10 h-10 rounded-full bg-[#1877F2]/5 flex items-center justify-center text-[#1877F2] shrink-0 group-hover:bg-[#1877F2] group-hover:text-white transition-all">
-                                <span className="material-symbols-outlined text-[18px]">thumb_up</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="text-[10px] font-black uppercase text-[#1877F2]/70 tracking-widest mb-1 truncate">Facebook Page</h3>
-                                <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug break-words truncate">Visit profile</p>
-                            </div>
-                            <span className="material-symbols-outlined text-sm text-slate-300 group-hover:text-[#1877F2] group-hover:-translate-x-1 relative z-0 transition-all">arrow_forward_ios</span>
-                        </div>
+                        <a
+                            href={socialMedia.facebook.startsWith('http') ? socialMedia.facebook : `https://facebook.com/${socialMedia.facebook}`}
+                            target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-colors group"
+                        >
+                            <span className="material-symbols-outlined text-[16px] text-[#1877F2] shrink-0">thumb_up</span>
+                            <span className="text-[9px] font-black uppercase text-[#1877F2]/60 tracking-widest shrink-0">Facebook</span>
+                            <span className="text-[13px] font-bold text-slate-900 dark:text-white flex-1 min-w-0">Visit profile</span>
+                            <span className="material-symbols-outlined text-[13px] text-slate-300 group-hover:text-[#1877F2] transition-colors shrink-0">arrow_forward_ios</span>
+                        </a>
                     )}
                 </div>
 
