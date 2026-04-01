@@ -24,6 +24,7 @@ export default function CreateEventPostScreen() {
   const [town, setTown] = useState('');
   const [venue, setVenue] = useState('');
   const [category, setCategory] = useState('Cultural');
+  const [posterRole, setPosterRole] = useState<'organizer' | 'community_poster' | 'barangay_rep' | 'event_reporter'>('organizer');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,7 @@ export default function CreateEventPostScreen() {
           setTown(data.town);
           setVenue(data.location);
           setCategory(data.category);
+          setPosterRole(data.poster_role || 'organizer');
           setExistingImages(data.images || [data.image].filter(Boolean));
         }
         setInitialLoading(false);
@@ -189,7 +191,8 @@ export default function CreateEventPostScreen() {
         images: [...existingImages, ...imageUrls],
         day_of_month: dayOfMonth,
         month: month,
-        event_date_end: endDate || undefined
+        event_date_end: endDate || undefined,
+        poster_role: posterRole,
       };
 
       if (isEditing) {
@@ -347,6 +350,20 @@ export default function CreateEventPostScreen() {
                 <option value="Buenavista">Buenavista</option>
                 <option value="Torrijos">Torrijos</option>
                 <option value="Santa Cruz">Santa Cruz</option>
+              </select>
+            </div>
+            {/* Role Selector */}
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Your Role</label>
+              <select
+                value={posterRole}
+                onChange={(e) => setPosterRole(e.target.value as typeof posterRole)}
+                className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary h-12 px-4 text-base"
+              >
+                <option value="organizer">🎯 Organizer — Ako ang nag-organisa</option>
+                <option value="community_poster">📢 Community Poster — Nagbabahagi para sa komunidad</option>
+                <option value="barangay_rep">🏛️ Barangay/LGU Rep — Opisyal na kinatawan</option>
+                <option value="event_reporter">📰 Event Reporter — Press / media coverage</option>
               </select>
             </div>
             {/* Category */}

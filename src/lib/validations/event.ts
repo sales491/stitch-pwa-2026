@@ -15,7 +15,8 @@ export const eventSchema = z.object({
     month: z.number().int().optional(),
     date: z.string().optional(), // Display date like "MAR 15"
     full_date: z.string().optional(), // Full display date
-    time: z.string().optional() // Display time
+    time: z.string().optional(), // Display time
+    poster_role: z.enum(['organizer', 'community_poster', 'barangay_rep', 'event_reporter']).optional(),
 });
 
 export type EventInput = z.infer<typeof eventSchema>;
