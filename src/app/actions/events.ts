@@ -46,7 +46,7 @@ export async function createEvent(data: EventInput) {
 
         if (error) {
             console.error('Database error in createEvent:', error);
-            return { success: false, message: `DB Error: ${error.message} (code: ${error.code})` };
+            return { success: false, message: 'A database error occurred. Please try again.' };
         }
 
         revalidatePath('/events');
