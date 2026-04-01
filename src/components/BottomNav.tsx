@@ -51,7 +51,7 @@ export default function BottomNav() {
                                     <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900 shadow-sm animate-pulse" />
                                 )}
                             </div>
-                            <span className={`text-[9px] relative z-10 leading-tight transition-all duration-200 ${
+                            <span className={`text-[11px] relative z-10 leading-tight transition-all duration-200 ${
                                 isActive ? 'font-black' : 'font-semibold opacity-80 group-hover:opacity-100'
                             }`}>
                                 {item.label}

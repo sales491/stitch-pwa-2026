@@ -74,7 +74,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     gems?.forEach(g => items.push({
         id: g.id, type: 'gems', categoryLabel: 'LOCAL GEMS',
         title: g.title, subtitle: g.town,
-        image: thumbUrl(g.images?.[0]) || '',
+        image: thumbUrl(g.images?.[0]) || '/images/hub/cawit_port.webp',
         link: `/gem/${g.id}`,
         extraInfo: 'Trending',
     }));
@@ -82,7 +82,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     businesses?.forEach(b => items.push({
         id: b.id, type: 'businesses', categoryLabel: 'BUSINESS',
         title: b.business_name, subtitle: `${b.location} • ${b.business_type}`,
-        image: thumbUrl(b.gallery_image) || '',
+        image: thumbUrl(b.gallery_image) || '/images/hub/store_manager.webp',
         link: `/directory/${b.id}`,
         extraInfo: b.average_rating ? `${b.average_rating.toFixed(1)} ★` : undefined,
     }));
@@ -98,7 +98,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
     events?.forEach(e => items.push({
         id: e.id, type: 'event', categoryLabel: 'EVENTS',
         title: e.title, subtitle: e.location,
-        image: thumbUrl(e.image_url) || '',
+        image: thumbUrl(e.image) || '/images/hub/store_manager.webp',
         link: `/events/${e.id}`,
         extraInfo: 'Featured',
     }));
