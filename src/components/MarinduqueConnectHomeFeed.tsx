@@ -4,19 +4,17 @@ import Link from 'next/link';
 
 import { HubItem } from '@/data/hub-items';
 
-// ─── Static Category Grid ────────────────────────────────────────────────────
+// ─── Static Category List ─────────────────────────────────────────────────────
 // All static links — no data fetching, nothing can break
-const CATEGORY_GRID = [
-    { emoji: '🛒️', label: 'Buy-Sell',    href: '/marketplace'                    },
-    { emoji: '💼️', label: 'Jobs',        href: '/jobs'                           },
-    { emoji: '📅️', label: 'Events',      href: '/events'                         },
-    { emoji: '🏝️', label: 'Hopping',     href: '/island-hopping'                 },
-    { emoji: '🚢️', label: 'RoRo',        href: '/ports'                          },
-    { emoji: '💎️', label: 'Gems',        href: '/gems'                           },
-
-    { emoji: '🛵️', label: `Commute &\nDelivery`, href: '/commute'               },
-    { emoji: '🌿️', label: `Island\nLife`,  href: '/island-life'                  },
-    { emoji: '🏘️', label: `My\nBarangay`, href: '/my-barangay'                   },
+const CATEGORY_LIST = [
+    { emoji: '🛒️', label: 'Buy & Sell',        desc: 'Buy & sell locally in Marinduque',          bg: 'bg-emerald-50 dark:bg-emerald-900/20',  href: '/marketplace'      },
+    { emoji: '🛵️', label: 'Commute & Delivery', desc: 'Tricycles, vans & delivery riders',        bg: 'bg-amber-50 dark:bg-amber-900/20',      href: '/commute'          },
+    { emoji: '🚢️', label: 'RoRo Port',         desc: 'Ferry schedules & status updates',          bg: 'bg-blue-50 dark:bg-blue-900/20',        href: '/ports'            },
+    { emoji: '💼️', label: 'Jobs',              desc: 'Find work on the island',                   bg: 'bg-orange-50 dark:bg-orange-900/20',    href: '/jobs'             },
+    { emoji: '📅️', label: 'Events',            desc: 'Festivals, fiestas & gatherings',           bg: 'bg-pink-50 dark:bg-pink-900/20',        href: '/events'           },
+    { emoji: '🏝️', label: 'Island Hopping',    desc: 'Book a boat tour to the islands',           bg: 'bg-cyan-50 dark:bg-cyan-900/20',        href: '/island-hopping'   },
+    { emoji: '🌿️', label: 'Island Life',       desc: 'Gas prices, tips & island living',          bg: 'bg-green-50 dark:bg-green-900/20',      href: '/island-life'      },
+    { emoji: '🏘️', label: 'My Barangay',       desc: 'Your local community board',                bg: 'bg-stone-50 dark:bg-stone-900/20',      href: '/my-barangay'      },
 ];
 
 // ─── Static Quick-Action Cards ───────────────────────────────────────────────
@@ -166,23 +164,31 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                     ))}
                 </div>
 
-                {/* ── 3. Category Icon Grid (3 cols × 3 rows, all static) ── */}
-                <div className="px-8 mb-6">
-                    <div className="grid grid-cols-3 gap-6">
-                        {CATEGORY_GRID.map(cat => (
+                {/* ── 3. Category List (Carousell-style cards) ── */}
+                <div className="px-4 mb-6">
+                    <div className="flex flex-col gap-0 bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm overflow-hidden">
+                        {CATEGORY_LIST.map((cat, i) => (
                             <Link
                                 key={cat.href}
                                 href={cat.href}
-                                className="active:scale-95 transition-transform"
+                                className={`flex items-center gap-3.5 px-4 py-3.5 active:bg-slate-50 dark:active:bg-zinc-800 transition-colors group ${i < CATEGORY_LIST.length - 1 ? 'border-b border-slate-100 dark:border-zinc-800' : ''}`}
                             >
-                                <div className="w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-0.5 py-2 px-1 bg-white dark:bg-zinc-800 shadow-md border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                                    <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '34px', lineHeight: 1 }}>
+                                <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${cat.bg} shadow-sm`}>
+                                    <span style={{ fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif', fontSize: '22px', lineHeight: 1 }}>
                                         {cat.emoji}
                                     </span>
-                                    <span className="text-[11px] font-black text-center leading-tight text-slate-700 dark:text-slate-200 w-full text-center mt-0.5 whitespace-pre-line">
-                                        {cat.label}
-                                    </span>
                                 </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[13px] font-black text-slate-900 dark:text-white leading-tight group-hover:text-moriones-red transition-colors">
+                                        {cat.label}
+                                    </p>
+                                    <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 font-medium truncate">
+                                        {cat.desc}
+                                    </p>
+                                </div>
+                                <span className="material-symbols-outlined text-[18px] text-slate-300 dark:text-zinc-600 group-hover:text-moriones-red transition-colors flex-shrink-0">
+                                    chevron_right
+                                </span>
                             </Link>
                         ))}
                     </div>
