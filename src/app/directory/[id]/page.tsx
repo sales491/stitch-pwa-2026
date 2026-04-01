@@ -15,17 +15,19 @@ const FOOD_BUSINESS_TYPES = new Set([
     'kainan', 'lutuan', 'ihaw-ihaw', 'bbq', 'turo-turo',
 ]);
 
-const isFoodBusiness = (type: string | null) =>
-    !!type && FOOD_BUSINESS_TYPES.has(type.toLowerCase().trim());
+const isFoodBusiness = (business: any) => {
+    // 1. Check array categories
+    if (business.categories && business.categories.includes('Food & Dining')) return true;
+    // 2. Fallback to free-text type checking
+    return !!business.business_type && FOOD_BUSINESS_TYPES.has(business.business_type.toLowerCase().trim());
+};
 
-// Dev-only demo images — real menu board + dish photos
-const DEV_MENU_DEMO = process.env.NODE_ENV === 'development'
-    ? [
-        '/images/menu-demo-board.png',
-        '/images/menu-demo-adobo.png',
-        '/images/menu-demo-sinigang.png',
-    ]
-    : [];
+// Demo menu images for restaurants that haven't uploaded their own yet
+const DEV_MENU_DEMO = [
+    '/images/menu-demo-board.png',
+    '/images/menu-demo-adobo.png',
+    '/images/menu-demo-sinigang.png',
+];
 
 export default async function BusinessProfileDetailPage({
     params
@@ -169,7 +171,7 @@ export default async function BusinessProfileDetailPage({
                 </div>
 
                 {/* ── Menu & Dishes Carousel (food businesses only) ─────── */}
-                {isFoodBusiness(business.business_type) && (
+                {isFoodBusiness(business) && (
                     <MenuCarousel
                         images={
                             business.menu_images && business.menu_images.length > 0
@@ -177,7 +179,7 @@ export default async function BusinessProfileDetailPage({
                                 : DEV_MENU_DEMO
                         }
                         businessName={business.business_name}
-                        isDemoMode={!(business.menu_images && business.menu_images.length > 0) && DEV_MENU_DEMO.length > 0}
+                        isDemoMode={!(business.menu_images && business.menu_images.length > 0)}
                     />
                 )}
 
@@ -192,7 +194,7 @@ export default async function BusinessProfileDetailPage({
                         </div>
                     )}
                     {/* Delivery — only for food businesses */}
-                    {isFoodBusiness(business.business_type) && (
+                    {isFoodBusiness(business) && (
                         <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800">
                             <span className={`material-symbols-outlined text-[16px] shrink-0 ${business.delivery_available ? 'text-teal-500' : 'text-slate-300'}`}>delivery_dining</span>
                             <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Delivery</span>

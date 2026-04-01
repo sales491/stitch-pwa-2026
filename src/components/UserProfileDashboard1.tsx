@@ -75,7 +75,7 @@ export default function UserProfileDashboard1() {
       // Businesses
       const { data: businesses } = await supabase
         .from('business_profiles')
-        .select('id, name, type, is_verified, images, created_at')
+        .select('id, business_name, business_type, is_verified, gallery_images, created_at')
         .eq('owner_id', userId)
         .order('created_at', { ascending: false });
       setBusinessListings(businesses || []);
@@ -336,8 +336,8 @@ export default function UserProfileDashboard1() {
               {businessListings.map(biz => (
                 <div key={biz.id} className="bg-background-main border border-border-main rounded-2xl p-3 shadow-sm flex items-center gap-3 group">
                   <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-background-dark shrink-0">
-                    {biz.images?.[0] ? (
-                      <Image src={biz.images[0]} fill className="object-cover" alt={biz.name} />
+                    {biz.gallery_images?.[0] ? (
+                      <Image src={biz.gallery_images[0]} fill className="object-cover" alt={biz.business_name} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-text-muted/20">
                         <span className="material-symbols-outlined text-4xl">storefront</span>
@@ -346,14 +346,14 @@ export default function UserProfileDashboard1() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-sm text-text-main truncate flex items-center gap-1">
-                      {biz.name}
+                      {biz.business_name}
                       {biz.is_verified ? (
                          <span className="material-symbols-outlined text-teal-500 text-[14px]" title="Community verified">verified</span>
                       ) : (
                          <span className="bg-yellow-100 text-yellow-800 text-[9px] px-1.5 py-0.5 rounded font-black tracking-widest uppercase">Pending</span>
                       )}
                     </h4>
-                    <p className="text-xs text-moriones-red font-bold mt-0.5 truncate">{biz.type}</p>
+                    <p className="text-xs text-moriones-red font-bold mt-0.5 truncate">{biz.business_type}</p>
                   </div>
                   <AdminActions
                     contentType="business"

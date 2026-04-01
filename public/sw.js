@@ -4,10 +4,11 @@
 // This ensures users always get fresh content after a deploy.
 // ============================================================
 
-const CACHE_NAME = 'mhub-shell-v7';
+const CACHE_NAME = 'mhub-shell-v8';
 
 // Static assets to pre-cache (loaded on first install)
 const STATIC_ASSETS = [
+    '/',
     '/markethub-logo.png',
     '/manifest.json',
 ];

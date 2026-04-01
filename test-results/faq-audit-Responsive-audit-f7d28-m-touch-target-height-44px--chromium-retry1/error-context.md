@@ -1,0 +1,94 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e7] [cursor=pointer]:
+    - img [ref=e8]
+  - generic [ref=e11] [cursor=pointer]: 🔍 OFF
+  - alert [ref=e12]
+  - generic [ref=e14]:
+    - main [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - link "Marinduque Market Hub Marinduque Market Hub" [ref=e19] [cursor=pointer]:
+            - /url: /
+            - img "Marinduque Market Hub" [ref=e21]
+            - generic [ref=e22]:
+              - generic [ref=e23]: Marinduque
+              - generic [ref=e24]: Market Hub
+          - generic [ref=e25]:
+            - button "Refresh page" [ref=e26]:
+              - generic [ref=e27]: refresh
+            - button "Switch to dark mode" [ref=e29]:
+              - generic [ref=e30]: dark_mode
+            - button "Show QR code" [ref=e31]:
+              - generic [ref=e32]: qr_code_2
+            - link "User Profile" [ref=e33] [cursor=pointer]:
+              - /url: /profile
+              - img "User Profile" [ref=e35]
+        - generic [ref=e36]:
+          - link "Home" [ref=e37] [cursor=pointer]:
+            - /url: /
+          - button "Categories" [ref=e38]
+          - link "Buy-Sell" [ref=e39] [cursor=pointer]:
+            - /url: /marketplace
+          - link "About Us" [ref=e40] [cursor=pointer]:
+            - /url: /about
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - heading "Help Center" [level=1] [ref=e44]
+          - paragraph [ref=e45]: Find answers to common questions about using Marinduque Connect.
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic:
+              - img
+            - textbox "Search for answers..." [ref=e48]
+          - generic [ref=e49]:
+            - button "General Users" [ref=e50]
+            - button "Local Business" [ref=e51]
+            - button "Transport & Ops" [ref=e52]
+            - button "Palengke Sellers" [ref=e53]
+          - generic [ref=e54]:
+            - group [ref=e55]:
+              - generic "How do I create an account?" [ref=e56] [cursor=pointer]:
+                - heading "How do I create an account?" [level=2] [ref=e57]
+                - img [ref=e59]
+            - group [ref=e61]:
+              - generic "Is the marketplace free to use?" [ref=e62] [cursor=pointer]:
+                - heading "Is the marketplace free to use?" [level=2] [ref=e63]
+                - img [ref=e65]
+            - group [ref=e67]:
+              - generic "How are community guidelines enforced?" [ref=e68] [cursor=pointer]:
+                - heading "How are community guidelines enforced?" [level=2] [ref=e69]
+                - img [ref=e71]
+            - group [ref=e73]:
+              - generic "What are \"Gems of Marinduque\"?" [ref=e74] [cursor=pointer]:
+                - heading "What are \"Gems of Marinduque\"?" [level=2] [ref=e75]
+                - img [ref=e77]
+    - navigation:
+      - generic [ref=e79]:
+        - link "home Home" [ref=e80] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e82]: home
+          - generic [ref=e83]: Home
+        - link "storefront Market" [ref=e84] [cursor=pointer]:
+          - /url: /marketplace
+          - generic [ref=e86]: storefront
+          - generic [ref=e87]: Market
+        - link "business Businesses" [ref=e88] [cursor=pointer]:
+          - /url: /directory
+          - generic [ref=e90]: business
+          - generic [ref=e91]: Businesses
+        - link "directions_car Commute" [ref=e92] [cursor=pointer]:
+          - /url: /commute
+          - generic [ref=e94]: directions_car
+          - generic [ref=e95]: Commute
+        - link "groups Community" [ref=e96] [cursor=pointer]:
+          - /url: /community
+          - generic [ref=e98]: groups
+          - generic [ref=e99]: Community
+        - link "person Account" [ref=e100] [cursor=pointer]:
+          - /url: /profile
+          - generic [ref=e102]: person
+          - generic [ref=e103]: Account
+```

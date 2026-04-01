@@ -1,0 +1,167 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e7] [cursor=pointer]:
+    - img [ref=e8]
+  - generic [ref=e11] [cursor=pointer]: 🔍 OFF
+  - alert [ref=e12]
+  - generic [ref=e13]:
+    - navigation [ref=e15]:
+      - link "location_city Marinduque Market Hub" [ref=e16] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e18]: location_city
+        - generic [ref=e19]:
+          - paragraph [ref=e20]: Marinduque
+          - paragraph [ref=e21]: Market Hub
+      - link "home Home" [ref=e22] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e23]: home
+        - generic [ref=e24]: Home
+      - link "storefront Marketplace" [ref=e25] [cursor=pointer]:
+        - /url: /marketplace
+        - generic [ref=e26]: storefront
+        - generic [ref=e27]: Marketplace
+      - link "business Business Directory" [ref=e28] [cursor=pointer]:
+        - /url: /directory
+        - generic [ref=e29]: business
+        - generic [ref=e30]: Business Directory
+      - link "work Jobs" [ref=e31] [cursor=pointer]:
+        - /url: /jobs
+        - generic [ref=e32]: work
+        - generic [ref=e33]: Jobs
+      - link "event Events" [ref=e34] [cursor=pointer]:
+        - /url: /events
+        - generic [ref=e35]: event
+        - generic [ref=e36]: Events
+      - link "directions_car Delivery & Commuting" [ref=e37] [cursor=pointer]:
+        - /url: /commute
+        - generic [ref=e38]: directions_car
+        - generic [ref=e39]: Delivery & Commuting
+      - link "sailing Island Hopping" [ref=e40] [cursor=pointer]:
+        - /url: /island-hopping
+        - generic [ref=e41]: sailing
+        - generic [ref=e42]: Island Hopping
+      - link "groups Community Board" [ref=e43] [cursor=pointer]:
+        - /url: /community
+        - generic [ref=e44]: groups
+        - generic [ref=e45]: Community Board
+      - link "anchor RoRo & Port Info" [ref=e46] [cursor=pointer]:
+        - /url: /ports
+        - generic [ref=e47]: anchor
+        - generic [ref=e48]: RoRo & Port Info
+      - link "diamond Marinduque Gems" [ref=e49] [cursor=pointer]:
+        - /url: /gems
+        - generic [ref=e50]: diamond
+        - generic [ref=e51]: Marinduque Gems
+      - link "emoji_events Best of Boac" [ref=e52] [cursor=pointer]:
+        - /url: /best-of-boac-monthly-spotlight
+        - generic [ref=e53]: emoji_events
+        - generic [ref=e54]: Best of Boac
+      - link "gavel Policies" [ref=e55] [cursor=pointer]:
+        - /url: /policies
+        - generic [ref=e56]: gavel
+        - generic [ref=e57]: Policies
+      - link "help Help & FAQ" [ref=e58] [cursor=pointer]:
+        - /url: /faq
+        - generic [ref=e59]: help
+        - generic [ref=e60]: Help & FAQ
+      - link "? Guest User Sign in" [ref=e62] [cursor=pointer]:
+        - /url: /profile
+        - generic [ref=e63]: "?"
+        - generic [ref=e64]:
+          - paragraph [ref=e65]: Guest User
+          - paragraph [ref=e66]: Sign in
+    - generic [ref=e67]:
+      - main [ref=e68]:
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - link "Marinduque Market Hub Marinduque Market Hub" [ref=e72] [cursor=pointer]:
+              - /url: /
+              - img "Marinduque Market Hub" [ref=e74]
+              - generic [ref=e75]:
+                - generic [ref=e76]: Marinduque
+                - generic [ref=e77]: Market Hub
+            - generic [ref=e78]:
+              - button "Refresh page" [ref=e79]:
+                - generic [ref=e80]: refresh
+              - button "Switch to dark mode" [ref=e82]:
+                - generic [ref=e83]: dark_mode
+              - button "Show QR code" [ref=e84]:
+                - generic [ref=e85]: qr_code_2
+              - link "User Profile" [ref=e86] [cursor=pointer]:
+                - /url: /profile
+                - img "User Profile" [ref=e88]
+          - generic [ref=e89]:
+            - link "Home" [ref=e90] [cursor=pointer]:
+              - /url: /
+            - button "Categories" [ref=e91]
+            - link "Buy-Sell" [ref=e92] [cursor=pointer]:
+              - /url: /marketplace
+            - link "About Us" [ref=e93] [cursor=pointer]:
+              - /url: /about
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - heading "Help Center" [level=1] [ref=e97]
+            - paragraph [ref=e98]: Find answers to common questions about using Marinduque Connect.
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - generic:
+                - img
+              - textbox "Search for answers..." [active] [ref=e101]
+            - generic [ref=e102]:
+              - button "General Users" [ref=e103]
+              - button "Local Business" [ref=e104]
+              - button "Transport & Ops" [ref=e105]
+              - button "Palengke Sellers" [ref=e106]
+            - generic [ref=e107]:
+              - group [ref=e108]:
+                - generic "How do I create an account?" [ref=e109] [cursor=pointer]:
+                  - heading "How do I create an account?" [level=2] [ref=e110]
+                  - img [ref=e112]
+              - group [ref=e114]:
+                - generic "Is the marketplace free to use?" [ref=e115] [cursor=pointer]:
+                  - heading "Is the marketplace free to use?" [level=2] [ref=e116]
+                  - img [ref=e118]
+              - group [ref=e120]:
+                - generic "How are community guidelines enforced?" [ref=e121] [cursor=pointer]:
+                  - heading "How are community guidelines enforced?" [level=2] [ref=e122]
+                  - img [ref=e124]
+              - group [ref=e126]:
+                - generic "What are \"Gems of Marinduque\"?" [ref=e127] [cursor=pointer]:
+                  - heading "What are \"Gems of Marinduque\"?" [level=2] [ref=e128]
+                  - img [ref=e130]
+      - navigation:
+        - generic [ref=e132]:
+          - link "home Home" [ref=e133] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e135]: home
+            - generic [ref=e136]: Home
+          - link "storefront Market" [ref=e137] [cursor=pointer]:
+            - /url: /marketplace
+            - generic [ref=e139]: storefront
+            - generic [ref=e140]: Market
+          - link "business Businesses" [ref=e141] [cursor=pointer]:
+            - /url: /directory
+            - generic [ref=e143]: business
+            - generic [ref=e144]: Businesses
+          - link "directions_car Commute" [ref=e145] [cursor=pointer]:
+            - /url: /commute
+            - generic [ref=e147]: directions_car
+            - generic [ref=e148]: Commute
+          - link "groups Community" [ref=e149] [cursor=pointer]:
+            - /url: /community
+            - generic [ref=e151]: groups
+            - generic [ref=e152]: Community
+          - link "person Account" [ref=e153] [cursor=pointer]:
+            - /url: /profile
+            - generic [ref=e155]: person
+            - generic [ref=e156]: Account
+    - complementary [ref=e158]:
+      - generic [ref=e159]:
+        - heading "⛴️ Port Updates" [level=3] [ref=e160]
+        - paragraph [ref=e161]: Crowdsourced updates will go here.
+      - generic [ref=e162]:
+        - heading "Sponsored Ad Space" [level=3] [ref=e163]
+        - paragraph [ref=e164]: Future monetization goes here.
+```
