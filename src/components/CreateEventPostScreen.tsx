@@ -98,6 +98,24 @@ export default function CreateEventPostScreen() {
     const result = filterAllFields({ title, description, venue });
     if (!result.passed) {
       setFilterError(result.reason ?? 'Content contains prohibited material.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // ── Sync with Server Schema ──
+    if (title.length < 5) {
+      setFilterError('Title must be at least 5 characters long.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (description.length < 20) {
+      setFilterError('About section must be at least 20 characters long.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (venue.length < 2) {
+      setFilterError('Please provide a more specific venue/location.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -172,7 +190,13 @@ export default function CreateEventPostScreen() {
           .eq('id', eventId);
         if (updateError) throw updateError;
       } else {
-        await createEvent(payload);
+        const actionResult = await createEvent(payload);
+        if (!actionResult.success) {
+          setFilterError(actionResult.message || 'Failed to create event.');
+          setLoading(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
       }
 
       setShowSuccess(true);

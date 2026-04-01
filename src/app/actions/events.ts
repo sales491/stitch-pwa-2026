@@ -18,26 +18,43 @@ async function isUserAdmin(user: any): Promise<boolean> {
 }
 
 export async function createEvent(data: EventInput) {
-    const supabase = await createClient();
+    try {
+        const supabase = await createClient();
 
-    // Auth Check
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('Unauthorized');
+        // 1. Auth Check
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            return { success: false, message: 'You must be signed in to publish an event.' };
+        }
 
-    // Validation
-    const validated = eventSchema.parse(data);
+        // 2. Validation
+        const result = eventSchema.safeParse(data);
+        if (!result.success) {
+            const firstError = result.error.issues[0]?.message || 'Invalid event data.';
+            return { success: false, message: firstError };
+        }
 
-    const { error } = await supabase
-        .from('events')
-        .insert({
-            ...validated,
-            author_id: user.id,
-        });
+        const validated = result.data;
 
-    if (error) throw new Error(error.message);
+        // 3. Database Insert
+        const { error } = await supabase
+            .from('events')
+            .insert({
+                ...validated,
+                author_id: user.id,
+            });
 
-    revalidatePath('/events');
-    return { success: true };
+        if (error) {
+            console.error('Database error in createEvent:', error);
+            return { success: false, message: 'A database error occurred. Please try again.' };
+        }
+
+        revalidatePath('/events');
+        return { success: true };
+    } catch (err: any) {
+        console.error('Unexpected error in createEvent:', err);
+        return { success: false, message: 'An unexpected error occurred while publishing your event.' };
+    }
 }
 
 export async function deleteEvent(id: string) {

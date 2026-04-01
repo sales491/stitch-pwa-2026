@@ -4,6 +4,13 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
+    // ── SEO & Robots Fast-Path ──────────────────────────────────────────
+    // Sitemap and robots.txt are public and should load instantly for crawlers.
+    // Bypassing middleware reduces latency and ensures discovery by GSC.
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+        return NextResponse.next();
+    }
+
     // ── Homepage Fast-Path ───────────────────────────────────────────────
     // The homepage is public and runs on edge runtime with ISR.
     // Skip the Supabase auth call entirely — saves 300-500ms on every request.
