@@ -7,7 +7,7 @@ import { HubItem } from '@/data/hub-items';
 // ─── Static Category Grid ────────────────────────────────────────────────────
 // All static links — no data fetching, nothing can break
 const CATEGORY_GRID = [
-    { emoji: '🛒️', label: 'Market',      href: '/marketplace'                    },
+    { emoji: '🛒️', label: 'Buy-Sell',    href: '/marketplace'                    },
     { emoji: '💼️', label: 'Jobs',        href: '/jobs'                           },
     { emoji: '📅️', label: 'Events',      href: '/events'                         },
     { emoji: '🏝️', label: 'Hopping',     href: '/island-hopping'                 },

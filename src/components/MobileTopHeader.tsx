@@ -127,9 +127,9 @@ export default function MobileTopHeader() {
                         className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
                         Categories
                     </button>
-                    <Link href="/marketplace"
+                    <Link href="/faq"
                         className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
-                        Buy-Sell
+                        Help & FAQ
                     </Link>
                     <Link href="/about"
                         className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-wider hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all active:scale-95">
