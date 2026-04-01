@@ -19,6 +19,7 @@ export default function CreateEventPostScreen() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [time, setTime] = useState('');
   const [town, setTown] = useState('');
   const [venue, setVenue] = useState('');
@@ -44,6 +45,7 @@ export default function CreateEventPostScreen() {
           setTitle(data.title);
           setDescription(data.description);
           setDate(data.event_date);
+          setEndDate(data.event_date_end || '');
           setTime(data.event_time);
           setTown(data.town);
           setVenue(data.location);
@@ -119,6 +121,12 @@ export default function CreateEventPostScreen() {
       return;
     }
 
+    if (endDate && new Date(endDate) < new Date(date)) {
+      setFilterError('End date cannot be earlier than the start date.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setLoading(true);
 
     // Hoisted outside try so catch block can access it for Storage rollback
@@ -180,7 +188,8 @@ export default function CreateEventPostScreen() {
         image: imageUrls[0] || existingImages[0] || '',
         images: [...existingImages, ...imageUrls],
         day_of_month: dayOfMonth,
-        month: month
+        month: month,
+        event_date_end: endDate || undefined
       };
 
       if (isEditing) {
@@ -313,18 +322,20 @@ export default function CreateEventPostScreen() {
                 onChange={(e) => setVenue(e.target.value)}
               />
             </div>
-            {/* Date/Time */}
-            <div className="grid grid-cols-2 gap-4">
-
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Date</label>
-                <input required className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Start Date</label>
+                  <input required className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">End Date (Optional)</label>
+                  <input className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                </div>
               </div>
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Time</label>
+              <div className="space-y-1.5 pt-1">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Start Time</label>
                 <input required className="w-full rounded-lg border-gray-200 bg-gray-50 dark:bg-zinc-800 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-12 px-4 text-base" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
               </div>
-            </div>
             {/* Town */}
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Town Location</label>

@@ -6,11 +6,15 @@ import AdminActions from './AdminActions';
 import type { Event } from '@/utils/eventData';
 
 export default function MarinduqueEventsCalendar() {
+  const [viewDate, setViewDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
   const [selectedTown, setSelectedTown] = useState('All');
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
+
+  const currentYear = viewDate.getFullYear();
+  const currentMonth = viewDate.getMonth();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -41,11 +45,19 @@ export default function MarinduqueEventsCalendar() {
     fetchEvents();
   }, [supabase]);
 
-  const currentMonth = new Date().getMonth();
+  const goToPrevMonth = () => {
+    setViewDate(new Date(currentYear, currentMonth - 1, 1));
+    setSelectedDate(1);
+  };
 
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
+  const goToNextMonth = () => {
+    setViewDate(new Date(currentYear, currentMonth + 1, 1));
+    setSelectedDate(1);
+  };
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const days = Array.from({ length: daysInMonth }, (_, i) => {
+    const d = new Date(currentYear, currentMonth, i + 1);
     return {
       name: d.toLocaleDateString('en-US', { weekday: 'short' }),
       date: d.getDate(),
@@ -53,14 +65,24 @@ export default function MarinduqueEventsCalendar() {
     };
   });
 
+  // Helper to check if an event falls on a specific day
+  const isEventOnDay = (event: Event, day: number) => {
+    const eventStart = new Date(event.event_date);
+    eventStart.setHours(0, 0, 0, 0);
+
+    const eventEnd = event.event_date_end ? new Date(event.event_date_end) : eventStart;
+    eventEnd.setHours(23, 59, 59, 999);
+
+    const checkDate = new Date(currentYear, currentMonth, day);
+    return checkDate >= eventStart && checkDate <= eventEnd;
+  };
+
   // Build a set of day-of-month numbers that have at least one event this month
   const daysWithEvents = new Set(
-    events
-      .filter((e) => e.month === currentMonth)
-      .map((e) => e.dayOfMonth)
+    days.filter(d => events.some(e => isEventOnDay(e, d.date))).map(d => d.date)
   );
 
-  const currentMonthLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const currentMonthLabel = viewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
@@ -75,14 +97,22 @@ export default function MarinduqueEventsCalendar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-black uppercase tracking-wider text-text-main dark:text-text-main-dark">{currentMonthLabel}</span>
+            <div className="flex items-center bg-background-light dark:bg-background-dark rounded-lg border border-border-light dark:border-border-dark p-0.5">
+              <button onClick={goToPrevMonth} className="p-1 hover:text-moriones-red transition-colors">
+                <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+              </button>
+              <span className="px-2 text-[10px] font-black uppercase tracking-wider text-text-main dark:text-text-main-dark">{currentMonthLabel}</span>
+              <button onClick={goToNextMonth} className="p-1 hover:text-moriones-red transition-colors">
+                <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              </button>
+            </div>
             {/* Calendar icon → full month view */}
             <Link
               href="/marinduque-monthly-calendar"
-              className="text-moriones-red hover:bg-moriones-red/10 p-1 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10"
-              title="View full month calendar"
+              className="text-moriones-red hover:bg-moriones-red/10 p-1.5 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10"
+              title="View full month grid"
             >
-              <span className="material-symbols-outlined text-[18px]">calendar_month</span>
+              <span className="material-symbols-outlined text-[18px]">grid_view</span>
             </Link>
           </div>
         </div>
@@ -145,7 +175,7 @@ export default function MarinduqueEventsCalendar() {
         ) : (() => {
           const filteredEvents = events.filter((event: Event) =>
             (selectedTown === 'All' || event.town === selectedTown) &&
-            event.dayOfMonth === selectedDate
+            isEventOnDay(event, selectedDate)
           );
 
           if (filteredEvents.length === 0) {

@@ -10,6 +10,7 @@ export const eventSchema = z.object({
     category: z.string(),
     image: z.string().optional(),
     images: z.array(z.string()).optional(),
+    event_date_end: z.string().optional(), // Optional end date
     day_of_month: z.number().int().optional(),
     month: z.number().int().optional(),
     date: z.string().optional(), // Display date like "MAR 15"

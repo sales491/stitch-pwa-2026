@@ -13,6 +13,9 @@ export interface Event {
     trending?: boolean;
     dayOfMonth: number; // For calendar matching
     month: number; // 0-indexed (e.g., 3 for April)
+    event_date: string; // ISO date
+    event_time: string; // HH:mm
+    event_date_end?: string; // ISO date for multi-day events
     author_id?: string;
     organizer_id?: string;
 }
@@ -33,6 +36,8 @@ export const mockEvents: Event[] = [
         trending: true,
         dayOfMonth: 2,
         month: 2,
+        event_date: '2026-03-02',
+        event_time: '08:00',
         author_id: 'mock-admin'
     },
     {
@@ -49,6 +54,8 @@ export const mockEvents: Event[] = [
         attendees: 42,
         dayOfMonth: 4,
         month: 2,
+        event_date: '2026-03-04',
+        event_time: '06:00',
         author_id: 'mock-user'
     },
     {
@@ -64,7 +71,9 @@ export const mockEvents: Event[] = [
         description: 'The final showdown between the top teams of Gasan. Come support your local barangay in this thrilling championship match.',
         attendees: 156,
         dayOfMonth: 5,
-        month: 2
+        month: 2,
+        event_date: '2026-03-05',
+        event_time: '19:00'
     },
     {
         id: 'boac-sunday-mass',
@@ -79,7 +88,9 @@ export const mockEvents: Event[] = [
         description: 'Join the community for a solemn Sunday service followed by a traditional procession through the historic streets of Boac.',
         attendees: 89,
         dayOfMonth: 8,
-        month: 2
+        month: 2,
+        event_date: '2026-03-08',
+        event_time: '09:00'
     }
 ];
 

@@ -41,7 +41,7 @@ export async function createEvent(data: EventInput) {
             .from('events')
             .insert({
                 ...validated,
-                author_id: user.id,
+                author_id: user.id
             });
 
         if (error) {
