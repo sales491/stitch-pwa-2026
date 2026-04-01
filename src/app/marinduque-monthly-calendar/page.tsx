@@ -138,8 +138,8 @@ export default function MonthlyCalendarPage() {
         href="/events/create"
         className="fixed bottom-6 right-6 flex items-center gap-2 bg-moriones-red text-white px-6 py-4 rounded-full shadow-2xl shadow-moriones-red/40 text-sm font-black uppercase tracking-widest active:scale-95 transition-all hover:bg-red-600 z-50"
       >
-        <span className="material-symbols-outlined">add_calendar</span>
-        Add Event
+        <span className="material-symbols-outlined">calendar_add_on</span>
+        Create Event
       </Link>
     </div>
   );
