@@ -1,5 +1,3 @@
-'use client';
-
 import { notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { getLostFoundPost, updateLostFoundStatus, deleteLostFoundPost } from '@/app/actions/lost-found';
