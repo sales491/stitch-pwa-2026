@@ -37,9 +37,9 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
   });
 
   const categories = [
-    { id: 'general', label: 'General Users' },
-    { id: 'business', label: 'Local Business' },
-    { id: 'operator', label: 'Transport & Ops' },
+    { id: 'general', label: 'Users' },
+    { id: 'business', label: 'Local Businesses' },
+    { id: 'operator', label: 'Transport Operators' },
     { id: 'palengke', label: 'Palengke Sellers' },
   ];
 
@@ -62,12 +62,12 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => handleTabChange(cat.id)}
-            className={`whitespace-nowrap px-5 py-3 min-h-[44px] rounded-full font-medium text-sm transition-colors ${
+            className={`flex-1 text-center whitespace-nowrap px-2 py-3 min-h-[40px] rounded-full font-bold text-sm transition-colors ${
               activeTab === cat.id
                 ? 'bg-blue-600 text-white'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'

@@ -80,24 +80,33 @@ export default async function EventDetail({
     };
     const posterRoleLabel = ROLE_LABELS[event.poster_role ?? 'organizer'] ?? '📢 Community Poster';
 
-    // Render description, converting URLs to styled link buttons
+    // Render description, converting URLs to inline clickable links
     const URL_REGEX = /(https?:\/\/[^\s]+)/g;
+    const shortenUrl = (raw: string): string => {
+        try {
+            const u = new URL(raw);
+            const host = u.hostname.replace('www.', '');
+            const seg = u.pathname.split('/').filter(Boolean);
+            if (seg.length === 0) return host;
+            const first = seg[0];
+            return seg.length > 1 ? `${host}/${first}/…` : `${host}/${first}`;
+        } catch {
+            return raw.length > 35 ? raw.slice(0, 32) + '…' : raw;
+        }
+    };
     const renderDescription = (text: string) => {
         const parts = text.split(URL_REGEX);
         return parts.map((part, i) => {
             if (/^https?:\/\//.test(part)) {
-                let domain = part;
-                try { domain = new URL(part).hostname.replace('www.', ''); } catch { /* noop */ }
                 return (
                     <a
                         key={i}
                         href={part}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40 rounded-xl px-3 py-1.5 text-sm font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors my-1"
+                        className="text-moriones-red dark:text-red-400 underline underline-offset-2 decoration-moriones-red/40 dark:decoration-red-400/40 hover:decoration-moriones-red dark:hover:decoration-red-400 font-semibold transition-colors break-all"
                     >
-                        <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                        {domain}
+                        {shortenUrl(part)}
                     </a>
                 );
             }
@@ -206,9 +215,7 @@ export default async function EventDetail({
                                     <span className="text-sm font-semibold">{event.location}, {event.town}</span>
                                 </div>
                             </div>
-                            <button className="w-full bg-moriones-red text-white font-black py-4 rounded-2xl shadow-lg shadow-red-600/20 hover:bg-red-700 active:scale-95 transition-all text-sm tracking-wide">
-                                ✓ Pupunta Ako!
-                            </button>
+
                         </div>
 
                         {/* About this Event */}
@@ -263,9 +270,7 @@ export default async function EventDetail({
                                         </div>
                                     </div>
                                 </div>
-                                <button className="w-full bg-moriones-red text-white font-black py-4 rounded-2xl shadow-lg shadow-red-600/20 hover:bg-red-700 active:scale-95 transition-all text-sm tracking-wide mt-8">
-                                    ✓ Pupunta Ako!
-                                </button>
+
                             </div>
 
                             {/* Poster Card */}

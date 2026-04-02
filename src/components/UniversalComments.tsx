@@ -181,8 +181,8 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                             <div className="flex flex-col flex-1 min-w-0">
                                 <div className="flex items-start gap-2">
                                     <div className="bg-background-main border border-border-main rounded-2xl px-5 py-3 text-sm flex-1">
-                                        <span className="font-black block text-text-main mb-1">{c.author?.full_name || 'Marinduque Local'}</span>
-                                        <span className="text-text-muted font-medium leading-relaxed break-words">{c.content}</span>
+                                        <span className="font-bold block text-slate-400 dark:text-zinc-500 text-xs mb-1">{c.author?.full_name || 'Marinduque Local'}</span>
+                                        <span className="text-slate-900 dark:text-white font-medium leading-relaxed break-words">{c.content}</span>
                                     </div>
 
                                     {/* The God-Mode Delete Button - Appears on hover */}
@@ -218,8 +218,8 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
 
             {/* The Comment Input Box */}
             {profile ? (
-                <form onSubmit={handleSubmit} className="flex gap-4 items-start sticky bottom-20 bg-white dark:bg-zinc-950 p-4 border-t border-slate-100 dark:border-zinc-800 shadow-2xl rounded-t-3xl md:static md:shadow-none md:p-0 md:border-none md:rounded-none">
-                    <div className="w-10 h-10 rounded-2xl bg-blue-600 overflow-hidden relative flex-shrink-0 shadow-lg shadow-blue-600/20">
+                <form onSubmit={handleSubmit} className="flex gap-4 items-start">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-600 overflow-hidden relative flex-shrink-0 shadow-lg shadow-blue-600/20 mt-1">
                         {profile.avatar_url ? (
                             <Image src={profile.avatar_url} alt="You" fill className="object-cover" />
                         ) : (
@@ -228,22 +228,24 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                             </div>
                         )}
                     </div>
-                    <div className="flex-1 relative">
-                        <input
-                            type="text"
-                            className="w-full bg-white dark:bg-zinc-800 border-none rounded-2xl px-5 py-3.5 text-sm font-bold focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500"
-                            placeholder="Write a message..."
+                    <div className="flex-1 flex flex-col gap-3">
+                        <textarea
+                            rows={3}
+                            className="w-full bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-2xl px-5 py-4 text-sm font-bold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 resize-none"
+                            placeholder="Comment dito..."
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             disabled={isSubmitting}
                         />
-                        <button
-                            type="submit"
-                            disabled={isSubmitting || !newComment.trim()}
-                            className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white font-black px-4 rounded-xl text-[11px] uppercase tracking-widest disabled:bg-slate-200 disabled:text-slate-400 transition-all active:scale-95 shadow-lg shadow-blue-600/10"
-                        >
-                            {isSubmitting ? '...' : 'Send'}
-                        </button>
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={isSubmitting || !newComment.trim()}
+                                className="bg-moriones-red text-white font-black px-6 py-2.5 rounded-xl text-[11px] uppercase tracking-widest disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-500 transition-all active:scale-95 shadow-lg shadow-moriones-red/20 hover:bg-red-700"
+                            >
+                                {isSubmitting ? '...' : 'POST'}
+                            </button>
+                        </div>
                     </div>
                 </form>
             ) : (

@@ -8,7 +8,6 @@ const navItems = [
     { label: 'Market', href: '/marketplace', icon: 'storefront' },
     { label: 'Businesses', href: '/directory', icon: 'business' },
     { label: 'Commute', href: '/commute', icon: 'directions_car' },
-    { label: 'Community', href: '/community', icon: 'groups' },
     { label: 'Account', href: '/profile', icon: 'person' },
 ];
 
