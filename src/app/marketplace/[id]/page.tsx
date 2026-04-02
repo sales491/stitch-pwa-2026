@@ -58,12 +58,12 @@ export default async function ListingDetail({
 
     return (
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
-            {/* 1. Header Navigation */}
-            <div className="fixed top-0 left-0 right-0 z-50 p-4 md:absolute flex justify-between items-center pointer-events-none">
-                <BackButton className="pointer-events-auto bg-black/40 backdrop-blur-md text-white hover:bg-black/60 shadow-xl" />
+            {/* 1. Header Navigation — normal document flow, no sticky/fixed */}
+            <div className="flex items-center justify-between px-4 py-1.5">
+                <BackButton className="!p-1" />
 
                 {canEdit && (
-                    <Link href={`/marketplace/${listing.id}/edit`} className="h-10 px-5 flex items-center justify-center bg-white/50 backdrop-blur-md rounded-2xl text-slate-900 shadow-xl active:scale-90 transition-transform border border-white/20 pointer-events-auto gap-2 font-black text-[10px] uppercase tracking-widest">
+                    <Link href={`/marketplace/${listing.id}/edit`} className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-white/70 font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
                         <span className="material-symbols-outlined text-sm">edit</span>
                         Edit Listing
                     </Link>
@@ -78,7 +78,7 @@ export default async function ListingDetail({
                         alt={listing.title}
                         fill
                         priority
-                        className="object-cover"
+                        className="object-contain"
                     />
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full text-slate-300">

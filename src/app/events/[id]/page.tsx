@@ -116,6 +116,10 @@ export default async function EventDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
+            {/* Header Navigation — normal document flow, no sticky/fixed */}
+            <div className="flex items-center px-4 py-1.5">
+                <BackButton className="!p-1" />
+            </div>
             {/* JSON-LD for Google Rich Results */}
             <script
                 type="application/ld+json"
@@ -149,7 +153,7 @@ export default async function EventDetail({
             {/* Hero Banner */}
             <div className="w-full h-72 md:h-[480px] relative overflow-hidden rounded-b-[3rem] shadow-2xl">
                 {event.image ? (
-                    <Image src={event.image} alt={event.title} fill className="object-cover" priority />
+                    <Image src={event.image} alt={event.title} fill className="object-contain" priority />
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full bg-gradient-to-tr from-red-700 via-red-500 to-orange-400 text-white font-black p-8 text-center">
                         <span className="material-symbols-outlined text-8xl opacity-20 mb-4">celebration</span>
@@ -157,10 +161,6 @@ export default async function EventDetail({
                     </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-                <div className="absolute top-5 left-5 z-20">
-                    <BackButton />
-                </div>
 
                 {/* Desktop hero text overlay */}
                 <div className="absolute bottom-8 left-8 right-8 z-20 hidden md:block">

@@ -192,13 +192,12 @@ export default function RootLayout({
                 </div>
 
                 {/* CENTER CORE: This is the mobile-width feed. It scrolls independently. */}
-                <div className="flex-1 max-w-xl w-full h-full relative">
-                  <main className="w-full h-full bg-white dark:bg-[#0F0F10] overflow-y-auto pb-20 md:pb-24">
-                    {/* Top header (Logo, Search) */}
-                    <div className="sticky top-0 z-[60] bg-white dark:bg-[#0F0F10] border-b dark:border-white/[0.03]">
-                      <MobileTopHeader />
-                    </div>
-
+                <div className="flex-1 max-w-xl w-full h-full relative flex flex-col">
+                  {/* Header is OUTSIDE main — it is never inside the scroll container */}
+                  {/* HMR Force Rebuild */}
+                  <MobileTopHeader />
+                  {/* Main scroll container starts RIGHT below header. Content never clips. */}
+                  <main className="flex-1 w-full bg-white dark:bg-[#0F0F10] overflow-y-auto pb-20 md:pb-24">
                     {/* Your actual page content (Marketplace, Jobs, etc.) goes here */}
                     <div>
                       {children}
