@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { getMyGroups } from '@/app/actions/paluwagan';
 import PaluwaganGroupCard from '@/components/PaluwaganGroupCard';

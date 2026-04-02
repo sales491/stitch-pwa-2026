@@ -1,5 +1,3 @@
-'use client';
-
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import OperatorManagementPanel from '@/components/OperatorManagementPanel';

@@ -1,5 +1,3 @@
-'use client';
-
 import type { Metadata } from 'next';
 import { getLostFoundPosts } from '@/app/actions/lost-found';
 import LostFoundFeed from '@/components/LostFoundFeed';

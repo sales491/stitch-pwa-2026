@@ -1,5 +1,3 @@
-'use client';
-
 import type { Metadata } from 'next';
 import { getExchangeRates, getRemittanceCenters } from '@/app/actions/ofw';
 import OFWDisplay from '@/components/OFWDisplay';

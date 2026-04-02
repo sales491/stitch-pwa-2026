@@ -1,5 +1,3 @@
-'use client';
-
 import type { Metadata } from 'next';
 import { getWeekTides } from '@/app/actions/tides';
 import TidesDisplay from '@/components/TidesDisplay';

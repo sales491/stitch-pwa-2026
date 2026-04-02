@@ -1,5 +1,3 @@
-'use client';
-
 import { notFound } from 'next/navigation';
 import { getGroup, assignRotatingWinners } from '@/app/actions/paluwagan';
 import PaluwaganCycleRow from '@/components/PaluwaganCycleRow';

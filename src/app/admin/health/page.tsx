@@ -1,5 +1,3 @@
-'use client';
-
 import DbHealthWidget from '@/components/DbHealthWidget';
 import BackButton from '@/components/BackButton';
 

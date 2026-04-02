@@ -1,5 +1,3 @@
-'use client';
-
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { getOutageReports } from '@/app/actions/outages';
