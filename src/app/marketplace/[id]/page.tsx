@@ -60,7 +60,7 @@ export default async function ListingDetail({
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
             {/* 1. Header Navigation */}
             <div className="fixed top-0 left-0 right-0 z-50 p-4 md:absolute flex justify-between items-center pointer-events-none">
-                <BackButton />
+                <BackButton className="pointer-events-auto bg-black/40 backdrop-blur-md text-white hover:bg-black/60 shadow-xl" />
 
                 {canEdit && (
                     <Link href={`/marketplace/${listing.id}/edit`} className="h-10 px-5 flex items-center justify-center bg-white/50 backdrop-blur-md rounded-2xl text-slate-900 shadow-xl active:scale-90 transition-transform border border-white/20 pointer-events-auto gap-2 font-black text-[10px] uppercase tracking-widest">
