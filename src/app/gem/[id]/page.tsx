@@ -1,5 +1,3 @@
-'use client';
-
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import ThemeToggle from '@/components/ThemeToggle';

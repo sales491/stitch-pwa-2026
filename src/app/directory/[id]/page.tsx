@@ -1,5 +1,3 @@
-'use client';
-
 import { createClient } from '@/utils/supabase/server';
 import BusinessReviews from '@/components/BusinessReviews';
 import { notFound } from 'next/navigation';
