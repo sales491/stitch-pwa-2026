@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = ['All', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 const PAGE_SIZE = 10;
@@ -159,8 +160,9 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
 
             {/* Header Area */}
             <div className="p-6 pb-2">
-                <div className="flex justify-between items-end mb-6">
-                    <div className="flex flex-col">
+                <div className="flex items-center gap-3 mb-6">
+                    <BackButton />
+                    <div className="flex flex-col flex-1">
                         <h1 className="text-3xl font-black tracking-tighter text-slate-900 dark:text-white leading-none">Marketplace</h1>
                         <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">Marinduque Classifieds</p>
                     </div>
