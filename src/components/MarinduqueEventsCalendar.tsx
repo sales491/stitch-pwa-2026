@@ -192,18 +192,24 @@ export default function MarinduqueEventsCalendar() {
 
             if (isFeatured) {
               return (
-                <article key={event.id} className="group relative flex flex-col overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-md hover:shadow-xl transition-all active:scale-[0.99]">
+                <article key={event.id} className="group relative flex flex-col overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-md hover:shadow-xl transition-all active:scale-[0.99] cursor-pointer">
+                  {/* Invisible absolute link that makes the entire card clickable */}
+                  <Link href={`/events/${event.id}`} className="absolute inset-0 z-10">
+                    <span className="sr-only">View Details for {event.title}</span>
+                  </Link>
+
                   <div className="relative aspect-video w-full overflow-hidden">
                     <img alt={event.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" src={event.image} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                    <div className="absolute top-4 left-4 flex gap-2">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                    <div className="absolute top-4 left-4 flex gap-2 pointer-events-none">
                       <span className="px-3 py-1 bg-moriones-red text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">Featured</span>
                       <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-lg border border-white/20">{event.category}</span>
                     </div>
-                    <div className="absolute top-4 right-4">
+                    {/* Admin Actions elevated over the invisible link */}
+                    <div className="absolute top-4 right-4 z-20">
                       <AdminActions contentType="event" contentId={event.id} authorId={event.author_id} className="scale-90" />
                     </div>
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <div className="absolute bottom-4 left-4 right-4 text-white pointer-events-none">
                       <h2 className="text-xl font-black leading-tight group-hover:text-moriones-red transition-colors">{event.title}</h2>
                       <div className="flex items-center gap-3 mt-2 text-xs font-medium text-white/80">
                         <div className="flex items-center gap-1">
@@ -217,7 +223,7 @@ export default function MarinduqueEventsCalendar() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-5 flex items-center justify-between border-t border-border-light dark:border-border-dark bg-background-light/50 dark:bg-background-dark/50">
+                  <div className="p-5 flex items-center justify-between border-t border-border-light dark:border-border-dark bg-background-light/50 dark:bg-background-dark/50 pointer-events-none">
                     <div className="flex -space-x-3">
                       {[1, 2, 3, 4].map((u) => (
                         <div key={u} className="w-8 h-8 rounded-full border-2 border-surface-light dark:border-surface-dark bg-slate-200 overflow-hidden shadow-sm">
@@ -228,40 +234,47 @@ export default function MarinduqueEventsCalendar() {
                         +{event.attendees}
                       </div>
                     </div>
-                    <Link href={`/events/${event.id}`} className="bg-moriones-red text-white px-6 py-2.5 rounded-xl text-xs font-black shadow-lg shadow-moriones-red/20 active:scale-95 transition-all">
-                      JOIN EVENT
-                    </Link>
+                    <div className="flex items-center gap-1 text-moriones-red text-[10px] font-black uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                      View Details <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </div>
                   </div>
                 </article>
               );
             }
 
             return (
-              <article key={event.id} className="flex gap-4 p-3 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group active:scale-[0.98]">
+              <article key={event.id} className="relative flex gap-4 p-3 bg-surface-light dark:bg-surface-dark rounded-2xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group active:scale-[0.98] cursor-pointer">
+                {/* Invisible absolute link that makes the entire card clickable */}
+                <Link href={`/events/${event.id}`} className="absolute inset-0 z-10">
+                  <span className="sr-only">View Details for {event.title}</span>
+                </Link>
+
                 <div className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-border-light dark:border-border-dark">
                   <img alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src={event.image} />
-                  <div className="absolute bottom-0 right-0 p-1 bg-moriones-red text-white rounded-tl-lg">
+                  <div className="absolute bottom-0 right-0 p-1 bg-moriones-red text-white rounded-tl-lg pointer-events-none">
                     <span className="material-symbols-outlined text-[14px]">event</span>
                   </div>
-                  <div className="absolute top-1 left-1">
-                    <AdminActions contentType="event" contentId={event.id} authorId={event.author_id} className="scale-75 origin-top-left" />
-                  </div>
                 </div>
-                <div className="flex-1 flex flex-col justify-center min-w-0">
+
+                {/* Admin Actions elevated over the invisible link */}
+                <div className="absolute top-4 left-4 z-20">
+                  <AdminActions contentType="event" contentId={event.id} authorId={event.author_id} className="scale-75 origin-top-left" />
+                </div>
+
+                <div className="flex-1 flex flex-col justify-center min-w-0 pointer-events-none">
                   <span className="text-[10px] font-black text-moriones-red uppercase tracking-tight">{event.town} • {event.category}</span>
-                  <Link href={`/events/${event.id}`} className="group-hover:underline">
-                    <h3 className="text-base font-bold text-text-main leading-snug line-clamp-1">{event.title}</h3>
-                  </Link>
+                  <h3 className="text-base font-bold text-text-main leading-snug line-clamp-1 group-hover:text-moriones-red transition-colors">{event.title}</h3>
                   <p className="text-xs font-medium text-text-muted mt-1 line-clamp-1">{event.time} at {event.location}</p>
                   <div className="flex items-center gap-1 mt-2 text-[10px] font-black text-moriones-red/80 uppercase">
                     <span className="material-symbols-outlined text-[12px] fill-1">group</span>
                     {event.attendees} participants
                   </div>
                 </div>
-                <div className="flex items-center">
-                  <Link href={`/events/${event.id}`} className="h-10 w-10 flex items-center justify-center rounded-xl bg-background-light dark:bg-background-dark text-moriones-red hover:bg-moriones-red hover:text-white transition-all border border-moriones-red/10">
+                
+                <div className="flex items-center pointer-events-none">
+                  <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-background-light dark:bg-background-dark text-moriones-red group-hover:bg-moriones-red group-hover:text-white transition-all border border-moriones-red/10 group-hover:translate-x-1">
                     <span className="material-symbols-outlined">trending_flat</span>
-                  </Link>
+                  </div>
                 </div>
               </article>
             );
