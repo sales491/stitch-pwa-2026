@@ -1,9 +1,11 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
-import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({
     params,
@@ -72,9 +74,7 @@ export default async function GemDetail({
 
                 {/* Navigation Bridge */}
                 <div className="absolute top-8 left-8 z-30">
-                    <Link href="/gems" className="w-14 h-14 flex items-center justify-center bg-white/10 backdrop-blur-3xl rounded-[1.5rem] text-white hover:bg-white/20 transition-all border border-white/20 shadow-2xl active:scale-95">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
+                    <BackButton />
                 </div>
 
                 {/* Primary Data Plane */}

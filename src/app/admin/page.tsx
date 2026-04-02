@@ -1,8 +1,11 @@
+'use client';
+
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import OperatorManagementPanel from '@/components/OperatorManagementPanel';
 import DbHealthWidget from '@/components/DbHealthWidget';
 import ContactInbox from '@/components/ContactInbox';
+import BackButton from '@/components/BackButton';
 
 
 export const dynamic = 'force-dynamic';
@@ -129,10 +132,7 @@ export default async function AdminDashboard() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8 sm:pb-10">
                 <div>
                     <div className="flex items-center gap-2 mb-3">
-                        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-slate-600 transition-colors text-[10px] font-black uppercase tracking-widest">
-                            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-                            Back to App
-                        </Link>
+                        <BackButton />
                     </div>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-3">Activity Intelligence</h1>
                     <p className="text-slate-500 font-medium max-w-lg leading-relaxed text-sm sm:text-base">Real-time surveillance across the Marinduque Hub ecosystem.</p>

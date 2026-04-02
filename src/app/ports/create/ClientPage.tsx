@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
-import Link from 'next/link';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 const STATUS_OPTIONS = [
     { value: 'info', emoji: 'ℹ️', label: 'General info / update' },
@@ -97,9 +97,7 @@ export default function CreatePortUpdate() {
 
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <Link href="/ports" className="p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                    <span className="material-symbols-outlined text-[24px] text-text-main dark:text-text-main-dark">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div>
                     <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">
                         Share a Port Update

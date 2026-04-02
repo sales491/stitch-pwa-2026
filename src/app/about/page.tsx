@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 
 // ─── Install section ─────────────────────────────────────────────────────────
@@ -89,9 +90,7 @@ export default function AboutUsPage() {
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
             {/* Sticky header with back arrow */}
             <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <Link href="/" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div>
                     <h1 className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">About Us</h1>
                     <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Marinduque Market Hub</p>

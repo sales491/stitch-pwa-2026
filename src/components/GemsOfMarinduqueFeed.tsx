@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { deleteGem } from '@/app/actions/gems';
 import GemLikeButton from '@/components/GemLikeButton';
 import AdminActions from './AdminActions';
+import BackButton from '@/components/BackButton';
 
 type Author = {
   id: string;
@@ -73,9 +74,7 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
       <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-zinc-800 shadow-sm' : 'bg-transparent'}`}>
         <div className="flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex size-10 items-center justify-center rounded-full bg-white dark:bg-zinc-900 text-slate-900 dark:text-white shadow-sm border border-slate-100 dark:border-zinc-800 hover:scale-105 active:scale-95 transition-all">
-              <span className="material-symbols-outlined font-black">arrow_back</span>
-            </Link>
+            <BackButton />
             <div className="flex flex-col">
               <h1 className="text-lg font-black tracking-tight text-moriones-red leading-none">Local Gems</h1>
               <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mt-1">Found in Marinduque</p>

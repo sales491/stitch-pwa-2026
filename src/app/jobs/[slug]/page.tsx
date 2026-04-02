@@ -1,9 +1,11 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
-import Link from 'next/link';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
+import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({
     params,
@@ -91,10 +93,7 @@ export default async function JobDetail({
 
                 <div className="p-8 pb-12 w-full max-w-4xl mx-auto flex justify-between items-end gap-6">
                     <div>
-                        <Link href="/jobs" className="inline-flex items-center gap-2 text-white/70 text-[10px] font-black uppercase tracking-widest mb-4 hover:text-white transition-opacity">
-                            <span className="material-symbols-outlined text-sm">arrow_back</span>
-                            Back to Jobs
-                        </Link>
+                        <BackButton />
                         <h1 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none mb-2">{job.title}</h1>
                         <p className="text-white/80 text-sm md:text-lg font-black uppercase tracking-widest">{job.company_name}</p>
                     </div>

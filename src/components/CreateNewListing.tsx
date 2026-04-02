@@ -10,6 +10,7 @@ import { generateSlug } from '@/data/listings';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 export default function CreateNewListing() {
   const router = useRouter();
@@ -193,9 +194,7 @@ export default function CreateNewListing() {
       <SuccessToast visible={showSuccess} message={isEditing ? 'Listing updated!' : 'Listing published!'} />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 px-4 py-3 flex items-center justify-between">
-        <Link href="/marketplace" className="p-2 -ml-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors text-slate-900 dark:text-slate-100">
-          <span className="material-symbols-outlined">arrow_back</span>
-        </Link>
+        <BackButton />
         <h1 className="text-lg font-bold text-center flex-1">{isEditing ? 'Edit Listing' : 'New Listing'}</h1>
         <button type="button" className="text-stone-500 dark:text-stone-400 font-semibold text-sm hover:text-primary transition-colors">
           Drafts

@@ -4,6 +4,7 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toggleGemLike } from '@/app/actions/gems';
+import BackButton from '@/components/BackButton';
 
 type Gem = {
     id: string;

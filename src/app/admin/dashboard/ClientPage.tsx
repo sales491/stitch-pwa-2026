@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { adminVerifyBusiness, adminRevokeBusinessVerification, adminDeleteBusiness } from '@/app/actions/admin';
+import BackButton from '@/components/BackButton';
 
 interface ProfileInfo {
     id: string;
@@ -137,9 +138,7 @@ export default function AppAdminDashboard() {
             {/* Header */}
             <div className="bg-white border-b border-slate-200 sticky top-0 z-10 px-4 py-4 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-3">
-                    <Link href="/admin" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
+                    <BackButton />
                     <div>
                         <h1 className="text-xl font-black tracking-tight text-slate-900">Admin Panel</h1>
                         <p className="text-[10px] uppercase font-bold text-slate-500 tracking-widest hidden sm:block">Marinduque Connect</p>

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
+import BackButton from '@/components/BackButton';
 
 export default function ContactPage() {
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -45,13 +45,7 @@ export default function ContactPage() {
         <main className="min-h-screen bg-gray-50 dark:bg-[#0F0F10] pb-24">
             {/* Header */}
             <div className="bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/[0.05] px-5 pt-6 pb-8">
-                <Link
-                    href="/policies"
-                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-slate-400 dark:text-white/40 uppercase tracking-wider mb-5 hover:text-moriones-red transition-colors"
-                >
-                    <span className="material-symbols-outlined text-[15px]">arrow_back</span>
-                    Policies
-                </Link>
+                <BackButton />
                 <div className="flex items-center gap-3 mb-1">
                     <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#C62828] to-[#E53935] flex items-center justify-center shadow-lg shadow-red-500/20 text-[20px]">
                         ✉️

@@ -1,5 +1,6 @@
+'use client';
+
 import React from 'react';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import GemLikeButton from '@/components/GemLikeButton';
@@ -7,6 +8,7 @@ import GemCommentsSection from '@/components/GemCommentsSection';
 import GemDetailsDeleteButton from '@/components/GemDetailsDeleteButton';
 import { isAdmin } from '@/utils/roles';
 import { Metadata } from 'next';
+import BackButton from '@/components/BackButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -144,9 +146,7 @@ export default async function GemDetailsPage({ params }: { params: Promise<{ id:
             <header className="sticky top-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-zinc-800">
                 <div className="px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <Link href="/gems" className="flex size-10 items-center justify-center rounded-full bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm border border-slate-100 dark:border-zinc-700 hover:scale-105 active:scale-95 transition-all">
-                            <span className="material-symbols-outlined font-black">arrow_back</span>
-                        </Link>
+                        <BackButton />
                         <div className="flex flex-col">
                             <h1 className="text-lg font-black tracking-tight text-moriones-red leading-none">Local Gem</h1>
                             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-1">Discovery Details</p>

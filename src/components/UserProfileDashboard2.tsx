@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import BarangayPicker from '@/components/BarangayPicker';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = ['Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];
 
@@ -150,13 +151,7 @@ export default function UserProfileDashboard2() {
       <div>
         {/* Header */}
         <div className="sticky top-0 z-20 flex items-center justify-between bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
-          <button
-            onClick={() => router.back()}
-            className="p-2 -ml-2 rounded-full hover:bg-neutral-100 dark:hover:bg-white/10 text-neutral-900 dark:text-white transition-colors"
-            aria-label="Go back"
-          >
-            <span className="material-symbols-outlined">arrow_back</span>
-          </button>
+          <BackButton />
           <h2 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-white">Edit Profile</h2>
           <button
             onClick={handleSave}

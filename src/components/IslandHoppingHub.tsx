@@ -9,6 +9,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
 import { useSearchParams } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 export type BoatType = 'Outrigger Bangka' | 'Motorboat' | 'Speedboat' | 'Passenger Ferry';
 export type BoatServiceType = 'Island Hopping' | 'Point-to-Point' | 'Charter' | 'All';
@@ -368,9 +369,7 @@ export default function IslandHoppingHub() {
                 <header className="sticky top-0 z-30 flex flex-col bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
                     <div className="flex items-center justify-between px-4 pt-4 pb-3">
                         <div className="flex items-center gap-2">
-                            <Link href="/" className="text-slate-800 dark:text-slate-200 p-1 rounded-full hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center">
-                                <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-                            </Link>
+                            <BackButton />
                             <div>
                                 <h1 className="text-lg font-bold leading-tight tracking-tight text-cyan-600 dark:text-cyan-400 pl-1">🏝️ Island Hopping</h1>
                                 <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Boat Operators &amp; Tour Services</p>

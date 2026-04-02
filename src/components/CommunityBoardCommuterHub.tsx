@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import React, { useState, useRef, useEffect, useTransition } from 'react';
@@ -10,6 +12,7 @@ import { optimizeImage } from '@/utils/image-optimization';
 import { useAuth } from './AuthProvider';
 import UniversalComments from './UniversalComments';
 import { getCommunityPosts, createCommunityPost, voteInPoll, toggleLike, getUserLikedPostIds } from '@/app/actions/community';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
 const MOODS = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
@@ -356,9 +359,7 @@ export default function CommunityBoardCommuterHub() {
         {/* Title & Filter */}
         <div className="flex items-center justify-between px-4 pt-2 pb-4">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-text-main dark:text-text-main-dark p-1.5 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-            </Link>
+            <BackButton />
             <h1 className="text-xl font-black leading-tight tracking-tight text-moriones-red">Community Board</h1>
           </div>
 

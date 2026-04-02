@@ -1,3 +1,5 @@
+'use client';
+
 import { createClient } from '@/utils/supabase/server';
 import BusinessReviews from '@/components/BusinessReviews';
 import { notFound } from 'next/navigation';
@@ -6,6 +8,7 @@ import { isAdmin, isModerator } from '@/utils/roles';
 import BusinessImageGallery from '@/components/BusinessImageGallery';
 import MenuCarousel from '@/components/MenuCarousel';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
+import BackButton from '@/components/BackButton';
 
 // Business types that should show the Menu & Dishes carousel
 const FOOD_BUSINESS_TYPES = new Set([
@@ -74,9 +77,7 @@ export default async function BusinessProfileDetailPage({
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
             {/* Top Navigation */}
             <div className="px-6 pt-6 pb-4 flex justify-between items-center max-w-lg mx-auto w-full">
-                <Link href="/directory" className="w-10 h-10 flex items-center justify-center bg-white dark:bg-zinc-900 rounded-full text-slate-900 dark:text-white shadow-sm active:scale-95 transition-transform border border-slate-200 dark:border-zinc-800">
-                    <span className="material-symbols-outlined text-xl">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div className="flex items-center gap-2">
                     {canEdit && (
                         <Link href={`/onboarding/business?edit_id=${id}`} className="h-10 px-5 flex items-center justify-center bg-moriones-red rounded-full text-white shadow-md active:scale-95 transition-all hover:bg-red-600 gap-2 font-black text-[10px] uppercase tracking-widest border border-red-700">

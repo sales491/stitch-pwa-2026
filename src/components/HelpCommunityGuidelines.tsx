@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 export default function HelpCommunityGuidelines() {
   const router = useRouter();

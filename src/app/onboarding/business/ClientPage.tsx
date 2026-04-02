@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
 import { deleteBusinessProfile } from '@/app/actions/business';
+import BackButton from '@/components/BackButton';
 
 const CATEGORIES = [
     "Food & Dining",
@@ -322,9 +323,7 @@ function BusinessOnboardingForm() {
 
             <div className="relative z-10 px-4 pt-10 pb-10 max-w-lg mx-auto">
                 <div className="mb-8 items-center flex gap-4">
-                    <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center bg-white dark:bg-[#1A1A1A] shadow-sm rounded-full border border-black/5 dark:border-white/5 text-slate-600 dark:text-gray-300">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </button>
+                    <BackButton />
                     <div>
                         <h1 className="text-3xl font-black tracking-tight leading-tight">
                             {edit_id ? 'Manage Business' : 'Create Business'}

@@ -6,6 +6,7 @@ import AdminActions from './AdminActions';
 import UniversalComments from './UniversalComments';
 import type { Listing } from '@/data/listings';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
+import BackButton from '@/components/BackButton';
 
 export default function ListingDetailPage({ listing }: { listing: Listing }) {
     const [activeImg, setActiveImg] = useState(0);

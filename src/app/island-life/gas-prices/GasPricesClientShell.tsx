@@ -4,6 +4,7 @@ import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { getGasPrices, deleteGasPrice, type GasPrice } from '@/app/actions/gas-prices';
+import BackButton from '@/components/BackButton';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -164,9 +165,7 @@ export default function GasPricesClientShell({ initialPrices, initialMunicipalit
 
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <Link href="/island-life" className="p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                    <span className="material-symbols-outlined text-[24px] text-text-main dark:text-text-main-dark">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div className="flex-1">
                     <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">⛽ Gas Prices</h1>
                     <p className="text-[10px] text-text-muted dark:text-text-muted-dark mt-0.5">Community-sourced · expires after 3 days</p>

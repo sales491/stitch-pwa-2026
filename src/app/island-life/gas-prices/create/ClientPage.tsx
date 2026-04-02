@@ -4,9 +4,9 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
-import Link from 'next/link';
 import SuccessToast from '@/components/SuccessToast';
 import { submitGasPrice } from '@/app/actions/gas-prices';
+import BackButton from '@/components/BackButton';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -186,9 +186,7 @@ export default function CreateGasPriceClientPage() {
 
             {/* Sticky header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <Link href="/island-life/gas-prices" className="p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-                    <span className="material-symbols-outlined text-[24px] text-text-main dark:text-text-main-dark">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div>
                     <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">Share a Gas Price</h1>
                     <p className="text-[10px] text-text-muted dark:text-text-muted-dark mt-0.5">Help neighbors find the best fuel prices</p>

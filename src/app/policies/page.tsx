@@ -1,5 +1,8 @@
+'use client';
+
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export const metadata: Metadata = {
     title: 'Policies',
@@ -98,13 +101,7 @@ export default function PoliciesPage() {
         <main className="min-h-screen bg-gray-50 dark:bg-[#0F0F10] pb-24">
             {/* Hero */}
             <div className="bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/[0.05] px-5 pt-6 pb-8">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-slate-400 dark:text-white/40 uppercase tracking-wider mb-5 hover:text-moriones-red dark:hover:text-moriones-red transition-colors"
-                >
-                    <span className="material-symbols-outlined text-[15px]">arrow_back</span>
-                    Home
-                </Link>
+                <BackButton />
                 <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#C62828] to-[#E53935] flex items-center justify-center shadow-lg shadow-red-500/20 text-[20px]">
                         ⚖️

@@ -1,8 +1,10 @@
+'use client';
+
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
-import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export default async function PostDetail({
     params
@@ -27,9 +29,7 @@ export default async function PostDetail({
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
             {/* Minimal Header */}
             <div className="bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800 p-6 flex items-center justify-between sticky top-0 md:relative z-20">
-                <Link href="/community" className="w-10 h-10 flex items-center justify-center bg-slate-50 dark:bg-zinc-800 rounded-2xl text-slate-400 active:scale-90 transition-transform">
-                    <span className="material-symbols-outlined">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div className="flex flex-col items-center">
                     <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Marinduque Signal</h2>
                     <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{post.type} • Detailed Report</p>

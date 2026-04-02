@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import BusinessCard from '@/components/BusinessCard';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 type Business = {
     id: string;
@@ -204,9 +205,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
                 <div className="flex items-center justify-between px-4 pt-3 pb-1">
                     <div className="flex items-center gap-2">
-                        <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-                        </Link>
+                        <BackButton />
                         <div>
                             <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Business Directory</h1>
                             <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.15em] pl-1">Verified Local Partners</p>

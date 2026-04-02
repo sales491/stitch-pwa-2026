@@ -3,6 +3,7 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import AdminActions from './AdminActions';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 const JOB_TYPES = ['All Types', 'Full-time', 'Part-time', 'Contract', 'Freelance', 'Casual'];
@@ -142,9 +143,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs, totalCount, cur
       <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-2">
           <div className="flex items-center gap-2">
-            <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-            </Link>
+            <BackButton />
             <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red pl-1">Marinduque Jobs</h1>
           </div>
         </div>

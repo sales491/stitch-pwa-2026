@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useTransition, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ContactSection from './ContactSection';
 import { filterAllFields } from '@/utils/contentFilter';
@@ -8,6 +7,7 @@ import { createBoatService } from '@/app/actions/boat';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 
@@ -230,9 +230,7 @@ export default function PostBoatListing() {
             <SuccessToast visible={showSuccess} message={editId ? 'Listing updated! Taking you back…' : "You're listed! Taking you to the operator page…"} />
             {/* Header */}
             <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
-                <Link href="/island-hopping" className="text-slate-800 dark:text-slate-200">
-                    <span className="material-symbols-outlined">arrow_back</span>
-                </Link>
+                <BackButton />
                 <h1 className="text-lg font-bold text-slate-900 dark:text-white">{editId ? 'Edit Listing' : 'List Your Boat Service'}</h1>
                 <div className="w-8" />
             </div>

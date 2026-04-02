@@ -1,9 +1,11 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
-import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export async function generateMetadata({
     params,
@@ -159,9 +161,7 @@ export default async function EventDetail({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
                 <div className="absolute top-5 left-5 z-20">
-                    <Link href="/events" className="w-11 h-11 flex items-center justify-center bg-black/30 backdrop-blur-xl rounded-2xl text-white hover:bg-black/50 transition-all border border-white/10">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
+                    <BackButton />
                 </div>
 
                 {/* Desktop hero text overlay */}

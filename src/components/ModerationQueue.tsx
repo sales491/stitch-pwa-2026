@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { resolveFlag } from '@/app/actions/listings';
+import BackButton from '@/components/BackButton';
 import {
     adminApproveBusiness,
     adminRejectBusiness,
@@ -253,9 +254,7 @@ export default function ModerationQueue({
         <div className="min-h-screen bg-slate-50 dark:bg-zinc-950">
             <header className="sticky top-0 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-slate-200 dark:border-white/5 px-4 py-4">
                 <div className="max-w-2xl mx-auto flex items-center gap-3">
-                    <Link href="/admin" className="p-2 -ml-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors text-slate-600 dark:text-slate-300">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
+                    <BackButton />
                     <div className="flex-1">
                         <h1 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Moderation</h1>
                         <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{totalCount} item{totalCount !== 1 ? 's' : ''} need attention</p>

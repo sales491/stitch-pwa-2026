@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBusinessProfile } from '@/app/actions/business';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 export default function CreateBusinessProfileStep3() {
   const router = useRouter();
@@ -132,9 +132,7 @@ export default function CreateBusinessProfileStep3() {
       <SuccessToast visible={showSuccess} message="Profile submitted for review! We'll go live after admin approval." />
       {/* Header */}
       <header className="sticky top-0 z-30 flex items-center justify-between p-4 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-zinc-800">
-        <Link href="/create-business-profile-step2" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors text-slate-800 dark:text-slate-200">
-          <span className="material-symbols-outlined">arrow_back</span>
-        </Link>
+        <BackButton />
         <h1 className="text-lg font-bold tracking-tight text-moriones-red">Create Business Profile</h1>
         <div className="w-10" />
       </header>

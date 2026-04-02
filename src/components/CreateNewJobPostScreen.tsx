@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Link from 'next/link';
 import ContactSection from './ContactSection';
 import { filterAllFields } from '@/utils/contentFilter';
 import SuccessToast from '@/components/SuccessToast';
@@ -9,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { createJob } from '@/app/actions/jobs';
 import { createClient } from '@/utils/supabase/client';
+import BackButton from '@/components/BackButton';
 
 export default function CreateNewJobPostScreen() {
   const router = useRouter();
@@ -135,9 +135,7 @@ export default function CreateNewJobPostScreen() {
         {/* Header / Navigation */}
         <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark shadow-sm">
           <div className="flex items-center justify-between px-4 h-16">
-            <Link href="/jobs" className="text-text-main dark:text-text-main-dark flex items-center justify-center rounded-full w-10 h-10 hover:bg-background-light dark:hover:bg-background-dark transition-colors">
-              <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-            </Link>
+            <BackButton />
             <h1 className="text-moriones-red text-base font-bold leading-tight tracking-tight flex-1 text-center">{editId ? 'Edit Job Post' : 'Create Job Post'}</h1>
             <div className="w-10" />
           </div>

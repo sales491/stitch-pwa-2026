@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import AdminActions from './AdminActions';
 import type { Event } from '@/utils/eventData';
+import BackButton from '@/components/BackButton';
 
 export default function MarinduqueEventsCalendar() {
   const [viewDate, setViewDate] = useState(new Date());
@@ -90,9 +91,7 @@ export default function MarinduqueEventsCalendar() {
       <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
         <div className="flex items-center justify-between px-4 pt-4 pb-3">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-              <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-            </Link>
+            <BackButton />
             <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">Events Calendar</h1>
           </div>
 

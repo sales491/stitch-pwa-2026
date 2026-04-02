@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
-import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 export default function CreateGem() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -89,9 +89,7 @@ export default function CreateGem() {
             {/* Tactical Header */}
             <div className="bg-white dark:bg-zinc-900 px-6 py-8 border-b border-slate-100 dark:border-zinc-800 mb-8 rounded-b-[3rem] shadow-xl shadow-slate-200/50 dark:shadow-none">
                 <div className="max-w-xl mx-auto flex items-center gap-4">
-                    <Link href="/gems" className="w-12 h-12 flex items-center justify-center bg-slate-100 dark:bg-zinc-800 rounded-2xl text-slate-600 dark:text-zinc-400 active:scale-90 transition-transform">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
+                    <BackButton />
                     <div>
                         <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Register Sanctuary</h1>
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Geographic Discovery Portal</p>

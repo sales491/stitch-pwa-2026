@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { joinGroup } from '@/app/actions/paluwagan';
 import { Suspense } from 'react';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 function JoinForm() {
     const router = useRouter();
@@ -73,9 +73,7 @@ export default function JoinPaluwaganPage() {
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
             {/* Sticky header */}
             <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <Link href="/my-barangay/paluwagan" className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
-                </Link>
+                <BackButton />
                 <div>
                     <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">Join a Group</p>
                     <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Paluwagan</p>

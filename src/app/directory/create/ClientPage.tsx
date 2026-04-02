@@ -7,6 +7,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 const TOWNS = [
     "Boac",
@@ -136,9 +137,7 @@ export default function CreateBusiness() {
             {/* Premium Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
                 <div className="flex items-center gap-4 mb-4">
-                    <Link href="/directory" className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-                    </Link>
+                    <BackButton />
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-moriones-red leading-tight">Register Business</h1>
                         <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.2em] mt-0.5">Marinduque Business Directory</p>

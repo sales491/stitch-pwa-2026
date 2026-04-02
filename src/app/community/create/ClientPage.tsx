@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
+import BackButton from '@/components/BackButton';
 
 export default function CreatePost() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -155,12 +156,7 @@ export default function CreatePost() {
             {/* Tactical Header */}
             <div className="bg-surface-light dark:bg-surface-dark px-6 py-6 border-b border-border-light dark:border-zinc-800 mb-6 rounded-b-[2rem] shadow-sm">
                 <div className="max-w-xl mx-auto flex items-center gap-4">
-                    <button
-                        onClick={() => router.back()}
-                        className="text-text-main dark:text-text-main-dark p-1 rounded-full hover:bg-background-light dark:hover:bg-background-dark transition-colors flex items-center justify-center"
-                    >
-                        <span className="material-symbols-outlined text-[28px]">arrow_back</span>
-                    </button>
+                    <BackButton />
                     <div>
                         <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">{isEditing ? 'Edit Post' : 'Share a Post'}</h1>
                         <p className="text-[10px] font-black text-text-muted dark:text-text-muted-dark uppercase tracking-widest mt-0.5">Community Board</p>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useTransition } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import Image from 'next/image';
+import BackButton from '@/components/BackButton';
 import {
     adminBanUser,
     adminUnbanUser,
@@ -249,10 +250,7 @@ export default function UserManagement() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-800 pb-10">
                 <div>
                     <div className="flex items-center gap-2 mb-3">
-                        <a href="/admin" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest">
-                            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-                            Admin Dashboard
-                        </a>
+                        <BackButton />
                     </div>
                     <h1 className="text-4xl font-black text-white tracking-tighter mb-2 flex items-center gap-3">
                         <span className="material-symbols-outlined text-4xl text-blue-500">account_tree</span>

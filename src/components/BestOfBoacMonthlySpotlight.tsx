@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { BUSINESSES } from '@/data/businesses';
+import BackButton from '@/components/BackButton';
 
 // --- Types ---
 interface SpotlightBusiness {

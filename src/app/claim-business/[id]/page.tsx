@@ -1,7 +1,10 @@
+'use client';
+
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ClaimBusinessForm from '@/components/ClaimBusinessForm';
+import BackButton from '@/components/BackButton';
 
 // Next.js 15: params is a Promise and must be awaited
 export default async function ClaimBusinessPage({ params }: { params: Promise<{ id: string }> }) {
