@@ -250,12 +250,12 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
                     </div>
                 </section>
 
-                {/* Vessel Tracker */}
+                {/* Barko Tracker */}
                 <section>
                     <div className="flex items-center gap-2 mb-3">
                         <span className="text-lg">⛵</span>
                         <h2 className="text-sm font-black text-text-main dark:text-text-main-dark uppercase tracking-[0.15em]">
-                            Vessel Tracker
+                            Barko Tracker
                         </h2>
                     </div>
                     <p className="text-[10px] text-text-muted dark:text-text-muted-dark mb-2 leading-relaxed">

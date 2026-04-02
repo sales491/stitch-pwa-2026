@@ -27,19 +27,18 @@ export default function BusinessCard({
     deliveryAvailable,
 }: BusinessProps) {
     return (
-        <div className="bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] p-5 mb-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 relative group overflow-hidden">
-            <Link href={`/directory/${id}`} className="absolute inset-0 z-0" aria-label={`View ${name} profile`}></Link>
-
+        <Link href={`/directory/${id}`} className="block bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] p-5 mb-4 shadow-sm hover:shadow-md transition-all relative group overflow-hidden min-h-[120px]">
+            <div className="flex items-center gap-4">
             {/* Logo / Image Area */}
-            <div className="w-16 h-16 bg-slate-50 dark:bg-white/[0.03] text-moriones-red dark:text-[#F44336] rounded-2xl flex items-center justify-center font-black text-2xl flex-shrink-0 shadow-inner overflow-hidden relative border border-transparent dark:border-white/[0.05]">
+            <div className="w-28 self-stretch bg-slate-50 dark:bg-white/[0.03] text-moriones-red dark:text-[#F44336] rounded-2xl flex items-center justify-center font-black text-3xl flex-shrink-0 overflow-hidden relative border border-transparent dark:border-white/[0.05]">
                 {imageUrl ? (
-                    <Image src={imageUrl} alt={name} fill className="object-contain group-hover:scale-110 transition-transform duration-500" />
+                    <Image src={imageUrl} alt={name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 ) : (
                     !isVerified ? (
-                        <Link href={`/claim-business/${id}`} className="relative z-10 w-full h-full flex flex-col items-center justify-center bg-teal-50 hover:bg-teal-100 dark:bg-teal-900/30 dark:hover:bg-teal-900/50 transition-colors pointer-events-auto shadow-sm">
-                            <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 text-[18px] mb-0.5">add_a_photo</span>
-                            <span className="text-[7px] uppercase font-black tracking-widest text-teal-700 dark:text-teal-500 text-center leading-[1.1]">Claim<br />Biz</span>
-                        </Link>
+                        <span className="w-full h-full flex flex-col items-center justify-center bg-teal-50 dark:bg-teal-900/30">
+                            <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 text-[22px] mb-0.5">add_a_photo</span>
+                            <span className="text-[8px] uppercase font-black tracking-widest text-teal-700 dark:text-teal-500 text-center leading-[1.1]">Claim<br />Biz</span>
+                        </span>
                     ) : (
                         <span className="drop-shadow-sm">{name.charAt(0).toUpperCase()}</span>
                     )
@@ -48,8 +47,8 @@ export default function BusinessCard({
 
             {/* Business Info */}
             <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                    <h3 className="font-black text-lg text-slate-800 dark:text-white/95 truncate tracking-tight leading-none">{name}</h3>
+                <div className="flex items-start gap-1.5 mb-0.5 flex-wrap">
+                    <h3 className="font-black text-lg text-slate-800 dark:text-white/95 tracking-tight leading-snug">{name}</h3>
                     {isVerified ? (
                         <span className="material-symbols-outlined text-[#2196F3] dark:text-[#4FC3F7] text-[16px] font-variation-settings-fill">verified</span>
                     ) : (
@@ -81,11 +80,7 @@ export default function BusinessCard({
                     )}
                 </div>
             </div>
-
-            {/* Interaction Indicator */}
-            <div className="w-9 h-9 rounded-full bg-slate-50 dark:bg-white/[0.03] flex items-center justify-center text-slate-300 dark:text-white/20 group-hover:bg-moriones-red group-hover:text-white transition-all transform group-hover:translateX-1 pointer-events-none relative z-10">
-                <span className="material-symbols-outlined text-lg">chevron_right</span>
             </div>
-        </div>
+        </Link>
     );
 }

@@ -11,8 +11,6 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
   // URL tab syncing
   const activeTabParam = searchParams.get('tab') || 'general';
   const [activeTab, setActiveTab] = useState(activeTabParam);
-  
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Sync tab state with URL without hard navigation
   useEffect(() => {
@@ -24,17 +22,8 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
     router.push(`/faq?tab=${tab}`, { scroll: false });
   };
 
-  // Filter based on active tab AND search query
-  const filteredFaqs = initialFaqs.filter((faq) => {
-    const matchesTab = faq.category === activeTab;
-    const matchesSearch = 
-      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
-      
-    // If they are searching, ignore the tab constraint so they search everything
-    // Or keep tab constraint and only search within it. (Searching within tab is cleaner)
-    return matchesTab && matchesSearch;
-  });
+  // Filter based on active tab
+  const filteredFaqs = initialFaqs.filter((faq) => faq.category === activeTab);
 
   const categories = [
     { id: 'general', label: 'Users' },
@@ -45,21 +34,6 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
 
   return (
     <div className="w-full">
-      {/* Search Bar */}
-      <div className="relative mb-6">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl leading-5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-          placeholder="Search for answers..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
 
       {/* Tabs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
@@ -101,7 +75,7 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
           ))
         ) : (
           <div className="text-center py-10 text-slate-500 dark:text-slate-400 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
-            {searchQuery ? 'No FAQs found for your search.' : 'There are no questions in this category yet.'}
+            There are no questions in this category yet.
           </div>
         )}
       </div>

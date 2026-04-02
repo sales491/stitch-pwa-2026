@@ -125,6 +125,21 @@ export default function AboutUsPage() {
 
             {/* Install section */}
             <InstallSection />
+
+            {/* Contact card */}
+            <div className="mx-4 rounded-3xl border border-gray-200 dark:border-white/[0.06] bg-white dark:bg-[#1A1A1A] px-5 py-5">
+                <h2 className="text-[14px] font-black text-slate-900 dark:text-white mb-1">Contact Us</h2>
+                <p className="text-[13px] text-slate-500 dark:text-white/40 leading-relaxed mb-4">
+                    Have a question or suggestion? Send us a message and our team will get back to you.
+                </p>
+                <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#C62828] text-white text-[13px] font-bold hover:bg-[#B71C1C] transition-colors shadow-lg shadow-red-500/20"
+                >
+                    <span className="material-symbols-outlined text-[16px]">mail</span>
+                    Send a Message
+                </Link>
+            </div>
         </main>
     );
 }
