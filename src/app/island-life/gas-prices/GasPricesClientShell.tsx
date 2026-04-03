@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { getGasPrices, deleteGasPrice, type GasPrice } from '@/app/actions/gas-prices';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -163,13 +163,7 @@ export default function GasPricesClientShell({ initialPrices, initialMunicipalit
     return (
         <div className="flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
-            {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <BackButton />
-                <div className="flex-1">
-                    <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">⛽ Gas Prices</h1>
-                    <p className="text-[10px] text-text-muted dark:text-text-muted-dark mt-0.5">Community-sourced · expires after 3 days</p>
-                </div>
+            <PageHeader title="Gas Prices" subtitle="Fuel Watch" rightAction={
                 <Link
                     href="/island-life/gas-prices/create"
                     className="flex items-center gap-1.5 bg-moriones-red text-white text-[11px] font-black px-3 py-2 rounded-xl shadow-sm shadow-moriones-red/20 hover:bg-red-700 active:scale-95 transition-all"
@@ -177,7 +171,7 @@ export default function GasPricesClientShell({ initialPrices, initialMunicipalit
                     <span className="material-symbols-outlined text-[14px]">add</span>
                     Share Price
                 </Link>
-            </div>
+            } />
 
             {/* Hero banner — count only, no price data */}
             <div className="bg-gradient-to-br from-red-600 via-orange-600 to-amber-600 px-4 pt-4 pb-5 relative overflow-hidden">

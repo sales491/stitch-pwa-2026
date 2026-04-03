@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export async function generateMetadata({
     params,
@@ -57,6 +57,8 @@ export default async function GemDetail({
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
 
+            <PageHeader title="Local Gem" subtitle="Hidden Treasure" />
+
             {/* Cinematic Hero Engine */}
             <div className="w-full h-[450px] md:h-[600px] relative overflow-hidden rounded-b-[4rem] shadow-2xl">
                 {gem.images?.[0] ? (
@@ -69,11 +71,6 @@ export default async function GemDetail({
 
                 {/* Visual Intelligence Overlays */}
                 <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-
-                {/* Navigation Bridge */}
-                <div className="absolute top-8 left-8 z-30">
-                    <BackButton />
-                </div>
 
                 {/* Primary Data Plane */}
                 <div className="absolute bottom-12 left-12 right-12 z-20">

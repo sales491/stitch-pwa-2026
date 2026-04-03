@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export async function generateMetadata({
     params,
@@ -85,13 +85,13 @@ export default async function JobDetail({
                     applicantLocationRequirements: { '@type': 'Country', name: 'Philippines' },
                 }) }}
             />
+            <PageHeader title="Job Vacancy" subtitle="Marinduque Jobs" />
             {/* High Impact Header */}
             <div className="bg-moriones-red dark:bg-moriones-red/80 h-48 md:h-64 relative overflow-hidden rounded-b-[3rem] shadow-2xl flex items-end">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
 
                 <div className="p-8 pb-12 w-full max-w-4xl mx-auto flex justify-between items-end gap-6">
                     <div>
-                        <BackButton />
                         <h1 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none mb-2">{job.title}</h1>
                         <p className="text-white/80 text-sm md:text-lg font-black uppercase tracking-widest">{job.company_name}</p>
                     </div>

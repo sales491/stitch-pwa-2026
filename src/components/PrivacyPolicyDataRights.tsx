@@ -1,19 +1,14 @@
 'use client';
 
 import React from 'react';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function PrivacyPolicyDataRights() {
   return (
     <>
       <div>
   {/* Top Navigation Bar */}
-  <div className="sticky top-0 z-50 flex items-center bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 border-b border-neutral-light dark:border-neutral-dark">
-    <button className="flex items-center justify-center p-2 -ml-2 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark text-text-main dark:text-white transition-colors">
-      <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-    </button>
-    <h2 className="ml-2 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8 text-text-main dark:text-white">Privacy Policy</h2>
-  </div>
+  <PageHeader title="Privacy & Data Rights" subtitle="Your Information" />
   {/* Main Content */}
   <main className="flex-1 w-full max-w-md mx-auto pb-8">
     {/* Header Section */}

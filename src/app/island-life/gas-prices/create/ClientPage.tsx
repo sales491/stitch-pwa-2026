@@ -6,7 +6,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import SuccessToast from '@/components/SuccessToast';
 import { submitGasPrice } from '@/app/actions/gas-prices';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const MUNICIPALITIES = ['Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 
@@ -184,14 +184,7 @@ export default function CreateGasPriceClientPage() {
         <div className="flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
             <SuccessToast visible={showSuccess} message="Gas price posted! Thanks for helping the community. 🙏" />
 
-            {/* Sticky header */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <BackButton />
-                <div>
-                    <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">Share a Gas Price</h1>
-                    <p className="text-[10px] text-text-muted dark:text-text-muted-dark mt-0.5">Help neighbors find the best fuel prices</p>
-                </div>
-            </div>
+            <PageHeader title="Report Gas Price" subtitle="Current Rates" />
 
             <div className="px-4 py-5 space-y-4">
 

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreatePost() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -152,16 +152,7 @@ export default function CreatePost() {
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
             <SuccessToast visible={showSuccess} message={isEditing ? 'Post updated!' : 'Post shared with the community!'} />
 
-            {/* Tactical Header */}
-            <div className="bg-surface-light dark:bg-surface-dark px-6 py-6 border-b border-border-light dark:border-zinc-800 mb-6 rounded-b-[2rem] shadow-sm">
-                <div className="max-w-xl mx-auto flex items-center gap-4">
-                    <BackButton />
-                    <div>
-                        <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">{isEditing ? 'Edit Post' : 'Share a Post'}</h1>
-                        <p className="text-[10px] font-black text-text-muted dark:text-text-muted-dark uppercase tracking-widest mt-0.5">Community Board</p>
-                    </div>
-                </div>
-            </div>
+            <PageHeader title="New Post" subtitle="Community Board" />
 
             <div className="max-w-xl mx-auto px-6">
                 {error && (

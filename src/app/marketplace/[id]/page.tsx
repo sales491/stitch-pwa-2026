@@ -6,7 +6,7 @@ import SellerVouchBadge from '@/components/SellerVouchBadge';
 import ListingContactButtons from '@/components/ListingContactButtons';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const revalidate = 300; // 5-minute SWR cache for listing detail pages
 
@@ -58,17 +58,14 @@ export default async function ListingDetail({
 
     return (
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
-            {/* 1. Header Navigation — normal document flow, no sticky/fixed */}
-            <div className="flex items-center justify-between px-4 py-1.5">
-                <BackButton className="!p-1" />
-
-                {canEdit && (
+            <PageHeader title="Listing Details" subtitle="Marinduque Marketplace" rightAction={
+                canEdit ? (
                     <Link href={`/marketplace/${listing.id}/edit`} className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-white/70 font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
                         <span className="material-symbols-outlined text-sm">edit</span>
-                        Edit Listing
+                        Edit
                     </Link>
-                )}
-            </div>
+                ) : undefined
+            } />
 
             {/* 2. Big Image Gallery Placeholder */}
             <div className="w-full h-[45vh] md:h-[55vh] relative bg-slate-100 dark:bg-zinc-900 overflow-hidden">

@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ClaimBusinessForm from '@/components/ClaimBusinessForm';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 // Next.js 15: params is a Promise and must be awaited
 export default async function ClaimBusinessPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,18 +44,7 @@ export default async function ClaimBusinessPage({ params }: { params: Promise<{ 
 
     return (
         <div className="min-h-screen bg-white dark:bg-zinc-900 pb-24">
-            {/* Header */}
-            <div className="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
-                <div className="flex items-center gap-3 px-4 py-4 max-w-md mx-auto">
-                    <Link href={`/directory/${business.id}`} className="text-teal-700 dark:text-teal-400">
-                        <span className="material-symbols-outlined">arrow_back</span>
-                    </Link>
-                    <div>
-                        <h1 className="font-bold text-slate-900 dark:text-white text-base leading-tight">Claim This Business</h1>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{business.business_name}</p>
-                    </div>
-                </div>
-            </div>
+            <PageHeader title="Claim Business" subtitle={business.business_name} />
 
             {/* Content */}
             <div className="max-w-md mx-auto px-4 py-6">

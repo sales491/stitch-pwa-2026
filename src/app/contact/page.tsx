@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function ContactPage() {
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -43,21 +43,7 @@ export default function ContactPage() {
 
     return (
         <main className="min-h-screen bg-gray-50 dark:bg-[#0F0F10] pb-24">
-            {/* Header */}
-            <div className="bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/[0.05] px-5 pt-6 pb-8">
-                <BackButton />
-                <div className="flex items-center gap-3 mb-1">
-                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#C62828] to-[#E53935] flex items-center justify-center shadow-lg shadow-red-500/20 text-[20px]">
-                        ✉️
-                    </div>
-                    <h1 className="text-[22px] font-black text-slate-900 dark:text-white tracking-tight">
-                        Contact Us
-                    </h1>
-                </div>
-                <p className="text-[13px] text-slate-500 dark:text-white/40 leading-relaxed mt-1">
-                    Have a question or a privacy request? Send us a message and we'll get back to you.
-                </p>
-            </div>
+            <PageHeader title="Contact Us" subtitle="Get In Touch" />
 
             <div className="px-4 pt-6">
                 {status === 'success' ? (

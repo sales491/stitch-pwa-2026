@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export async function generateMetadata({
     params,
@@ -116,10 +116,7 @@ export default async function EventDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
-            {/* Header Navigation — normal document flow, no sticky/fixed */}
-            <div className="flex items-center px-4 py-1.5">
-                <BackButton className="!p-1" />
-            </div>
+            <PageHeader title="Event Details" subtitle="Marinduque Events" />
             {/* JSON-LD for Google Rich Results */}
             <script
                 type="application/ld+json"

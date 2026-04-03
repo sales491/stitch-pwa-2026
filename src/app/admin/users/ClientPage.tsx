@@ -3,7 +3,7 @@
 import { useState, useEffect, useTransition } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import Image from 'next/image';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 import {
     adminBanUser,
     adminUnbanUser,
@@ -246,43 +246,31 @@ export default function UserManagement() {
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 pb-24 font-display">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-800 pb-10">
-                <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <BackButton />
-                    </div>
-                    <h1 className="text-4xl font-black text-white tracking-tighter mb-2 flex items-center gap-3">
-                        <span className="material-symbols-outlined text-4xl text-blue-500">account_tree</span>
-                        User Management
-                    </h1>
-                    <p className="text-slate-500 font-bold max-w-lg text-sm">
-                        Manage roles, ban users, and delete accounts. Admin accounts are protected from ban/delete.
-                    </p>
-                </div>
-                <div className="flex gap-3 flex-wrap">
-                    <select
-                        className="bg-slate-900 border border-slate-800 text-slate-300 rounded-2xl px-4 py-3 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={roleFilter}
-                        onChange={e => setRoleFilter(e.target.value)}
-                    >
-                        <option value="all">All Roles</option>
-                        <option value="admin">Admin</option>
-                        <option value="moderator">Moderator</option>
-                        <option value="business">Business</option>
-                        <option value="user">User</option>
-                        <option value="banned">Banned</option>
-                    </select>
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Search name or email…"
-                            className="bg-slate-900 border border-slate-800 text-white rounded-2xl p-3 pl-10 focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-slate-600 font-bold text-sm w-64"
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                        />
-                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-base">search</span>
-                    </div>
+            <PageHeader title="User Management" subtitle="Accounts & Roles" />
+
+            {/* Filter controls */}
+            <div className="flex gap-3 flex-wrap">
+                <select
+                    className="bg-slate-900 border border-slate-800 text-slate-300 rounded-2xl px-4 py-3 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={roleFilter}
+                    onChange={e => setRoleFilter(e.target.value)}
+                >
+                    <option value="all">All Roles</option>
+                    <option value="admin">Admin</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="business">Business</option>
+                    <option value="user">User</option>
+                    <option value="banned">Banned</option>
+                </select>
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Search name or email…"
+                        className="bg-slate-900 border border-slate-800 text-white rounded-2xl p-3 pl-10 focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-slate-600 font-bold text-sm w-64"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-base">search</span>
                 </div>
             </div>
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import BarangayPicker from '@/components/BarangayPicker';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = ['Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];
 
@@ -150,9 +150,7 @@ export default function UserProfileDashboard2() {
     <>
       <div>
         {/* Header */}
-        <div className="sticky top-0 z-20 flex items-center justify-between bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
-          <BackButton />
-          <h2 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-white">Edit Profile</h2>
+        <PageHeader title="Edit Profile" subtitle="Your Account" rightAction={
           <button
             onClick={handleSave}
             disabled={isSaving}
@@ -164,7 +162,7 @@ export default function UserProfileDashboard2() {
               'Save'
             )}
           </button>
-        </div>
+        } />
 
         <form
           className="max-w-md mx-auto w-full px-4 pt-6 space-y-6 pb-32"

@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
 import { deleteBusinessProfile } from '@/app/actions/business';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const CATEGORIES = [
     "Food & Dining",
@@ -322,17 +322,7 @@ function BusinessOnboardingForm() {
             <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-br from-moriones-red/10 via-orange-500/5 to-transparent dark:from-moriones-red/5 z-0 pointer-events-none"></div>
 
             <div className="relative z-10 px-4 pt-10 pb-10 max-w-lg mx-auto">
-                <div className="mb-8 items-center flex gap-4">
-                    <BackButton />
-                    <div>
-                        <h1 className="text-3xl font-black tracking-tight leading-tight">
-                            {edit_id ? 'Manage Business' : 'Create Business'}
-                        </h1>
-                        <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">
-                            {edit_id ? 'Update your business profile settings' : 'Join the Marinduque Market Hub'}
-                        </p>
-                    </div>
-                </div>
+                <PageHeader title={edit_id ? 'Manage Business' : 'Create Business'} subtitle="Marinduque Market Hub" />
 
                 <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-[#1A1A1A] p-6 rounded-3xl shadow-xl border border-black/5 dark:border-white/5">
 

@@ -8,7 +8,7 @@ import { createTransportService } from '@/app/actions/transport';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 const PREDEFINED_ROUTES = [
@@ -348,12 +348,7 @@ export default function PostCommuteOrDeliveryListing() {
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
             <SuccessToast visible={showSuccess} message={editId ? 'Listing updated!' : 'Transport service listed!'} />
-            {/* Header */}
-            <div className="flex justify-between items-center p-4 bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-10">
-                <BackButton />
-                <h1 className="text-lg font-bold text-slate-900 dark:text-white">List Your Service</h1>
-                <div className="w-8" />
-            </div>
+            <PageHeader title="List Your Service" subtitle="Commuter & Delivery" />
 
             <div className="p-4 space-y-6 pb-32 flex-1 w-full max-w-md mx-auto">
 

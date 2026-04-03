@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = ['All', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
 const PAGE_SIZE = 10;
@@ -158,23 +158,17 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                 </div>
             )}
 
-            {/* Header Area */}
-            <div className="p-6 pb-2">
-                <div className="flex items-center gap-3 mb-6">
-                    <BackButton />
-                    <div className="flex flex-col flex-1">
-                        <h1 className="text-3xl font-black tracking-tighter text-slate-900 dark:text-white leading-none">Marketplace</h1>
-                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mt-1">Marinduque Classifieds</p>
-                    </div>
-                    <Link
-                        href="/marketplace/create"
-                        className="bg-green-600 text-white px-5 py-2.5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-green-600/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-2"
-                    >
-                        <span className="material-symbols-outlined text-[18px]">add_circle</span>
-                        Sell Item
-                    </Link>
-                </div>
+            <PageHeader title="Marketplace" subtitle="Marinduque Classifieds" rightAction={
+                <Link
+                    href="/marketplace/create"
+                    className="bg-green-600 text-white px-4 py-2 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-green-600/20 hover:scale-105 transition-all active:scale-95 flex items-center gap-1.5"
+                >
+                    <span className="material-symbols-outlined text-[16px]">add_circle</span>
+                    Sell
+                </Link>
+            } />
 
+            <div className="px-6 pb-2">
                 {/* Search Bar & Filters */}
                 <div className="flex flex-col sm:flex-row gap-2 mb-6">
                     {/* Search Box */}

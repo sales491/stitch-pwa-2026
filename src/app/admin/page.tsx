@@ -3,7 +3,7 @@ import Link from 'next/link';
 import OperatorManagementPanel from '@/components/OperatorManagementPanel';
 import DbHealthWidget from '@/components/DbHealthWidget';
 import ContactInbox from '@/components/ContactInbox';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 
 export const dynamic = 'force-dynamic';
@@ -126,15 +126,10 @@ export default async function AdminDashboard() {
                 )}
             </section>
 
+            <PageHeader title="Admin Panel" subtitle="System Management" />
+
             {/* Dashboard Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8 sm:pb-10">
-                <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <BackButton />
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-3">Activity Intelligence</h1>
-                    <p className="text-slate-500 font-medium max-w-lg leading-relaxed text-sm sm:text-base">Real-time surveillance across the Marinduque Hub ecosystem.</p>
-                </div>
                 <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 md:pb-0 hide-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0">
                     <Link href="/admin/users" className="bg-white border border-slate-200 p-4 rounded-3xl min-w-[140px] shadow-sm flex-shrink-0 hover:border-blue-300 hover:shadow-md transition-all">
                         <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block mb-1">Users</span>

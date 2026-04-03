@@ -1,5 +1,5 @@
 import DbHealthWidget from '@/components/DbHealthWidget';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,27 +7,12 @@ export default function AdminHealthPage() {
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-24 space-y-8 font-display">
 
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-8">
-                <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <BackButton />
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tighter">
-                        Database Health
-                    </h1>
-                    <p className="text-slate-500 font-medium text-sm mt-2 max-w-md leading-relaxed">
-                        Real-time storage monitoring against your 500MB Supabase free-tier limit.
-                        Auto-refreshes every 30 seconds.
-                    </p>
-                </div>
-
-                {/* Live indicator */}
-                <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-2xl self-start sm:self-auto">
+            <PageHeader title="System Health" subtitle="Server & Database" rightAction={
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-xl">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Live</span>
                 </div>
-            </div>
+            } />
 
             {/* Full widget */}
             <DbHealthWidget variant="full" refreshInterval={3600} />

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Event } from '@/utils/eventData';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 interface EventDetailPageProps {
     event: Event;
@@ -11,6 +11,7 @@ export default function EventDetailPage({ event: initialEvent }: EventDetailPage
 
     return (
         <div className="relative min-h-screen bg-slate-50 dark:bg-zinc-950 pb-40 max-w-md mx-auto overflow-x-hidden">
+            <PageHeader title="Event Details" subtitle="Community Calendar" />
             {/* Hero Image Section */}
             <div className="relative h-[45vh] w-full">
                 <img
@@ -20,12 +21,7 @@ export default function EventDetailPage({ event: initialEvent }: EventDetailPage
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                {/* Navigation Overlays */}
-                <div className="absolute top-12 left-4 flex items-center gap-3">
-                    <BackButton />
-                </div>
-
-                <div className="absolute top-12 right-4 flex items-center gap-3">
+                <div className="absolute top-4 right-4 flex items-center gap-3">
                     <button className="flex size-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 transition-all border border-white/20">
                         <span className="material-symbols-outlined">share</span>
                     </button>

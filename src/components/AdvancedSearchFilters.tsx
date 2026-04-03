@@ -1,20 +1,16 @@
 'use client';
 
 import React from 'react';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function AdvancedSearchFilters() {
   return (
     <>
       <div>
   {/* Header */}
-  <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
-    <button className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-text-primary-light dark:text-text-primary-dark">
-      <span className="material-symbols-outlined">arrow_back</span>
-    </button>
-    <h1 className="text-lg font-bold text-center flex-1">Filters</h1>
-    <button className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition-colors">Reset</button>
-  </div>
+  <PageHeader title="Search & Filters" subtitle="Find What You Need" rightAction={
+    <button className="text-sm font-semibold text-moriones-red hover:text-moriones-red/80 transition-colors">Reset</button>
+  } />
   {/* Main Content */}
   <main className="flex-1 pb-24">
     {/* Search Input */}

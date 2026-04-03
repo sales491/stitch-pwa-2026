@@ -6,7 +6,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = [
     "Boac",
@@ -133,23 +133,14 @@ export default function CreateBusiness() {
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950">
             <SuccessToast visible={showSuccess} message="Profile submitted for review! We'll publish it after approval." />
-            {/* Premium Header */}
-            <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
-                <div className="flex items-center gap-4 mb-4">
-                    <BackButton />
-                    <div className="flex flex-col">
-                        <h1 className="text-lg font-bold tracking-tight text-moriones-red leading-tight">Register Business</h1>
-                        <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.2em] mt-0.5">Marinduque Business Directory</p>
-                    </div>
-                </div>
+            <PageHeader title="Add Business" subtitle="Directory Listing" />
 
-                {error && (
-                    <div className="bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 p-4 rounded-2xl border border-red-100 dark:border-red-900/20 text-xs font-bold flex items-center gap-3 animate-shake">
-                        <span className="material-symbols-outlined text-lg">error</span>
-                        {error}
-                    </div>
-                )}
-            </div>
+            {error && (
+                <div className="mx-6 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 p-4 rounded-2xl border border-red-100 dark:border-red-900/20 text-xs font-bold flex items-center gap-3 animate-shake">
+                    <span className="material-symbols-outlined text-lg">error</span>
+                    {error}
+                </div>
+            )}
 
             <div className="px-6 pb-24 -mt-4 max-w-md mx-auto w-full">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">

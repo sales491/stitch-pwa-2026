@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
 import { adminVerifyBusiness, adminRevokeBusinessVerification, adminDeleteBusiness } from '@/app/actions/admin';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 interface ProfileInfo {
     id: string;
@@ -135,42 +135,7 @@ export default function AppAdminDashboard() {
                 </div>
             )}
 
-            {/* Header */}
-            <div className="bg-white border-b border-slate-200 sticky top-0 z-10 px-4 py-4 flex items-center justify-between shadow-sm">
-                <div className="flex items-center gap-3">
-                    <BackButton />
-                    <div>
-                        <h1 className="text-xl font-black tracking-tight text-slate-900">Admin Panel</h1>
-                        <p className="text-[10px] uppercase font-bold text-slate-500 tracking-widest hidden sm:block">Marinduque Connect</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                    {/* Stats Bar Integrated in Header Space for Desktop, inline for mobile */}
-                    <div className="hidden md:flex gap-3">
-                        <div className="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
-                            <span className="material-symbols-outlined text-teal-600 text-lg">verified</span>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider leading-none">Verified</span>
-                                <span className="text-sm font-black text-slate-800 leading-tight">{totalVerified}</span>
-                            </div>
-                        </div>
-                        <div className="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
-                            <span className="material-symbols-outlined text-amber-500 text-lg">pending_actions</span>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider leading-none">Pending</span>
-                                <span className="text-sm font-black text-amber-600 leading-tight">{totalPending}</span>
-                            </div>
-                        </div>
-                        <div className="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
-                            <span className="material-symbols-outlined text-blue-500 text-lg">group</span>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-wider leading-none">Users</span>
-                                <span className="text-sm font-black text-slate-800 leading-tight">{totalUsers}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <PageHeader title="Dashboard" subtitle="Analytics & Insights" />
 
             <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
 

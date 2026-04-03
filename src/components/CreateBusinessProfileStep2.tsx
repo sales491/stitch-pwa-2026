@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BarangayPicker from '@/components/BarangayPicker';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateBusinessProfileStep2() {
   const [phone, setPhone] = useState('');
@@ -38,11 +38,7 @@ export default function CreateBusinessProfileStep2() {
 
   return (
     <div className="relative flex min-h-screen w-full flex-col mx-auto max-w-md bg-white dark:bg-zinc-950 overflow-x-hidden shadow-xl sm:my-8 sm:rounded-2xl sm:border sm:border-slate-200 dark:sm:border-zinc-800">
-      {/* Header */}
-      <div className="sticky top-0 z-30 flex items-center bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm p-4 border-b border-slate-100 dark:border-zinc-800 shadow-sm">
-        <BackButton />
-        <h2 className="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10 text-moriones-red">Create Business Profile</h2>
-      </div>
+      <PageHeader title="Business Profile" subtitle="Step 2 of 3 — Location & Contact" />
 
       <div className="flex flex-col gap-2 px-6 pt-6 pb-2">
         <div className="flex gap-6 justify-between items-center">

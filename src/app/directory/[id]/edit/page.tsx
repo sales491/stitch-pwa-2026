@@ -4,7 +4,7 @@ import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = [
     "Boac",
@@ -132,16 +132,7 @@ export default function EditBusiness({ params }: { params: Promise<{ id: string 
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-zinc-950 pb-24">
-            {/* Dashboard Header */}
-            <div className="bg-surface-light dark:bg-surface-dark px-6 pt-8 pb-6 rounded-b-[2rem] shadow-sm">
-                <div className="flex items-center gap-4">
-                    <BackButton />
-                    <div className="flex flex-col">
-                        <h1 className="text-lg font-bold tracking-tight text-moriones-red leading-tight">Edit Business</h1>
-                        <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.2em] mt-0.5">Updates reflect in real-time</p>
-                    </div>
-                </div>
-            </div>
+            <PageHeader title="Edit Business" subtitle="Update Listing" />
 
             <div className="px-6 pb-24 -mt-4 max-w-lg mx-auto w-full">
                 {error && (

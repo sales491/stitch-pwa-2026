@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = [
     "Boac",
@@ -122,16 +122,7 @@ export default function EditListing({ params }: { params: Promise<{ id: string }
 
     return (
         <div className="flex flex-col min-h-screen pb-24">
-            {/* Header */}
-            <div className="p-6 pb-2 flex items-center gap-4">
-                <Link href={`/marketplace/${id}`} className="text-slate-600 dark:text-white/60 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[26px]">arrow_back</span>
-                </Link>
-                <div className="flex flex-col">
-                    <h1 className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">Edit Listing</h1>
-                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Updating your item details</p>
-                </div>
-            </div>
+            <PageHeader title="Edit Listing" subtitle="Marketplace" />
 
             <div className="px-6 pb-24 max-w-md mx-auto w-full">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-8">

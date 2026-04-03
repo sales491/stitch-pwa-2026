@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'Policies',
@@ -97,23 +97,9 @@ const sections = [
 export default function PoliciesPage() {
     return (
         <main className="min-h-screen bg-gray-50 dark:bg-[#0F0F10] pb-24">
-            {/* Hero */}
-            <div className="bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/[0.05] px-5 pt-6 pb-8">
-                <BackButton />
-                <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#C62828] to-[#E53935] flex items-center justify-center shadow-lg shadow-red-500/20 text-[20px]">
-                        ⚖️
-                    </div>
-                    <h1 className="text-[22px] font-black text-slate-900 dark:text-white tracking-tight">
-                        Policies
-                    </h1>
-                </div>
-                <p className="text-[13px] text-slate-500 dark:text-white/40 leading-relaxed">
-                    Terms, Privacy & Community Guidelines · Last Updated: March 9, 2026
-                </p>
-
+            <PageHeader title="Policies" subtitle="Terms & Guidelines">
                 {/* Quick nav pills */}
-                <div className="flex gap-2 mt-5 flex-wrap">
+                <div className="flex gap-2 px-4 pb-3 flex-wrap">
                     {sections.map((s) => (
                         <a
                             key={s.id}
@@ -125,7 +111,7 @@ export default function PoliciesPage() {
                         </a>
                     ))}
                 </div>
-            </div>
+            </PageHeader>
 
             {/* Sections */}
             <div className="px-4 pt-6 space-y-6">

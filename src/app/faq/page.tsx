@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import FAQClient from './FAQClient';
+import PageHeader from '@/components/PageHeader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -51,12 +52,7 @@ export default async function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Help Center</h1>
-        <p className="text-slate-600 dark:text-slate-400">
-          Find answers to common questions about using Marinduque Connect.
-        </p>
-      </div>
+      <PageHeader title="Help & FAQ" subtitle="Common Questions" />
 
       <FAQClient initialFaqs={safeFaqs} />
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const STATUS_OPTIONS = [
     { value: 'info', emoji: 'ℹ️', label: 'General info / update' },
@@ -94,18 +94,7 @@ export default function CreatePortUpdate() {
         <div className="flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
             <SuccessToast visible={showSuccess} message="Port update shared!" />
 
-            {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-20">
-                <BackButton />
-                <div>
-                    <h1 className="text-base font-black text-text-main dark:text-text-main-dark leading-none">
-                        Share a Port Update
-                    </h1>
-                    <p className="text-[10px] text-text-muted dark:text-text-muted-dark mt-0.5">
-                        Help fellow commuters know what&apos;s happening
-                    </p>
-                </div>
-            </div>
+            <PageHeader title="Port Alert" subtitle="New Announcement" />
 
             <div className="px-4 py-5 space-y-5">
 

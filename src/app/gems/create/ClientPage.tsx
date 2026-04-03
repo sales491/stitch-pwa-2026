@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateGem() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -85,16 +85,7 @@ export default function CreateGem() {
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
 
-            {/* Tactical Header */}
-            <div className="bg-white dark:bg-zinc-900 px-6 py-8 border-b border-slate-100 dark:border-zinc-800 mb-8 rounded-b-[3rem] shadow-xl shadow-slate-200/50 dark:shadow-none">
-                <div className="max-w-xl mx-auto flex items-center gap-4">
-                    <BackButton />
-                    <div>
-                        <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Register Sanctuary</h1>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Geographic Discovery Portal</p>
-                    </div>
-                </div>
-            </div>
+            <PageHeader title="Share a Gem" subtitle="Hidden Treasure" />
 
             <div className="max-w-xl mx-auto px-6">
                 <form onSubmit={handleSubmit} className="space-y-6">

@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { createJob } from '@/app/actions/jobs';
 import { createClient } from '@/utils/supabase/client';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateNewJobPostScreen() {
   const router = useRouter();
@@ -133,19 +133,7 @@ export default function CreateNewJobPostScreen() {
       <div>
         <SuccessToast visible={showSuccess} message={editId ? 'Job post updated!' : 'Job posted successfully!'} />
         {/* Header / Navigation */}
-        <div className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark shadow-sm">
-          <div className="flex items-center justify-between px-4 h-16">
-            <BackButton />
-            <h1 className="text-moriones-red text-base font-bold leading-tight tracking-tight flex-1 text-center">{editId ? 'Edit Job Post' : 'Create Job Post'}</h1>
-            <div className="w-10" />
-          </div>
-          {/* Progress Stepper */}
-          <div className="flex w-full flex-row items-center justify-center gap-3 pb-4">
-            <div className="h-2 w-8 rounded-full bg-moriones-red" />
-            <div className="h-2 w-2 rounded-full bg-gray-200 dark:bg-gray-700" />
-            <div className="h-2 w-2 rounded-full bg-gray-200 dark:bg-gray-700" />
-          </div>
-        </div>
+        <PageHeader title="Post a Job" subtitle="Employer Listing" />
 
         {/* Auto-approved notice */}
         <div className="mx-4 mt-4 flex items-start gap-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl px-4 py-3 text-xs text-green-700 dark:text-green-400">
