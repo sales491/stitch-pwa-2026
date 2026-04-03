@@ -31,7 +31,13 @@ export async function generateMetadata({
             type: 'article',
             images: event.image ? [{ url: event.image, alt: event.title }] : undefined,
         },
-        alternates: { canonical: `https://marinduquemarket.com/events/${id}` },
+        alternates: { 
+            canonical: `https://marinduquemarket.com/events/${id}`,
+            languages: {
+                'en-PH': `https://marinduquemarket.com/events/${id}`,
+                'tl-PH': `https://marinduquemarket.com/events/${id}`,
+            }
+        },
     };
 }
 

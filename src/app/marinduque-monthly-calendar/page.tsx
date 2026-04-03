@@ -120,7 +120,7 @@ export default function MonthlyCalendarPage() {
             {events.filter(e => new Date(e.event_date).getMonth() === currentMonth).slice(0, 5).map(event => (
                <Link key={event.id} href={`/events/${event.id}`} className="flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-zinc-800 flex-shrink-0 overflow-hidden">
-                    <img src={event.image || '/images/hub/event_placeholder.jpg'} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                    <img src={event.image || '/images/hub/event_placeholder.jpg'} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-slate-800 dark:text-white group-hover:text-moriones-red transition-colors">{event.title}</h4>

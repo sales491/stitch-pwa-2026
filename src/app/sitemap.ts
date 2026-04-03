@@ -62,15 +62,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Dynamic: marketplace listings
     const { data: listings } = await supabase
       .from('listings')
-      .select('slug, updated_at')
+      .select('id, updated_at')
       .eq('status', 'active')
       .order('updated_at', { ascending: false })
       .limit(500);
 
     listingRoutes = (listings ?? [])
-      .filter(l => l.slug)
+      .filter(l => l.id)
       .map(l => ({
-        url: `${BASE}/listing/${l.slug}`,
+        url: `${BASE}/marketplace/${l.id}`,
         lastModified: l.updated_at ? new Date(l.updated_at) : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.7,

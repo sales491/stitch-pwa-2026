@@ -267,7 +267,7 @@ export default function UserProfileDashboard1() {
                     <div className="flex gap-3">
                       <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-moriones-red/10 flex items-center justify-center text-moriones-red shrink-0">
                         {t.images?.[0] ? (
-                          <Image src={t.images[0]} fill className="object-cover" alt="" />
+                          <Image src={t.images[0]} fill className="object-cover" alt={`${t.vehicle_type} vehicle preview`} />
                         ) : (
                           <span className="material-symbols-outlined text-[28px]">
                             {t.vehicle_type === 'Tricycle' ? 'pedal_bike' :
@@ -296,7 +296,7 @@ export default function UserProfileDashboard1() {
                 <div key={listing.id} className="bg-background-main border border-border-main rounded-2xl p-3 shadow-sm flex items-center gap-3 group">
                   <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-background-dark shrink-0">
                     {listing.images?.[0] ? (
-                      <Image src={listing.images[0]} fill className="object-cover" alt="" />
+                      <Image src={listing.images[0]} fill className="object-cover" alt={listing.title || 'Marketplace item'} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-text-muted/20">
                         <span className="material-symbols-outlined text-4xl">image</span>

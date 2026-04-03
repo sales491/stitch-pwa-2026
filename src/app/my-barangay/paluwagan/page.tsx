@@ -6,6 +6,13 @@ import PageHeader from '@/components/PageHeader';
 export const metadata = {
     title: 'Paluwagan — Marinduque Market Hub',
     description: 'Manage your rotating savings group digitally. Create or join a paluwagan with friends and family.',
+    alternates: {
+        canonical: 'https://marinduquemarket.com/my-barangay/paluwagan',
+        languages: {
+            'en-PH': 'https://marinduquemarket.com/my-barangay/paluwagan',
+            'tl-PH': 'https://marinduquemarket.com/my-barangay/paluwagan',
+        }
+    }
 };
 
 export const dynamic = 'force-dynamic';

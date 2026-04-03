@@ -29,7 +29,13 @@ export async function generateMetadata({
             url: `https://marinduquemarket.com/community/${id}`,
             type: 'article',
         },
-        alternates: { canonical: `https://marinduquemarket.com/community/${id}` },
+        alternates: { 
+            canonical: `https://marinduquemarket.com/community/${id}`,
+            languages: {
+                'en-PH': `https://marinduquemarket.com/community/${id}`,
+                'tl-PH': `https://marinduquemarket.com/community/${id}`,
+            }
+        },
     };
 }
 
