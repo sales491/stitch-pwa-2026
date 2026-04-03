@@ -26,15 +26,22 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/my-barangay/lost-found`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
   { url: `${BASE}/my-barangay/calamity`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.7 },
   { url: `${BASE}/my-barangay/ofw`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
+  { url: `${BASE}/my-barangay/paluwagan`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
 
+  { url: `${BASE}/island-life/gas-prices`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.7 },
+  { url: `${BASE}/live-market`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/best-of-boac-monthly-spotlight`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+  { url: `${BASE}/advanced-search-filters`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
+  { url: `${BASE}/post`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.5 },
 
-
+  { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
   { url: `${BASE}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
+  { url: `${BASE}/profile`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.4 },
   { url: `${BASE}/policies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   { url: `${BASE}/privacy-policy-data-rights`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   { url: `${BASE}/help-community-guidelines`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
+  { url: `${BASE}/island-hopping/list`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
 ];
 
 export const dynamic = 'force-dynamic';

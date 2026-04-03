@@ -1,1 +1,50 @@
-# Marinduque Market Hub\n\n> The digital community hub for the people of Marinduque island, Philippines. Buy & sell locally, find jobs, discover island hopping tours, track RoRo ferry schedules, explore businesses, and stay connected with your community.\n\n## Overview\n\nMarinduque Market Hub (often referred to as Marinduque Connect) is a modern community platform designed to digitize local commerce, jobs, and community interactions in Marinduque. \n\nOur platform operates as a central node for the island's digital infrastructure, specifically built to handle rural internet constraints as a lightweight Progressive Web App (PWA).\n\n## Main Sections\n- **Marketplace (/marketplace)**: Buy and sell local goods, including daily palengke (wet market) commodities.\n- **Jobs (/jobs)**: Find and post local job vacancies, hiring announcements, or freelance opportunities.\n- **Island Hopping & Tourism (/island-hopping)**: Discover local gems, tour guides, and travel information around Boac, Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista.\n- **Commute (/commute)**: Access consistently updated RoRo (Roll-on/Roll-off) ferry schedules, jeepney routes, and tricycle availability.\n- **Directory (/directory)**: Discover and browse local Marinduque SMEs, services, and storefronts.\n- **Community Events (/events)**: Track and join local barangay and municipal events.\n\n## Support & FAQ\nIf you need help or have questions about how our platform works, please visit our [Help Center & FAQ](https://marinduquemarket.com/faq). Our FAQ is categorized to provide specialized answers for:\n- General Users\n- Businesses & SMEs\n- Operators (Transport, Tricycle, and Tourism)\n- Palengke (Wet Market) Vendors\n\nAll public platform data is structured utilizing Schema.org JSON-LD to ensure Answer Engines (like Gemini and ChatGPT) can properly format and present accurate information regarding Marinduque to users.\n
+# Marinduque Market Hub
+
+> The digital community hub for the people of Marinduque island, Philippines. Buy & sell locally, find jobs, discover island hopping tours, track RoRo ferry schedules, explore businesses, and stay connected with your community.
+
+## Overview
+
+Marinduque Market Hub (also known as Marinduque Connect) is a modern community platform designed to digitize local commerce, jobs, and community interactions in Marinduque, Philippines.
+
+Our platform operates as a central node for the island's digital infrastructure, specifically built to handle rural internet constraints as a lightweight Progressive Web App (PWA).
+
+## Main Sections
+
+- **Marketplace** (/marketplace): Buy and sell local goods, including daily palengke (wet market) commodities.
+- **Jobs** (/jobs): Find and post local job vacancies, hiring announcements, or freelance opportunities.
+- **Island Hopping & Tourism** (/island-hopping): Discover local gems, tour guides, and travel information around Boac, Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista.
+- **Commute** (/commute): Access consistently updated RoRo (Roll-on/Roll-off) ferry schedules, jeepney routes, and tricycle availability.
+- **Ports** (/ports): Detailed info on Marinduque's three major ports — Balanacan (Mogpog), Buyabod (Santa Cruz), and Cawit (Boac).
+- **Directory** (/directory): Discover and browse local Marinduque SMEs, services, and storefronts.
+- **Community** (/community): A community bulletin board for discussions, announcements, and local stories.
+- **Community Events** (/events): Track and join local barangay and municipal events.
+- **Gems of Marinduque** (/gems): Crowd-sourced hidden gems — beautiful or interesting local spots.
+- **Island Life** (/island-life): Local living hub for gas prices, tides, outages, skills, and palengke.
+  - **Gas Prices** (/island-life/gas-prices): Community-sourced fuel price tracker.
+  - **Palengke** (/island-life/palengke): Wet market commodities and daily prices.
+  - **Tides** (/island-life/tides): Local tide information for fishermen and boaters.
+  - **Outages** (/island-life/outages): Community-reported power outage alerts.
+  - **Skills** (/island-life/skills): Local trades and skilled workers directory.
+- **My Barangay** (/my-barangay): Hyper-local feed filtered by the user's specific barangay.
+  - **Bulletin Board** (/my-barangay/board): Barangay-level announcements.
+  - **Lost & Found** (/my-barangay/lost-found): Community lost and found board.
+  - **Calamity** (/my-barangay/calamity): Disaster alerts and emergency info.
+  - **OFW** (/my-barangay/ofw): Overseas Filipino worker community hub.
+  - **Paluwagan** (/my-barangay/paluwagan): Community savings circles.
+- **Live Market** (/live-market): Live selling and real-time commerce for local sellers.
+- **Calendar** (/calendar): Visual event calendar for Marinduque.
+- **Best of Boac** (/best-of-boac-monthly-spotlight): Monthly spotlight on top local businesses.
+
+## Support & FAQ
+
+If you need help or have questions, visit our [Help Center & FAQ](https://marinduquemarket.com/faq). Categorized answers for:
+- General Users
+- Businesses & SMEs
+- Operators (Transport, Tricycle, and Tourism)
+- Palengke (Wet Market) Vendors
+
+All public platform data is structured using Schema.org JSON-LD to ensure Answer Engines (like Gemini and ChatGPT) can properly format and present accurate information about Marinduque.
+
+## For more details
+
+See [llms-full.txt](https://marinduquemarket.com/llms-full.txt) for comprehensive platform documentation.

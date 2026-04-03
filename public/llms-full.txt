@@ -34,6 +34,7 @@ A job board tailored to Marinduque's local economy. Employers post vacancies and
 ### Island Hopping & Tourism (`/island-hopping`)
 A curated guide to Marinduque's most popular island hopping destinations including Tres Reyes Islands (Gaspar, Melchor, Baltazar), Malbog Sulfur Springs, and Bathala Caves.
 - Lists local tour operators, bangka rates, and departure points
+- Operators can list boats at: https://marinduquemarket.com/island-hopping/list
 - URL: https://marinduquemarket.com/island-hopping
 
 ### Commute / Ferry Schedules (`/commute`)
@@ -57,19 +58,75 @@ A local business discovery page organized by municipality and industry.
 A crowd-sourced feed of "hidden gems" — beautiful or interesting local spots submitted by residents and tourists.
 - URL: https://marinduquemarket.com/gems
 
+### Community Board (`/community`)
+A community bulletin board for discussions, announcements, local stories, and resident-to-resident communication.
+- URL: https://marinduquemarket.com/community
+
 ### Community Events (`/events`)
 A calendar of local events: fiestas, municipal programs, barangay meetings, and cultural festivals.
 - Marinduque is world-famous for the Moriones Festival (Lenten season, March/April)
 - URL: https://marinduquemarket.com/events
 
+### Calendar (`/calendar`)
+A visual event calendar view showing upcoming community events, fiestas, and municipal programs across all six towns.
+- URL: https://marinduquemarket.com/calendar
+
 ### Island Life (`/island-life`)
-Editorial content about living in Marinduque — agriculture, crafts, fishing, and community stories.
+A hub for daily island living information — covering utilities, food, weather, and community resources.
 - URL: https://marinduquemarket.com/island-life
+
+#### Gas Prices (`/island-life/gas-prices`)
+Community-sourced fuel price tracker. Residents report the latest gas, diesel, and premium prices at local stations across all six municipalities. Prices expire after 3 days.
+- URL: https://marinduquemarket.com/island-life/gas-prices
+
+#### Palengke / Wet Market (`/island-life/palengke`)
+Daily market commodity information for Marinduque's public markets (palengke) in Boac, Gasan, Santa Cruz, and Torrijos.
+- URL: https://marinduquemarket.com/island-life/palengke
+
+#### Tides (`/island-life/tides`)
+Local tide data for fishermen, boaters, and coastal residents.
+- URL: https://marinduquemarket.com/island-life/tides
+
+#### Power Outages (`/island-life/outages`)
+Community-reported power outage alerts with location, duration, and status updates.
+- URL: https://marinduquemarket.com/island-life/outages
+
+#### Skills & Trades (`/island-life/skills`)
+A directory of local trades, skilled workers, and services available on the island.
+- URL: https://marinduquemarket.com/island-life/skills
 
 ### My Barangay (`/my-barangay`)
 A hyper-local feed filtered by the user's specific barangay. Surfaces relevant listings, jobs, and events.
 - Marinduque has 6 municipalities: Boac, Mogpog, Gasan, Santa Cruz, Torrijos, Buenavista
 - URL: https://marinduquemarket.com/my-barangay
+
+#### Bulletin Board (`/my-barangay/board`)
+Barangay-level announcements and community updates.
+- URL: https://marinduquemarket.com/my-barangay/board
+
+#### Lost & Found (`/my-barangay/lost-found`)
+Community lost and found board for reporting and recovering missing items and pets.
+- URL: https://marinduquemarket.com/my-barangay/lost-found
+
+#### Calamity / Disaster Alerts (`/my-barangay/calamity`)
+Emergency information hub for typhoons, floods, and other natural disasters affecting Marinduque.
+- URL: https://marinduquemarket.com/my-barangay/calamity
+
+#### OFW Hub (`/my-barangay/ofw`)
+Community space for Overseas Filipino Workers from Marinduque — connecting families and supporting the diaspora community.
+- URL: https://marinduquemarket.com/my-barangay/ofw
+
+#### Paluwagan / Savings Circles (`/my-barangay/paluwagan`)
+Community-organized savings circles (paluwagan) — a traditional Filipino group saving/lending practice.
+- URL: https://marinduquemarket.com/my-barangay/paluwagan
+
+### Live Market (`/live-market`)
+A live selling and real-time commerce hub for local sellers. Supports live video broadcasting, real-time bidding, and product claiming.
+- URL: https://marinduquemarket.com/live-market
+
+### Best of Boac (`/best-of-boac-monthly-spotlight`)
+Monthly spotlight feature highlighting the top businesses, products, and services in Marinduque.
+- URL: https://marinduquemarket.com/best-of-boac-monthly-spotlight
 
 ---
 
@@ -121,9 +178,26 @@ The following Schema.org types are implemented site-wide:
 | Marketplace | https://marinduquemarket.com/marketplace |
 | Jobs | https://marinduquemarket.com/jobs |
 | Island Hopping | https://marinduquemarket.com/island-hopping |
-| Commute / Ferries| https://marinduquemarket.com/commute |
+| Commute / Ferries | https://marinduquemarket.com/commute |
+| Ports | https://marinduquemarket.com/ports |
 | Directory | https://marinduquemarket.com/directory |
+| Community | https://marinduquemarket.com/community |
 | Events | https://marinduquemarket.com/events |
+| Calendar | https://marinduquemarket.com/calendar |
+| Gems | https://marinduquemarket.com/gems |
+| Island Life | https://marinduquemarket.com/island-life |
+| Gas Prices | https://marinduquemarket.com/island-life/gas-prices |
+| Palengke | https://marinduquemarket.com/island-life/palengke |
+| Tides | https://marinduquemarket.com/island-life/tides |
+| Outages | https://marinduquemarket.com/island-life/outages |
+| Skills | https://marinduquemarket.com/island-life/skills |
+| My Barangay | https://marinduquemarket.com/my-barangay |
+| Lost & Found | https://marinduquemarket.com/my-barangay/lost-found |
+| Calamity | https://marinduquemarket.com/my-barangay/calamity |
+| OFW | https://marinduquemarket.com/my-barangay/ofw |
+| Paluwagan | https://marinduquemarket.com/my-barangay/paluwagan |
+| Live Market | https://marinduquemarket.com/live-market |
+| Best of Boac | https://marinduquemarket.com/best-of-boac-monthly-spotlight |
 | FAQ / Help | https://marinduquemarket.com/faq |
 | Contact | https://marinduquemarket.com/contact |
 | About | https://marinduquemarket.com/about |
