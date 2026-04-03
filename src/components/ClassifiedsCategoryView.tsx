@@ -1,25 +1,26 @@
 'use client';
 
 import React from 'react';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function ClassifiedsCategoryView() {
   return (
     <>
       <div>
   {/* Header */}
-  <header className="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center justify-between shadow-sm">
-    <button className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-text-main-light dark:text-text-main-dark transition-colors">
-      <span className="material-symbols-outlined">arrow_back</span>
-    </button>
-    <h1 className="text-lg font-bold flex-1 text-center pr-2">Electronics</h1>
-    <button className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-primary transition-colors">
-      <span className="material-symbols-outlined">filter_list</span>
-    </button>
-    <button className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-text-main-light dark:text-text-main-dark transition-colors ml-1">
-      <span className="material-symbols-outlined">search</span>
-    </button>
-  </header>
+  <PageHeader
+    title="Electronics"
+    rightAction={
+      <>
+        <button className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-primary transition-colors">
+          <span className="material-symbols-outlined">filter_list</span>
+        </button>
+        <button className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-text-main-light dark:text-text-main-dark transition-colors">
+          <span className="material-symbols-outlined">search</span>
+        </button>
+      </>
+    }
+  />
   {/* Town Filters */}
   <div className="bg-surface-light dark:bg-surface-dark py-3 px-4 border-b border-gray-100 dark:border-gray-800 sticky top-[60px] z-40">
     <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">

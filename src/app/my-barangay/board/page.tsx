@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { getBarangayPosts, getUserBarangay } from '@/app/actions/barangay-board';
 import BarangayFeed from '@/components/BarangayFeed';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'Barangay Board',
@@ -32,23 +32,7 @@ export default async function BarangayBoardPage() {
     if (!barangay || !municipality) {
         return (
             <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-                <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                    <BackButton />
-                    <div>
-                        <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🏘️ Barangay Board</p>
-                        <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">My Barangay</p>
-                    </div>
-                </header>
-                <div className="bg-gradient-to-br from-indigo-700 via-blue-700 to-violet-800 px-4 pt-5 pb-8 relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 30% 70%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                    <div className="flex items-center gap-3 mb-2">
-                        <span className="text-4xl">🏘️</span>
-                        <div>
-                            <h1 className="text-2xl font-black text-white leading-tight">Barangay Board</h1>
-                            <p className="text-indigo-200 text-xs font-medium">Posts for your barangay community</p>
-                        </div>
-                    </div>
-                </div>
+                <PageHeader title="Barangay Board" subtitle="My Barangay" emoji="🏨️" />
 
                 {/* Gate — prompt to set barangay */}
                 <div className="flex flex-col items-center text-center px-6 pt-16 pb-8">
@@ -72,30 +56,7 @@ export default async function BarangayBoardPage() {
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-            {/* Sticky header */}
-            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <BackButton />
-                <div>
-                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🏘️ Barangay Board</p>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">My Barangay</p>
-                </div>
-            </header>
-            {/* Header */}
-            <div className="bg-gradient-to-br from-indigo-700 via-blue-700 to-violet-800 px-4 pt-5 pb-6 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 30% 70%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                <div className="flex items-center gap-3 mb-1">
-                    <span className="text-4xl">🏘️</span>
-                    <div>
-                        <h1 className="text-2xl font-black text-white leading-tight">Barangay Board</h1>
-                        <p className="text-indigo-200 text-xs font-medium">
-                            {barangay} · {municipality}
-                        </p>
-                    </div>
-                </div>
-                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
-                    A local board just for your community. Posts are visible only to residents of {barangay}.
-                </p>
-            </div>
+            <PageHeader title="Barangay Board" subtitle="My Barangay" emoji="🏨️" />
 
             <BarangayFeed
                 initialPosts={initialPosts}

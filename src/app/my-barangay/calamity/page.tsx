@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { getCalamityAlerts } from '@/app/actions/calamity';
 import CalamityFeed from '@/components/CalamityFeed';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'Calamity Board — Emergency Alerts Marinduque',
@@ -25,33 +25,7 @@ export default async function CalamityPage() {
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-            {/* Sticky header */}
-            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <BackButton />
-                <div>
-                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🚨 Calamity Board</p>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">My Barangay</p>
-                </div>
-            </header>
-            {/* Header */}
-            <div className="bg-gradient-to-br from-red-600 via-rose-600 to-orange-600 px-4 pt-5 pb-6 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10"
-                    style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-                <div className="flex items-center gap-3 mb-1">
-                    <span className="text-4xl">🚨</span>
-                    <div>
-                        <h1 className="text-2xl font-black text-white leading-tight">Calamity Board</h1>
-                        <p className="text-rose-200 text-xs font-medium">Community alerts · Stay safe</p>
-                    </div>
-                </div>
-                <p className="text-white text-[11px] mt-2 leading-relaxed max-w-sm">
-                    Report and track typhoons, floods, earthquakes, fires, and road closures across Marinduque. Community-sourced — mark resolved when the situation clears.
-                </p>
-                {/* Disclaimer banner */}
-                <div className="mt-3 bg-black/20 rounded-xl px-3 py-2 text-[10px] text-white/80 font-medium">
-                    ⚠️ Community-sourced reports. Always follow official NDRRMC/PAGASA advisories. For emergencies call <strong>911</strong>.
-                </div>
-            </div>
+            <PageHeader title="Calamity Board" subtitle="My Barangay" emoji="🚨" />
 
             <CalamityFeed initialAlerts={initialAlerts} userId={user?.id ?? null} />
         </main>

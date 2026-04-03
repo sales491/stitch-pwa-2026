@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { BUSINESSES } from '@/data/businesses';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 // --- Types ---
 interface SpotlightBusiness {
@@ -316,27 +316,24 @@ export default function BestOfBoacMonthlySpotlight() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-2">
-          <button className="text-slate-900 dark:text-slate-100 p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
-            <span className="material-symbols-outlined">arrow_back</span>
-          </button>
-          <h1 className="text-lg font-bold tracking-tight">Best of Boac Admin</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${publishStatus === 'saved' ? 'text-green-500' : 'text-orange-500'}`}>
-            {publishStatus === 'saved' ? 'LIVE SITE' : 'UNSAVED DRAFT'}
-          </span>
-          <button
-            onClick={handlePublish}
-            disabled={isPublishing}
-            className={`font-black py-2 px-6 rounded-full text-xs transition-all shadow-md flex items-center gap-2 ${isPublishing ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-primary hover:bg-yellow-400 text-slate-900'
-              }`}
-          >
-            {isPublishing ? 'PUBLISHING...' : 'PUBLISH NOW'}
-          </button>
-        </div>
-      </header>
+      <PageHeader
+        title="Best of Boac Admin"
+        rightAction={
+          <>
+            <span className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${publishStatus === 'saved' ? 'text-green-500' : 'text-orange-500'}`}>
+              {publishStatus === 'saved' ? 'LIVE SITE' : 'UNSAVED DRAFT'}
+            </span>
+            <button
+              onClick={handlePublish}
+              disabled={isPublishing}
+              className={`font-black py-2 px-6 rounded-full text-xs transition-all shadow-md flex items-center gap-2 ${isPublishing ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-primary hover:bg-yellow-400 text-slate-900'
+                }`}
+            >
+              {isPublishing ? 'PUBLISHING...' : 'PUBLISH NOW'}
+            </button>
+          </>
+        }
+      />
 
       <main className="flex flex-col w-full max-w-lg mx-auto bg-white dark:bg-slate-900 shadow-2xl min-h-screen">
 

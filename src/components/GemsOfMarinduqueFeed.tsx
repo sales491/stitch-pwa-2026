@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { deleteGem } from '@/app/actions/gems';
 import GemLikeButton from '@/components/GemLikeButton';
 import AdminActions from './AdminActions';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 type Author = {
   id: string;
@@ -71,18 +71,8 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
   return (
     <div className="relative flex min-h-screen w-full flex-col mx-auto max-w-md bg-white dark:bg-zinc-950 overflow-x-hidden shadow-2xl sm:my-8 sm:rounded-3xl sm:border sm:border-slate-200 dark:sm:border-zinc-800">
       {/* Premium Header */}
-      <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-zinc-800 shadow-sm' : 'bg-transparent'}`}>
-        <div className="flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
-            <BackButton />
-            <div className="flex flex-col">
-              <h1 className="text-lg font-black tracking-tight text-moriones-red leading-none">Local Gems</h1>
-              <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mt-1">Found in Marinduque</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Search & Filters (Part of Header) */}
+      <PageHeader title="Local Gems" subtitle="Found in Marinduque">
+        {/* Search & Filters */}
         <div className="px-4 pb-4 flex flex-col gap-4">
           <div className="relative group">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-moriones-red transition-colors">search</span>
@@ -111,7 +101,7 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
             ))}
           </div>
         </div>
-      </header>
+      </PageHeader>
 
       <main className="flex-1 px-4 py-2 pb-32">
         {/* Intro Section */}

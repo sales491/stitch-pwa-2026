@@ -4,7 +4,7 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { toggleGemLike } from '@/app/actions/gems';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 type Gem = {
     id: string;
@@ -69,47 +69,20 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
     return (
         <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
-            {/* ── Hero header card — matches live site ─────────────── */}
-            <div className="bg-slate-900 dark:bg-zinc-900 mx-4 mt-4 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none" />
-
-                {/* Page label */}
-                <div className="flex items-center gap-2 mb-1 relative z-10">
-                    <Link href="/" className="text-slate-400 hover:text-white transition-colors">
-                        <span className="material-symbols-outlined" style={{ fontSize: 20 }}>arrow_back</span>
-                    </Link>
-                    <div>
-                        <p className="text-[10px] font-black text-moriones-red uppercase tracking-[0.2em]">Local Gems</p>
-                        <p className="text-[8px] font-black text-slate-500 uppercase tracking-[0.3em]">Intelligence Feed</p>
-                    </div>
-                </div>
-
-                {/* Hero title */}
-                <div className="mt-4 relative z-10">
-                    <h1 className="text-2xl font-black text-white leading-tight">
-                        Marinduque&apos;s
-                    </h1>
-                    <h1 className="text-2xl font-black text-moriones-red leading-tight">
-                        hidden sanctuaries
-                    </h1>
-                    <p className="text-slate-400 text-xs mt-2 font-medium leading-relaxed">
-                        Discover historical vistas and secret sanctuaries recorded by the community.
-                    </p>
-                </div>
-
+            <PageHeader title="Local Gems" subtitle="Found in Marinduque">
                 {/* Search bar */}
-                <div className="mt-4 relative z-10">
+                <div className="px-4 pb-3">
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400" style={{ fontSize: 17 }}>search</span>
                         <input
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-white placeholder:text-slate-500 focus:ring-2 focus:ring-moriones-red/40 focus:border-moriones-red/40 outline-none transition-all"
+                            className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-moriones-red/20 focus:border-moriones-red/40 outline-none transition-all"
                             placeholder="Search gems or town..."
                         />
                     </div>
                 </div>
-            </div>
+            </PageHeader>
 
             {/* ── Empty state — matches live "Geographic Data Empty" ── */}
             {filtered.length === 0 && (

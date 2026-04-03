@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import type { Event } from '@/utils/eventData';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function MonthlyCalendarPage() {
   const [viewDate, setViewDate] = useState(new Date());
@@ -59,21 +59,20 @@ export default function MonthlyCalendarPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col items-center pb-20">
-      <header className="w-full max-w-4xl bg-white dark:bg-zinc-900 border-b border-gray-100 dark:border-zinc-800 sticky top-0 z-50 px-4 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-3">
-          <BackButton />
-          <h1 className="text-xl font-black text-moriones-red uppercase tracking-tight">Full Calendar</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={goToPrevMonth} className="p-2 rounded-lg bg-gray-50 dark:bg-zinc-800 hover:text-moriones-red transition-colors">
-            <span className="material-symbols-outlined">chevron_left</span>
-          </button>
-          <span className="text-xs font-black uppercase tracking-widest min-w-[120px] text-center">{monthLabel}</span>
-          <button onClick={goToNextMonth} className="p-2 rounded-lg bg-gray-50 dark:bg-zinc-800 hover:text-moriones-red transition-colors">
-            <span className="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
-      </header>
+      <PageHeader
+        title="Full Calendar"
+        rightAction={
+          <div className="flex items-center gap-2">
+            <button onClick={goToPrevMonth} className="p-1.5 rounded-lg bg-gray-50 dark:bg-zinc-800 hover:text-moriones-red transition-colors">
+              <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <span className="text-[10px] font-black uppercase tracking-widest min-w-[90px] text-center">{monthLabel}</span>
+            <button onClick={goToNextMonth} className="p-1.5 rounded-lg bg-gray-50 dark:bg-zinc-800 hover:text-moriones-red transition-colors">
+              <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+          </div>
+        }
+      />
 
       <main className="w-full max-w-4xl p-4 flex-1 flex flex-col">
         <div className="grid grid-cols-7 gap-px bg-gray-200 dark:bg-zinc-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-zinc-800 shadow-xl">

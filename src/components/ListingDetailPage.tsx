@@ -6,7 +6,7 @@ import AdminActions from './AdminActions';
 import UniversalComments from './UniversalComments';
 import type { Listing } from '@/data/listings';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function ListingDetailPage({ listing }: { listing: Listing }) {
     const [activeImg, setActiveImg] = useState(0);
@@ -24,21 +24,20 @@ export default function ListingDetailPage({ listing }: { listing: Listing }) {
     return (
         <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-900 pb-28">
             {/* Sticky header */}
-            <header className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-b border-slate-100 dark:border-zinc-800">
-                <Link href="/marketplace" className="flex items-center gap-1 text-text-muted hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-[22px]">arrow_back</span>
-                    <span className="text-sm font-medium">Classifieds</span>
-                </Link>
-                <div className="flex items-center gap-2">
-                    <AdminActions contentType="listing" contentId={listing.id.toString()} variant="button" />
-                    <button className="p-2 rounded-full text-slate-500 hover:text-primary transition-colors">
-                        <span className="material-symbols-outlined text-[22px]">share</span>
-                    </button>
-                    <button className="p-2 rounded-full text-slate-500 hover:text-red-500 transition-colors">
-                        <span className="material-symbols-outlined text-[22px]">favorite_border</span>
-                    </button>
-                </div>
-            </header>
+            <PageHeader
+                title={listing.title}
+                rightAction={
+                    <>
+                        <AdminActions contentType="listing" contentId={listing.id.toString()} variant="button" />
+                        <button className="p-2 rounded-full text-slate-500 hover:text-primary transition-colors">
+                            <span className="material-symbols-outlined text-[22px]">share</span>
+                        </button>
+                        <button className="p-2 rounded-full text-slate-500 hover:text-red-500 transition-colors">
+                            <span className="material-symbols-outlined text-[22px]">favorite_border</span>
+                        </button>
+                    </>
+                }
+            />
 
             {/* Image Gallery */}
             <div className="relative w-full aspect-[4/3] bg-slate-100 dark:bg-zinc-800 overflow-hidden">

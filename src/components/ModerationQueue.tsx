@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { resolveFlag } from '@/app/actions/listings';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 import {
     adminApproveBusiness,
     adminRejectBusiness,
@@ -252,20 +252,17 @@ export default function ModerationQueue({
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-zinc-950">
-            <header className="sticky top-0 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-slate-200 dark:border-white/5 px-4 py-4">
-                <div className="max-w-2xl mx-auto flex items-center gap-3">
-                    <BackButton />
-                    <div className="flex-1">
-                        <h1 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Moderation</h1>
-                        <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{totalCount} item{totalCount !== 1 ? 's' : ''} need attention</p>
-                    </div>
-                    {totalCount > 0 && (
+            <PageHeader
+                title="Moderation"
+                subtitle={`${totalCount} item${totalCount !== 1 ? 's' : ''} need attention`}
+                rightAction={
+                    totalCount > 0 ? (
                         <span className="bg-moriones-red text-white text-sm font-black w-7 h-7 rounded-full flex items-center justify-center">{totalCount}</span>
-                    )}
-                </div>
-
+                    ) : undefined
+                }
+            >
                 {/* Tabs */}
-                <div className="max-w-2xl mx-auto flex gap-2 mt-3">
+                <div className="max-w-2xl mx-auto flex gap-2 px-4 pb-3">
                     {tabs.map(t => (
                         <button key={t.key} onClick={() => setTab(t.key)}
                             className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all border ${tab === t.key ? 'bg-moriones-red text-white border-moriones-red' : 'bg-slate-100 dark:bg-zinc-800 border-transparent text-slate-500'}`}>
@@ -277,7 +274,7 @@ export default function ModerationQueue({
                         </button>
                     ))}
                 </div>
-            </header>
+            </PageHeader>
 
             <main className="max-w-2xl mx-auto px-4 py-6 pb-24 space-y-4">
                 {tab === 'flags' && (

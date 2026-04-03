@@ -9,7 +9,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
 import { useSearchParams } from 'next/navigation';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export type BoatType = 'Outrigger Bangka' | 'Motorboat' | 'Speedboat' | 'Passenger Ferry';
 export type BoatServiceType = 'Island Hopping' | 'Point-to-Point' | 'Charter' | 'All';
@@ -366,16 +366,11 @@ export default function IslandHoppingHub() {
     return (
         <>
             <div className="relative w-full max-w-md mx-auto bg-slate-50 dark:bg-zinc-950 shadow-2xl">
-                <header className="sticky top-0 z-30 flex flex-col bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
-                    <div className="flex items-center justify-between px-4 pt-4 pb-3">
-                        <div className="flex items-center gap-2">
-                            <BackButton />
-                            <div>
-                                <h1 className="text-lg font-bold leading-tight tracking-tight text-cyan-600 dark:text-cyan-400 pl-1">🏝️ Island Hopping</h1>
-                                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Boat Operators &amp; Tour Services</p>
-                            </div>
-                        </div>
-                        {/* Filter Button */}
+                <PageHeader
+                    title="Island Hopping"
+                    subtitle="Boat Operators & Tour Services"
+                    emoji="🏝️"
+                    rightAction={
                         <button
                             onClick={() => setFilterOpen(true)}
                             className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 font-black text-[11px] uppercase tracking-wider transition-all hover:border-cyan-500/50 active:scale-95"
@@ -388,7 +383,8 @@ export default function IslandHoppingHub() {
                                 </span>
                             )}
                         </button>
-                    </div>
+                    }
+                >
 
                     {/* Active filter chips */}
                     {activeFilterCount > 0 && (
@@ -438,7 +434,7 @@ export default function IslandHoppingHub() {
                             </Link>
                         );
                     })()}
-                </header>
+                </PageHeader>
 
                 {/* Filter Bottom Sheet */}
                 {filterOpen && (

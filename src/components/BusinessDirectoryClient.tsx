@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import BusinessCard from '@/components/BusinessCard';
 import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 type Business = {
     id: string;
@@ -202,17 +202,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
 
     return (
         <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
-            <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-                <div className="flex items-center justify-between px-4 pt-3 pb-1">
-                    <div className="flex items-center gap-2">
-                        <BackButton />
-                        <div>
-                            <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red dark:text-moriones-red pl-1">Business Directory</h1>
-                            <p className="text-[10px] text-text-muted dark:text-text-muted-dark font-black uppercase tracking-[0.15em] pl-1">Verified Local Partners</p>
-                        </div>
-                    </div>
-                </div>
-
+            <PageHeader title="Business Directory" subtitle="Verified Local Partners">
                 <div className="px-4 pb-2 pt-1">
                     <div className="relative flex items-center w-full h-10 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
                         <div className="grid place-items-center h-full w-10 text-text-muted dark:text-text-muted-dark shrink-0">
@@ -241,7 +231,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
                     <FilterChip icon="category" label="Category" options={CATEGORIES} value={selectedCategory} onChange={setSelectedCategory} />
                     <FilterChip icon="location_on" label="Town" options={TOWNS} value={selectedTown} onChange={setSelectedTown} />
                 </div>
-            </header>
+            </PageHeader>
 
             <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-32">
 

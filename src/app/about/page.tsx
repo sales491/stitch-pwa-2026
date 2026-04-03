@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 
 // ─── Install section ─────────────────────────────────────────────────────────
@@ -88,14 +88,7 @@ function InstallSection() {
 export default function AboutUsPage() {
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-            {/* Sticky header with back arrow */}
-            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <BackButton />
-                <div>
-                    <h1 className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">About Us</h1>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Marinduque Market Hub</p>
-                </div>
-            </header>
+            <PageHeader title="About Us" subtitle="Marinduque Market Hub" />
 
             {/* About blurb */}
             <section className="mx-4 mt-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800 px-5 py-5 mb-6">

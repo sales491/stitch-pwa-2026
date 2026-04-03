@@ -3,7 +3,7 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import AdminActions from './AdminActions';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 const JOB_TYPES = ['All Types', 'Full-time', 'Part-time', 'Contract', 'Freelance', 'Casual'];
@@ -140,14 +140,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs, totalCount, cur
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
-      <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-        <div className="flex items-center justify-between px-4 pt-4 pb-2">
-          <div className="flex items-center gap-2">
-            <BackButton />
-            <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red pl-1">Marinduque Jobs</h1>
-          </div>
-        </div>
-
+      <PageHeader title="Marinduque Jobs">
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="px-4 pb-3 pt-1">
           <div className="relative flex items-center w-full h-12 rounded-xl bg-background-light dark:bg-background-dark border border-transparent focus-within:border-moriones-red/50 focus-within:ring-2 focus-within:ring-moriones-red/20 transition-all">
@@ -175,7 +168,7 @@ export default function MarinduqueJobsListingFeed({ initialJobs, totalCount, cur
           <FilterChip icon="work" label="Type" options={JOB_TYPES} value={filters.type || 'All Types'} onChange={handleTypeChange} />
           <FilterChip icon="location_on" label="Town" options={TOWNS} value={filters.town || 'All Towns'} onChange={handleTownChange} />
         </div>
-      </header>
+      </PageHeader>
 
       {/* Main Content */}
       <main className={`flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-4 space-y-4 pb-24 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>

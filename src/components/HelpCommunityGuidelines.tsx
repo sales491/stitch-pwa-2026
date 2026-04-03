@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function HelpCommunityGuidelines() {
   const router = useRouter();
@@ -28,17 +28,7 @@ export default function HelpCommunityGuidelines() {
     <>
       <div className="relative flex w-full flex-col bg-background-light dark:bg-background-dark shadow-2xl">
         {/* Header */}
-        <header className="sticky top-0 z-50 flex items-center justify-between bg-surface-light dark:bg-surface-dark px-4 py-3 shadow-sm">
-          <button
-            onClick={() => router.back()}
-            aria-label="Go back"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95"
-          >
-            <span className="material-symbols-outlined text-2xl">arrow_back</span>
-          </button>
-          <h1 className="flex-1 text-center text-lg font-bold text-slate-900 dark:text-white">Help &amp; Support</h1>
-          <div className="w-10" /> {/* Spacer to center title */}
-        </header>
+        <PageHeader title="Help & Support" />
 
         {/* Search Section */}
         <div className="px-4 pt-6 pb-2">

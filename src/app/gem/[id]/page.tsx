@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
-import ThemeToggle from '@/components/ThemeToggle';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 type Props = {
     params: Promise<{ id: string }>;
@@ -26,17 +25,7 @@ export default async function GemDetailsPage({ params }: Props) {
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
-            <header className="bg-white dark:bg-slate-900 sticky top-0 z-20 border-b border-slate-200 dark:border-slate-800">
-                <div className="flex items-center justify-between px-4 py-3">
-                    <div className="flex items-center gap-2">
-                        <BackButton />
-                        <h1 className="text-xl font-bold tracking-tight text-moriones-red dark:text-moriones-red">Gem Details</h1>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <ThemeToggle />
-                    </div>
-                </div>
-            </header>
+            <PageHeader title="Gem Details" />
 
             <main className="pb-24">
                 <div className="w-full relative aspect-square md:aspect-video bg-zinc-100 dark:bg-zinc-800 shadow-sm">

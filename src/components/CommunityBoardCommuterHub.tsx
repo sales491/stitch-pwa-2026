@@ -12,7 +12,7 @@ import { optimizeImage } from '@/utils/image-optimization';
 import { useAuth } from './AuthProvider';
 import UniversalComments from './UniversalComments';
 import { getCommunityPosts, createCommunityPost, voteInPoll, toggleLike, getUserLikedPostIds } from '@/app/actions/community';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const TOWNS = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
 const MOODS = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
@@ -338,31 +338,9 @@ export default function CommunityBoardCommuterHub() {
   return (
     <div className="relative w-full max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
-      <header className="sticky top-0 z-30 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-        {/* Quick Links */}
-        <div className="px-2 pb-3 flex justify-between gap-1 pt-1">
-          <Link href="/best-of-boac-monthly-spotlight" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-[14px] text-amber-500">workspace_premium</span> Boac
-          </Link>
-          <Link href="/events" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-[14px] text-moriones-red">event</span> Events
-          </Link>
-
-          <Link href="/gems" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-[14px] text-blue-500">diamond</span> Gems
-          </Link>
-          <Link href="/ports" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
-            <span className="material-symbols-outlined text-[14px] text-cyan-600">directions_boat</span> RoRo
-          </Link>
-        </div>
-
-        {/* Title & Filter */}
-        <div className="flex items-center justify-between px-4 pt-2 pb-4">
-          <div className="flex items-center gap-3">
-            <BackButton />
-            <h1 className="text-xl font-black leading-tight tracking-tight text-moriones-red">Community Board</h1>
-          </div>
-
+      <PageHeader
+        title="Community Board"
+        rightAction={
           <div className="relative">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -390,8 +368,24 @@ export default function CommunityBoardCommuterHub() {
               </>
             )}
           </div>
+        }
+      >
+        {/* Quick Links */}
+        <div className="px-2 pb-3 flex justify-between gap-1">
+          <Link href="/best-of-boac-monthly-spotlight" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-amber-500">workspace_premium</span> Boac
+          </Link>
+          <Link href="/events" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-moriones-red">event</span> Events
+          </Link>
+          <Link href="/gems" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-blue-500">diamond</span> Gems
+          </Link>
+          <Link href="/ports" className="flex-1 flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-[8.5px] font-black uppercase tracking-tighter text-text-main dark:text-text-main-dark shadow-sm active:scale-95 transition-all">
+            <span className="material-symbols-outlined text-[14px] text-cyan-600">directions_boat</span> RoRo
+          </Link>
         </div>
-      </header>
+      </PageHeader>
 
       {/* Category filter tabs */}
       <div className="sticky top-[var(--header-h,0px)] z-20 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark overflow-x-auto no-scrollbar">

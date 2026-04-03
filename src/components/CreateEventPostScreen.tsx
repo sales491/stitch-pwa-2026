@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { createEvent } from '@/app/actions/events';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateEventPostScreen() {
   const router = useRouter();
@@ -236,10 +236,7 @@ export default function CreateEventPostScreen() {
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-white dark:bg-zinc-900 shadow-xl">
       <SuccessToast visible={showSuccess} message={isEditing ? 'Event updated!' : 'Event published!'} />
       {/* Header */}
-      <header className="sticky top-0 z-10 flex items-center bg-white dark:bg-zinc-900 px-4 py-3 justify-between border-b border-gray-100 dark:border-zinc-800">
-        <BackButton />
-        <h2 className="text-lg font-bold leading-tight flex-1 text-center pr-10 text-slate-900 dark:text-white">{isEditing ? 'Edit Event' : 'Create Event'}</h2>
-      </header>
+      <PageHeader title={isEditing ? 'Edit Event' : 'Create Event'} />
 
       {/* Filter error */}
       {filterError && (

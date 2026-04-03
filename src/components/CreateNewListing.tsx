@@ -10,7 +10,7 @@ import { generateSlug } from '@/data/listings';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateNewListing() {
   const router = useRouter();
@@ -193,13 +193,14 @@ export default function CreateNewListing() {
     <form onSubmit={handleSubmit} className="min-h-screen bg-surface-light dark:bg-surface-dark">
       <SuccessToast visible={showSuccess} message={isEditing ? 'Listing updated!' : 'Listing published!'} />
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800 px-4 py-3 flex items-center justify-between">
-        <BackButton />
-        <h1 className="text-lg font-bold text-center flex-1">{isEditing ? 'Edit Listing' : 'New Listing'}</h1>
-        <button type="button" className="text-stone-500 dark:text-stone-400 font-semibold text-sm hover:text-primary transition-colors">
-          Drafts
-        </button>
-      </header>
+      <PageHeader
+        title={isEditing ? 'Edit Listing' : 'New Listing'}
+        rightAction={
+          <button type="button" className="text-stone-500 dark:text-stone-400 font-semibold text-sm hover:text-primary transition-colors">
+            Drafts
+          </button>
+        }
+      />
 
       {/* Status messages */}
       <div className="px-4 pt-4 space-y-3">

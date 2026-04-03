@@ -5,7 +5,7 @@ import { createBusinessProfile } from '@/app/actions/business';
 import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function CreateBusinessProfileStep3() {
   const router = useRouter();
@@ -131,11 +131,7 @@ export default function CreateBusinessProfileStep3() {
     <div className="relative flex min-h-screen w-full flex-col mx-auto max-w-md bg-white dark:bg-zinc-950 overflow-x-hidden shadow-xl sm:my-8 sm:rounded-2xl sm:border sm:border-slate-200 dark:sm:border-zinc-800">
       <SuccessToast visible={showSuccess} message="Profile submitted for review! We'll go live after admin approval." />
       {/* Header */}
-      <header className="sticky top-0 z-30 flex items-center justify-between p-4 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-zinc-800">
-        <BackButton />
-        <h1 className="text-lg font-bold tracking-tight text-moriones-red">Create Business Profile</h1>
-        <div className="w-10" />
-      </header>
+      <PageHeader title="Create Business Profile" />
 
       {/* Progress */}
       <div className="flex flex-col gap-2 px-6 pt-6 pb-2">

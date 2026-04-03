@@ -1,29 +1,26 @@
 'use client';
 
 import React from 'react';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function ListingDetailsView() {
   return (
     <>
       <div>
         {/* Sticky Header */}
-        <header className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between p-4 h-16">
-            <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors text-slate-900 dark:text-slate-100">
-              <span className="material-symbols-outlined text-2xl">arrow_back</span>
-            </button>
-            <h2 className="text-lg font-bold truncate px-4">Honda Click 125i</h2>
-            <div className="flex gap-2">
+        <PageHeader
+          title="Honda Click 125i"
+          rightAction={
+            <>
               <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors text-slate-900 dark:text-slate-100">
                 <span className="material-symbols-outlined text-2xl">favorite</span>
               </button>
               <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors text-slate-900 dark:text-slate-100">
                 <span className="material-symbols-outlined text-2xl">share</span>
               </button>
-            </div>
-          </div>
-        </header>
+            </>
+          }
+        />
         {/* Main Content Area */}
         <main className="flex-1 overflow-x-hidden pb-24">
           {/* Image Gallery */}

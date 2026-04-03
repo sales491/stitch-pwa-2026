@@ -6,7 +6,7 @@ import GemCommentsSection from '@/components/GemCommentsSection';
 import GemDetailsDeleteButton from '@/components/GemDetailsDeleteButton';
 import { isAdmin } from '@/utils/roles';
 import { Metadata } from 'next';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -140,18 +140,7 @@ export default async function GemDetailsPage({ params }: { params: Promise<{ id:
 
     return (
         <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 mx-auto max-w-md shadow-2xl overflow-x-hidden">
-            {/* Premium Sticky Header */}
-            <header className="sticky top-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-zinc-800">
-                <div className="px-4 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <BackButton />
-                        <div className="flex flex-col">
-                            <h1 className="text-lg font-black tracking-tight text-moriones-red leading-none">Local Gem</h1>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-1">Discovery Details</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <PageHeader title="Local Gem" subtitle="Discovery Details" />
 
             <main className="flex-1">
                 {/* Hero Image */}

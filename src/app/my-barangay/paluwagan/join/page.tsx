@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { joinGroup } from '@/app/actions/paluwagan';
 import { Suspense } from 'react';
 import SuccessToast from '@/components/SuccessToast';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 function JoinForm() {
     const router = useRouter();
@@ -71,19 +71,7 @@ function JoinForm() {
 export default function JoinPaluwaganPage() {
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-            {/* Sticky header */}
-            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <BackButton />
-                <div>
-                    <p className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">Join a Group</p>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">Paluwagan</p>
-                </div>
-            </header>
-            <div className="bg-gradient-to-br from-amber-500 via-yellow-500 to-orange-500 px-4 pt-5 pb-6 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-                <h1 className="text-2xl font-black text-white">Join a Group</h1>
-                <p className="text-yellow-100 text-xs mt-1">Enter the invite code from your organizer</p>
-            </div>
+            <PageHeader title="Join a Group" subtitle="Paluwagan" emoji="👥" />
             <Suspense fallback={<div className="px-4 pt-8 text-center text-slate-400">Loading…</div>}>
                 <JoinForm />
             </Suspense>

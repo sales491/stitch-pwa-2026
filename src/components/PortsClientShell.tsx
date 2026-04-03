@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 import VesselTrackerEmbed from '@/components/VesselTrackerEmbed';
 import ShareButton from './ShareButton';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 const STATUS_STYLES: Record<string, string> = {
     delayed: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
@@ -139,79 +139,50 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
     return (
         <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
-            {/* ── Sticky Header with back arrow ──────────────────────────── */}
-            <header className="sticky top-0 z-30 flex items-center gap-3 bg-white/80 dark:bg-[#0F0F10]/80 backdrop-blur-md border-b border-slate-100 dark:border-white/[0.03] px-4 pt-3 pb-3">
-                <BackButton />
-                <div>
-                    <h1 className="text-lg font-black leading-tight tracking-tight text-moriones-red pl-1">🚢 Barko Watch</h1>
-                    <p className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.15em] pl-1">RoRo Port Live Updates</p>
-                </div>
-            </header>
+            <PageHeader title="Barko Watch" subtitle="RoRo Port Live Updates" emoji="🚢" />
 
-            {/* ── Hero card — light gray ──────────────────────────────── */}
-            <div className="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 mx-4 mt-4 rounded-3xl p-6 shadow-sm relative overflow-hidden">
-
-                <div className="relative z-10">
-                    {/* Title row */}
-                    <div className="flex items-center gap-2.5 mb-1">
-                        <div className="relative flex items-center justify-center">
-                            <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                            <div className="absolute w-2.5 h-2.5 rounded-full bg-green-500 animate-ping opacity-60" />
-                        </div>
-                        <div>
-                            <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
-                                🚢 Barko Watch
-                            </h1>
-                            <p className="text-[9px] font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase mt-0.5">
-                                Live tips from fellow commuters
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Latest alert banner — only if there's a recent post */}
-                    {latestAlert && (
-                        <div className={`mt-4 flex items-start gap-2.5 p-3 rounded-2xl border ${alertBg}`}>
-                            <span className="text-lg shrink-0 mt-0.5">
-                                {STATUS_EMOJI[latestAlert.status] ?? STATUS_EMOJI.default}
+            {/* Latest alert banner */}
+            {latestAlert && (
+                <div className={`mx-4 mt-4 flex items-start gap-2.5 p-3 rounded-2xl border ${alertBg}`}>
+                    <span className="text-lg shrink-0 mt-0.5">
+                        {STATUS_EMOJI[latestAlert.status] ?? STATUS_EMOJI.default}
+                    </span>
+                    <div className="min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                            <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${alertBadge}`}>
+                                🔴 LIVE · {latestAlert.port_name}
                             </span>
-                            <div className="min-w-0">
-                                <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                                    <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${alertBadge}`}>
-                                        🔴 LIVE · {latestAlert.port_name}
-                                    </span>
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400">
-                                        {timeAgo(latestAlert.created_at)}
-                                    </span>
-                                </div>
-                                <p className="text-xs text-slate-700 dark:text-slate-300 font-medium leading-snug line-clamp-2">
-                                    {latestAlert.message}
-                                </p>
-                                <div className="mt-2 flex justify-end">
-                                    <ShareButton 
-                                        title={`Barko Watch: ${latestAlert.port_name}`}
-                                        text={`Update from ${latestAlert.port_name}: ${latestAlert.message}`}
-                                        url="/ports"
-                                        variant="subtle"
-                                    />
-                                </div>
-                            </div>
+                            <span className="text-[9px] text-slate-500 dark:text-slate-400">
+                                {timeAgo(latestAlert.created_at)}
+                            </span>
                         </div>
-                    )}
-
-                    {/* CTA */}
-                    <div className="mt-4 space-y-2">
-                        <Link
-                            href="/ports/create"
-                            className="flex items-center justify-center gap-1.5 w-full bg-blue-600 hover:bg-blue-500 active:scale-95 text-white py-2 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-sm shadow-blue-600/20 transition-all"
-                        >
-                            <span className="material-symbols-outlined text-[14px]">campaign</span>
-                            📣 Share What You See at the Port
-                        </Link>
-                        <p className="text-center text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                            Nasa port ka? Help fellow commuters — tell us what&apos;s happening. 🙏
+                        <p className="text-xs text-slate-700 dark:text-slate-300 font-medium leading-snug line-clamp-2">
+                            {latestAlert.message}
                         </p>
+                        <div className="mt-2 flex justify-end">
+                            <ShareButton 
+                                title={`Barko Watch: ${latestAlert.port_name}`}
+                                text={`Update from ${latestAlert.port_name}: ${latestAlert.message}`}
+                                url="/ports"
+                                variant="subtle"
+                            />
+                        </div>
                     </div>
                 </div>
+            )}
+
+            {/* CTA */}
+            <div className="mx-4 mt-3 space-y-2">
+                <Link
+                    href="/ports/create"
+                    className="flex items-center justify-center gap-1.5 w-full bg-blue-600 hover:bg-blue-500 active:scale-95 text-white py-2 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-sm shadow-blue-600/20 transition-all"
+                >
+                    <span className="material-symbols-outlined text-[14px]">campaign</span>
+                    📣 Share What You See at the Port
+                </Link>
+                <p className="text-center text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Nasa port ka? Help fellow commuters — tell us what&apos;s happening. 🙏
+                </p>
             </div>
 
 

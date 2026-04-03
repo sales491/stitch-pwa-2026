@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import AdminActions from './AdminActions';
 import type { Event } from '@/utils/eventData';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export default function MarinduqueEventsCalendar() {
   const [viewDate, setViewDate] = useState(new Date());
@@ -88,14 +88,10 @@ export default function MarinduqueEventsCalendar() {
   return (
     <div className="relative flex w-full flex-col max-w-md mx-auto bg-surface-light dark:bg-surface-dark shadow-2xl">
       {/* Header */}
-      <header className="sticky top-0 z-10 flex flex-col bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark">
-        <div className="flex items-center justify-between px-4 pt-4 pb-3">
-          <div className="flex items-center gap-3">
-            <BackButton />
-            <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red">Events Calendar</h1>
-          </div>
-
-          <div className="flex items-center gap-2">
+      <PageHeader
+        title="Events Calendar"
+        rightAction={
+          <>
             <div className="flex items-center bg-background-light dark:bg-background-dark rounded-lg border border-border-light dark:border-border-dark p-0.5">
               <button onClick={goToPrevMonth} className="p-1 hover:text-moriones-red transition-colors">
                 <span className="material-symbols-outlined text-[18px]">chevron_left</span>
@@ -105,7 +101,6 @@ export default function MarinduqueEventsCalendar() {
                 <span className="material-symbols-outlined text-[18px]">chevron_right</span>
               </button>
             </div>
-            {/* Calendar icon → full month view */}
             <Link
               href="/marinduque-monthly-calendar"
               className="text-moriones-red hover:bg-moriones-red/10 p-1.5 rounded-lg transition-colors flex items-center justify-center border border-moriones-red/10"
@@ -113,9 +108,9 @@ export default function MarinduqueEventsCalendar() {
             >
               <span className="material-symbols-outlined text-[18px]">grid_view</span>
             </Link>
-          </div>
-        </div>
-
+          </>
+        }
+      >
         {/* Calendar Strip — next 7 days */}
         <div className="px-4 py-2 flex flex-col gap-2">
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
@@ -133,7 +128,6 @@ export default function MarinduqueEventsCalendar() {
                 >
                   <span className="text-[10px] font-bold uppercase tracking-tighter opacity-70">{day.name}</span>
                   <span className="text-lg font-black">{day.date}</span>
-                  {/* Event dot indicator */}
                   {hasEvent && (
                     <span
                       className={`absolute bottom-2 w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white/80' : 'bg-moriones-red'
@@ -161,7 +155,7 @@ export default function MarinduqueEventsCalendar() {
             </button>
           ))}
         </div>
-      </header>
+      </PageHeader>
 
       {/* Main Content */}
       <main className="flex-1 bg-background-light/50 dark:bg-background-dark/50 px-4 py-5 space-y-6 pb-28">

@@ -9,7 +9,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
 import { useSearchParams } from 'next/navigation';
-import BackButton from '@/components/BackButton';
+import PageHeader from '@/components/PageHeader';
 
 export type ServiceType = 'Passenger' | 'Delivery' | 'Both';
 export type VehicleType = 'Tricycle' | 'Motorcycle' | 'Jeepney' | 'Van / UV Express' | 'Private Car' | 'Truck';
@@ -547,16 +547,10 @@ export default function CommuterDeliveryHub() {
     <>
       <div className="relative w-full max-w-md mx-auto bg-slate-50 dark:bg-zinc-950 shadow-2xl">
         {/* Sticky Header */}
-        <header className="sticky top-0 z-30 flex flex-col bg-white dark:bg-zinc-900 border-b border-slate-100 dark:border-zinc-800">
-          <div className="flex items-center justify-between px-4 pt-4 pb-3">
-            <div className="flex items-center gap-2">
-              <BackButton />
-              <div>
-                <h1 className="text-lg font-bold leading-tight tracking-tight text-moriones-red pl-1">Commute &amp; Delivery</h1>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest pl-1">Find Rides &amp; Cargo Services</p>
-              </div>
-            </div>
-            {/* Filter Button */}
+        <PageHeader
+          title="Commute &amp; Delivery"
+          subtitle="Find Rides &amp; Cargo Services"
+          rightAction={
             <button
               onClick={() => setFilterOpen(true)}
               className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 font-black text-[11px] uppercase tracking-wider transition-all hover:border-moriones-red/50 active:scale-95"
@@ -569,7 +563,8 @@ export default function CommuterDeliveryHub() {
                 </span>
               )}
             </button>
-          </div>
+          }
+        >
 
           {/* Active filter summary chips */}
           {activeFilterCount > 0 && (
@@ -631,7 +626,7 @@ export default function CommuterDeliveryHub() {
               </Link>
             );
           })()}
-        </header>
+        </PageHeader>
 
         {/* Filter Bottom Sheet */}
         {filterOpen && (
