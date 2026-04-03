@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import MarinduqueConnectHomeFeed from '@/components/MarinduqueConnectHomeFeed';
 import HomeAlertBanner from '@/components/HomeAlertBanner';
+import PopularOnMarketHub from '@/components/PopularOnMarketHub';
 import { getLiveHubItems } from '@/lib/hub-data';
 
 // Run at Vercel's global edge — zero cold starts, instant TTFB from CDN cache
@@ -24,6 +25,7 @@ export default async function Home() {
     <MarinduqueConnectHomeFeed
       initialItems={liveItems}
       alertBanner={<HomeAlertBanner />}
+      popularSection={<PopularOnMarketHub />}
     />
   );
 }

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
+import RelatedItems from '@/components/RelatedItems';
 
 export async function generateMetadata({
     params,
@@ -190,6 +191,9 @@ export default async function GemDetail({
 
                 </div>
             </div>
+
+            {/* Internal linking — more gems + nearby businesses */}
+            <RelatedItems type="gems" town={gem.town} excludeId={String(gem.id)} />
         </div>
     );
 }

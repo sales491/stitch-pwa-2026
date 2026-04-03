@@ -8,6 +8,7 @@ import ListingContactButtons from '@/components/ListingContactButtons';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
+import RelatedItems from '@/components/RelatedItems';
 
 export async function generateMetadata({
     params,
@@ -232,6 +233,9 @@ export default async function ListingDetail({
                 <UniversalComments entityId={listing.id} entityType="listing" />
 
             </div>
+
+            {/* Internal linking — similar listings */}
+            <RelatedItems type="listings" town={listing.town} category={listing.category} excludeId={String(listing.id)} />
         </div>
     );
 }

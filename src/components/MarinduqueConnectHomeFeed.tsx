@@ -44,9 +44,10 @@ const QUICK_CARDS = [
 type Props = {
     initialItems: HubItem[];
     alertBanner?: React.ReactNode;
+    popularSection?: React.ReactNode;
 };
 
-export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }: Props) {
+export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, popularSection }: Props) {
     const [selectedTown, setSelectedTown] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [categorizedItems, setCategorizedItems] = useState<{ [key: string]: HubItem[] }>({});
@@ -194,6 +195,9 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner }:
                         ))}
                     </div>
                 </div>
+
+                {/* ── 3b. Popular on MarketHub (server-rendered internal links) ── */}
+                {popularSection}
 
                 {/* ── 4. Grouped Feed ─────────────────────────── */}
                 <div className="space-y-8 px-4">

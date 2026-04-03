@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
+import RelatedItems from '@/components/RelatedItems';
 
 export async function generateMetadata({
     params,
@@ -258,8 +259,11 @@ export default async function JobDetail({
                         </div>
                     </div>
 
-                </div>
             </div>
+            </div>
+
+            {/* Internal linking — related jobs in same area */}
+            <RelatedItems type="jobs" town={job.location} excludeId={job.slug} />
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
+import RelatedItems from '@/components/RelatedItems';
 
 export async function generateMetadata({
     params,
@@ -295,8 +296,11 @@ export default async function EventDetail({
                         </div>
                     </div>
 
-                </div>
             </div>
+            </div>
+
+            {/* Internal linking — related events + nearby businesses */}
+            <RelatedItems type="events" town={event.location} excludeId={String(event.id)} />
         </div>
     );
 }

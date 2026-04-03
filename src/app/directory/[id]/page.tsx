@@ -8,6 +8,7 @@ import BusinessImageGallery from '@/components/BusinessImageGallery';
 import MenuCarousel from '@/components/MenuCarousel';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
+import RelatedItems from '@/components/RelatedItems';
 
 export async function generateMetadata({
     params,
@@ -347,6 +348,9 @@ export default async function BusinessProfileDetailPage({
                     <BusinessReviews businessId={business.id} />
                 </div>
             </div>
+
+            {/* Internal linking — other businesses nearby */}
+            <RelatedItems type="businesses" town={business.location} excludeId={String(business.id)} heading="Other Businesses Nearby" />
         </div>
     );
 }
