@@ -16,6 +16,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/island-hopping`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   { url: `${BASE}/commute`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/ports`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
+  { url: `${BASE}/ferry-schedule`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   { url: `${BASE}/island-life`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/island-life/palengke`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/island-life/tides`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
