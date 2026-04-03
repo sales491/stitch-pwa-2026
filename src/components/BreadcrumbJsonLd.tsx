@@ -26,6 +26,8 @@ const LABEL_MAP: Record<string, string> = {
     'commute': 'Commute & Delivery',
     'ports': 'Port Schedules',
     'ferry-schedule': 'Ferry Schedule',
+    'things-to-do': 'Things to Do',
+    'moriones-festival': 'Moriones Festival',
     'island-life': 'Island Life',
     'gas-prices': 'Gas Prices',
     'palengke': 'Palengke Prices',
