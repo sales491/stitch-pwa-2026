@@ -73,6 +73,37 @@ export default async function BusinessProfileDetailPage({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
+            {/* LocalBusiness JSON-LD for Google Maps, Knowledge Panels, and AI Answer Engines */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'LocalBusiness',
+                    name: business.business_name,
+                    description: business.description || `${business.business_name} in ${business.location}, Marinduque.`,
+                    url: `https://marinduquemarket.com/directory/${business.id}`,
+                    ...(business.gallery_images?.[0] && { image: business.gallery_images[0] }),
+                    ...(phone && { telephone: phone }),
+                    address: {
+                        '@type': 'PostalAddress',
+                        addressLocality: business.location,
+                        ...(business.barangay && { streetAddress: `Brgy. ${business.barangay}` }),
+                        addressRegion: 'Marinduque',
+                        addressCountry: 'PH',
+                    },
+                    ...(business.categories?.[0] && {
+                        additionalType: business.categories.join(', '),
+                    }),
+                    ...(business.is_verified && {
+                        award: 'Verified Business — Marinduque Market Hub',
+                    }),
+                    isAccessibleForFree: true,
+                    areaServed: {
+                        '@type': 'AdministrativeArea',
+                        name: 'Marinduque',
+                    },
+                }) }}
+            />
             <PageHeader title="Business" subtitle="Directory Listing" rightAction={
                 canEdit ? (
                     <Link href={`/onboarding/business?edit_id=${id}`} className="h-10 px-4 flex items-center justify-center bg-moriones-red rounded-full text-white shadow-md active:scale-95 transition-all hover:bg-red-600 gap-2 font-black text-[10px] uppercase tracking-widest border border-red-700">

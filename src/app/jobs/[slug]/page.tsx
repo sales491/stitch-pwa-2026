@@ -58,7 +58,7 @@ export default async function JobDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
-            {/* JobPosting JSON-LD for Google Rich Results */}
+            {/* JobPosting JSON-LD for Google Jobs Widget + AI Answer Engines */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -67,21 +67,39 @@ export default async function JobDetail({
                     title: job.title,
                     description: job.description,
                     datePosted: job.created_at,
+                    ...(job.expires_at && { validThrough: job.expires_at }),
                     hiringOrganization: {
                         '@type': 'Organization',
                         name: job.company_name,
+                        ...(contact.websiteUrl && { sameAs: contact.websiteUrl }),
                     },
                     jobLocation: {
                         '@type': 'Place',
                         address: {
                             '@type': 'PostalAddress',
                             addressLocality: job.location,
-                            addressRegion: 'MIMAROPA',
+                            addressRegion: 'Marinduque',
                             addressCountry: 'PH',
                         },
                     },
-                    employmentType: job.employment_type?.toUpperCase().replace(' ', '_') ?? 'FULL_TIME',
-                    ...(job.salary_range && { baseSalary: { '@type': 'MonetaryAmount', currency: 'PHP', value: { '@type': 'QuantitativeValue', description: job.salary_range } } }),
+                    employmentType: job.employment_type?.toUpperCase().replace(/\s+/g, '_') ?? 'FULL_TIME',
+                    ...(job.salary_range && {
+                        baseSalary: {
+                            '@type': 'MonetaryAmount',
+                            currency: 'PHP',
+                            value: {
+                                '@type': 'QuantitativeValue',
+                                value: job.salary_range,
+                                unitText: 'MONTH',
+                            },
+                        },
+                    }),
+                    identifier: {
+                        '@type': 'PropertyValue',
+                        name: 'Marinduque Market Hub',
+                        value: job.slug,
+                    },
+                    directApply: false,
                     applicantLocationRequirements: { '@type': 'Country', name: 'Philippines' },
                 }) }}
             />

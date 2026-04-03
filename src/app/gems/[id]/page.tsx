@@ -56,6 +56,37 @@ export default async function GemDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
+            {/* TouristAttraction JSON-LD for Google Rich Results + AI Answer Engines */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'TouristAttraction',
+                    name: gem.title,
+                    description: gem.description || `${gem.title} — a hidden gem in ${gem.town}, Marinduque, Philippines.`,
+                    url: `https://marinduquemarket.com/gems/${gem.id}`,
+                    ...(gem.images?.[0] && { image: gem.images[0] }),
+                    ...(gem.latitude && gem.longitude && {
+                        geo: {
+                            '@type': 'GeoCoordinates',
+                            latitude: gem.latitude,
+                            longitude: gem.longitude,
+                        },
+                    }),
+                    address: {
+                        '@type': 'PostalAddress',
+                        addressLocality: gem.town,
+                        addressRegion: 'Marinduque',
+                        addressCountry: 'PH',
+                    },
+                    touristType: 'Hidden Gem',
+                    isAccessibleForFree: true,
+                    containedInPlace: {
+                        '@type': 'AdministrativeArea',
+                        name: 'Marinduque Island, Philippines',
+                    },
+                }) }}
+            />
 
             <PageHeader title="Local Gem" subtitle="Hidden Treasure" />
 

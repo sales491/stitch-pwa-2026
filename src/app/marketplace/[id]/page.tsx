@@ -58,6 +58,43 @@ export default async function ListingDetail({
 
     return (
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
+            {/* Product JSON-LD for Google Shopping Rich Results + AI Answer Engines */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'Product',
+                    name: listing.title,
+                    description: listing.description || `${listing.title} for sale in ${listing.town}, Marinduque.`,
+                    url: `https://marinduquemarket.com/marketplace/${listing.id}`,
+                    ...(listing.images?.[0] && { image: listing.images[0] }),
+                    ...(listing.category && { category: listing.category }),
+                    ...(listing.condition && {
+                        itemCondition: listing.condition === 'Brand New'
+                            ? 'https://schema.org/NewCondition'
+                            : 'https://schema.org/UsedCondition',
+                    }),
+                    offers: {
+                        '@type': 'Offer',
+                        price: listing.price_value || 0,
+                        priceCurrency: 'PHP',
+                        availability: listing.status === 'active'
+                            ? 'https://schema.org/InStock'
+                            : 'https://schema.org/SoldOut',
+                        seller: {
+                            '@type': 'Person',
+                            name: sellerProfile?.full_name || listing.seller?.name || 'Marinduque Seller',
+                        },
+                        itemCondition: listing.condition === 'Brand New'
+                            ? 'https://schema.org/NewCondition'
+                            : 'https://schema.org/UsedCondition',
+                        areaServed: {
+                            '@type': 'AdministrativeArea',
+                            name: listing.town || 'Marinduque',
+                        },
+                    },
+                }) }}
+            />
             <PageHeader title="Listing Details" subtitle="Marinduque Marketplace" rightAction={
                 canEdit ? (
                     <Link href={`/marketplace/${listing.id}/edit`} className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-white/70 font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
