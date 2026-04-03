@@ -10,6 +10,7 @@ import { NotificationProvider } from "@/components/NotificationProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 const isDev = process.env.NODE_ENV === 'development';
 const DevInspector = isDev
@@ -179,6 +180,7 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.variable} ${playfairDisplay.variable} font-display antialiased bg-gray-100 text-gray-900 overflow-hidden`} suppressHydrationWarning>
         <ThemeProvider>
           <ServiceWorkerRegistration />
+          <BreadcrumbJsonLd />
           <AuthProvider>
             <NotificationProvider>
               {/* overflow-hidden on the body prevents the whole page from scrolling. 
