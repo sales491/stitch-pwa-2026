@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import BusinessDirectoryClient from '@/components/BusinessDirectoryClient';
+import SeoTextBlock from '@/components/SeoTextBlock';
 
 export const metadata: Metadata = {
     title: 'Marinduque Business Directory',
@@ -57,5 +58,13 @@ export default async function BusinessDirectory() {
         return <div className="p-8 text-center font-black text-moriones-red">Failed to load local directory. Please refresh.</div>;
     }
 
-    return <BusinessDirectoryClient initialBusinesses={businesses || []} />;
+    return (
+        <>
+            <BusinessDirectoryClient initialBusinesses={businesses || []} />
+            <SeoTextBlock heading="About the Marinduque Business Directory">
+                <p>The Marinduque Business Directory is the island’s most comprehensive listing of local enterprises. It includes restaurants, cafes, retail shops, hardware stores, health clinics, pharmacies, schools, resorts, guesthouses, agricultural suppliers, and professional services across all six municipalities: <strong>Boac</strong>, <strong>Mogpog</strong>, <strong>Gasan</strong>, <strong>Santa Cruz</strong>, <strong>Torrijos</strong>, and <strong>Buenavista</strong>.</p>
+                <p>Verified businesses display a checkmark badge, confirming their legitimacy and active operation. Business owners can claim and manage their profile, upload photos, update contact information, and respond to customer reviews. The directory supports categories like Food &amp; Dining, Retail &amp; Shopping, Health &amp; Wellness, Education, Transport, and Accommodations.</p>
+            </SeoTextBlock>
+        </>
+    );
 }

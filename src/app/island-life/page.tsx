@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
+import SeoTextBlock from '@/components/SeoTextBlock';
 
 const FEATURES = [
     {
@@ -99,6 +100,10 @@ export default function IslandLifePage() {
                     </Link>
                 ))}
             </div>
+            <SeoTextBlock heading="Daily Life on Marinduque Island">
+                <p>Island Life is your one-stop hub for daily living information on Marinduque island. Track <strong>real-time gas prices</strong> reported by residents at stations across all six towns. Check <strong>palengke (wet market) prices</strong> for fish, meat, and produce at the public markets in Boac, Gasan, Santa Cruz, and Torrijos. Monitor <strong>tide schedules</strong> for fishing, boating, and coastal activities.</p>
+                <p>The community also reports <strong>power and water outages</strong> in real time, helping residents and businesses plan around service disruptions. Local <strong>skilled trades workers</strong> — electricians, plumbers, carpenters, welders, and mechanics — are listed so you can find reliable services when you need them. Marinduque has roughly 240,000 residents across an area of 960 square kilometers.</p>
+            </SeoTextBlock>
         </main>
     );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import ClientFeed from './ClientFeed';
+import SeoTextBlock from '@/components/SeoTextBlock';
 
 export const metadata: Metadata = {
     title: 'Marinduque Classifieds Marketplace',
@@ -27,5 +28,13 @@ export default async function MarketplacePage() {
         .order('created_at', { ascending: false })
         .range(0, 9);
 
-    return <ClientFeed initialListings={initialListings ?? []} />;
+    return (
+        <>
+            <ClientFeed initialListings={initialListings ?? []} />
+            <SeoTextBlock heading="About the Marinduque Marketplace">
+                <p>The Marinduque Marketplace is the island's largest online buy-and-sell platform. Residents from all six municipalities — Boac, Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista — post items for sale ranging from secondhand electronics and furniture to vehicles, agricultural products, and daily commodities.</p>
+                <p>Unlike Facebook groups, listings here are organized, searchable by category and town, and include seller contact information and community vouch ratings. Prices are in Philippine Pesos (PHP) and most transactions are conducted face-to-face within Marinduque, with payments via cash or GCash.</p>
+            </SeoTextBlock>
+        </>
+    );
 }

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 import MarinduqueJobsListingFeed from '@/components/MarinduqueJobsListingFeed';
 import { createClient } from '@/utils/supabase/server';
+import SeoTextBlock from '@/components/SeoTextBlock';
 
 const PAGE_SIZE = 10;
 
@@ -52,12 +53,18 @@ export default async function JobsPage({
         .range(from, to);
 
     return (
-        <MarinduqueJobsListingFeed
-            initialJobs={jobs || []}
-            totalCount={count || 0}
-            currentPage={page}
-            pageSize={PAGE_SIZE}
-            filters={{ type, town, query }}
-        />
+        <>
+            <MarinduqueJobsListingFeed
+                initialJobs={jobs || []}
+                totalCount={count || 0}
+                currentPage={page}
+                pageSize={PAGE_SIZE}
+                filters={{ type, town, query }}
+            />
+            <SeoTextBlock heading="Jobs in Marinduque">
+                <p>Marinduque’s local economy is driven by agriculture (coconut, rice, and fishing), government employment, small retail businesses, and a growing tourism sector. Job opportunities include positions at local government units (LGUs), schools, health centers, resorts, restaurants, and retail stores across all six municipalities.</p>
+                <p>Common job types on the island include teaching, healthcare, construction trades, agriculture, food service, and tourism-related roles like tour guides and boat operators. Many businesses also seek skilled workers such as electricians, welders, mechanics, and carpenters. Salaries in Marinduque typically follow MIMAROPA regional minimum wage rates.</p>
+            </SeoTextBlock>
+        </>
     );
 }

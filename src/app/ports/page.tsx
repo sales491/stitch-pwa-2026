@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import PortsClientShell from '@/components/PortsClientShell';
+import SeoTextBlock from '@/components/SeoTextBlock';
 
 export const metadata: Metadata = {
     title: 'RoRo Port Schedules & Updates — Marinduque',
@@ -28,5 +29,14 @@ export default async function PortsPage() {
 
     const latestAlert = updates?.[0] ?? null;
 
-    return <PortsClientShell updates={updates ?? []} latestAlert={latestAlert} />;
+    return (
+        <>
+            <PortsClientShell updates={updates ?? []} latestAlert={latestAlert} />
+            <SeoTextBlock heading="About Marinduque Ports & Ferry Schedules">
+                <p>Marinduque island has three major ports connecting it to the Philippine mainland. <strong>Balanacan Port</strong> in Mogpog is the primary gateway, serving Roll-on/Roll-off (RoRo) ferries to and from Lucena City and Dalahican, Quezon Province. <strong>Buyabod Port</strong> in Santa Cruz is the secondary gateway with routes to Pinamalayan, Oriental Mindoro. <strong>Cawit Port</strong> in Boac handles LCT cargo vessels.</p>
+                <p>Ferry schedules between Marinduque and the mainland vary by season and weather conditions. During typhoon season (June–November), sailings may be suspended. The most common route is the Dalahican–Balanacan crossing, which takes approximately 3–4 hours by RoRo ferry. Fares typically range from ₱200–₱400 for passengers.</p>
+                <p>This page shows community-reported port status updates in real time. Residents report sailing conditions, delays, and cancellations as they happen — making this the most reliable source for current Marinduque ferry information.</p>
+            </SeoTextBlock>
+        </>
+    );
 }
