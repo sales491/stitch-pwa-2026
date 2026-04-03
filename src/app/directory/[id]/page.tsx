@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import BusinessReviews from '@/components/BusinessReviews';
 import { notFound } from 'next/navigation';
@@ -7,6 +8,35 @@ import BusinessImageGallery from '@/components/BusinessImageGallery';
 import MenuCarousel from '@/components/MenuCarousel';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: biz } = await supabase
+        .from('business_profiles')
+        .select('business_name, description, location, categories, gallery_images')
+        .eq('id', id)
+        .single();
+
+    if (!biz) return { title: 'Business Not Found' };
+
+    return {
+        title: `${biz.business_name} — ${biz.location}, Marinduque`,
+        description: biz.description?.slice(0, 155) ?? `${biz.business_name} in ${biz.location}, Marinduque. ${biz.categories?.join(', ') || 'Local business'}.`,
+        openGraph: {
+            title: `${biz.business_name} — Marinduque Business Directory`,
+            description: biz.description?.slice(0, 155) ?? `Discover ${biz.business_name} in ${biz.location}, Marinduque.`,
+            url: `https://marinduquemarket.com/directory/${id}`,
+            type: 'website',
+            images: biz.gallery_images?.[0] ? [{ url: biz.gallery_images[0], alt: biz.business_name }] : undefined,
+        },
+        alternates: { canonical: `https://marinduquemarket.com/directory/${id}` },
+    };
+}
 
 // Business types that should show the Menu & Dishes carousel
 const FOOD_BUSINESS_TYPES = new Set([

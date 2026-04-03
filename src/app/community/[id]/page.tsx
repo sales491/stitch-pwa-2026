@@ -1,8 +1,37 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: post } = await supabase
+        .from('posts')
+        .select('title, content, town')
+        .eq('id', id)
+        .single();
+
+    if (!post) return { title: 'Post Not Found' };
+
+    return {
+        title: post.title || 'Community Post',
+        description: post.content?.slice(0, 155) ?? `Community post from ${post.town || 'Marinduque'}.`,
+        openGraph: {
+            title: post.title || 'Community Post — Marinduque',
+            description: post.content?.slice(0, 155) ?? `A community post from Marinduque.`,
+            url: `https://marinduquemarket.com/community/${id}`,
+            type: 'article',
+        },
+        alternates: { canonical: `https://marinduquemarket.com/community/${id}` },
+    };
+}
 
 export default async function PostDetail({
     params

@@ -1,8 +1,28 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ClaimBusinessForm from '@/components/ClaimBusinessForm';
 import PageHeader from '@/components/PageHeader';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: biz } = await supabase
+        .from('business_profiles')
+        .select('business_name')
+        .eq('id', id)
+        .single();
+
+    return {
+        title: `Claim ${biz?.business_name || 'Business'} — Marinduque Market Hub`,
+        description: `Claim and verify ${biz?.business_name || 'your business'} on Marinduque Market Hub to get a verified badge and reach more customers.`,
+    };
+}
 
 // Next.js 15: params is a Promise and must be awaited
 export default async function ClaimBusinessPage({ params }: { params: Promise<{ id: string }> }) {

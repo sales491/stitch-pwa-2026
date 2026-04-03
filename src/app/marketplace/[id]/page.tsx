@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { createClient as createDirectClient } from '@supabase/supabase-js';
 import Image from 'next/image';
@@ -7,6 +8,38 @@ import ListingContactButtons from '@/components/ListingContactButtons';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: listing } = await supabase
+        .from('listings')
+        .select('title, description, price_value, town, category, images, condition')
+        .eq('id', id)
+        .single();
+
+    if (!listing) return { title: 'Listing Not Found' };
+
+    const price = listing.price_value ? `₱${listing.price_value.toLocaleString()}` : '';
+    const titleStr = price ? `${listing.title} — ${price}` : listing.title;
+
+    return {
+        title: titleStr,
+        description: listing.description?.slice(0, 155) ?? `${listing.title} for sale in ${listing.town}, Marinduque.`,
+        openGraph: {
+            title: `${listing.title} — For Sale in ${listing.town}, Marinduque`,
+            description: listing.description?.slice(0, 155) ?? `${listing.category || 'Item'} for sale in Marinduque.`,
+            url: `https://marinduquemarket.com/marketplace/${id}`,
+            type: 'article',
+            images: listing.images?.[0] ? [{ url: listing.images[0], alt: listing.title }] : undefined,
+        },
+        alternates: { canonical: `https://marinduquemarket.com/marketplace/${id}` },
+    };
+}
 
 export const revalidate = 300; // 5-minute SWR cache for listing detail pages
 

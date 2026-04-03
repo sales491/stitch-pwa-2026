@@ -2,6 +2,13 @@
 // Phase 2: Lists active + upcoming live sessions by municipality
 // Phase 0: Placeholder only — not linked in navigation
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Live Market — Live Selling for Marinduque',
+    description: 'Watch and shop live selling sessions from local Marinduque sellers. Real-time commerce for the island community.',
+};
+
 export default function LiveMarketFeedPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 text-center">
