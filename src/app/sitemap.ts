@@ -17,6 +17,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/commute`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/ports`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/ferry-schedule`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+  { url: `${BASE}/just-landed`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/things-to-do`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   { url: `${BASE}/moriones-festival`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
   { url: `${BASE}/island-life`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },

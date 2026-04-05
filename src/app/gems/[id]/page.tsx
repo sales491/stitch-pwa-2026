@@ -24,12 +24,17 @@ export async function generateMetadata({
     return {
         title: `${gem.title} — Hidden Gem in ${gem.town}, Marinduque`,
         description: gem.description?.slice(0, 155) ?? `Discover ${gem.title}, a hidden gem in ${gem.town}, Marinduque island, Philippines.`,
+        keywords: [
+            gem.title, gem.town, 'Marinduque', 'hidden gems Philippines',
+            `things to do in ${gem.town}`, `${gem.town} tourist spots`,
+            'Marinduque travel', 'Philippines travel guide',
+        ],
         openGraph: {
             title: `${gem.title} — ${gem.town}, Marinduque`,
             description: gem.description?.slice(0, 155) ?? `A hidden gem in ${gem.town}, Marinduque.`,
             url: `https://marinduquemarket.com/gems/${id}`,
             type: 'article',
-            images: gem.images?.[0] ? [{ url: gem.images[0], alt: gem.title }] : undefined,
+            images: gem.images?.[0] ? [{ url: gem.images[0], alt: `${gem.title} — hidden gem in ${gem.town}, Marinduque, Philippines` }] : undefined,
         },
         alternates: { canonical: `https://marinduquemarket.com/gems/${id}` },
     };
@@ -57,36 +62,40 @@ export default async function GemDetail({
 
     return (
         <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24 font-display">
-            {/* TouristAttraction JSON-LD for Google Rich Results + AI Answer Engines */}
+            {/* TouristAttraction + BreadcrumbList JSON-LD — Google Rich Results & AI Answer Engines */}
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify({
-                    '@context': 'https://schema.org',
-                    '@type': 'TouristAttraction',
-                    name: gem.title,
-                    description: gem.description || `${gem.title} — a hidden gem in ${gem.town}, Marinduque, Philippines.`,
-                    url: `https://marinduquemarket.com/gems/${gem.id}`,
-                    ...(gem.images?.[0] && { image: gem.images[0] }),
-                    ...(gem.latitude && gem.longitude && {
-                        geo: {
-                            '@type': 'GeoCoordinates',
-                            latitude: gem.latitude,
-                            longitude: gem.longitude,
+                dangerouslySetInnerHTML={{ __html: JSON.stringify([
+                    {
+                        '@context': 'https://schema.org',
+                        '@type': 'TouristAttraction',
+                        name: gem.title,
+                        description: gem.description || `${gem.title} — a hidden gem in ${gem.town}, Marinduque, Philippines.`,
+                        url: `https://marinduquemarket.com/gems/${gem.id}`,
+                        ...(gem.images?.[0] && { image: { '@type': 'ImageObject', url: gem.images[0], description: `${gem.title} — ${gem.town}, Marinduque, Philippines` } }),
+                        ...(gem.latitude && gem.longitude && {
+                            geo: { '@type': 'GeoCoordinates', latitude: gem.latitude, longitude: gem.longitude },
+                        }),
+                        address: {
+                            '@type': 'PostalAddress',
+                            addressLocality: gem.town,
+                            addressRegion: 'Marinduque',
+                            addressCountry: 'PH',
                         },
-                    }),
-                    address: {
-                        '@type': 'PostalAddress',
-                        addressLocality: gem.town,
-                        addressRegion: 'Marinduque',
-                        addressCountry: 'PH',
+                        touristType: 'Hidden Gem',
+                        isAccessibleForFree: true,
+                        containedInPlace: { '@type': 'AdministrativeArea', name: 'Marinduque Island, Philippines' },
                     },
-                    touristType: 'Hidden Gem',
-                    isAccessibleForFree: true,
-                    containedInPlace: {
-                        '@type': 'AdministrativeArea',
-                        name: 'Marinduque Island, Philippines',
+                    {
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: [
+                            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://marinduquemarket.com' },
+                            { '@type': 'ListItem', position: 2, name: 'Gems', item: 'https://marinduquemarket.com/gems' },
+                            { '@type': 'ListItem', position: 3, name: gem.title, item: `https://marinduquemarket.com/gems/${gem.id}` },
+                        ],
                     },
-                }) }}
+                ]) }}
             />
 
             <PageHeader title="Local Gem" subtitle="Hidden Treasure" />
@@ -94,7 +103,13 @@ export default async function GemDetail({
             {/* Cinematic Hero Engine */}
             <div className="w-full h-[450px] md:h-[600px] relative overflow-hidden rounded-b-[4rem] shadow-2xl">
                 {gem.images?.[0] ? (
-                    <Image src={gem.images[0]} alt={gem.title} fill className="object-cover" priority />
+                    <Image
+                        src={gem.images[0]}
+                        alt={`${gem.title} — hidden gem in ${gem.town}, Marinduque, Philippines`}
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 ) : (
                     <div className="flex items-center justify-center h-full bg-gradient-to-br from-emerald-800 to-teal-900 text-emerald-300 font-black text-3xl">
                         REGISTERED SANCTUARY

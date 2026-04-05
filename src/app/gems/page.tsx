@@ -3,16 +3,24 @@ import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import GemMasonryFeed from '@/components/GemMasonryFeed';
 
+const BASE = 'https://marinduquemarket.com';
+
 export const metadata: Metadata = {
-    title: 'Gems of Marinduque',
-    description: 'Discover hidden local gems across Marinduque island — beautiful beaches, secret spots, local restaurants, cultural sites, and community-loved places recommended by locals.',
-    keywords: ['hidden gems Marinduque', 'Marinduque tourist spots', 'Maniwaya Island', 'Palad Sandbar', 'Tres Reyes Islands', 'things to do Marinduque', 'Marinduque travel'],
+    title: 'Hidden Gems of Marinduque Island — Tourist Spots & Secret Places',
+    description: 'Discover the best hidden gems across Marinduque island — secret beaches, waterfalls, caves, cultural heritage sites, and community-loved spots recommended by locals and travelers.',
+    keywords: [
+        'hidden gems Marinduque', 'Marinduque tourist spots', 'Maniwaya Island', 'Palad Sandbar',
+        'Tres Reyes Islands', 'Bathala Caves', 'Boac Cathedral', 'things to do Marinduque',
+        'Marinduque travel guide', 'where to go Marinduque', 'Marinduque hidden places',
+        'best places Marinduque', 'Marinduque attractions', 'Luzon Datum Marinduque',
+    ],
     openGraph: {
-        title: 'Gems of Marinduque',
-        description: 'Community-voted hidden gems and must-visit spots across Marinduque island.',
-        url: 'https://marinduquemarket.com/gems',
+        title: 'Hidden Gems of Marinduque Island',
+        description: 'Community-voted hidden gems, secret beaches, waterfalls, caves and must-visit spots across Marinduque island, Philippines.',
+        url: `${BASE}/gems`,
+        images: [{ url: `${BASE}/images/gems/marinduque-museum.png`, alt: 'Marinduque National Museum — local gem in Boac, Marinduque' }],
     },
-    alternates: { canonical: 'https://marinduquemarket.com/gems' },
+    alternates: { canonical: `${BASE}/gems` },
 };
 
 export default async function GemsFeedPage() {
@@ -50,10 +58,43 @@ export default async function GemsFeedPage() {
         isLikedByMe: userLikedIds.has(g.id),
     }));
 
+    // ── CollectionPage JSON-LD — capped at top 20 by community votes ──────────
+    // Using like count (desc) so the schema always surfaces the most community-
+    // endorsed gems. This keeps schema size bounded (~2 KB max) as the list grows.
+    const schemaGems = [...gemsWithMeta]
+        .sort((a, b) => b.likeCount - a.likeCount)
+        .slice(0, 20);
+
+    const collectionSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Hidden Gems of Marinduque Island',
+        description: 'A curated collection of the best hidden gems, tourist attractions, and community-recommended places across Marinduque island, Philippines.',
+        url: `${BASE}/gems`,
+        mainEntity: {
+            '@type': 'ItemList',
+            numberOfItems: schemaGems.length,
+            itemListElement: schemaGems.map((gem, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                name: gem.title,
+                url: `${BASE}/gems/${gem.id}`,
+                ...(gem.images?.[0] && { image: gem.images[0] }),
+                description: gem.description?.slice(0, 120),
+            })),
+        },
+    };
+
     return (
-        <GemMasonryFeed
-            gems={gemsWithMeta}
-            isLoggedIn={!!user}
-        />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+            />
+            <GemMasonryFeed
+                gems={gemsWithMeta}
+                isLoggedIn={!!user}
+            />
+        </>
     );
 }

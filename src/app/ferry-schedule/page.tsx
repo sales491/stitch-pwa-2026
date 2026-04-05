@@ -167,13 +167,22 @@ export default function FerrySchedulePage() {
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
                         Marinduque is accessible by Roll-on/Roll-off (RoRo) ferry from <strong>Quezon Province</strong> and <strong>Oriental Mindoro</strong>. Three ports serve the island: <strong>Balanacan Port</strong> (Mogpog), <strong>Buyabod Port</strong> (Santa Cruz), and <strong>Cawit Port</strong> (Boac). This guide covers all routes, fares, schedules, and travel tips.
                     </p>
-                    <Link
-                        href="/ports"
-                        className="inline-flex items-center gap-2 bg-moriones-red text-white px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors shadow-md"
-                    >
-                        <span className="material-symbols-outlined text-sm">update</span>
-                        Live Port Status Updates
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                        <Link
+                            href="/ports"
+                            className="inline-flex items-center gap-2 bg-moriones-red text-white px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors shadow-md"
+                        >
+                            <span className="material-symbols-outlined text-sm">update</span>
+                            Live Port Updates
+                        </Link>
+                        <Link
+                            href="/just-landed"
+                            className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-colors shadow-md"
+                        >
+                            <span className="material-symbols-outlined text-sm">flight_land</span>
+                            Just Landed Guide
+                        </Link>
+                    </div>
                 </article>
 
                 {/* Ferry Routes */}
