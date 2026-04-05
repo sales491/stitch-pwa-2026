@@ -344,3 +344,30 @@ export async function adminRejectClaimRequest(claimId: string) {
         return { success: false, error: e.message };
     }
 }
+
+export async function adminUpdateRole(userId: string, newRole: string) {
+    try {
+        const callerRole = await verifyAdminServer();
+        const adminSupabase = await createAdminClient();
+
+        // Only super_admin can set or remove admin/moderator roles for other users, or modify an existing admin/moderator.
+        if (callerRole !== 'super_admin') {
+            const { data: targetProfile } = await adminSupabase.from('profiles').select('role').eq('id', userId).single();
+            const targetRole = targetProfile?.role;
+            if (targetRole === 'admin' || targetRole === 'super_admin' || targetRole === 'moderator' || newRole === 'admin' || newRole === 'moderator' || newRole === 'super_admin') {
+                throw new Error('Forbidden: Only super admins can manage admin/moderator roles.');
+            }
+        }
+
+        const { error } = await adminSupabase
+            .from('profiles')
+            .update({ role: newRole })
+            .eq('id', userId);
+        if (error) throw new Error(error.message);
+        revalidatePath('/admin/users');
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+

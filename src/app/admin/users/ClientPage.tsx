@@ -8,6 +8,7 @@ import {
     adminBanUser,
     adminUnbanUser,
     adminDeleteUser,
+    adminUpdateRole
 } from '@/app/actions/admin';
 
 type Profile = {
@@ -50,13 +51,11 @@ function UserRow({ user, onUpdate }: { user: Profile; onUpdate: (id: string, upd
     const [confirmModal, setConfirmModal] = useState<{ action: 'ban' | 'unban' | 'delete' } | null>(null);
 
     const handleRoleChange = async (newRole: string) => {
-        const supabase = createBrowserClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-        );
-        const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', user.id);
-        if (!error) onUpdate(user.id, { role: newRole as Profile['role'] });
-        else alert('Failed to update role.');
+        startTransition(async () => {
+            const res = await adminUpdateRole(user.id, newRole);
+            if (res.success) onUpdate(user.id, { role: newRole as Profile['role'] });
+            else alert(res.error || 'Failed to update role.');
+        });
     };
 
     const handleBan = () => {
