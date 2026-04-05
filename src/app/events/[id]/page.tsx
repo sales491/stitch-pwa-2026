@@ -236,9 +236,9 @@ export default async function EventDetail({
 
                         {/* Comments */}
                         <section className="bg-white dark:bg-zinc-900 rounded-3xl p-7 md:p-10 shadow-sm border border-slate-100 dark:border-zinc-800">
-                            <div className="mb-6">
-                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Mga Komento</h2>
-                                <p className="text-xs text-slate-500 mt-1">Ibahagi ang iyong mga tanong o excitement!</p>
+                            <div className="mb-8 flex flex-col gap-1 items-start">
+                                <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Discover {event.title}</h2>
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Share your questions, plans, or excitement specific to {event.title}.</p>
                             </div>
                             <UniversalComments entityId={event.id} entityType="event" />
                         </section>

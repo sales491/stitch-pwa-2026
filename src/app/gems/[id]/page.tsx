@@ -179,9 +179,9 @@ export default async function GemDetail({
 
                     {/* Traveler Intelligence Hub */}
                     <div className="border-t border-slate-100 dark:border-zinc-800 pt-12">
-                        <div className="mb-8 flex flex-col gap-1 items-center text-center">
-                            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">Traveler Intelligence</h2>
-                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Share parking logistics, trail conditions, or local sightings.</p>
+                        <div className="mb-8 flex flex-col gap-1 items-center text-center md:px-10">
+                            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">Discover {gem.title}</h2>
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Share parking logistics, trail conditions, or local sightings specific to {gem.title}.</p>
                         </div>
 
                         <div className="bg-white dark:bg-zinc-900 rounded-[3rem] p-8 shadow-sm border border-slate-100 dark:border-zinc-800">

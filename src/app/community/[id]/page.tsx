@@ -107,9 +107,9 @@ export default async function PostDetail({
 
                 {/* 3. Community Reaction Hub */}
                 <div className="border-t border-slate-100 dark:border-zinc-800 pt-10">
-                    <div className="flex flex-col gap-1 mb-6 text-center md:text-left">
-                        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Intelligence Feedback</h2>
-                        <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Discuss requirements, confirm details, or share updates below.</p>
+                    <div className="mb-6 flex flex-col gap-1 items-start">
+                        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Discuss {post.title || 'This Topic'}</h2>
+                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Share your perspective, confirm details, or add context specific to {post.title ? `"${post.title}"` : 'this topic'}.</p>
                     </div>
 
                     {/* WE REUSE OUR TRUSTY UNIVERSAL BOARD! */}

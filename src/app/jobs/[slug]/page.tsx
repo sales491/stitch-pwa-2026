@@ -153,9 +153,9 @@ export default async function JobDetail({
 
                         {/* Q&A Board */}
                         <section>
-                            <div className="mb-4">
-                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Job Intelligence Q&A</h2>
-                                <p className="text-xs font-bold text-slate-500">Ask about the role or requirements directly below.</p>
+                            <div className="mb-6 flex flex-col gap-1 items-start">
+                                <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Discuss {job.title}</h2>
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Ask about the role or requirements specific to {job.title}.</p>
                             </div>
                             <UniversalComments entityId={job.id} entityType="job" />
                         </section>
