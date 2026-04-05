@@ -53,8 +53,12 @@ function UserRow({ user, onUpdate }: { user: Profile; onUpdate: (id: string, upd
     const handleRoleChange = async (newRole: string) => {
         startTransition(async () => {
             const res = await adminUpdateRole(user.id, newRole);
-            if (res.success) onUpdate(user.id, { role: newRole as Profile['role'] });
-            else alert(res.error || 'Failed to update role.');
+            if (res.success) {
+                onUpdate(user.id, { role: newRole as Profile['role'] });
+                alert(`Role successfully updated to ${newRole.toUpperCase()}.`);
+            } else {
+                alert(res.error || 'Failed to update role.');
+            }
         });
     };
 
