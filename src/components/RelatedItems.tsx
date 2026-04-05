@@ -39,15 +39,27 @@ async function fetchRelated(
 
     switch (type) {
         case 'jobs': {
-            let q = supabase
+            let baseQ = supabase
                 .from('jobs')
                 .select('slug, title, company_name, location, employment_type')
                 .neq('slug', excludeId)
                 .gt('expires_at', new Date().toISOString())
-                .order('created_at', { ascending: false })
-                .limit(limit);
-            if (town) q = q.ilike('location', `%${town}%`);
-            const { data } = await q;
+                .order('created_at', { ascending: false });
+                
+            let { data } = town ? await baseQ.ilike('location', `%${town}%`).limit(limit) : await baseQ.limit(limit);
+            
+            if ((!data || data.length < limit) && town) {
+                const { data: fallbackData } = await supabase
+                    .from('jobs')
+                    .select('slug, title, company_name, location, employment_type')
+                    .neq('slug', excludeId)
+                    .gt('expires_at', new Date().toISOString())
+                    .not('location', 'ilike', `%${town}%`)
+                    .order('created_at', { ascending: false })
+                    .limit(limit - (data ? data.length : 0));
+                if (fallbackData) data = [...(data || []), ...fallbackData];
+            }
+
             return (data ?? []).map(j => ({
                 id: j.slug,
                 href: `/jobs/${j.slug}`,
@@ -58,16 +70,33 @@ async function fetchRelated(
         }
 
         case 'listings': {
-            let q = supabase
+            let baseQ = supabase
                 .from('listings')
                 .select('id, title, price_value, town, category, images')
                 .neq('id', excludeId)
                 .eq('status', 'active')
-                .order('created_at', { ascending: false })
-                .limit(limit);
-            if (category) q = q.eq('category', category);
-            else if (town) q = q.eq('town', town);
-            const { data } = await q;
+                .order('created_at', { ascending: false });
+                
+            let { data } = category ? await baseQ.eq('category', category).limit(limit) 
+                         : (town ? await baseQ.eq('town', town).limit(limit) 
+                         : await baseQ.limit(limit));
+                         
+            if ((!data || data.length < limit) && (category || town)) {
+                let fbQ = supabase
+                    .from('listings')
+                    .select('id, title, price_value, town, category, images')
+                    .neq('id', excludeId)
+                    .eq('status', 'active')
+                    .order('created_at', { ascending: false })
+                    .limit(limit - (data ? data.length : 0));
+                
+                if (category) fbQ = fbQ.neq('category', category);
+                else if (town) fbQ = fbQ.neq('town', town);
+                
+                const { data: fallbackData } = await fbQ;
+                if (fallbackData) data = [...(data || []), ...fallbackData];
+            }
+
             return (data ?? []).map(l => ({
                 id: String(l.id),
                 href: `/marketplace/${l.id}`,
@@ -79,15 +108,27 @@ async function fetchRelated(
         }
 
         case 'events': {
-            let q = supabase
+            let baseQ = supabase
                 .from('events')
                 .select('id, title, location, event_date, category')
                 .neq('id', excludeId)
                 .gte('event_date', new Date().toISOString().split('T')[0])
-                .order('event_date', { ascending: true })
-                .limit(limit);
-            if (town) q = q.ilike('location', `%${town}%`);
-            const { data } = await q;
+                .order('event_date', { ascending: true });
+                
+            let { data } = town ? await baseQ.ilike('location', `%${town}%`).limit(limit) : await baseQ.limit(limit);
+            
+            if ((!data || data.length < limit) && town) {
+                const { data: fallbackData } = await supabase
+                    .from('events')
+                    .select('id, title, location, event_date, category')
+                    .neq('id', excludeId)
+                    .gte('event_date', new Date().toISOString().split('T')[0])
+                    .not('location', 'ilike', `%${town}%`)
+                    .order('event_date', { ascending: true })
+                    .limit(limit - (data ? data.length : 0));
+                if (fallbackData) data = [...(data || []), ...fallbackData];
+            }
+
             return (data ?? []).map(e => ({
                 id: String(e.id),
                 href: `/events/${e.id}`,
@@ -98,14 +139,31 @@ async function fetchRelated(
         }
 
         case 'gems': {
-            let q = supabase
+            let baseQ = supabase
                 .from('gems')
                 .select('id, title, town, images')
                 .neq('id', excludeId)
-                .order('created_at', { ascending: false })
-                .limit(limit);
-            if (town) q = q.eq('town', town);
-            const { data } = await q;
+                .eq('is_approved', true)
+                .order('created_at', { ascending: false });
+                
+            let { data } = town ? await baseQ.eq('town', town).limit(limit) : await baseQ.limit(limit);
+            
+            // Fallback: If not enough gems in this town, fill with others
+            if ((!data || data.length < limit) && town) {
+                const { data: fallbackData } = await supabase
+                    .from('gems')
+                    .select('id, title, town, images')
+                    .neq('id', excludeId)
+                    .eq('is_approved', true)
+                    .neq('town', town)
+                    .order('created_at', { ascending: false })
+                    .limit(limit - (data ? data.length : 0));
+                
+                if (fallbackData) {
+                    data = [...(data || []), ...fallbackData];
+                }
+            }
+
             return (data ?? []).map(g => ({
                 id: String(g.id),
                 href: `/gems/${g.id}`,
@@ -116,15 +174,27 @@ async function fetchRelated(
         }
 
         case 'businesses': {
-            let q = supabase
+            let baseQ = supabase
                 .from('business_profiles')
                 .select('id, business_name, business_type, location, is_verified, gallery_image')
                 .neq('id', excludeId)
                 .eq('is_verified', true)
-                .order('average_rating', { ascending: false })
-                .limit(limit);
-            if (town) q = q.ilike('location', `%${town}%`);
-            const { data } = await q;
+                .order('average_rating', { ascending: false });
+                
+            let { data } = town ? await baseQ.ilike('location', `%${town}%`).limit(limit) : await baseQ.limit(limit);
+            
+            if ((!data || data.length < limit) && town) {
+                const { data: fallbackData } = await supabase
+                    .from('business_profiles')
+                    .select('id, business_name, business_type, location, is_verified, gallery_image')
+                    .neq('id', excludeId)
+                    .eq('is_verified', true)
+                    .not('location', 'ilike', `%${town}%`)
+                    .order('average_rating', { ascending: false })
+                    .limit(limit - (data ? data.length : 0));
+                if (fallbackData) data = [...(data || []), ...fallbackData];
+            }
+
             return (data ?? []).map(b => ({
                 id: String(b.id),
                 href: `/directory/${b.id}`,
