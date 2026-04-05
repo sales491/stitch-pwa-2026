@@ -144,19 +144,18 @@ export default async function JustLandedPage() {
           </div>
 
           {/* Hero Section */}
-          <div className="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl">
+          <div className="relative rounded-3xl overflow-hidden bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 shadow-sm">
             <Image
               src="/images/gems/balanacan.png"
               alt="Balanacan Shrine, Our Lady of Biglang Awa — the iconic welcome statue at Balanacan Port, Mogpog, Marinduque, Philippines"
               width={600}
               height={400}
-              className="w-full h-48 object-cover opacity-60 mix-blend-overlay"
+              className="w-full h-52 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950/80" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-center text-center">
-              <span className="bg-moriones-red text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded mb-3 shadow-md border border-red-500/50">Welcome to Marinduque</span>
-              <h1 className="text-3xl font-black text-white leading-tight drop-shadow-lg">Just Landed.</h1>
-              <p className="text-slate-200 text-xs mt-2 max-w-[250px] drop-shadow-md font-medium">You&apos;ve arrived at Balanacan Port. Let&apos;s get your island adventure started.</p>
+            <div className="p-5 flex flex-col gap-2">
+              <span className="inline-flex self-start bg-moriones-red text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">Welcome to Marinduque</span>
+              <h1 className="text-2xl font-black text-slate-900 dark:text-white leading-tight">Just Landed.</h1>
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-snug">You&apos;ve arrived at Balanacan Port. Let&apos;s get your island adventure started.</p>
             </div>
           </div>
 
