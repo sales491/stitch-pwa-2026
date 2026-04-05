@@ -80,7 +80,7 @@ export default function GemCard({ id, title, town, imageUrl, authorId, likeCount
 
     return (
         <div className={`group relative h-80 w-full rounded-[2.5rem] overflow-hidden shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98] border border-slate-100 dark:border-zinc-800 ${isDeleting ? 'opacity-50 grayscale' : 'opacity-100'}`}>
-            <Link href={`/gems-of-marinduque-feed/${id}`} className="block w-full h-full">
+            <Link href={`/gems/${id}`} className="block w-full h-full">
                 {/* Cinematic Backdrop */}
                 {imageUrl ? (
                     <Image
@@ -154,3 +154,4 @@ export default function GemCard({ id, title, town, imageUrl, authorId, likeCount
         </div>
     );
 }
+

@@ -40,7 +40,7 @@ export async function createGem(data: GemInput) {
     if (error) throw new Error(error.message);
 
     revalidatePath('/marinduque-connect-home-feed');
-    revalidatePath('/gems-of-marinduque-feed');
+    revalidatePath('/gems');
     revalidatePath('/gems');
     return { success: true };
 }
@@ -61,7 +61,7 @@ export async function approveGem(gemId: string) {
     if (error) throw new Error(error.message);
 
     revalidatePath('/marinduque-connect-home-feed');
-    revalidatePath('/gems-of-marinduque-feed');
+    revalidatePath('/gems');
     revalidatePath('/gems');
     return { success: true };
 }
@@ -102,7 +102,7 @@ export async function deleteGem(id: string) {
     }
 
     revalidatePath('/marinduque-connect-home-feed');
-    revalidatePath('/gems-of-marinduque-feed');
+    revalidatePath('/gems');
     return { success: true };
 }
 
@@ -125,8 +125,8 @@ export async function toggleGemLike(gemId: string) {
         await supabase.from('gem_likes').insert({ gem_id: gemId, user_id: user.id });
     }
 
-    revalidatePath('/gems-of-marinduque-feed');
-    revalidatePath(`/gems-of-marinduque-feed/${gemId}`);
+    revalidatePath('/gems');
+    revalidatePath(`/gems/${gemId}`);
     return { success: true, liked: !existingLike };
 }
 
@@ -145,6 +145,7 @@ export async function addGemComment(gemId: string, content: string) {
 
     if (error) throw new Error(error.message);
 
-    revalidatePath(`/gems-of-marinduque-feed/${gemId}`);
+    revalidatePath(`/gems/${gemId}`);
     return { success: true };
 }
+

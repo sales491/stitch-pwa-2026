@@ -131,7 +131,7 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
                 <div key={gem.id} className="group flex flex-col bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-zinc-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                   {/* Image & Overlay */}
                   <div className="relative aspect-[4/5] overflow-hidden">
-                    <Link href={`/gems-of-marinduque-feed/${gem.id}`} className="block w-full h-full">
+                    <Link href={`/gems/${gem.id}`} className="block w-full h-full">
                       <img
                         alt={gem.imageAlt}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -184,7 +184,7 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
                     <div className="flex items-center gap-1 text-moriones-red mb-1 group-hover:translate-x-0.5 transition-transform">
                       <span className="text-[8px] font-bold uppercase tracking-[0.2em]">{gem.location}</span>
                     </div>
-                    <Link href={`/gems-of-marinduque-feed/${gem.id}`}>
+                    <Link href={`/gems/${gem.id}`}>
                       <h3 className="text-[11px] font-black leading-tight text-text-main line-clamp-2 min-h-[2.4rem] tracking-tight">{gem.title}</h3>
                     </Link>
 
@@ -226,3 +226,4 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
     </div>
   );
 }
+

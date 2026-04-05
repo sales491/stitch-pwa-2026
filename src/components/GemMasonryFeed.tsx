@@ -116,7 +116,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                             style={{ breakInside: 'avoid', marginBottom: '0.625rem' }}
                             className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
                         >
-                            <Link href={`/gems-of-marinduque-feed/${gem.id}`}>
+                            <Link href={`/gems/${gem.id}`}>
                                 <div className="relative w-full" style={{ aspectRatio: '4/5' }}>
                                     {gem.images?.[0] ? (
                                         <Image
@@ -138,7 +138,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                                     </div>
                                 </div>
                             </Link>
-                            <Link href={`/gems-of-marinduque-feed/${gem.id}`} className="block px-3 py-2.5">
+                            <Link href={`/gems/${gem.id}`} className="block px-3 py-2.5">
                                 <h3 className="font-black text-text-main dark:text-text-main-dark text-sm leading-snug mb-1 line-clamp-2">{gem.title}</h3>
                                 {gem.description && (
                                     <p className="text-[10px] text-text-muted dark:text-text-muted-dark line-clamp-2 mb-2">{gem.description}</p>
