@@ -98,7 +98,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                             {search ? 'Try a different search term.' : "The island's hidden treasures await registration. Be the first explorer to record a sanctuary."}
                         </p>
                         <Link
-                            href="/share-alocal-gem-screen"
+                            href="/gems/create"
                             className="bg-moriones-red text-white px-8 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-moriones-red/30 active:scale-95 transition-all"
                         >
                             Initialize Discovery
@@ -158,7 +158,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
 
             {/* ── FAB — red location pin, matches live site ────────── */}
             <Link
-                href="/share-alocal-gem-screen"
+                href="/gems/create"
                 className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-2xl shadow-moriones-red/40 active:scale-95 transition-all"
             >
                 <span className="material-symbols-outlined text-[28px]">add_location_alt</span>

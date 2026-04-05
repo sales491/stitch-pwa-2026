@@ -24,6 +24,8 @@ export async function createGem(data: GemInput) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Unauthorized');
 
+    const adminUser = await isUserAdmin(user);
+
     // Validation
     const validated = gemSchema.parse(data);
 
@@ -32,12 +34,35 @@ export async function createGem(data: GemInput) {
         .insert({
             ...validated,
             author_id: user.id,
+            is_approved: adminUser // Auto-approve if admin
         });
 
     if (error) throw new Error(error.message);
 
     revalidatePath('/marinduque-connect-home-feed');
     revalidatePath('/gems-of-marinduque-feed');
+    revalidatePath('/gems');
+    return { success: true };
+}
+
+export async function approveGem(gemId: string) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Unauthorized');
+    
+    const adminUser = await isUserAdmin(user);
+    if (!adminUser) throw new Error('Unauthorized: Admins only');
+
+    const { error } = await supabase
+        .from('gems')
+        .update({ is_approved: true })
+        .eq('id', gemId);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/marinduque-connect-home-feed');
+    revalidatePath('/gems-of-marinduque-feed');
+    revalidatePath('/gems');
     return { success: true };
 }
 

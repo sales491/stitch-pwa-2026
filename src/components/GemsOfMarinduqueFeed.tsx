@@ -2,7 +2,7 @@
 
 import React, { useTransition, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { deleteGem } from '@/app/actions/gems';
+import { deleteGem, approveGem } from '@/app/actions/gems';
 import GemLikeButton from '@/components/GemLikeButton';
 import AdminActions from './AdminActions';
 import PageHeader from '@/components/PageHeader';
@@ -30,6 +30,8 @@ type Gem = {
   likesCount: number;
   commentsCount: number;
   isLikedByMe: boolean;
+  isApproved: boolean;
+  category?: string;
 };
 
 type Props = {
@@ -148,6 +150,20 @@ export default function GemsOfMarinduqueFeed({ initialGems = [], currentUserId, 
                           iconSize={16}
                         />
                       </div>
+                      
+                      {!gem.isApproved && isAdmin && (
+                        <div className="flex items-center gap-1">
+                          <div className="bg-amber-500 text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full shadow-lg border-2 border-white dark:border-zinc-950">
+                            Pending
+                          </div>
+                          <button
+                            onClick={async (e) => { e.preventDefault(); e.stopPropagation(); await approveGem(gem.id); }}
+                            className="bg-emerald-500 hover:bg-emerald-600 text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-full shadow-lg border-2 border-white dark:border-zinc-950 transition-colors cursor-pointer pointer-events-auto"
+                          >
+                            Approve
+                          </button>
+                        </div>
+                      )}
 
                       <AdminActions
                         contentType="gem"

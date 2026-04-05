@@ -22,6 +22,7 @@ export default async function GemsFeedPage() {
     const { data: gems, error } = await supabase
         .from('gems')
         .select(`*, gem_likes(count), profiles(full_name, avatar_url)`)
+        .eq('is_approved', true)
         .order('created_at', { ascending: false });
 
     // Fetch which gems this user has already vouched for

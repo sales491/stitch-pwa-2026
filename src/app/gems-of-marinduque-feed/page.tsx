@@ -39,12 +39,13 @@ export default async function Page() {
   }
 
   // Fetch gems
-  const { data: gems } = await supabase
+  let query = supabase
     .from('gems')
     .select(`
       id,
       title,
       town,
+      category,
       description,
       images,
       latitude,
@@ -53,11 +54,18 @@ export default async function Page() {
       author_id,
       likes_count,
       comments_count,
+      is_approved,
       author:profiles!gems_author_id_fkey(
         full_name,
         avatar_url
       )
-    `)
+    `);
+    
+  if (!userIsAdmin) {
+    query = query.eq('is_approved', true);
+  }
+
+  const { data: gems } = await query
     .order('created_at', { ascending: false });
 
   // Fetch user likes
@@ -94,6 +102,8 @@ export default async function Page() {
     likesCount: gem.likes_count || 0,
     commentsCount: gem.comments_count || 0,
     isLikedByMe: myLikedGemIds.has(gem.id),
+    isApproved: gem.is_approved,
+    category: gem.category
   }));
 
   return (
