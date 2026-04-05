@@ -11,7 +11,7 @@ import Link from 'next/link';
  * Supports: jobs, listings, events, gems, businesses
  */
 
-type ItemType = 'jobs' | 'listings' | 'events' | 'gems' | 'businesses';
+type ItemType = 'jobs' | 'listings' | 'events' | 'gems' | 'businesses' | 'transport';
 
 interface RelatedItemsProps {
     type: ItemType;
@@ -25,7 +25,10 @@ interface RelatedItemsProps {
 // Cross-link config: what other types to show alongside
 const CROSS_LINKS: Partial<Record<ItemType, { type: ItemType; heading: string }[]>> = {
     events: [{ type: 'businesses', heading: 'Businesses Nearby' }],
-    gems: [{ type: 'businesses', heading: 'Businesses Nearby' }],
+    gems: [
+        { type: 'businesses', heading: 'Businesses Nearby' },
+        { type: 'transport', heading: 'Vehicle & Boat Operators Nearby' }
+    ],
 };
 
 async function fetchRelated(
@@ -204,6 +207,55 @@ async function fetchRelated(
                 image: b.gallery_image,
             }));
         }
+
+        case 'transport': {
+            let tQ = supabase
+                .from('transport_services')
+                .select('id, driver_name, vehicle_type, base_town, images')
+                .order('created_at', { ascending: false });
+            
+            let bQ = supabase
+                .from('boat_services')
+                .select('id, operator_name, boat_name, boat_type, base_municipality, images')
+                .order('created_at', { ascending: false });
+
+            let { data: tData } = town ? await tQ.ilike('base_town', `%${town}%`).limit(limit) : await tQ.limit(limit);
+            let { data: bData } = town ? await bQ.ilike('base_municipality', `%${town}%`).limit(limit) : await bQ.limit(limit);
+
+            if ((!tData || tData.length < Math.floor(limit / 2)) && town) {
+                const { data: fbT } = await supabase.from('transport_services').select('id, driver_name, vehicle_type, base_town, images').not('base_town', 'ilike', `%${town}%`).order('created_at', { ascending: false }).limit(limit);
+                if (fbT) tData = [...(tData || []), ...fbT];
+            }
+            if ((!bData || bData.length < Math.floor(limit / 2)) && town) {
+                const { data: fbB } = await supabase.from('boat_services').select('id, operator_name, boat_name, boat_type, base_municipality, images').not('base_municipality', 'ilike', `%${town}%`).order('created_at', { ascending: false }).limit(limit);
+                if (fbB) bData = [...(bData || []), ...fbB];
+            }
+
+            const combined: RelatedItem[] = [];
+            (tData || []).slice(0, limit).forEach((t: any) => {
+                combined.push({
+                    id: String(t.id),
+                    href: `/commute?operator=${t.id}`,
+                    title: t.driver_name || 'Driver',
+                    subtitle: t.base_town,
+                    badge: t.vehicle_type,
+                    image: t.images?.[0],
+                });
+            });
+            (bData || []).slice(0, limit).forEach((b: any) => {
+                combined.push({
+                    id: String(b.id),
+                    href: `/island-hopping?operator=${b.id}`,
+                    title: b.operator_name || b.boat_name || 'Boat Operator',
+                    subtitle: b.base_municipality,
+                    badge: b.boat_type || 'Boat Route',
+                    image: b.images?.[0],
+                });
+            });
+
+            // Return up to limit, ideally mixing both
+            return combined.sort(() => 0.5 - Math.random()).slice(0, limit);
+        }
     }
 }
 
@@ -245,6 +297,7 @@ export default async function RelatedItems({
         events: 'Upcoming Events Nearby',
         gems: 'More Gems to Explore',
         businesses: 'Businesses Nearby',
+        transport: 'Vehicle & Boat Operators Nearby',
     };
 
     return (
