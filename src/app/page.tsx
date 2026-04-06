@@ -3,6 +3,7 @@ import MarinduqueConnectHomeFeed from '@/components/MarinduqueConnectHomeFeed';
 import HomeAlertBanner from '@/components/HomeAlertBanner';
 import PopularOnMarketHub from '@/components/PopularOnMarketHub';
 import { getLiveHubItems } from '@/lib/hub-data';
+import { getLiveSellingFeed } from '@/lib/live-selling';
 
 // Run at Vercel's global edge — zero cold starts, instant TTFB from CDN cache
 export const runtime = 'edge';
@@ -21,11 +22,14 @@ export default async function Home() {
   });
 
   const liveItems = await getLiveHubItems();
+  const { liveNow } = await getLiveSellingFeed();
+
   return (
     <MarinduqueConnectHomeFeed
       initialItems={liveItems}
       alertBanner={<HomeAlertBanner />}
       popularSection={<PopularOnMarketHub />}
+      liveSellersActive={liveNow.length > 0}
     />
   );
 }

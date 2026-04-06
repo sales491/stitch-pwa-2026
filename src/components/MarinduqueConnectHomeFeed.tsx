@@ -45,9 +45,10 @@ type Props = {
     initialItems: HubItem[];
     alertBanner?: React.ReactNode;
     popularSection?: React.ReactNode;
+    liveSellersActive?: boolean;
 };
 
-export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, popularSection }: Props) {
+export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, popularSection, liveSellersActive }: Props) {
     const [selectedTown, setSelectedTown] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [categorizedItems, setCategorizedItems] = useState<{ [key: string]: HubItem[] }>({});
@@ -128,6 +129,34 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
 
                 {/* ── 3. Alert Banner (active calamity/outage alerts) ────── */}
                 {alertBanner}
+
+                {/* ── 3a. Live Selling Radar (Flashing CTA if active) ─────── */}
+                <Link
+                    href="/live-selling"
+                    className={`mx-4 mb-3 flex items-center gap-3 rounded-xl p-3 shadow-sm active:scale-[0.98] transition-transform border ${
+                        liveSellersActive 
+                          ? 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900/50' 
+                          : 'bg-slate-50 dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800'
+                    }`}
+                >
+                    <div className="relative flex h-3 w-3 shrink-0">
+                        {liveSellersActive && (
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                        )}
+                        <span className={`relative inline-flex rounded-full h-3 w-3 ${liveSellersActive ? 'bg-red-600' : 'bg-slate-400 dark:bg-zinc-600'}`}></span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-red-700 dark:text-red-400' : 'text-slate-800 dark:text-zinc-200'}`}>
+                            Live Selling Radar
+                        </p>
+                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-600/80 dark:text-red-400/80' : 'text-slate-500 dark:text-zinc-400'}`}>
+                            {liveSellersActive ? '🔴 Locals are streaming right now!' : 'Find locals selling live on TikTok, Shopee, YT & FB'}
+                        </p>
+                    </div>
+                    <span className={`material-symbols-outlined shrink-0 ${liveSellersActive ? 'text-red-500' : 'text-slate-400 dark:text-zinc-500'}`}>
+                        sensors
+                    </span>
+                </Link>
 
                 {/* ── 3. Quick-Action Cards (static, horizontal scroll, centred on Marketplace) ───── */}
                 <div
