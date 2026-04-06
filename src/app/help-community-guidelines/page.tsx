@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import HelpCommunityGuidelines from '@/components/HelpCommunityGuidelines';
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
         description: 'Rules for respectful, safe, and community-spirited participation on Marinduque Market Hub.',
         url: 'https://marinduquemarket.com/help-community-guidelines',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/help-community-guidelines' },
+    alternates: hreflangAlternates('/help-community-guidelines'),
 };
 
 export default function Page() {

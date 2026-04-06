@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import UniversalComments from '@/components/UniversalComments';
@@ -29,13 +30,7 @@ export async function generateMetadata({
             url: `https://marinduquemarket.com/community/${id}`,
             type: 'article',
         },
-        alternates: { 
-            canonical: `https://marinduquemarket.com/community/${id}`,
-            languages: {
-                'en-PH': `https://marinduquemarket.com/community/${id}`,
-                'tl-PH': `https://marinduquemarket.com/community/${id}`,
-            }
-        },
+        alternates: hreflangAlternates(`/community/${id}`),
     };
 }
 

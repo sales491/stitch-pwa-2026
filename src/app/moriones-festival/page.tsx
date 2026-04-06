@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_EVENTS, TAGALOG_KEYWORDS_TRAVEL } from '@/utils/seo';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
         'Holy Week Philippines 2026', 'Marinduque Holy Week', 'Moriones Festival schedule',
         'Moriones mask', 'Moriones costume', 'Lenten festival Philippines',
         'Marinduque festival', 'Pugutan Moriones', 'Roman centurion festival',
+        ...TAGALOG_KEYWORDS_EVENTS, ...TAGALOG_KEYWORDS_TRAVEL,
     ],
     openGraph: {
         title: 'Moriones Festival 2026 — Marinduque, Philippines',
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
         url: 'https://marinduquemarket.com/moriones-festival',
         type: 'article',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/moriones-festival' },
+    alternates: hreflangAlternates('/moriones-festival'),
 };
 
 const SCHEDULE = [

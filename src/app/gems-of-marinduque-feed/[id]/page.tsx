@@ -7,6 +7,7 @@ import GemDetailsDeleteButton from '@/components/GemDetailsDeleteButton';
 import { isAdmin } from '@/utils/roles';
 import { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
+import { hreflangAlternates } from '@/utils/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             description: gem.description,
             images: gem.images && gem.images.length > 0 ? [{ url: gem.images[0] }] : [],
         },
+        alternates: hreflangAlternates(`/gems-of-marinduque-feed/${resolvedParams.id}`),
     };
 }
 

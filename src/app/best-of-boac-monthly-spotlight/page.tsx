@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_DIRECTORY } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,14 +11,14 @@ import MonthPill from '@/components/MonthPill';
 
 export const metadata: Metadata = {
     title: 'Best of Boac — Monthly Business Spotlight',
-    description: 'Monthly spotlight celebrating the best local businesses in Boac, Marinduque. Top-rated restaurants, shops, and services voted by the community.',
-    keywords: ['best businesses Boac', 'top restaurants Marinduque', 'Boac local businesses', 'monthly spotlight Marinduque'],
+    description: 'Ang pinakamahusay na mga negosyo sa Boac, Marinduque — monthly spotlight celebrating top-rated restaurants, shops, and services voted by the community.',
+    keywords: ['best businesses Boac', 'top restaurants Marinduque', 'Boac local businesses', 'monthly spotlight Marinduque', ...TAGALOG_KEYWORDS_DIRECTORY],
     openGraph: {
         title: 'Best of Boac — Monthly Business Spotlight',
         description: 'Community-voted best businesses in Boac, Marinduque.',
         url: 'https://marinduquemarket.com/best-of-boac-monthly-spotlight',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/best-of-boac-monthly-spotlight' },
+    alternates: hreflangAlternates('/best-of-boac-monthly-spotlight'),
 };
 
 export const revalidate = 0;

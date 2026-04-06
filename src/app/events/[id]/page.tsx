@@ -5,6 +5,7 @@ import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
+import { hreflangAlternates } from '@/utils/seo';
 
 export async function generateMetadata({
     params,
@@ -31,13 +32,7 @@ export async function generateMetadata({
             type: 'article',
             images: event.image ? [{ url: event.image, alt: event.title }] : undefined,
         },
-        alternates: { 
-            canonical: `https://marinduquemarket.com/events/${id}`,
-            languages: {
-                'en-PH': `https://marinduquemarket.com/events/${id}`,
-                'tl-PH': `https://marinduquemarket.com/events/${id}`,
-            }
-        },
+        alternates: hreflangAlternates(`/events/${id}`),
     };
 }
 

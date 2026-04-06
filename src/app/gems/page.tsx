@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_GEMS } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import GemMasonryFeed from '@/components/GemMasonryFeed';
@@ -7,12 +8,13 @@ const BASE = 'https://marinduquemarket.com';
 
 export const metadata: Metadata = {
     title: 'Hidden Gems of Marinduque Island — Tourist Spots & Secret Places',
-    description: 'Discover the best hidden gems across Marinduque island — secret beaches, waterfalls, caves, cultural heritage sites, and community-loved spots recommended by locals and travelers.',
+    description: 'Discover the hidden gems of Marinduque island — mga magandang lugar, secret beaches, waterfalls, caves, at local favorites na hindi mo mahahanap sa ibang lugar. Community-curated and verified by locals.',
     keywords: [
         'hidden gems Marinduque', 'Marinduque tourist spots', 'Maniwaya Island', 'Palad Sandbar',
         'Tres Reyes Islands', 'Bathala Caves', 'Boac Cathedral', 'things to do Marinduque',
         'Marinduque travel guide', 'where to go Marinduque', 'Marinduque hidden places',
         'best places Marinduque', 'Marinduque attractions', 'Luzon Datum Marinduque',
+        ...TAGALOG_KEYWORDS_GEMS,
     ],
     openGraph: {
         title: 'Hidden Gems of Marinduque Island',
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
         url: `${BASE}/gems`,
         images: [{ url: `${BASE}/images/gems/marinduque-museum.png`, alt: 'Marinduque National Museum — local gem in Boac, Marinduque' }],
     },
-    alternates: { canonical: `${BASE}/gems` },
+    alternates: hreflangAlternates('/gems'),
 };
 
 export default async function GemsFeedPage() {

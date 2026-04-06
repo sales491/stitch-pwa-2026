@@ -9,6 +9,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
+import { hreflangAlternates } from '@/utils/seo';
 
 export async function generateMetadata({
     params,
@@ -38,7 +39,7 @@ export async function generateMetadata({
             type: 'article',
             images: listing.images?.[0] ? [{ url: listing.images[0], alt: listing.title }] : undefined,
         },
-        alternates: { canonical: `https://marinduquemarket.com/marketplace/${id}` },
+        alternates: hreflangAlternates(`/marketplace/${id}`),
     };
 }
 

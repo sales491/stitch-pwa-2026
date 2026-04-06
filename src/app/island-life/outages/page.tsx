@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_ISLAND_LIFE } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import { getOutageReports } from '@/app/actions/outages';
 import OutageFeed from '@/components/OutageFeed';
@@ -7,13 +8,13 @@ import PageHeader from '@/components/PageHeader';
 export const metadata: Metadata = {
     title: 'Outage Reports — Power & Water in Marinduque',
     description: 'Real-time community-reported power and water outages across Marinduque island. Report outages, track restoration, and get alerted when service returns in your area.',
-    keywords: ['power outage Marinduque', 'water outage Philippines', 'MERALCO outage Marinduque', 'electricity outage Boac', 'community alerts Marinduque'],
+    keywords: ['power outage Marinduque', 'water outage Philippines', 'MERALCO outage Marinduque', 'electricity outage Boac', 'community alerts Marinduque', ...TAGALOG_KEYWORDS_ISLAND_LIFE],
     openGraph: {
         title: 'Outage Reports — Marinduque',
         description: 'Live community-reported power and water outages across Marinduque island.',
         url: 'https://marinduquemarket.com/island-life/outages',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/island-life/outages' },
+    alternates: hreflangAlternates('/island-life/outages'),
 };
 
 export const dynamic = 'force-dynamic';

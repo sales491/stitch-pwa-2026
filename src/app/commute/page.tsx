@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import CommuterDeliveryHub from '@/components/CommuterDeliveryHub';
 import SeoTextBlock from '@/components/SeoTextBlock';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
         description: 'Find local transport and delivery services across Marinduque island.',
         url: 'https://marinduquemarket.com/commute',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/commute' },
+    alternates: hreflangAlternates('/commute'),
 };
 
 export default function CommuteBoard() {

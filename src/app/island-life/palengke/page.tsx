@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_ISLAND_LIFE } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import { getPalengkePrices } from '@/app/actions/palengke';
 import { MUNICIPALITIES, Municipality } from '@/lib/palengke-constants';
@@ -8,13 +9,13 @@ import PageHeader from '@/components/PageHeader';
 export const metadata: Metadata = {
     title: 'Palengke Prices — Live Market Prices',
     description: "Today's fish, produce, and meat prices from palengke markets across all six Marinduque municipalities. Updated daily by local vendors.",
-    keywords: ['palengke prices Marinduque', 'market prices Philippines', 'fish prices Boac', 'produce prices Marinduque', 'local market Marinduque'],
+    keywords: ['palengke prices Marinduque', 'market prices Philippines', 'fish prices Boac', 'produce prices Marinduque', 'local market Marinduque', ...TAGALOG_KEYWORDS_ISLAND_LIFE],
     openGraph: {
         title: 'Palengke Prices — Marinduque Live Market',
         description: "Live fish, produce, and meat prices from Marinduque's local markets.",
         url: 'https://marinduquemarket.com/island-life/palengke',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/island-life/palengke' },
+    alternates: hreflangAlternates('/island-life/palengke'),
 };
 
 export const revalidate = 300; // Revalidate every 5 minutes

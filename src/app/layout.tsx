@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { hreflangAlternates } from '@/utils/seo';
 import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import LeftSidebar from '@/components/LeftSidebar';
@@ -55,9 +56,7 @@ export const metadata: Metadata = {
   creator: 'Marinduque Market Hub',
   publisher: 'Marinduque Market Hub',
   category: 'Community & Marketplace',
-  alternates: {
-    canonical: SITE_URL,
-  },
+  alternates: hreflangAlternates('/'),
   openGraph: {
     type: 'website',
     locale: 'en_PH',

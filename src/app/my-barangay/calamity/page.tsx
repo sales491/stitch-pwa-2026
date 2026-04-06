@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_BARANGAY } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import { getCalamityAlerts } from '@/app/actions/calamity';
 import CalamityFeed from '@/components/CalamityFeed';
@@ -6,13 +7,13 @@ import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'Calamity Board — Emergency Alerts Marinduque',
-    description: 'Community calamity and emergency alerts for Marinduque island. Reports on typhoons, floods, earthquakes, fires, and road closures. Always follow official NDRRMC/PAGASA advisories.',
-    keywords: ['typhoon Marinduque', 'flood alert Philippines', 'calamity board Marinduque', 'emergency alerts Philippines', 'NDRRMC Marinduque'],
+    description: 'Mga babala at emergency alerts para sa Marinduque island — bagyo, baha, lindol, at iba pang kalamidad. Community-powered alerts mula sa mga lokal na residente.',
+    keywords: ['typhoon Marinduque', 'flood alert Philippines', 'calamity board Marinduque', 'emergency alerts Philippines', 'NDRRMC Marinduque', ...TAGALOG_KEYWORDS_BARANGAY],
     openGraph: {
         title: 'Calamity Board — Marinduque Emergency Alerts',
         description: 'Community calamity alerts: typhoons, floods, and emergencies in Marinduque.',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/my-barangay/calamity' },
+    alternates: hreflangAlternates('/my-barangay/calamity'),
 };
 
 export const dynamic = 'force-dynamic';

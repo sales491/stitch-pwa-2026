@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
         description: 'Terms of Service, Privacy Policy, and Community Guidelines.',
         url: 'https://marinduquemarket.com/policies',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/policies' },
+    alternates: hreflangAlternates('/policies'),
 };
 
 const sections = [

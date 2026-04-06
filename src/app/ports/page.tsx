@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 import PortsClientShell from '@/components/PortsClientShell';
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
         description: 'Live ferry schedules and port status updates for Marinduque island.',
         url: 'https://marinduquemarket.com/ports',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/ports' },
+    alternates: hreflangAlternates('/ports'),
 };
 
 export default async function PortsPage() {

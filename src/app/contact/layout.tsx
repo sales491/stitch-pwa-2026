@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 
 export const metadata: Metadata = {
     title: 'Contact Us',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
         description: 'Reach out for support, privacy requests, or general inquiries.',
         url: 'https://marinduquemarket.com/contact',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/contact' },
+    alternates: hreflangAlternates('/contact'),
 };
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {

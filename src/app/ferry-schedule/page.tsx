@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_TRAVEL } from '@/utils/seo';
 import Link from 'next/link';
 import SeoTextBlock from '@/components/SeoTextBlock';
 import PageHeader from '@/components/PageHeader';
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
         'Dalahican to Marinduque', 'Lucena to Marinduque', 'how to get to Marinduque',
         'Marinduque boat schedule', 'ferry to Marinduque', 'BAPOR Marinduque',
         'Starlite ferry Marinduque', 'Montenegro Marinduque',
+        ...TAGALOG_KEYWORDS_TRAVEL,
     ],
     openGraph: {
         title: 'Marinduque Ferry Schedule 2026 — Routes, Fares & Ports',
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
         url: 'https://marinduquemarket.com/ferry-schedule',
         type: 'article',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/ferry-schedule' },
+    alternates: hreflangAlternates('/ferry-schedule'),
 };
 
 // Ferry route data

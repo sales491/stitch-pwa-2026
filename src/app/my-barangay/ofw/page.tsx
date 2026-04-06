@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_OFW } from '@/utils/seo';
 import { getExchangeRates, getRemittanceCenters } from '@/app/actions/ofw';
 import OFWDisplay from '@/components/OFWDisplay';
 import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'OFW Corner — Remittance & Exchange Rates',
-    description: 'Live Philippine peso exchange rates for USD, SAR, AED, SGD, and more. Find remittance centers across Marinduque. Essential tools for OFWs and their families.',
-    keywords: ['OFW Marinduque', 'peso exchange rate Philippines', 'remittance Marinduque', 'Western Union Boac', 'dollar rate today Philippines'],
+    description: 'Para sa mga OFW at pamilya sa Marinduque — live exchange rates para sa USD, SAR, AED, SGD, at iba pa. Hanapin ang mga remittance centers sa Marinduque.',
+    keywords: ['OFW Marinduque', 'peso exchange rate Philippines', 'remittance Marinduque', 'Western Union Boac', 'dollar rate today Philippines', ...TAGALOG_KEYWORDS_OFW],
     openGraph: {
         title: 'OFW Corner — Marinduque',
         description: 'Live exchange rates and remittance centers for Marinduque OFWs and families.',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/my-barangay/ofw' },
+    alternates: hreflangAlternates('/my-barangay/ofw'),
 };
 
 export const dynamic = 'force-dynamic';

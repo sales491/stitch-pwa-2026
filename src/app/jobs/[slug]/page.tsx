@@ -5,6 +5,7 @@ import UniversalComments from '@/components/UniversalComments';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
+import { hreflangAlternates } from '@/utils/seo';
 
 export async function generateMetadata({
     params,
@@ -30,7 +31,7 @@ export async function generateMetadata({
             url: `https://marinduquemarket.com/jobs/${job.slug}`,
             type: 'article',
         },
-        alternates: { canonical: `https://marinduquemarket.com/jobs/${job.slug}` },
+        alternates: hreflangAlternates(`/jobs/${job.slug}`),
     };
 }
 

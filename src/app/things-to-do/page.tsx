@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_TRAVEL, TAGALOG_KEYWORDS_GEMS } from '@/utils/seo';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
         'Marinduque travel guide', 'what to do in Marinduque', 'Marinduque activities',
         'Marinduque beaches', 'Marinduque itinerary', 'visit Marinduque',
         'Marinduque island Philippines', 'Boac Marinduque', 'Tres Reyes Islands',
+        ...TAGALOG_KEYWORDS_TRAVEL, ...TAGALOG_KEYWORDS_GEMS,
     ],
     openGraph: {
         title: 'Things to Do in Marinduque — Travel Guide 2026',
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
         url: 'https://marinduquemarket.com/things-to-do',
         type: 'article',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/things-to-do' },
+    alternates: hreflangAlternates('/things-to-do'),
 };
 
 const CATEGORIES = [

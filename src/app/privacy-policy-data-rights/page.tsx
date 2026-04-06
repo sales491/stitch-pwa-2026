@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import PrivacyPolicyDataRights from '@/components/PrivacyPolicyDataRights';
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
         description: 'How your data is collected, stored, and protected on Marinduque Market Hub.',
         url: 'https://marinduquemarket.com/privacy-policy-data-rights',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/privacy-policy-data-rights' },
+    alternates: hreflangAlternates('/privacy-policy-data-rights'),
 };
 
 export default function Page() {

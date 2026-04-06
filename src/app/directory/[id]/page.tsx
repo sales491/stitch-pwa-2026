@@ -9,6 +9,7 @@ import MenuCarousel from '@/components/MenuCarousel';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
+import { hreflangAlternates } from '@/utils/seo';
 
 export async function generateMetadata({
     params,
@@ -35,7 +36,7 @@ export async function generateMetadata({
             type: 'website',
             images: biz.gallery_images?.[0] ? [{ url: biz.gallery_images[0], alt: biz.business_name }] : undefined,
         },
-        alternates: { canonical: `https://marinduquemarket.com/directory/${id}` },
+        alternates: hreflangAlternates(`/directory/${id}`),
     };
 }
 

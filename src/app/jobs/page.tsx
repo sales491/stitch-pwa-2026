@@ -1,17 +1,18 @@
 export const revalidate = 0; // Always dynamic — jobs change frequently
 
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_JOBS } from '@/utils/seo';
 
 export const metadata: Metadata = {
     title: 'Job Listings in Marinduque',
-    description: 'Find local job opportunities in Marinduque, Philippines. Browse full-time, part-time, and freelance positions across Boac, Gasan, Mogpog, Santa Cruz, Torrijos, and Buenavista.',
-    keywords: ['jobs Marinduque', 'job vacancies Philippines', 'work Marinduque', 'employment Boac', 'job opportunities Marinduque island'],
+    description: 'Hanapin ang trabaho sa Marinduque — full-time, part-time, at freelance positions sa Boac, Gasan, Mogpog, Santa Cruz, Torrijos, at Buenavista.',
+    keywords: ['jobs Marinduque', 'job vacancies Philippines', 'work Marinduque', 'employment Boac', 'job opportunities Marinduque island', ...TAGALOG_KEYWORDS_JOBS],
     openGraph: {
         title: 'Job Listings in Marinduque',
         description: 'Discover full-time, part-time, and freelance jobs across Marinduque island.',
         url: 'https://marinduquemarket.com/jobs',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/jobs' },
+    alternates: hreflangAlternates('/jobs'),
 };
 
 import MarinduqueJobsListingFeed from '@/components/MarinduqueJobsListingFeed';

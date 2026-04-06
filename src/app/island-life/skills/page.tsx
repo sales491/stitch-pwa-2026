@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_ISLAND_LIFE, TAGALOG_KEYWORDS_JOBS } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import { getSkillListings } from '@/app/actions/skills';
 import SkillsDisplay from '@/components/SkillsDisplay';
@@ -7,13 +8,13 @@ import PageHeader from '@/components/PageHeader';
 export const metadata: Metadata = {
     title: 'Skills Exchange — Find Local Skills',
     description: 'Community-powered skills directory for Marinduque. Find locals offering teaching, repairs, crafts, food, tech, health services, and more. 60-day listings.',
-    keywords: ['skills exchange Marinduque', 'local skills Philippines', 'freelance Marinduque', 'tutoring Boac', 'repairs Marinduque', 'crafts Marinduque'],
+    keywords: ['skills exchange Marinduque', 'local skills Philippines', 'freelance Marinduque', 'tutoring Boac', 'repairs Marinduque', 'crafts Marinduque', ...TAGALOG_KEYWORDS_ISLAND_LIFE, ...TAGALOG_KEYWORDS_JOBS],
     openGraph: {
         title: 'Skills Exchange — Marinduque',
         description: 'Find locals offering teaching, repairs, crafts, and services across Marinduque.',
         url: 'https://marinduquemarket.com/island-life/skills',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/island-life/skills' },
+    alternates: hreflangAlternates('/island-life/skills'),
 };
 
 export const revalidate = 300;

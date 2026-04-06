@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 
 export const metadata: Metadata = {
     title: 'About Us',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
         description: 'A mobile-first community platform built for the people of Marinduque, Philippines.',
         url: 'https://marinduquemarket.com/about',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/about' },
+    alternates: hreflangAlternates('/about'),
 };
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {

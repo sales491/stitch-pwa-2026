@@ -5,6 +5,7 @@ import UniversalComments from '@/components/UniversalComments';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
+import { hreflangAlternates } from '@/utils/seo';
 
 export async function generateMetadata({
     params,
@@ -36,7 +37,7 @@ export async function generateMetadata({
             type: 'article',
             images: gem.images?.[0] ? [{ url: gem.images[0], alt: `${gem.title} — hidden gem in ${gem.town}, Marinduque, Philippines` }] : undefined,
         },
-        alternates: { canonical: `https://marinduquemarket.com/gems/${id}` },
+        alternates: hreflangAlternates(`/gems/${id}`),
     };
 }
 

@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_MARKETPLACE } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import ClientFeed from './ClientFeed';
 import SeoTextBlock from '@/components/SeoTextBlock';
 
 export const metadata: Metadata = {
     title: 'Marinduque Classifieds Marketplace',
-    description: 'Buy and sell items locally in Marinduque — furniture, electronics, clothes, vehicles, and more. Browse active listings from sellers in Boac, Gasan, Mogpog, Santa Cruz, Torrijos, and Buenavista.',
-    keywords: ['buy and sell Marinduque', 'classifieds Philippines', 'Marinduque market', 'secondhand items Marinduque', 'local marketplace Boac'],
+    description: 'Mag-bilihan at mag-bentahan sa Marinduque — furniture, electronics, damit, sasakyan, at iba pa. Browse active listings from sellers across all six municipalities.',
+    keywords: ['buy and sell Marinduque', 'classifieds Philippines', 'Marinduque market', 'secondhand items Marinduque', 'local marketplace Boac', ...TAGALOG_KEYWORDS_MARKETPLACE],
     openGraph: {
         title: 'Marinduque Classifieds Marketplace',
         description: 'Browse local buy-and-sell listings across all 6 municipalities of Marinduque.',
         url: 'https://marinduquemarket.com/marketplace',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/marketplace' },
+    alternates: hreflangAlternates('/marketplace'),
 };
 
 export const revalidate = 0; // Always dynamic — listings change frequently

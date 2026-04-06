@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_TRAVEL } from '@/utils/seo';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,12 +11,13 @@ const BASE = 'https://marinduquemarket.com';
 
 export const metadata: Metadata = {
     title: 'Just Arrived at Balanacan Port? — Marinduque Travel Guide & First Steps',
-    description: "Just landed in Marinduque? Here's exactly what to do after arriving at Balanacan Port — find a ride, discover nearby tourist spots in Mogpog and Boac, and plan your island adventure.",
+    description: "Bagong dating sa Marinduque? Here's exactly what to do after arriving at Balanacan Port — find a ride, discover nearby spots, and plan your island adventure.",
     keywords: [
         'Balanacan Port Marinduque', 'arriving Marinduque what to do', 'just arrived Marinduque',
         'Marinduque travel tips', 'things to do near Balanacan Port', 'Mogpog tourist spots',
         'Boac tourist spots', 'tricycle Balanacan Port', 'Marinduque first time visitor',
         'how to get around Marinduque', 'Marinduque travel guide 2026',
+        ...TAGALOG_KEYWORDS_TRAVEL,
     ],
     openGraph: {
         title: 'Just Arrived at Balanacan Port? — Your Marinduque First Steps',
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
         type: 'article',
         images: [{ url: `${BASE}/images/gems/balanacan.png`, alt: 'Balanacan Shrine (Our Lady of Biglang Awa) — the iconic welcome landmark at Balanacan Port, Mogpog, Marinduque' }],
     },
-    alternates: { canonical: `${BASE}/just-landed` },
+    alternates: hreflangAlternates('/just-landed'),
 };
 
 // ── FAQ + WebPage JSON-LD — AEO/AIO: answers implicit questions new arrivals ask ──

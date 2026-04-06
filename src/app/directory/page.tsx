@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_DIRECTORY } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import BusinessDirectoryClient from '@/components/BusinessDirectoryClient';
 import SeoTextBlock from '@/components/SeoTextBlock';
 
 export const metadata: Metadata = {
     title: 'Marinduque Business Directory',
-    description: 'Find verified local businesses across Marinduque — restaurants, shops, services, accommodations, and more. Support local enterprises in Boac, Gasan, Mogpog, Santa Cruz, Torrijos, and Buenavista.',
-    keywords: ['Marinduque business directory', 'local businesses Marinduque', 'shops Marinduque', 'restaurants Marinduque', 'services Marinduque Philippines'],
+    description: 'Hanapin ang mga lokal na negosyo sa Marinduque — restaurants, shops, services, at accommodations. Support local sa inyong bayan.',
+    keywords: ['Marinduque business directory', 'local businesses Marinduque', 'shops Marinduque', 'restaurants Marinduque', 'services Marinduque Philippines', ...TAGALOG_KEYWORDS_DIRECTORY],
     openGraph: {
         title: 'Marinduque Business Directory',
         description: 'Discover and support verified local businesses across all of Marinduque island.',
         url: 'https://marinduquemarket.com/directory',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/directory' },
+    alternates: hreflangAlternates('/directory'),
 };
 
 export default async function BusinessDirectory() {

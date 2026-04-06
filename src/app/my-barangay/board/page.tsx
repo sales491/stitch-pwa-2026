@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_BARANGAY } from '@/utils/seo';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
@@ -8,13 +9,13 @@ import PageHeader from '@/components/PageHeader';
 
 export const metadata: Metadata = {
     title: 'Barangay Board',
-    description: 'Hyperlocal community posts visible only to your barangay in Marinduque. Share news, announcements, and updates with your immediate neighbors.',
-    keywords: ['barangay Marinduque', 'community board Philippines', 'local community posts', 'hyperlocal Marinduque'],
+    description: 'Ang hyperlocal na board para sa inyong barangay sa Marinduque — I-share ang balita, abiso, at updates para sa inyong mga kapitbahay. Makita lamang ng inyong barangay.',
+    keywords: ['barangay Marinduque', 'community board Philippines', 'local community posts', 'hyperlocal Marinduque', ...TAGALOG_KEYWORDS_BARANGAY],
     openGraph: {
         title: 'Barangay Board — Marinduque',
         description: 'Hyperlocal posts for your barangay community in Marinduque.',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/my-barangay/board' },
+    alternates: hreflangAlternates('/my-barangay/board'),
 };
 
 export const dynamic = 'force-dynamic';

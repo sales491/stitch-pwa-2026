@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangAlternates } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import GemsOfMarinduqueFeed from '@/components/GemsOfMarinduqueFeed';
 import { isAdmin } from '@/utils/roles';
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
         description: 'Community-discovered hidden gems from across Marinduque island, Philippines.',
         url: 'https://marinduquemarket.com/gems-of-marinduque-feed',
     },
-    alternates: { canonical: 'https://marinduquemarket.com/gems-of-marinduque-feed' },
+    alternates: hreflangAlternates('/gems-of-marinduque-feed'),
 };
 
 export const dynamic = 'force-dynamic';
