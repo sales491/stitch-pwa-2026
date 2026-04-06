@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { getLiveSellingFeed } from '@/lib/live-selling';
 import BackButton from '@/components/BackButton';
 import PageHeader from '@/components/PageHeader';
+import LiveEventActions from '@/components/LiveEventActions';
+import { createClient } from '@/utils/supabase/server';
 
 export const metadata: Metadata = {
     title: 'Live Selling Radar | Marinduque Market Hub',
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
 // Revalidate every 60 seconds so the "Live Now" list is frequently updated
 export const revalidate = 60;
 
-function LiveCard({ event, isLiveNow }: { event: any, isLiveNow: boolean }) {
+function LiveCard({ event, isLiveNow, currentUserId }: { event: any, isLiveNow: boolean, currentUserId?: string | null }) {
     const formatTime = (dateStr: string) => {
         return new Date(dateStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     };
@@ -34,8 +36,11 @@ function LiveCard({ event, isLiveNow }: { event: any, isLiveNow: boolean }) {
             href={event.stream_link} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="block w-full rounded-2xl bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-red-200 dark:hover:border-red-900/50 transition-all group overflow-hidden"
+            className="block relative w-full rounded-2xl bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-red-200 dark:hover:border-red-900/50 transition-all group overflow-hidden"
         >
+            {currentUserId === event.seller_id && (
+                <LiveEventActions eventId={event.id} />
+            )}
             <div className="p-4 flex gap-4">
                 <div className="flex-shrink-0">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700">
@@ -84,6 +89,9 @@ function LiveCard({ event, isLiveNow }: { event: any, isLiveNow: boolean }) {
 }
 
 export default async function LiveSellingRadarPage() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
     const { liveNow, upcoming } = await getLiveSellingFeed();
 
     return (
@@ -123,7 +131,7 @@ export default async function LiveSellingRadarPage() {
                     <div className="space-y-3">
                         {liveNow.length > 0 ? (
                             liveNow.map((event) => (
-                                <LiveCard key={event.id} event={event} isLiveNow={true} />
+                                <LiveCard key={event.id} event={event} isLiveNow={true} currentUserId={user?.id} />
                             ))
                         ) : (
                             <div className="bg-slate-50 dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
@@ -149,7 +157,7 @@ export default async function LiveSellingRadarPage() {
                     <div className="space-y-3">
                         {upcoming.length > 0 ? (
                             upcoming.map((event) => (
-                                <LiveCard key={event.id} event={event} isLiveNow={false} />
+                                <LiveCard key={event.id} event={event} isLiveNow={false} currentUserId={user?.id} />
                             ))
                         ) : (
                             <div className="p-8 text-center bg-white dark:bg-zinc-900 rounded-2xl shadow-sm">
