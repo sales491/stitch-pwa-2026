@@ -55,6 +55,16 @@ export default async function JobsPage({
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'CollectionPage',
+                    name: metadata.openGraph?.title || 'Job Listings in Marinduque',
+                    description: metadata.openGraph?.description || 'Discover jobs across Marinduque island.',
+                    url: 'https://marinduquemarket.com/jobs'
+                }) }}
+            />
             <MarinduqueJobsListingFeed
                 initialJobs={jobs || []}
                 totalCount={count || 0}

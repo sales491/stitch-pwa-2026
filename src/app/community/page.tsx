@@ -15,5 +15,19 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityFeedPage() {
-    return <CommunityBoardCommuterHub />;
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    name: metadata.openGraph?.title || 'Community Board — Marinduque',
+                    description: metadata.openGraph?.description || 'Connect with your local Marinduque community. Share posts, ask questions, and stay informed.',
+                    url: 'https://marinduquemarket.com/community'
+                }) }}
+            />
+            <CommunityBoardCommuterHub />
+        </>
+    );
 }

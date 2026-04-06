@@ -61,6 +61,16 @@ export default async function BusinessDirectory() {
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'CollectionPage',
+                    name: metadata.openGraph?.title || 'Marinduque Business Directory',
+                    description: metadata.openGraph?.description || 'Discover and support verified local businesses across all of Marinduque island.',
+                    url: 'https://marinduquemarket.com/directory'
+                }) }}
+            />
             <BusinessDirectoryClient initialBusinesses={businesses || []} />
             <SeoTextBlock heading="About the Marinduque Business Directory">
                 <p>The Marinduque Business Directory is the island’s most comprehensive listing of local enterprises. It includes restaurants, cafes, retail shops, hardware stores, health clinics, pharmacies, schools, resorts, guesthouses, agricultural suppliers, and professional services across all six municipalities: <strong>Boac</strong>, <strong>Mogpog</strong>, <strong>Gasan</strong>, <strong>Santa Cruz</strong>, <strong>Torrijos</strong>, and <strong>Buenavista</strong>.</p>

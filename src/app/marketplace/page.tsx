@@ -31,6 +31,16 @@ export default async function MarketplacePage() {
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'CollectionPage',
+                    name: metadata.openGraph?.title || 'Marinduque Classifieds Marketplace',
+                    description: metadata.openGraph?.description || 'Browse local buy-and-sell listings across all 6 municipalities of Marinduque.',
+                    url: 'https://marinduquemarket.com/marketplace'
+                }) }}
+            />
             <ClientFeed initialListings={initialListings ?? []} />
             <SeoTextBlock heading="About the Marinduque Marketplace">
                 <p>The Marinduque Marketplace is the island's largest online buy-and-sell platform. Residents from all six municipalities — Boac, Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista — post items for sale ranging from secondhand electronics and furniture to vehicles, agricultural products, and daily commodities.</p>

@@ -162,7 +162,7 @@ The following Schema.org types are implemented site-wide:
 
 ## About the Platform
 
-- **Technology**: Next.js 15 (App Router), Supabase (Postgres), deployed on Vercel
+- **Technology**: Next.js 16.1.6 (App Router), React 19, Supabase (Postgres), deployed on Vercel
 - **PWA**: Full service worker, offline caching, installable on iOS and Android
 - **Accessibility**: WCAG AA compliant, mobile-first responsive design
 - **Data Privacy**: PDPA (Philippine Data Privacy Act) compliant

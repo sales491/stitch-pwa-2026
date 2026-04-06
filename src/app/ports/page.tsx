@@ -32,6 +32,20 @@ export default async function PortsPage() {
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'CivicStructure',
+                    name: metadata.openGraph?.title || 'RoRo Port Schedules & Updates',
+                    description: metadata.openGraph?.description || 'Live ferry schedules and port status updates for Marinduque island.',
+                    url: 'https://marinduquemarket.com/ports',
+                    address: {
+                        '@type': 'AdministrativeArea',
+                        name: 'Marinduque'
+                    }
+                }) }}
+            />
             <PortsClientShell updates={updates ?? []} latestAlert={latestAlert} />
             <SeoTextBlock heading="About Marinduque Ports & Ferry Schedules">
                 <p>Marinduque island has three major ports connecting it to the Philippine mainland. <strong>Balanacan Port</strong> in Mogpog is the primary gateway, serving Roll-on/Roll-off (RoRo) ferries to and from Lucena City and Dalahican, Quezon Province. <strong>Buyabod Port</strong> in Santa Cruz is the secondary gateway with routes to Pinamalayan, Oriental Mindoro. <strong>Cawit Port</strong> in Boac handles LCT cargo vessels.</p>

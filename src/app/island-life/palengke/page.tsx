@@ -29,6 +29,20 @@ export default async function PalengkePage() {
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'Market',
+                    name: metadata.openGraph?.title || 'Palengke Prices — Marinduque',
+                    description: metadata.openGraph?.description || 'Live fish, produce, and meat prices from Marinduque.',
+                    url: 'https://marinduquemarket.com/island-life/palengke',
+                    address: {
+                        '@type': 'AdministrativeArea',
+                        name: 'Marinduque'
+                    }
+                }) }}
+            />
             <PageHeader title="Palengke Vendors" subtitle="Island Life" emoji="🐟" />
 
             {/* Display */}

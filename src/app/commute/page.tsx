@@ -18,6 +18,20 @@ export const metadata: Metadata = {
 export default function CommuteBoard() {
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'TransportationService',
+                    name: metadata.openGraph?.title || 'Commute & Delivery — Marinduque',
+                    description: metadata.openGraph?.description || 'Find local transport and delivery services across Marinduque island.',
+                    url: 'https://marinduquemarket.com/commute',
+                    areaServed: {
+                        '@type': 'AdministrativeArea',
+                        name: 'Marinduque'
+                    }
+                }) }}
+            />
             <CommuterDeliveryHub />
             <SeoTextBlock heading="Getting Around Marinduque Island">
                 <p>Marinduque is a small, heart-shaped island in the MIMAROPA region of the Philippines. Getting around the island is mainly done by <strong>tricycle</strong> (the primary mode of local transport) and <strong>jeepney</strong> or multicab for longer inter-town routes. There are no ride-hailing apps like Grab on the island — you flag down or book tricycles directly.</p>

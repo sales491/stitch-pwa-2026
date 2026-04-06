@@ -26,6 +26,16 @@ export default async function CalamityPage() {
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    name: metadata.openGraph?.title || 'Calamity Board — Marinduque Emergency Alerts',
+                    description: metadata.openGraph?.description || 'Community calamity alerts: typhoons, floods, and emergencies in Marinduque.',
+                    url: 'https://marinduquemarket.com/my-barangay/calamity'
+                }) }}
+            />
             <PageHeader title="Calamity Board" subtitle="My Barangay" emoji="🚨" />
 
             <CalamityFeed initialAlerts={initialAlerts} userId={user?.id ?? null} />
