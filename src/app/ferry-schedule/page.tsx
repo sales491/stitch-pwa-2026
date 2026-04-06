@@ -133,6 +133,39 @@ export default function FerrySchedulePage() {
         })),
     };
 
+    const howToJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: 'How to Get to Marinduque from Manila',
+        description: 'Step by step guide to taking a bus and RoRo ferry from Manila to Marinduque.',
+        step: [
+            {
+                '@type': 'HowToStep',
+                url: 'https://marinduquemarket.com/ferry-schedule#step1',
+                name: 'Bus to Lucena / Dalahican',
+                text: 'From Manila (Cubao or Buendia), take a DLTB, JAC Liner, or JAM Transit bus to Dalahican Wharf. Travel time: 4–5 hours, Fare: ₱300–₱500.'
+            },
+            {
+                '@type': 'HowToStep',
+                url: 'https://marinduquemarket.com/ferry-schedule#step2',
+                name: 'Buy ferry ticket at the port',
+                text: 'Purchase your ticket at the Starlite or Montenegro counter. Arrive at least 1 hour early, especially during peak season. Keep your ticket — you\'ll need it to board.'
+            },
+            {
+                '@type': 'HowToStep',
+                url: 'https://marinduquemarket.com/ferry-schedule#step3',
+                name: 'Board the RoRo ferry',
+                text: 'The ferry departs from Dalahican Wharf bound for Balanacan Port, Mogpog. The crossing takes 3–4 hours. RoRo ferries have seating areas, small canteens, and restrooms.'
+            },
+            {
+                '@type': 'HowToStep',
+                url: 'https://marinduquemarket.com/ferry-schedule#step4',
+                name: 'Arrive at Balanacan — take a tricycle',
+                text: 'Tricycles and vans meet arriving ferries. Tricycle fare to Boac town proper is ₱30–₱50. For other towns, arrange a special trip (₱200–₱500) or wait for a jeepney.'
+            }
+        ]
+    };
+
     return (
         <div className="bg-white dark:bg-zinc-950 min-h-screen pb-24">
             {/* FAQPage JSON-LD + Article schema */}
@@ -140,6 +173,7 @@ export default function FerrySchedulePage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify([
                     faqJsonLd,
+                    howToJsonLd,
                     {
                         '@context': 'https://schema.org',
                         '@type': 'Article',
@@ -166,6 +200,9 @@ export default function FerrySchedulePage() {
                     <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight mb-4">
                         Marinduque Ferry Schedule 2026
                     </h1>
+                    <p className="text-slate-900 dark:text-white font-bold leading-relaxed mb-4 text-sm bg-slate-50 dark:bg-zinc-900 p-4 rounded-xl border border-slate-100 dark:border-zinc-800">
+                        <strong>TL;DR:</strong> The easiest way to get to Marinduque is taking a bus from Manila to Dalahican, Lucena (4-5 hrs), then a RoRo ferry to Balanacan Port (3-4 hrs, ₱200-₱400). Ferries run daily.
+                    </p>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
                         Marinduque is accessible by Roll-on/Roll-off (RoRo) ferry from <strong>Quezon Province</strong> and <strong>Oriental Mindoro</strong>. Three ports serve the island: <strong>Balanacan Port</strong> (Mogpog), <strong>Buyabod Port</strong> (Santa Cruz), and <strong>Cawit Port</strong> (Boac). This guide covers all routes, fares, schedules, and travel tips.
                     </p>
@@ -290,14 +327,14 @@ export default function FerrySchedulePage() {
                         How to Get to Marinduque from Manila
                     </h2>
 
-                    <div className="space-y-3">
+                    <ol className="space-y-3">
                         {[
                             { step: 1, icon: 'directions_bus', title: 'Bus to Lucena / Dalahican', desc: 'From Manila (Cubao or Buendia), take a DLTB, JAC Liner, or JAM Transit bus to Dalahican Wharf. Travel time: 4–5 hours, Fare: ₱300–₱500.', color: 'bg-violet-500' },
                             { step: 2, icon: 'confirmation_number', title: 'Buy ferry ticket at the port', desc: 'Purchase your ticket at the Starlite or Montenegro counter. Arrive at least 1 hour early, especially during peak season. Keep your ticket — you\'ll need it to board.', color: 'bg-blue-500' },
                             { step: 3, icon: 'sailing', title: 'Board the RoRo ferry', desc: 'The ferry departs from Dalahican Wharf bound for Balanacan Port, Mogpog. The crossing takes 3–4 hours. RoRo ferries have seating areas, small canteens, and restrooms.', color: 'bg-cyan-500' },
                             { step: 4, icon: 'local_taxi', title: 'Arrive at Balanacan — take a tricycle', desc: 'Tricycles and vans meet arriving ferries. Tricycle fare to Boac town proper is ₱30–₱50. For other towns, arrange a special trip (₱200–₱500) or wait for a jeepney.', color: 'bg-emerald-500' },
                         ].map(s => (
-                            <div key={s.step} className="flex gap-4 items-start">
+                            <li key={s.step} id={`step${s.step}`} className="flex gap-4 items-start">
                                 <div className={`w-10 h-10 rounded-xl ${s.color} flex items-center justify-center flex-shrink-0`}>
                                     <span className="material-symbols-outlined text-white text-lg">{s.icon}</span>
                                 </div>
@@ -306,9 +343,9 @@ export default function FerrySchedulePage() {
                                     <h3 className="font-black text-slate-900 dark:text-white text-sm tracking-tight mb-1">{s.title}</h3>
                                     <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">{s.desc}</p>
                                 </div>
-                            </div>
+                            </li>
                         ))}
-                    </div>
+                    </ol>
                 </section>
 
                 {/* FAQ */}

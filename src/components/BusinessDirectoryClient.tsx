@@ -24,13 +24,23 @@ const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 
 // These MUST match the exact strings saved by the onboarding form's CATEGORIES array
 const CATEGORIES = [
     'All Categories',
-    'Food & Dining',
-    'Retail & Shopping',
-    'Home Services',
-    'Professional Services',
-    'Health & Wellness',
     'Accommodation',
-    'Automotive',
+    'Agriculture / Farming',
+    'Beauty / Personal Care',
+    'Construction / Hardware',
+    'Education / School',
+    'Events / Party Needs',
+    'Finance / Banking',
+    'Gas / Fuel Station',
+    'Healthcare / Medical',
+    'Legal / Professional',
+    'Pets / Veterinary',
+    'Real Estate / Property',
+    'Restaurant / Food',
+    'Retail / Shop',
+    'Services / Repair',
+    'Tourism / Experiences',
+    'Transportation',
     'Other',
 ];
 const PAGE_SIZE = 10;
@@ -153,8 +163,10 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
         }
 
         if (town !== 'All Towns') q = q.eq('location', town);
-        // Category filter: exact array-contains match on the canonical category string
-        if (category !== 'All Categories') q = q.contains('categories', [category]);
+        // Category filter: match either the specific business type OR the general categories array
+        if (category !== 'All Categories') {
+            q = q.or(`business_type.eq."${category}",categories.cs.{"${category}"}`);
+        }
 
         const { data, error } = await q;
 

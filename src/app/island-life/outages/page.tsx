@@ -27,6 +27,18 @@ export default async function OutagesPage() {
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    name: 'Live Power and Water Outages in Marinduque',
+                    speakable: {
+                        '@type': 'SpeakableSpecification',
+                        cssSelector: ['#outage-reports-feed']
+                    }
+                })}}
+            />
             <PageHeader title="Outage Reports" subtitle="Island Life" emoji="⚡" />
 
             <OutageFeed initialReports={initialReports} userId={user?.id ?? null} />

@@ -32,8 +32,37 @@ export default function CommuteBoard() {
                     }
                 }) }}
             />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'FAQPage',
+                    mainEntity: [
+                        {
+                            '@type': 'Question',
+                            name: 'Are there ride-hailing apps like Grab or JoyRide in Marinduque?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'No, there are no ride-hailing apps like Grab, Angkas, or JoyRide in Marinduque. Getting around the island is mainly done by tricycle or jeepney.'
+                            }
+                        },
+                        {
+                            '@type': 'Question',
+                            name: 'How much is the tricycle fare in Marinduque?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'Tricycle fares within town centers typically range from ₱20 to ₱50. For inter-town trips, it may cost ₱100 to ₱300 depending on the distance and negotiation.'
+                            }
+                        }
+                    ]
+                }) }}
+            />
             <CommuterDeliveryHub />
             <SeoTextBlock heading="Getting Around Marinduque Island">
+                <div className="bg-slate-100 dark:bg-zinc-800 p-4 border-l-4 border-slate-500 mb-6 rounded-r-xl">
+                    <p className="font-bold mb-0">TL;DR: How to Get Around</p>
+                    <p className="mb-0">Getting around Marinduque is mainly done by tricycle or jeepney, as there are no ride-hailing apps like Grab. Fares start at ₱20 for short trips within town, while inter-town trips cost ₱100-₱300. Use this directory to book local drivers directly.</p>
+                </div>
                 <p>Marinduque is a small, heart-shaped island in the MIMAROPA region of the Philippines. Getting around the island is mainly done by <strong>tricycle</strong> (the primary mode of local transport) and <strong>jeepney</strong> or multicab for longer inter-town routes. There are no ride-hailing apps like Grab on the island — you flag down or book tricycles directly.</p>
                 <p>The six municipalities of Marinduque — <strong>Boac</strong> (the capital), <strong>Mogpog</strong>, <strong>Gasan</strong>, <strong>Santa Cruz</strong>, <strong>Torrijos</strong>, and <strong>Buenavista</strong> — are connected by a single circumferential road. A full loop around the island takes about 2–3 hours by motorcycle. Tricycle fares within town centers typically range from ₱20–₱50, while inter-town trips may cost ₱100–₱300.</p>
                 <p>This page connects you with local commute operators and delivery riders who service different parts of the island. You can find tricycle drivers available for hire, delivery services for packages and parcels, and shared transport options for daily commuters.</p>

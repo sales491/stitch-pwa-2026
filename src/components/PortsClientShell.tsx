@@ -143,6 +143,20 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
 
             {/* Latest alert banner */}
             {latestAlert && (
+                <>
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'WebPage',
+                            name: `Live Port Update`,
+                            speakable: {
+                                '@type': 'SpeakableSpecification',
+                                cssSelector: ['#latest-alert-banner']
+                            }
+                        })}}
+                    />
+
                 <div className={`mx-4 mt-4 flex items-start gap-2.5 p-3 rounded-2xl border ${alertBg}`}>
                     <span className="text-lg shrink-0 mt-0.5">
                         {STATUS_EMOJI[latestAlert.status] ?? STATUS_EMOJI.default}
@@ -169,6 +183,7 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
                         </div>
                     </div>
                 </div>
+                </>
             )}
 
             {/* CTA */}

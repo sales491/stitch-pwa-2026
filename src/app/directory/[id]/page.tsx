@@ -48,11 +48,61 @@ const FOOD_BUSINESS_TYPES = new Set([
     'kainan', 'lutuan', 'ihaw-ihaw', 'bbq', 'turo-turo',
 ]);
 
-const isFoodBusiness = (business: any) => {
-    // 1. Check array categories
-    if (business.categories && business.categories.includes('Food & Dining')) return true;
-    // 2. Fallback to free-text type checking
-    return !!business.business_type && FOOD_BUSINESS_TYPES.has(business.business_type.toLowerCase().trim());
+const getShowcaseProps = (business: any) => {
+    const typeStr = (business.business_type || '').toLowerCase().trim();
+    const categories = business.categories || [];
+
+    // 1. Food & Dining
+    const isFood = categories.includes('Food & Dining') || FOOD_BUSINESS_TYPES.has(typeStr);
+    if (isFood) {
+        return {
+            title: 'Menu & Dishes',
+            icon: 'restaurant_menu',
+            showFallback: true, // We show placeholder images if empty
+        };
+    }
+
+    // 2. Accommodations & Lodging
+    const isLodging = categories.includes('Hotels & Resorts') || 
+                      categories.includes('Accommodations') || 
+                      ['hotel', 'resort', 'homestay', 'inn', 'hostel', 'pension house', 'bed and breakfast', 'transient'].includes(typeStr);
+    if (isLodging) {
+        return {
+            title: 'Rooms & Rates',
+            icon: 'bed',
+            showFallback: false,
+        };
+    }
+
+    // 3. Services & Wellness
+    const isService = categories.includes('Services') || 
+                      categories.includes('Health & Wellness') ||
+                      ['salon', 'spa', 'barbershop', 'massage', 'clinic', 'repair shop', 'mechanic', 'laundry', 'parlor'].includes(typeStr);
+    if (isService) {
+        return {
+            title: 'Services & Rates',
+            icon: 'spa',
+            showFallback: false,
+        };
+    }
+
+    // 4. Rentals & Transport
+    const isRental = categories.includes('Rentals') || 
+                     ['rental', 'rentals', 'motorcycle rental', 'van hire', 'car rental', 'equipment rental', 'party needs'].includes(typeStr);
+    if (isRental) {
+        return {
+            title: 'Fleet & Rates',
+            icon: 'car_rental',
+            showFallback: false,
+        };
+    }
+
+    // 5. Default Fallback
+    return {
+        title: 'Featured Offerings',
+        icon: 'storefront',
+        showFallback: false,
+    };
 };
 
 // Demo menu images for restaurants that haven't uploaded their own yet
@@ -123,8 +173,8 @@ export default async function BusinessProfileDetailPage({
                         addressRegion: 'Marinduque',
                         addressCountry: 'PH',
                     },
-                    ...(business.categories?.[0] && {
-                        additionalType: business.categories.join(', '),
+                    ...((business.categories?.[0] || business.business_type) && {
+                        additionalType: [business.business_type, ...(business.categories || [])].filter(Boolean).join(', '),
                     }),
                     ...(business.is_verified && {
                         award: 'Verified Business — Marinduque Market Hub',
@@ -164,7 +214,7 @@ export default async function BusinessProfileDetailPage({
                         )}
                     </div>
                     <p className="text-slate-500 dark:text-zinc-400 text-[11px] font-black uppercase tracking-widest mb-4">
-                        {business.business_type} • {business.location}
+                        {business.business_type} located in {business.location}, Marinduque
                     </p>
 
                     <div className="flex items-center gap-2">
@@ -228,18 +278,27 @@ export default async function BusinessProfileDetailPage({
                     )}
                 </div>
 
-                {/* ── Menu & Dishes Carousel (food businesses only) ─────── */}
-                {isFoodBusiness(business) && (
-                    <MenuCarousel
-                        images={
-                            business.menu_images && business.menu_images.length > 0
-                                ? (business.menu_images as string[])
-                                : DEV_MENU_DEMO
-                        }
-                        businessName={business.business_name}
-                        isDemoMode={!(business.menu_images && business.menu_images.length > 0)}
-                    />
-                )}
+                {/* ── Dynamic Featured Showcase Carousel ─────── */}
+                {(() => {
+                    const showcase = getShowcaseProps(business);
+                    const hasImages = business.menu_images && business.menu_images.length > 0;
+                    
+                    // If no images and component doesn't qualify for default fallback images, hide entirely
+                    if (!hasImages && !showcase.showFallback) return null;
+
+                    return (
+                        <MenuCarousel
+                            sectionTitle={showcase.title}
+                            sectionIcon={showcase.icon}
+                            images={
+                                hasImages
+                                    ? (business.menu_images as string[])
+                                    : DEV_MENU_DEMO
+                            }
+                            businessName={business.business_name}
+                        />
+                    );
+                })()}
 
                 {/* ── Compact Info Strip ───────────────────────────────────── */}
                 <div className="bg-white dark:bg-zinc-900/80 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800/80 mb-8 overflow-hidden">
@@ -252,15 +311,19 @@ export default async function BusinessProfileDetailPage({
                         </div>
                     )}
                     {/* Delivery — only for food businesses */}
-                    {isFoodBusiness(business) && (
-                        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800">
-                            <span className={`material-symbols-outlined text-[16px] shrink-0 ${business.delivery_available ? 'text-teal-500' : 'text-slate-300'}`}>delivery_dining</span>
-                            <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Delivery</span>
-                            <span className={`text-[13px] font-bold flex-1 ${business.delivery_available ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-zinc-500'}`}>
-                                {business.delivery_available ? 'Yes' : 'No'}
-                            </span>
-                        </div>
-                    )}
+                    {(() => {
+                        const isFood = getShowcaseProps(business).title === 'Menu & Dishes';
+                        if (!isFood) return null;
+                        return (
+                            <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-zinc-800">
+                                <span className={`material-symbols-outlined text-[16px] shrink-0 ${business.delivery_available ? 'text-teal-500' : 'text-slate-300'}`}>delivery_dining</span>
+                                <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest shrink-0">Delivery</span>
+                                <span className={`text-[13px] font-bold flex-1 ${business.delivery_available ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-zinc-500'}`}>
+                                    {business.delivery_available ? 'Yes' : 'No'}
+                                </span>
+                            </div>
+                        );
+                    })()}
                     {/* Address */}
                     {contactInfo.address && (
                         <a

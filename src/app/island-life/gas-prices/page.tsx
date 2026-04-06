@@ -19,5 +19,21 @@ export const dynamic = 'force-dynamic';
 
 export default async function GasPricesPage() {
     const initialPrices = await getGasPrices('Boac');
-    return <GasPricesClientShell initialPrices={initialPrices} initialMunicipality="Boac" />;
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'WebPage',
+                    name: 'Local Gas Prices in Marinduque',
+                    speakable: {
+                        '@type': 'SpeakableSpecification',
+                        cssSelector: ['#gas-prices-feed']
+                    }
+                })}}
+            />
+            <GasPricesClientShell initialPrices={initialPrices} initialMunicipality="Boac" />
+        </>
+    );
 }

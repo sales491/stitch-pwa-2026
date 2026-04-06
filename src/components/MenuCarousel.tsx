@@ -7,9 +7,11 @@ interface MenuCarouselProps {
     images: string[];
     businessName: string;
     isDemoMode?: boolean;
+    sectionTitle?: string;
+    sectionIcon?: string;
 }
 
-export default function MenuCarousel({ images, businessName, isDemoMode }: MenuCarouselProps) {
+export default function MenuCarousel({ images, businessName, isDemoMode, sectionTitle = 'Menu & Dishes', sectionIcon = 'restaurant_menu' }: MenuCarouselProps) {
     const [current, setCurrent] = useState(0);
 
     if (images.length === 0) return null;
@@ -21,11 +23,8 @@ export default function MenuCarousel({ images, businessName, isDemoMode }: MenuC
         <div className="mb-6">
             {/* Section header */}
             <h2 className="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-zinc-400 mb-3 flex items-center gap-1.5">
-                <span className="material-symbols-outlined text-[14px]">restaurant_menu</span>
-                Menu &amp; Dishes
-                {isDemoMode && (
-                    <span className="text-[9px] font-bold text-orange-400 uppercase tracking-widest ml-1">demo</span>
-                )}
+                <span className="material-symbols-outlined text-[14px]">{sectionIcon}</span>
+                {sectionTitle}
             </h2>
 
             {/* Carousel container */}

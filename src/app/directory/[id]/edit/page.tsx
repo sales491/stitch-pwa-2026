@@ -16,11 +16,23 @@ const TOWNS = [
 ];
 
 const CATEGORIES = [
+    "Accommodation",
+    "Agriculture / Farming",
+    "Beauty / Personal Care",
+    "Construction / Hardware",
+    "Education / School",
+    "Events / Party Needs",
+    "Finance / Banking",
+    "Gas / Fuel Station",
+    "Healthcare / Medical",
+    "Legal / Professional",
+    "Pets / Veterinary",
+    "Real Estate / Property",
     "Restaurant / Food",
     "Retail / Shop",
     "Services / Repair",
+    "Tourism / Experiences",
     "Transportation",
-    "Accommodation",
     "Other"
 ];
 

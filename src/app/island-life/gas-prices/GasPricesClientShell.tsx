@@ -205,7 +205,7 @@ export default function GasPricesClientShell({ initialPrices, initialMunicipalit
             </div>
 
             {/* Content */}
-            <div className={`px-4 py-5 space-y-3 transition-opacity duration-200 ${isPending ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+            <div id="gas-prices-feed" className={`px-4 py-5 space-y-3 transition-opacity duration-200 ${isPending ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
                 {isPending && (
                     <div className="flex items-center justify-center py-6 gap-2">
                         <div className="w-5 h-5 border-2 border-moriones-red/30 border-t-moriones-red rounded-full animate-spin" />

@@ -83,7 +83,7 @@ export default function OutageFeed({ initialReports, userId }: Props) {
             </div>
 
             {/* Cards */}
-            <div className="px-4 pb-4 mt-1 space-y-3">
+            <div id="outage-reports-feed" className="px-4 pb-4 mt-1 space-y-3">
                 {isPending && <p className="text-center py-8 text-slate-400 animate-pulse text-sm">Loading…</p>}
                 {!isPending && reports.length === 0 && (
                     <div className="text-center py-12">

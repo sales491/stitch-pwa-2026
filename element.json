@@ -1,0 +1,7 @@
+{
+  "tag": "DIV",
+  "id": null,
+  "classes": "px-4 pb-4 pt-2 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-gray-700",
+  "text": "You can create an account by signing in with your Google account. Tap the Sign In button on the Acco",
+  "html": "<div class=\"px-4 pb-4 pt-2 text-slate-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-gray-700\">You can create an account by signing in with your Google account. Tap the Sign In button on the Account page, then choose your Google account to get started.</div>"
+}
