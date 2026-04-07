@@ -320,11 +320,10 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                                                 {item.categoryLabel}
                                             </h2>
                                             <Link
-                                                className="text-[10px] font-black text-moriones-red hover:underline flex-shrink-0"
+                                                className="text-[10px] font-black text-moriones-red hover:underline flex-shrink-0 uppercase tracking-wider"
                                                 href={viewAllLink}
-                                                aria-label={`View all ${item.categoryLabel}`}
                                             >
-                                                GO
+                                                View All
                                             </Link>
                                         </div>
                                         <Link
