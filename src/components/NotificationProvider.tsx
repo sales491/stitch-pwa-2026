@@ -62,6 +62,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
 
 
+    // Effect 1: Handle Auth State
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
@@ -85,28 +86,35 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
             }
         });
 
-        // Set up real-time subscription for new notifications
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [supabase, fetchNotifications, fetchPendingCount]);
+
+    // Effect 2: Handle Realtime Subscriptions ONLY if user is logged in
+    useEffect(() => {
+        if (!user?.id) return;
+
         const channel = supabase
-            .channel('public:notifications')
+            .channel(`public:notifications:${user.id}`)
             .on('postgres_changes', {
                 event: '*',
                 schema: 'public',
                 table: 'notifications'
             }, (payload) => {
-                if (user && (payload.new as any).user_id === user.id) {
+                if ((payload.new as any).user_id === user.id) {
                     fetchNotifications(user.id);
                 }
             })
             .on('postgres_changes', { event: '*', schema: 'public', table: 'business_profiles' }, () => {
-                if (user) fetchPendingCount(user.id);
+                fetchPendingCount(user.id);
             })
             .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, () => {
-                if (user) fetchPendingCount(user.id);
+                fetchPendingCount(user.id);
             })
             .subscribe();
 
         return () => {
-            subscription.unsubscribe();
             supabase.removeChannel(channel);
         };
     }, [supabase, fetchNotifications, fetchPendingCount, user?.id]);
