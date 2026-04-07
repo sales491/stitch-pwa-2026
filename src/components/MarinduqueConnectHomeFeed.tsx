@@ -278,10 +278,12 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                                                 className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                                             >
                                                 <div className="relative aspect-square w-full overflow-hidden bg-white dark:bg-zinc-900">
-                                                    <img
+                                                    <Image
                                                         alt={item.title}
-                                                        className="w-full h-full object-contain"
+                                                        className="object-contain"
                                                         src={item.image}
+                                                        fill
+                                                        sizes="(max-width: 768px) 50vw, 33vw"
                                                     />
                                                     {item.extraInfo && (
                                                         <div className="absolute bottom-2 left-2 rounded-lg bg-black/60 px-2 py-1 backdrop-blur-sm shadow-lg border border-white/10">
