@@ -132,16 +132,16 @@ export default function PWAInstallPrompt() {
                     <p className="text-[12px] font-black text-slate-900 dark:text-white leading-none mb-0.5">Install Marinduque Market Hub</p>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">Add to home screen for the best experience</p>
                 </div>
-                <div className="flex flex-col gap-1.5 flex-shrink-0">
+                <div className="flex flex-col gap-2 flex-shrink-0">
                     <button
                         onClick={handleAndroidInstall}
-                        className="bg-[#C62828] text-white text-[11px] font-black px-3 py-1.5 rounded-xl leading-none"
+                        className="bg-[#C62828] text-white text-[12px] font-black px-4 py-2.5 rounded-xl leading-none active:scale-95 transition-transform"
                     >
                         Install
                     </button>
                     <button
                         onClick={dismiss}
-                        className="text-slate-500 dark:text-zinc-400 text-[10px] font-bold hover:text-slate-700 dark:hover:text-zinc-300 text-center leading-none transition-colors"
+                        className="text-slate-500 dark:text-zinc-400 text-[11px] font-bold hover:text-slate-700 dark:hover:text-zinc-300 text-center leading-none transition-colors py-2 active:scale-95 px-2"
                     >
                         Not now
                     </button>
