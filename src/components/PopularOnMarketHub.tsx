@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 /**
  * PopularOnMarketHub — Server-rendered section showing fresh content from across the platform.
@@ -129,8 +130,8 @@ function QuickSection({
                         className="flex items-center gap-3 bg-white dark:bg-zinc-900 rounded-2xl p-3 border border-slate-100 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors group"
                     >
                         {card.image && (
-                            <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-zinc-800 overflow-hidden flex-shrink-0">
-                                <img src={card.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+                            <div className="relative w-9 h-9 rounded-lg bg-slate-100 dark:bg-zinc-800 overflow-hidden flex-shrink-0">
+                                <Image src={card.image} alt="" className="object-cover" fill sizes="40px" />
                             </div>
                         )}
                         <div className="flex-1 min-w-0">

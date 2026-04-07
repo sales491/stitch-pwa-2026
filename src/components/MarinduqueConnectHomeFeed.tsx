@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { HubItem } from '@/data/hub-items';
 
@@ -331,10 +332,12 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                                             className="group relative flex flex-col overflow-hidden rounded-2xl bg-background-main border border-border-main shadow-sm hover:shadow-md transition-all h-full"
                                         >
                                             <div className="relative aspect-square w-full overflow-hidden bg-white dark:bg-zinc-900">
-                                                <img
+                                                <Image
                                                     alt={item.title}
-                                                    className="w-full h-full object-contain grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
+                                                    className="object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
                                                     src={item.image}
+                                                    fill
+                                                    sizes="(max-width: 768px) 50vw, 33vw"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
                                                 <div className="absolute bottom-3 left-3 right-3 text-white">
