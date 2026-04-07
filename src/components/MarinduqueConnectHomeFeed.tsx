@@ -321,6 +321,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                                             <Link
                                                 className="text-[10px] font-black text-moriones-red hover:underline flex-shrink-0"
                                                 href={viewAllLink}
+                                                aria-label={`View all ${item.categoryLabel}`}
                                             >
                                                 GO
                                             </Link>
