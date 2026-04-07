@@ -7,20 +7,21 @@ export const metadata: Metadata = {
     title: 'Edit Live Stream | Marinduque Market Hub',
 };
 
-export default async function EditLiveSellingPage({ params }: { params: { id: string } }) {
+export default async function EditLiveSellingPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const supabase = await createClient();
     
     // Auth check
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-        redirect('/login?redirectTo=/live-selling/' + params.id + '/edit');
+        redirect('/login?redirectTo=/live-selling/' + id + '/edit');
     }
 
     // Fetch the event
     const { data: event, error } = await supabase
         .from('live_selling_events')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', id)
         .single();
         
     if (error || !event) {

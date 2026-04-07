@@ -94,3 +94,10 @@ export const TAGALOG_KEYWORDS_BARANGAY = [
     'lokal na balita barangay', 'tulong barangay Philippines',
 ] as const;
 
+/** Live selling / online streaming pages */
+export const TAGALOG_KEYWORDS_LIVE_SELLING = [
+    'live selling Marinduque', 'nagbebenta live Marinduque', 'TikTok live Marinduque',
+    'Shopee live Marinduque', 'online seller Marinduque', 'bili online Marinduque',
+    'live stream benta Pilipinas', 'lokal na seller Marinduque',
+] as const;
+

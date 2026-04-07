@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import BackButton from '@/components/BackButton';
 import PageHeader from '@/components/PageHeader';
@@ -10,24 +10,31 @@ export default function ClientPage({ initialData }: { initialData: any }) {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
 
-    // Parse the saved UTC time into local date and time inputs using Javascript Date
-    const savedDate = new Date(initialData.scheduled_start);
-    // Pad zero helper
-    const pad = (n: number) => n.toString().padStart(2, '0');
+    const [isMounted, setIsMounted] = useState(false);
     
-    // YYYY-MM-DD
-    const localDateStr = `${savedDate.getFullYear()}-${pad(savedDate.getMonth() + 1)}-${pad(savedDate.getDate())}`;
-    // HH:MM (24 hr)
-    const localTimeStr = `${pad(savedDate.getHours())}:${pad(savedDate.getMinutes())}`;
-
     const [form, setForm] = useState({
         platform: initialData.platform,
         title: initialData.title,
         stream_link: initialData.stream_link,
-        date: localDateStr,
-        time: localTimeStr,
+        date: '',
+        time: '',
         duration: initialData.estimated_duration?.toString() || '120',
     });
+
+    useEffect(() => {
+        // Parse the saved UTC time into local date and time inputs using Javascript Date ONLY on the client to avoid hydration mismatch
+        const savedDate = new Date(initialData.scheduled_start);
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        
+        setForm(prev => ({
+            ...prev,
+            date: `${savedDate.getFullYear()}-${pad(savedDate.getMonth() + 1)}-${pad(savedDate.getDate())}`,
+            time: `${pad(savedDate.getHours())}:${pad(savedDate.getMinutes())}`
+        }));
+        setIsMounted(true);
+    }, [initialData.scheduled_start]);
+
+    if (!isMounted) return null;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -48,13 +48,14 @@ export default function LiveEventActions({ eventId }: { eventId: string }) {
     };
 
     return (
-        <div className="absolute top-3 right-3 z-20" ref={menuRef}>
+        <div className="relative z-20 flex-shrink-0" ref={menuRef}>
             <button 
                 onClick={toggleMenu}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-slate-200 dark:bg-zinc-700' : 'bg-transparent hover:bg-slate-100 dark:hover:bg-zinc-800'}`}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors border ${isOpen ? 'bg-slate-100 border-slate-200 dark:bg-zinc-800 dark:border-zinc-700 text-slate-800 dark:text-zinc-200' : 'bg-white border-slate-200 dark:bg-zinc-900 dark:border-zinc-700 text-slate-600 hover:bg-slate-50 dark:text-zinc-400 dark:hover:bg-zinc-800'} text-[11px] font-bold tracking-wide`}
                 aria-label="Manage Event"
             >
-                <span className="material-symbols-outlined text-[20px] text-slate-500 dark:text-zinc-400">more_horiz</span>
+                <span className="material-symbols-outlined text-[14px]">settings</span>
+                MANAGE
             </button>
             {isOpen && (
                 <div className="absolute right-0 mt-1 w-36 bg-white dark:bg-zinc-800 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-100 dark:border-zinc-700 py-1 overflow-hidden origin-top-right animate-in fade-in zoom-in-95 duration-100">
