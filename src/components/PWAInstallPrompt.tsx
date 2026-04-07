@@ -141,7 +141,7 @@ export default function PWAInstallPrompt() {
                     </button>
                     <button
                         onClick={dismiss}
-                        className="text-slate-400 text-[10px] font-medium text-center leading-none"
+                        className="text-slate-500 dark:text-zinc-400 text-[10px] font-bold hover:text-slate-700 dark:hover:text-zinc-300 text-center leading-none transition-colors"
                     >
                         Not now
                     </button>

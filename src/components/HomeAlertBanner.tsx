@@ -96,9 +96,9 @@ export default function HomeAlertBanner() {
                     <p className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-widest flex-1">
                         No active alerts
                     </p>
-                    <Link href="/island-life/outages" className="text-[11px] font-black text-emerald-600/70 dark:text-emerald-500/60 uppercase tracking-wide hover:text-emerald-800 transition-colors whitespace-nowrap">💡 Outages</Link>
-                    <span className="text-emerald-300 dark:text-emerald-800 text-[11px]">·</span>
-                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-emerald-600/70 dark:text-emerald-500/60 uppercase tracking-wide hover:text-emerald-800 transition-colors whitespace-nowrap">🚨 Calamity</Link>
+                    <Link href="/island-life/outages" className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wide hover:text-emerald-900 transition-colors whitespace-nowrap">💡 Outages</Link>
+                    <span className="text-emerald-700/50 dark:text-emerald-400/50 text-[11px]">·</span>
+                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wide hover:text-emerald-900 transition-colors whitespace-nowrap">🚨 Calamity</Link>
                 </div>
             </div>
         );
@@ -121,11 +121,11 @@ export default function HomeAlertBanner() {
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Link href="/island-life/outages" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-yellow-600 uppercase tracking-wide transition-colors whitespace-nowrap">💡 Outages</Link>
-                    <span className="text-slate-300 dark:text-zinc-600 text-[11px]">·</span>
-                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-red-600 uppercase tracking-wide transition-colors whitespace-nowrap">🚨 Calamity</Link>
-                    <span className="text-slate-300 dark:text-zinc-600 text-[11px]">·</span>
-                    <Link href="/my-barangay" className="text-[11px] font-black text-slate-400 dark:text-zinc-500 hover:text-slate-600 uppercase tracking-wider">View all →</Link>
+                    <Link href="/island-life/outages" className="text-[11px] font-black text-slate-500 dark:text-zinc-400 hover:text-yellow-600 uppercase tracking-wide transition-colors whitespace-nowrap">💡 Outages</Link>
+                    <span className="text-slate-400 dark:text-zinc-500 text-[11px]">·</span>
+                    <Link href="/my-barangay/calamity" className="text-[11px] font-black text-slate-500 dark:text-zinc-400 hover:text-red-700 uppercase tracking-wide transition-colors whitespace-nowrap">🚨 Calamity</Link>
+                    <span className="text-slate-400 dark:text-zinc-500 text-[11px]">·</span>
+                    <Link href="/my-barangay" className="text-[11px] font-black text-slate-500 dark:text-zinc-400 hover:text-slate-700 uppercase tracking-wider">View all →</Link>
                 </div>
             </div>
 

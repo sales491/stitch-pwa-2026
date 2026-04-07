@@ -149,7 +149,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                         <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-red-700 dark:text-red-400' : 'text-slate-800 dark:text-zinc-200'}`}>
                             Live Selling Radar
                         </p>
-                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-600/80 dark:text-red-400/80' : 'text-slate-500 dark:text-zinc-400'}`}>
+                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-zinc-400'}`}>
                             {liveSellersActive ? '🔴 Locals are streaming right now!' : 'Find locals selling live on TikTok, Shopee, YT & FB'}
                         </p>
                     </div>

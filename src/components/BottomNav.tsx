@@ -29,7 +29,7 @@ export default function BottomNav() {
                             className={`flex flex-1 flex-col items-center justify-center gap-0.5 transition-all duration-200 relative group py-1 rounded-2xl ${
                                 isActive
                                     ? 'text-moriones-red'
-                                    : 'text-slate-500 dark:text-zinc-400 hover:text-moriones-red'
+                                    : 'text-slate-600 dark:text-zinc-400 hover:text-moriones-red'
                             }`}
                         >
                             {/* Active pill background */}
@@ -51,7 +51,7 @@ export default function BottomNav() {
                                 )}
                             </div>
                             <span className={`text-[11px] relative z-10 leading-tight transition-all duration-200 ${
-                                isActive ? 'font-black' : 'font-semibold opacity-80 group-hover:opacity-100'
+                                isActive ? 'font-black' : 'font-semibold'
                             }`}>
                                 {item.label}
                             </span>
