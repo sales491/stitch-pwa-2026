@@ -235,6 +235,13 @@ export default function AppAdminDashboard() {
                                         <span className="material-symbols-outlined text-[16px]">visibility</span>
                                         View
                                     </Link>
+                                    <Link
+                                        href={`/onboarding/business?edit_id=${biz.id}`}
+                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined text-[16px]">edit</span>
+                                        Edit
+                                    </Link>
                                     {activeTab === 'pending' ? (
                                         <button
                                             onClick={() => handleApprove(biz.id, biz.business_name)}

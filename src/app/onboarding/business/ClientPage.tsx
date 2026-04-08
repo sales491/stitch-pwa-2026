@@ -7,7 +7,7 @@ import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
-import { deleteBusinessProfile } from '@/app/actions/business';
+import { deleteBusinessProfile, updateBusinessProfile } from '@/app/actions/business';
 import PageHeader from '@/components/PageHeader';
 
 const CATEGORIES = [
@@ -242,15 +242,20 @@ function BusinessOnboardingForm() {
             let newBusinessId = edit_id;
 
             if (edit_id) {
-                // Update
-                const { error: updateError } = await supabase
-                    .from('business_profiles')
-                    .update(payload)
-                    .eq('id', edit_id);
-
-                if (updateError) {
-                    throw new Error(updateError.message);
-                }
+                // Update via server action (handles admin RLS bypass automatically)
+                await updateBusinessProfile(edit_id, {
+                    business_name: businessName,
+                    categories: [category],
+                    description: description,
+                    location: location,
+                    operating_hours: operatingHours,
+                    contact_info: contactInfo,
+                    social_media: socialMedia,
+                    gallery_image: imageUrls[0] || undefined,
+                    gallery_images: imageUrls,
+                    delivery_available: deliveryAvailable,
+                    menu_images: menuImageUrls,
+                });
             } else {
                 // Insert — check business count cap first (max 5 per user)
                 const { count, error: countError } = await supabase

@@ -20,6 +20,8 @@ export const businessSchema = z.object({
     categories: z.array(z.string()).optional(),
     gallery_image: z.string().url("Invalid image URL").optional().or(z.literal('')).nullable().optional(),
     gallery_images: z.array(z.string()).optional(),
+    delivery_available: z.boolean().optional(),
+    menu_images: z.array(z.string()).optional(),
 });
 
 export type BusinessInput = z.infer<typeof businessSchema>;
