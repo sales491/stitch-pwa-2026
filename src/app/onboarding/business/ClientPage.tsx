@@ -11,14 +11,24 @@ import { deleteBusinessProfile } from '@/app/actions/business';
 import PageHeader from '@/components/PageHeader';
 
 const CATEGORIES = [
-    "Food & Dining",
-    "Retail & Shopping",
-    "Home Services",
-    "Professional Services",
-    "Health & Wellness",
-    "Accommodation",
-    "Automotive",
-    "Other"
+    'Accommodation',
+    'Agriculture / Farming',
+    'Beauty / Personal Care',
+    'Construction / Hardware',
+    'Education / School',
+    'Events / Party Needs',
+    'Finance / Banking',
+    'Gas / Fuel Station',
+    'Healthcare / Medical',
+    'Legal / Professional',
+    'Pets / Veterinary',
+    'Real Estate / Property',
+    'Restaurant / Food',
+    'Retail / Shop',
+    'Services / Repair',
+    'Tourism / Experiences',
+    'Transportation',
+    'Other'
 ];
 
 const FOOD_CATEGORY_TYPES = new Set([
