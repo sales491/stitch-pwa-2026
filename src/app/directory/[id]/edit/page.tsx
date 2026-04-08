@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { useAuth } from '@/components/AuthProvider';
 import PageHeader from '@/components/PageHeader';
+import { updateBusinessProfile } from '@/app/actions/business';
 
 const TOWNS = [
     "Boac",
@@ -109,21 +110,15 @@ export default function EditBusiness({ params }: { params: Promise<{ id: string 
             const contactInfo = { phone: phone.trim() };
             const socialMedia = { facebook: facebook.trim() };
 
-            const { error: updateError } = await supabase
-                .from('business_profiles')
-                .update({
-                    business_name: businessName,
-                    business_type: businessType,
-                    description,
-                    location,
-                    operating_hours: operatingHours,
-                    contact_info: contactInfo,
-                    social_media: socialMedia,
-                    updated_at: new Date().toISOString(),
-                })
-                .eq('id', id);
-
-            if (updateError) throw updateError;
+            await updateBusinessProfile(id, {
+                business_name: businessName,
+                business_type: businessType,
+                description,
+                location,
+                operating_hours: operatingHours,
+                contact_info: contactInfo,
+                social_media: socialMedia,
+            });
 
             router.push(`/directory/${id}`);
             router.refresh();

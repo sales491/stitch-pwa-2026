@@ -21,8 +21,12 @@ export default function CreateBusinessProfileStep3() {
   const supabase = createClient();
 
   const businessCategories = [
-    'Food & Beverage', 'Retail', 'Handicrafts', 'Accommodation',
-    'Transport', 'Services', 'Tours & Travel', 'Others'
+    'Accommodation', 'Agriculture / Farming', 'Beauty / Personal Care',
+    'Construction / Hardware', 'Education / School', 'Events / Party Needs',
+    'Finance / Banking', 'Gas / Fuel Station', 'Healthcare / Medical',
+    'Legal / Professional', 'Pets / Veterinary', 'Real Estate / Property',
+    'Restaurant / Food', 'Retail / Shop', 'Services / Repair',
+    'Tourism / Experiences', 'Transportation', 'Other',
   ];
 
   const toggleCategory = (cat: string) => {
@@ -80,6 +84,7 @@ export default function CreateBusinessProfileStep3() {
       // Read data from localStorage
       const name = localStorage.getItem('bp_name') || '';
       const desc = localStorage.getItem('bp_description') || '';
+      const businessType = localStorage.getItem('bp_business_type') || '';
       const location = localStorage.getItem('bp_location') || '';
       const address = localStorage.getItem('bp_address') || '';
       const phone = localStorage.getItem('bp_phone') || '';
@@ -93,6 +98,7 @@ export default function CreateBusinessProfileStep3() {
 
       await createBusinessProfile({
         business_name: name,
+        business_type: businessType || undefined,
         description: desc,
         location: `${location}${address ? `, ${address}` : ''}`,
         contact_info: {
@@ -103,7 +109,7 @@ export default function CreateBusinessProfileStep3() {
         social_media: {
           messenger: messenger || undefined,
           facebook: fbPage || undefined,
-          logo: imageUrls[0] || undefined, // Using first image as logo fallback
+          logo: imageUrls[0] || undefined,
         },
         categories: selectedCategories,
         gallery_image: imageUrls[0] || undefined,
@@ -111,7 +117,7 @@ export default function CreateBusinessProfileStep3() {
       });
 
       // Clear localStorage
-      ['bp_name', 'bp_description', 'bp_location', 'bp_address', 'bp_phone', 'bp_messenger', 'bp_fb_page', 'bp_email'].forEach(
+      ['bp_name', 'bp_description', 'bp_business_type', 'bp_location', 'bp_address', 'bp_phone', 'bp_messenger', 'bp_fb_page', 'bp_email'].forEach(
         k => localStorage.removeItem(k)
       );
 

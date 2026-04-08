@@ -4,10 +4,32 @@ import { filterAllFields } from '@/utils/contentFilter';
 import { useRouter } from 'next/navigation';
 import PageHeader from '@/components/PageHeader';
 
+const CATEGORIES = [
+  'Accommodation',
+  'Agriculture / Farming',
+  'Beauty / Personal Care',
+  'Construction / Hardware',
+  'Education / School',
+  'Events / Party Needs',
+  'Finance / Banking',
+  'Gas / Fuel Station',
+  'Healthcare / Medical',
+  'Legal / Professional',
+  'Pets / Veterinary',
+  'Real Estate / Property',
+  'Restaurant / Food',
+  'Retail / Shop',
+  'Services / Repair',
+  'Tourism / Experiences',
+  'Transportation',
+  'Other',
+];
+
 export default function CreateBusinessProfileStep1() {
   const router = useRouter();
   const [businessName, setBusinessName] = useState('');
   const [description, setDescription] = useState('');
+  const [businessType, setBusinessType] = useState('Restaurant / Food');
   const [filterError, setFilterError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -15,6 +37,7 @@ export default function CreateBusinessProfileStep1() {
     if (typeof window !== 'undefined') {
       setBusinessName(localStorage.getItem('bp_name') || '');
       setDescription(localStorage.getItem('bp_description') || '');
+      setBusinessType(localStorage.getItem('bp_business_type') || 'Restaurant / Food');
     }
   }, []);
 
@@ -31,6 +54,7 @@ export default function CreateBusinessProfileStep1() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('bp_name', businessName);
       localStorage.setItem('bp_description', description);
+      localStorage.setItem('bp_business_type', businessType);
     }
 
     router.push('/create-business-profile-step2');
@@ -99,6 +123,22 @@ export default function CreateBusinessProfileStep1() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-1">Business Category</label>
+            <div className="relative">
+              <select
+                value={businessType}
+                onChange={(e) => setBusinessType(e.target.value)}
+                className="appearance-none w-full rounded-2xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/50 px-4 py-4 pr-10 text-slate-900 dark:text-white focus:border-moriones-red focus:ring-4 focus:ring-moriones-red/5 outline-none transition-all shadow-sm"
+              >
+                {CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+              <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -106,7 +146,7 @@ export default function CreateBusinessProfileStep1() {
       <div className="sticky bottom-0 z-30 w-full border-t border-slate-100 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 p-4 backdrop-blur-md">
         <button
           onClick={handleNext}
-          disabled={!businessName.trim() || description.length < 10}
+          disabled={!businessName.trim() || description.length < 10 || !businessType}
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-moriones-red px-6 py-4 text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-moriones-red/20 transition-all active:scale-[0.98] hover:bg-moriones-red/90 disabled:opacity-50 disabled:grayscale"
         >
           <span>Continue</span>
