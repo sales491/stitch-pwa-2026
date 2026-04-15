@@ -9,6 +9,7 @@ import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
 import { deleteBusinessProfile, updateBusinessProfile } from '@/app/actions/business';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 const CATEGORIES = [
     'Accommodation',
@@ -134,7 +135,7 @@ function BusinessOnboardingForm() {
             const toProcess = Array.from(files).slice(0, 4 - imageUrls.length);
 
             for (const file of toProcess) {
-                const optimizedFile = await optimizeImage(file, { maxWidth: 1440, quality: 0.9 });
+                const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.9, aspectRatio: 4/3 });
                 const fileExt = 'jpg';
                 const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
                 const filePath = `business-photos/${fileName}`;
@@ -173,7 +174,7 @@ function BusinessOnboardingForm() {
             const toProcess = Array.from(files).slice(0, 8 - menuImageUrls.length);
 
             for (const file of toProcess) {
-                const optimizedFile = await optimizeImage(file, { maxWidth: 1080, quality: 0.85 });
+                const optimizedFile = await optimizeImage(file, { maxWidth: 1080, quality: 0.85, aspectRatio: 3/4 });
                 const fileExt = 'jpg';
                 const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
                 const filePath = `business-photos/menu/${fileName}`;
@@ -357,6 +358,12 @@ function BusinessOnboardingForm() {
                         <p className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1 mb-2">
                             The <strong className="text-moriones-red">first photo</strong> you upload will be used as your main directory card cover. Show off your storefront, products, or services!
                         </p>
+                        <ImageUploadHint
+                            aspectRatio="4:3 Landscape"
+                            minSize="800 x 600 px"
+                            usedFor="Directory card & business profile gallery"
+                            tip="Landscape photos work best. Show your shopfront, interior, or products."
+                        />
 
                         <input
                             type="file"
@@ -520,6 +527,12 @@ function BusinessOnboardingForm() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1 mb-3">
                                     Upload your <strong className="text-moriones-red">menu board</strong> photo first, then add dish photos. These appear in the Menu carousel on your profile.
                                 </p>
+                                <ImageUploadHint
+                                    aspectRatio="3:4 Portrait"
+                                    minSize="900 x 1200 px"
+                                    usedFor="Menu carousel on your business profile"
+                                    tip="Portrait format works best - photograph printed menus vertically."
+                                />
 
                                 <input
                                     type="file"

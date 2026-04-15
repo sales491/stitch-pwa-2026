@@ -9,6 +9,7 @@ import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 const PREDEFINED_ROUTES = [
@@ -271,7 +272,7 @@ export default function PostCommuteOrDeliveryListing() {
             let uploadedImages: string[] = [];
             if (imageFiles.length > 0) {
                 for (const file of imageFiles) {
-                    const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8 });
+                    const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8, aspectRatio: 4/3 });
                     const fileExt = 'jpg';
                     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
                     const filePath = `transport/${fileName}`;

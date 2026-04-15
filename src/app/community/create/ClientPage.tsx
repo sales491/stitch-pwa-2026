@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 export default function CreatePost() {
     const { profile, isLoading: authLoading } = useAuth();
@@ -70,7 +71,7 @@ export default function CreatePost() {
             if (imageFiles.length > 0) {
                 for (const file of imageFiles) {
                     // Optimize for social feed (1080px is standard)
-                    const optimizedFile = await optimizeImage(file, { maxWidth: 1080, quality: 0.8 });
+                    const optimizedFile = await optimizeImage(file, { maxWidth: 1080, quality: 0.8, aspectRatio: 4/3 });
 
                     const fileExt = 'jpg';
                     const fileName = `${profile.id}-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;

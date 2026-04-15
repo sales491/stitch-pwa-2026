@@ -7,6 +7,7 @@ import { createEvent } from '@/app/actions/events';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 export default function CreateEventPostScreen() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function CreateEventPostScreen() {
       if (imageFiles.length > 0) {
         for (const file of imageFiles) {
           // Optimize for high-quality banner (1200px)
-          const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.85 });
+          const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.85, aspectRatio: 16/9 });
 
           const fileExt = 'jpg';
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
@@ -289,6 +290,12 @@ export default function CreateEventPostScreen() {
               </label>
             )}
           </div>
+          <ImageUploadHint
+            aspectRatio="16:9 Widescreen"
+            minSize="1200 × 675 px"
+            usedFor="Event banner and open graph images"
+            tip="High-quality landscape images work best."
+          />
         </div>
 
 

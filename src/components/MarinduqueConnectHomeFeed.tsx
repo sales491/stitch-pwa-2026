@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { HubItem } from '@/data/hub-items';
+import NewArrivalsCarousel, { NewArrival } from '@/components/NewArrivalsCarousel';
 
 // ─── Static Category List ─────────────────────────────────────────────────────
 // All static links — no data fetching, nothing can break
@@ -45,11 +46,12 @@ const QUICK_CARDS = [
 type Props = {
     initialItems: HubItem[];
     alertBanner?: React.ReactNode;
+    newArrivals?: NewArrival[];
     popularSection?: React.ReactNode;
     liveSellersActive?: boolean;
 };
 
-export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, popularSection, liveSellersActive }: Props) {
+export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, newArrivals, popularSection, liveSellersActive }: Props) {
     const [selectedTown, setSelectedTown] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [categorizedItems, setCategorizedItems] = useState<{ [key: string]: HubItem[] }>({});
@@ -131,30 +133,32 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, p
                 {/* ── 3. Alert Banner (active calamity/outage alerts) ────── */}
                 {alertBanner}
 
+                {/* ── 3.5. SEO Fast-Track Carousel (Static SSR injection) ─── */}
+                {newArrivals && newArrivals.length > 0 && <NewArrivalsCarousel arrivals={newArrivals} />}
                 {/* ── 3a. Live Selling Radar (Flashing CTA if active) ─────── */}
                 <Link
                     href="/live-selling"
                     className={`mx-4 mb-3 flex items-center gap-3 rounded-xl p-3 shadow-sm active:scale-[0.98] transition-transform border ${
                         liveSellersActive 
-                          ? 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900/50' 
-                          : 'bg-slate-50 dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800'
+                          ? 'bg-gradient-to-r from-red-600 to-rose-500 text-white shadow-lg shadow-red-500/30 border-transparent' 
+                          : 'bg-gradient-to-r from-fuchsia-500/10 to-rose-500/10 border border-fuchsia-200/50 dark:from-fuchsia-900/20 dark:to-rose-900/20 dark:border-fuchsia-800/30'
                     }`}
                 >
                     <div className="relative flex h-3 w-3 shrink-0">
                         {liveSellersActive && (
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-200 opacity-75"></span>
                         )}
-                        <span className={`relative inline-flex rounded-full h-3 w-3 ${liveSellersActive ? 'bg-red-600' : 'bg-slate-400 dark:bg-zinc-600'}`}></span>
+                        <span className={`relative inline-flex rounded-full h-3 w-3 ${liveSellersActive ? 'bg-red-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-rose-400/50 dark:bg-rose-600/50'}`}></span>
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-red-700 dark:text-red-400' : 'text-slate-800 dark:text-zinc-200'}`}>
+                        <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-white drop-shadow-md' : 'text-fuchsia-900 dark:text-fuchsia-100'}`}>
                             Live Selling Radar
                         </p>
-                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-zinc-400'}`}>
+                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-50' : 'text-rose-700/80 dark:text-rose-300'}`}>
                             {liveSellersActive ? '🔴 Locals are streaming right now!' : 'Find locals selling live on TikTok, Shopee, YT & FB'}
                         </p>
                     </div>
-                    <span className={`material-symbols-outlined shrink-0 ${liveSellersActive ? 'text-red-500' : 'text-slate-400 dark:text-zinc-500'}`}>
+                    <span className={`material-symbols-outlined shrink-0 drop-shadow-sm ${liveSellersActive ? 'text-white/90' : 'text-rose-500/70 dark:text-rose-400/70'}`}>
                         sensors
                     </span>
                 </Link>

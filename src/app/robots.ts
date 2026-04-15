@@ -44,7 +44,14 @@ export default function robots(): MetadataRoute.Robots {
       // ── General crawlers ───────────────────────────────────────────────────
       {
         userAgent: '*',
-        allow: '/',
+        allow: [
+          '/',
+          '/marketplace/',
+          '/jobs/',
+          '/directory/',
+          '/events/',
+          '/gems/'
+        ],
         disallow: DISALLOW_PATHS,
       },
 

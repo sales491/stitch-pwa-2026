@@ -11,6 +11,7 @@ import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 export default function CreateNewListing() {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function CreateNewListing() {
         const file = files[i];
 
         // 1. Optimize image (resizes to 1280px and converts to JPEG)
-        const optimizedFile = await optimizeImage(file, { maxWidth: 1280, quality: 0.85 });
+        const optimizedFile = await optimizeImage(file, { maxWidth: 1280, quality: 0.85, aspectRatio: 4/3 });
 
         const fileExt = 'jpg';
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
@@ -275,7 +276,12 @@ export default function CreateNewListing() {
               </button>
             )}
           </div>
-          <p className="mt-2 text-xs text-stone-500 dark:text-stone-400 px-1">Tip: High-quality photos help your listing stand out in Marinduque.</p>
+          <ImageUploadHint
+            aspectRatio="4:3 Landscape"
+            minSize="1024 × 768 px"
+            usedFor="Marketplace listing photos"
+            tip="High-quality photos help your listing stand out in Marinduque."
+          />
         </div>
 
         {/* Form Fields */}

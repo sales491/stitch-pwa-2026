@@ -4,6 +4,7 @@ import HomeAlertBanner from '@/components/HomeAlertBanner';
 import PopularOnMarketHub from '@/components/PopularOnMarketHub';
 import { getLiveHubItems } from '@/lib/hub-data';
 import { getLiveSellingFeed } from '@/lib/live-selling';
+import { createClient } from '@/utils/supabase/server';
 
 // Run at Vercel's global edge — zero cold starts, instant TTFB from CDN cache
 export const runtime = 'edge';
@@ -24,10 +25,28 @@ export default async function Home() {
   const liveItems = await getLiveHubItems();
   const { liveNow } = await getLiveSellingFeed();
 
+  // Fetch 5 newest arrivals for SEO indexing carousel
+  const supabase = await createClient();
+  const { data: newArrivalsData } = await supabase
+    .from('listings')
+    .select('id, title, price_value, town, images')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  const newArrivals = (newArrivalsData || []).map((l: any) => ({
+    id: l.id,
+    title: l.title,
+    price_value: l.price_value,
+    town: l.town,
+    image: l.images?.[0] || null,
+  }));
+
   return (
     <MarinduqueConnectHomeFeed
       initialItems={liveItems}
       alertBanner={<HomeAlertBanner />}
+      newArrivals={newArrivals}
       popularSection={<PopularOnMarketHub />}
       liveSellersActive={liveNow.length > 0}
     />

@@ -28,6 +28,10 @@ export default function AppAdminDashboard() {
     const [verifiedBusinesses, setVerifiedBusinesses] = useState<PendingBusiness[]>([]);
     const [loading, setLoading] = useState(true);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const activeList = activeTab === 'pending' ? pendingBusinesses : verifiedBusinesses;
+    const filteredList = activeList.filter(biz => biz.business_name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -175,6 +179,18 @@ export default function AppAdminDashboard() {
                     </button>
                 </div>
 
+                {/* Search Bar */}
+                <div className="mb-6 relative">
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                    <input
+                        type="text"
+                        placeholder="Search by business name..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-white border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all shadow-sm"
+                    />
+                </div>
+
                 {/* List View */}
                 <div className="space-y-4">
                     {loading ? (
@@ -183,36 +199,38 @@ export default function AppAdminDashboard() {
                                 <div key={i} className="h-28 bg-white border border-slate-200 rounded-2xl w-full"></div>
                             ))}
                         </div>
-                    ) : (activeTab === 'pending' ? pendingBusinesses : verifiedBusinesses).length === 0 ? (
+                    ) : filteredList.length === 0 ? (
                         <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center shadow-sm max-w-lg mx-auto mt-12">
                             <div className="w-20 h-20 bg-teal-50 text-teal-600 mx-auto rounded-full flex items-center justify-center mb-6">
                                 <span className="material-symbols-outlined text-4xl">{activeTab === 'pending' ? 'task_alt' : 'storefront'}</span>
                             </div>
                             <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight">
-                                {activeTab === 'pending' ? 'Zero Pending Businesses!' : 'No Verified Businesses'}
+                                {searchQuery ? 'No Results Found' : (activeTab === 'pending' ? 'Zero Pending Businesses!' : 'No Verified Businesses')}
                             </h3>
                             <p className="text-slate-500 font-medium text-sm leading-relaxed">
-                                {activeTab === 'pending'
-                                    ? 'All business listings have been reviewed and verified. Outstanding job keeping the directory clean.'
-                                    : 'There are no verified businesses in the directory yet.'}
+                                {searchQuery 
+                                    ? `Could not find any business matching "${searchQuery}"` 
+                                    : (activeTab === 'pending'
+                                        ? 'All business listings have been reviewed and verified. Outstanding job keeping the directory clean.'
+                                        : 'There are no verified businesses in the directory yet.')}
                             </p>
                         </div>
                     ) : (
-                        (activeTab === 'pending' ? pendingBusinesses : verifiedBusinesses).map((biz) => (
-                            <div key={biz.id} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col sm:flex-row gap-5 sm:items-center justify-between group hover:shadow-md transition-all">
+                        filteredList.map((biz) => (
+                            <div key={biz.id} className="bg-white border border-slate-200 rounded-xl p-3 sm:p-4 shadow-sm flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center justify-between group hover:shadow-md transition-all">
 
-                                <div className="flex items-start sm:items-center gap-4 min-w-0">
-                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-slate-50 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
+                                <div className="flex items-start sm:items-center gap-3 min-w-0">
+                                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-slate-50 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
                                         {biz.gallery_image ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img src={biz.gallery_image} alt={biz.business_name} className="w-full h-full object-cover" />
                                         ) : (
-                                            <span className="material-symbols-outlined text-slate-300 text-4xl">storefront</span>
+                                            <span className="material-symbols-outlined text-slate-300 text-3xl">storefront</span>
                                         )}
                                     </div>
 
-                                    <div className="min-w-0 pt-1 sm:pt-0">
-                                        <h4 className="font-black text-slate-900 text-lg sm:text-lg truncate pr-4 leading-tight mb-1" title={biz.business_name}>{biz.business_name}</h4>
+                                    <div className="min-w-0 pt-0.5 sm:pt-0">
+                                        <h4 className="font-black text-slate-900 text-base sm:text-base truncate pr-4 leading-tight mb-0.5" title={biz.business_name}>{biz.business_name}</h4>
                                         <div className="flex items-center gap-2 mt-2 flex-wrap">
                                             <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-600 text-[10px] uppercase font-black tracking-widest px-2.5 py-1 rounded-md border border-slate-200">
                                                 {biz.business_type || 'Uncategorized'}
@@ -227,44 +245,44 @@ export default function AppAdminDashboard() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-2 shrink-0 sm:self-center mt-4 sm:mt-0 w-full sm:w-auto pt-4 sm:pt-0 border-t border-slate-100 sm:border-0 flex-wrap">
+                                <div className="grid grid-cols-4 sm:flex sm:flex-nowrap items-center gap-1.5 sm:gap-2 shrink-0 sm:self-center mt-4 sm:mt-0 w-full sm:w-auto pt-4 sm:pt-0 border-t border-slate-100 sm:border-0">
                                     <Link
                                         href={`/directory/${biz.id}`}
-                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
+                                        className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 p-2 sm:px-4 sm:py-2.5 bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 rounded-xl font-bold text-[9px] sm:text-xs uppercase tracking-wider transition-colors text-center"
                                     >
                                         <span className="material-symbols-outlined text-[16px]">visibility</span>
-                                        View
+                                        <span>View</span>
                                     </Link>
                                     <Link
                                         href={`/onboarding/business?edit_id=${biz.id}`}
-                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
+                                        className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 p-2 sm:px-4 sm:py-2.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-xl font-bold text-[9px] sm:text-xs uppercase tracking-wider transition-colors text-center"
                                     >
                                         <span className="material-symbols-outlined text-[16px]">edit</span>
-                                        Edit
+                                        <span>Edit</span>
                                     </Link>
                                     {activeTab === 'pending' ? (
                                         <button
                                             onClick={() => handleApprove(biz.id, biz.business_name)}
-                                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all active:scale-95"
+                                            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 p-2 sm:px-4 sm:py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-[9px] sm:text-xs uppercase tracking-wider shadow-sm transition-all active:scale-95 text-center"
                                         >
                                             <span className="material-symbols-outlined text-[16px]">verified</span>
-                                            Approve
+                                            <span>Approve</span>
                                         </button>
                                     ) : (
                                         <button
                                             onClick={() => handleRevoke(biz.id, biz.business_name)}
-                                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-all active:scale-95"
+                                            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 p-2 sm:px-4 sm:py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-[9px] sm:text-xs uppercase tracking-wider transition-all active:scale-95 text-center"
                                         >
                                             <span className="material-symbols-outlined text-[16px]">remove_circle</span>
-                                            Revoke
+                                            <span>Revoke</span>
                                         </button>
                                     )}
                                     <button
                                         onClick={() => handleDelete(biz.id, biz.business_name, activeTab === 'verified')}
-                                        className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-xs uppercase tracking-wider transition-all active:scale-95"
+                                        className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 p-2 sm:px-4 sm:py-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold text-[9px] sm:text-xs uppercase tracking-wider transition-all active:scale-95 text-center"
                                     >
                                         <span className="material-symbols-outlined text-[16px]">delete</span>
-                                        Delete
+                                        <span>Delete</span>
                                     </button>
                                 </div>
 

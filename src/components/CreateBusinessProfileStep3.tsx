@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 export default function CreateBusinessProfileStep3() {
   const router = useRouter();
@@ -47,8 +48,7 @@ export default function CreateBusinessProfileStep3() {
       const toProcess = Array.from(files).slice(0, 4 - imageUrls.length);
 
       for (const file of toProcess) {
-        // Optimize image (covers usually need higher quality, resizable to 1440px)
-        const optimizedFile = await optimizeImage(file, { maxWidth: 1440, quality: 0.9 });
+        const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.9, aspectRatio: 4/3 });
 
         const fileExt = 'jpg';
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
@@ -169,6 +169,12 @@ export default function CreateBusinessProfileStep3() {
             <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
               The <strong className="text-moriones-red">first photo</strong> you upload will be used as your main directory card cover. Show off your storefront, products, or services!
             </p>
+            <ImageUploadHint
+              aspectRatio="4:3 Landscape"
+              minSize="800 × 600 px"
+              usedFor="Business profile gallery & directory card"
+              tip="Landscape photos work best. Show your storefront, interior, or products."
+            />
           </div>
 
           <input

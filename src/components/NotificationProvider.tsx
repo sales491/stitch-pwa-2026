@@ -54,7 +54,9 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         if (profile?.role === 'admin' || profile?.role === 'moderator') {
             const { count: bizCount } = await supabase.from('business_profiles').select('*', { count: 'exact', head: true }).eq('is_verified', false);
             const { count: listCount } = await supabase.from('listings').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-            setHasPendingApprovals((bizCount || 0) + (listCount || 0) > 0);
+            const { count: gemsCount } = await supabase.from('gems').select('*', { count: 'exact', head: true }).eq('is_approved', false);
+            const { count: queueCount } = await supabase.from('moderation_queue').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+            setHasPendingApprovals((bizCount || 0) + (listCount || 0) + (gemsCount || 0) + (queueCount || 0) > 0);
         } else {
             setHasPendingApprovals(false);
         }
@@ -110,6 +112,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                 fetchPendingCount(user.id);
             })
             .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, () => {
+                fetchPendingCount(user.id);
+            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'gems' }, () => {
+                fetchPendingCount(user.id);
+            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'moderation_queue' }, () => {
                 fetchPendingCount(user.id);
             })
             .subscribe();

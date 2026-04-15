@@ -13,6 +13,7 @@ import { useAuth } from './AuthProvider';
 import UniversalComments from './UniversalComments';
 import { getCommunityPosts, createCommunityPost, voteInPoll, toggleLike, getUserLikedPostIds } from '@/app/actions/community';
 import PageHeader from '@/components/PageHeader';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 const TOWNS = ['All Towns', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Santa Cruz', 'Torrijos'];
 const MOODS = ['😊 Happy', '😇 Blessed', '🥳 Excited', '🤔 Thinking', '😴 Tired', '📍 Traveling'];
@@ -177,7 +178,7 @@ export default function CommunityBoardCommuterHub() {
     try {
       const imageUrls: string[] = [];
       for (const file of imageFiles) {
-        const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8 });
+        const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8, aspectRatio: 4/3 });
         const filePath = `community/${Date.now()}-${file.name}`;
         const { error: uploadError } = await supabase.storage.from('listings').upload(filePath, optimized);
         if (uploadError) throw uploadError;
@@ -492,6 +493,15 @@ export default function CommunityBoardCommuterHub() {
                 {cat.label}
               </button>
             ))}
+          </div>
+          
+          <div className="mt-4 px-2">
+            <ImageUploadHint
+              aspectRatio="4:3 Landscape"
+              minSize="1024 × 768 px"
+              usedFor="Community feed photos"
+              tip="Landscape photos look best on the board."
+            />
           </div>
 
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-light dark:border-border-dark">

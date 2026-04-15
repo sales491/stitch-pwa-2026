@@ -8,6 +8,7 @@ import PageHeader from '@/components/PageHeader';
 import { optimizeImage } from '@/utils/image-optimization';
 import { createGem } from '@/app/actions/gems';
 import Link from 'next/link';
+import ImageUploadHint from '@/components/ImageUploadHint';
 
 const GEM_CATEGORIES = [
     'Beaches & Islands',
@@ -73,7 +74,7 @@ export default function CreateGem() {
             // 1. Upload Visuals
             for (const file of imageFiles) {
                 // Compress image before upload
-                const optimizedFile = await optimizeImage(file, { maxWidth: 1200, maxHeight: 1200, quality: 0.85 });
+                const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.85, aspectRatio: 4/3 });
 
                 const fileExt = optimizedFile.name.split('.').pop();
                 const fileName = `${profile.id}-${Math.random()}.${fileExt}`;
@@ -173,6 +174,14 @@ export default function CreateGem() {
                                 ))}
                             </div>
                         )}
+                        <div className="mt-4 text-left">
+                            <ImageUploadHint
+                                aspectRatio="4:3 Landscape"
+                                minSize="1024 × 768 px"
+                                usedFor="Gem attraction photos"
+                                tip="Vibrant landscape photos highlighting the spot work best."
+                            />
+                        </div>
                     </div>
 
                     {/* Core Intelligence Area */}

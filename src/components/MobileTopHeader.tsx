@@ -101,7 +101,7 @@ export default function MobileTopHeader() {
 
                         <Link href="/profile" className="ml-1 relative flex items-center justify-center">
                             {/* Profile image with matching colored border from mockup */}
-                            <div className="h-8 w-8 rounded-full overflow-hidden border-[1.5px] border-slate-200 dark:border-white/20 shadow-sm">
+                            <div className="h-8 w-8 rounded-full overflow-hidden border-[1.5px] border-slate-200 dark:border-white/20 shadow-sm relative">
                                 <img
                                     alt="User Profile"
                                     className="h-full w-full object-cover"
@@ -109,9 +109,15 @@ export default function MobileTopHeader() {
                                     referrerPolicy="no-referrer"
                                 />
                             </div>
-                            {/* Red dot placed precisely on the top right, half outside the profile */}
-                            {(unreadCount > 0 || hasPendingApprovals) && (
-                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#FF4F4F] border-[2px] border-white dark:border-[#0F0F10] rounded-full animate-pulse shadow-[0_1px_2px_rgba(0,0,0,0.2)]" />
+                            
+                            {/* User Unread Notifications Dot (Solid Red on Top Right) */}
+                            {unreadCount > 0 && (
+                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#FF4F4F] border-[2px] border-white dark:border-[#0F0F10] rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.2)]" />
+                            )}
+
+                            {/* Admin Pending Approvals Dot (Blinking Amber on Bottom Right) */}
+                            {hasPendingApprovals && (
+                                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-amber-500 border-[2px] border-white dark:border-[#0F0F10] rounded-full animate-pulse shadow-[0_1px_2px_rgba(0,0,0,0.2)] hover:scale-110 transition-transform cursor-pointer" title="Items pending admin review" />
                             )}
                         </Link>
                     </div>
