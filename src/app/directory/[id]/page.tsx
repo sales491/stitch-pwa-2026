@@ -192,6 +192,11 @@ export default async function BusinessProfileDetailPage({
                         <span className="material-symbols-outlined text-sm">edit_note</span>
                         Manage
                     </Link>
+                ) : (business.owner_id === '7da9eb71-7757-4335-97c3-34eb40e4f34a') ? (
+                    <Link href={`/claim-business/${id}`} className="h-10 px-4 flex items-center justify-center bg-[#2196F3] rounded-full text-white shadow-md active:scale-95 transition-all hover:bg-blue-600 gap-2 font-black text-[10px] uppercase tracking-widest border border-blue-700">
+                        <span className="material-symbols-outlined text-sm">verified_user</span>
+                        Claim Listing
+                    </Link>
                 ) : undefined
             } />
 
@@ -203,6 +208,7 @@ export default async function BusinessProfileDetailPage({
                     businessName={business.business_name}
                     images={business.gallery_images && business.gallery_images.length > 0 ? business.gallery_images : (business.gallery_image ? [business.gallery_image] : [])}
                     isVerified={business.is_verified}
+                    isClaimable={business.owner_id === '7da9eb71-7757-4335-97c3-34eb40e4f34a'}
                 />
 
                 {/* Title & Rating */}

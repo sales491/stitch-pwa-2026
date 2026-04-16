@@ -9,9 +9,10 @@ interface BusinessImageGalleryProps {
     businessName: string;
     images: string[];
     isVerified: boolean;
+    isClaimable?: boolean;
 }
 
-export default function BusinessImageGallery({ businessId, businessName, images, isVerified }: BusinessImageGalleryProps) {
+export default function BusinessImageGallery({ businessId, businessName, images, isVerified, isClaimable }: BusinessImageGalleryProps) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -58,10 +59,9 @@ export default function BusinessImageGallery({ businessId, businessName, images,
     if (validImages.length === 0) {
         return (
             <div className="w-full h-56 md:h-64 relative rounded-[2rem] overflow-hidden shadow-sm mb-6 border border-slate-100 dark:border-zinc-800/50 bg-slate-100 dark:bg-zinc-900">
-                {!isVerified ? (
-                    <Link href={`/claim-business/${businessId}`} className="w-full h-full flex flex-col items-center justify-center bg-teal-50 hover:bg-teal-100 dark:bg-teal-900/10 dark:hover:bg-teal-900/20 transition-all group cursor-pointer text-teal-600 dark:text-teal-500">
-                        <span className="material-symbols-outlined text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">add_a_photo</span>
-                        <span className="text-[11px] font-black uppercase tracking-widest text-center shadow-sm">Claim to Add Photos</span>
+                {(!isVerified || isClaimable) ? (
+                    <Link href={`/claim-business/${businessId}`} className="w-full h-full relative block cursor-pointer group">
+                        <Image src="/images/verify-business-banner.png" alt="Verify Your Business" fill className="object-cover group-hover:scale-[1.03] transition-transform duration-500" />
                     </Link>
                 ) : (
                     <div className="w-full h-full flex items-center justify-center">

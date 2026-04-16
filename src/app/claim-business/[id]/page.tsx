@@ -31,7 +31,7 @@ export default async function ClaimBusinessPage({ params }: { params: Promise<{ 
 
     const { data: business, error } = await supabase
         .from('business_profiles')
-        .select('id, business_name, location, is_verified')
+        .select('id, business_name, location, is_verified, owner_id')
         .eq('id', id)
         .single();
 
@@ -40,7 +40,7 @@ export default async function ClaimBusinessPage({ params }: { params: Promise<{ 
     }
 
     // If already verified, show a message instead
-    if (business.is_verified) {
+    if (business.is_verified && business.owner_id !== '7da9eb71-7757-4335-97c3-34eb40e4f34a') {
         return (
             <div className="min-h-screen bg-white dark:bg-zinc-900 flex flex-col items-center justify-center px-6 text-center">
                 <div className="w-20 h-20 rounded-full bg-teal-50 flex items-center justify-center mb-5">
