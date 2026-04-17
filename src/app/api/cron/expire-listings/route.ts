@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 /**
- * Cron job: expire jobs and skills_exchange listings past their expires_at date.
+ * Cron job: expire jobs, skills, and alert listings past their expires_at date.
  * Call via: GET /api/cron/expire-listings
  * Protect with CRON_SECRET header in production (set in Vercel cron config).
  */
@@ -26,15 +26,23 @@ export async function GET(req: Request) {
             .from('skills_exchange')
             .delete()
             .lt('expires_at', now),
+        admin
+            .from('calamity_alerts')
+            .delete()
+            .lt('expires_at', now),
+        admin
+            .from('outage_reports')
+            .delete()
+            .lt('expires_at', now),
     ]);
 
     if (jobsResult.error || skillsResult.error) {
         console.error('Expiry cron error:', jobsResult.error, skillsResult.error);
-        return NextResponse.json({ error: 'Partial failure', jobs: jobsResult.error, skills: skillsResult.error }, { status: 500 });
+        return NextResponse.json({ error: 'Partial failure' }, { status: 500 });
     }
 
     const expiredJobs = jobsResult.data?.length ?? 0;
-    console.log(`[expire-listings] Expired ${expiredJobs} jobs, deleted expired skill listings.`);
+    console.log(`[expire-listings] Expired ${expiredJobs} jobs, deleted expired skill and alert listings.`);
 
     return NextResponse.json({
         success: true,

@@ -24,7 +24,7 @@ const FEATURES = [
     },
     {
         emoji: '🚨',
-        label: 'Calamity Board',
+        label: 'Mga Abiso',
         sub: 'Community alerts — typhoons, floods, road conditions',
         href: '/my-barangay/calamity',
         color: 'from-red-500 to-orange-500',

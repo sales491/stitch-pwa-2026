@@ -1,0 +1,14 @@
+# Ignore major node directories and builds
+node_modules/
+.next/
+.git/
+.vercel/
+_archive/
+playwright-report/
+test-results/
+build/
+out/
+coverage/
+dist/
+*.log
+*.tsbuildinfo

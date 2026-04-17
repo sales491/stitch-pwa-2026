@@ -37,7 +37,7 @@ const LABEL_MAP: Record<string, string> = {
     'my-barangay': 'My Barangay',
     'board': 'Bulletin Board',
     'lost-found': 'Lost & Found',
-    'calamity': 'Calamity Alerts',
+    'calamity': 'Mga Abiso',
     'ofw': 'OFW Hub',
     'paluwagan': 'Paluwagan',
     'live-market': 'Live Market',

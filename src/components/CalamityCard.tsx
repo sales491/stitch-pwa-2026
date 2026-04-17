@@ -120,16 +120,18 @@ export default function CalamityCard({ alert, canManage, isOwner }: Props) {
                                 </span>
                             )}
                         </div>
-                        {(canManage || isOwner) && !isResolved && (
+                        {(canManage || isOwner) && (
                             <div className="flex flex-col items-end gap-1">
                                 <div className="flex gap-2">
-                                    <button
-                                        onClick={handleResolve}
-                                        disabled={loading}
-                                        className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-50"
-                                    >
-                                        Mark Resolved
-                                    </button>
+                                    {!isResolved && (
+                                        <button
+                                            onClick={handleResolve}
+                                            disabled={loading}
+                                            className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-50"
+                                        >
+                                            Mark Resolved
+                                        </button>
+                                    )}
                                     <button
                                         onClick={handleDelete}
                                         disabled={loading}

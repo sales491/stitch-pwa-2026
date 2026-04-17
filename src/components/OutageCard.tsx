@@ -1,6 +1,7 @@
 'use client';
 
 import { OutageReport, resolveOutageReport, deleteOutageReport } from '@/app/actions/outages';
+import { useRouter } from 'next/navigation';
 import ShareButton from './ShareButton';
 import { expiryLabel } from '@/lib/alert-expiry';
 
@@ -20,16 +21,19 @@ type Props = {
 };
 
 export default function OutageCard({ report, canManage, isOwner }: Props) {
+    const router = useRouter();
     const isPower = report.type === 'power';
     const isResolved = report.status === 'resolved';
 
     const handleResolve = async () => {
-        await resolveOutageReport(report.id);
+        const res = await resolveOutageReport(report.id);
+        if (res.success) router.refresh();
     };
 
     const handleDelete = async () => {
         if (!confirm('Delete this report?')) return;
-        await deleteOutageReport(report.id);
+        const res = await deleteOutageReport(report.id);
+        if (res.success) router.refresh();
     };
 
     return (
@@ -96,14 +100,16 @@ export default function OutageCard({ report, canManage, isOwner }: Props) {
                                 </span>
                             )}
                         </div>
-                        {(canManage || isOwner) && !isResolved && (
+                        {(canManage || isOwner) && (
                             <div className="flex gap-2">
-                                <button
-                                    onClick={handleResolve}
-                                    className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline"
-                                >
-                                    Mark Resolved
-                                </button>
+                                {!isResolved && (
+                                    <button
+                                        onClick={handleResolve}
+                                        className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 hover:underline"
+                                    >
+                                        Mark Resolved
+                                    </button>
+                                )}
                                 <button
                                     onClick={handleDelete}
                                     className="text-[10px] font-black text-rose-400 hover:underline"

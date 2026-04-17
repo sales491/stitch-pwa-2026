@@ -109,5 +109,6 @@ export async function deleteOutageReport(id: string) {
     const { error } = await supabase.from('outage_reports').delete().eq('id', id);
     if (error) return { success: false, error: error.message };
     revalidatePath('/island-life/outages');
+    revalidatePath('/');
     return { success: true };
 }

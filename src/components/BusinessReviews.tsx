@@ -194,7 +194,7 @@ export default function BusinessReviews({ businessId }: BusinessReviewsProps) {
             }
         } catch (err: any) {
             console.error('Error submitting review:', err);
-            alert('Failed to submit review. Please try again.');
+            alert('Failed to submit review. Error details: ' + JSON.stringify(err, null, 2) + '\nMessage: ' + err.message);
         } finally {
             setIsSubmitting(false);
         }
@@ -209,7 +209,7 @@ export default function BusinessReviews({ businessId }: BusinessReviewsProps) {
             setReviews(reviews.filter(r => r.id !== reviewId));
         } else {
             console.error('Delete error:', error);
-            alert('Failed to delete review. You may not have permission.');
+            alert(`Failed: ${error?.message || 'Unknown error'} (Code: ${error?.code || 'None'})`);
         }
     };
 
@@ -347,7 +347,12 @@ export default function BusinessReviews({ businessId }: BusinessReviewsProps) {
                                         <FlagButton contentType="review" contentId={r.id.toString()} />
                                         {canDelete && (
                                             <button
-                                                onClick={() => handleDeleteReview(r.id)}
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    handleDeleteReview(r.id);
+                                                }}
                                                 className="w-8 h-8 rounded-full bg-slate-50 dark:bg-zinc-800 text-slate-400 hover:text-moriones-red hover:bg-moriones-red/10 transition-all sm:opacity-0 sm:group-hover:opacity-100 flex items-center justify-center shrink-0 shadow-sm"
                                                 title="Delete Review"
                                             >
