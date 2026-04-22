@@ -10,6 +10,7 @@ import { QRCodeSVG } from 'qrcode.react';
 
 const CATEGORIES = [
     { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
+    { label: 'Marinduque News', icon: '📰', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/news' },
     { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
     { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
     { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },

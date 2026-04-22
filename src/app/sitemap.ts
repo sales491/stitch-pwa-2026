@@ -9,6 +9,7 @@ const STATIC_DATE = new Date('2026-04-10T00:00:00Z');
 
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: BASE, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 1.0 },
+  { url: `${BASE}/news`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.9 },
   { url: `${BASE}/marketplace`, lastModified: STATIC_DATE, changeFrequency: 'hourly', priority: 0.9 },
   { url: `${BASE}/jobs`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.9 },
   { url: `${BASE}/events`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.8 },
@@ -61,6 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let eventRoutes: MetadataRoute.Sitemap = [];
   let gemRoutes: MetadataRoute.Sitemap = [];
   let businessRoutes: MetadataRoute.Sitemap = [];
+  let newsRoutes: MetadataRoute.Sitemap = [];
 
   try {
     // Dynamic: marketplace listings
@@ -139,7 +141,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }));
-  } catch (error) {
+
+    // Dynamic: news pages
+    const { data: news } = await supabase
+      .from('news')
+      .select('slug, published_at')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+      .limit(200);
+
+    newsRoutes = (news ?? []).filter(n => n.slug).map(n => ({
+      url: `${BASE}/news/${n.slug}`,
+      lastModified: n.published_at ? new Date(n.published_at) : new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }));  } catch (error) {
     console.error('Error fetching dynamic sitemap routes:', error);
     // If dynamic fetch fails, we still return at least the STATIC_ROUTES
   }
@@ -151,5 +167,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...eventRoutes,
     ...gemRoutes,
     ...businessRoutes,
+    ...newsRoutes,
   ];
 }

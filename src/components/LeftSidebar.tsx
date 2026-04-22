@@ -15,6 +15,7 @@ const mainNav = [
     { label: 'Delivery & Commuting', href: '/commute', icon: 'directions_car' },
     { label: 'Island Hopping', href: '/island-hopping', icon: 'sailing' },
     { label: 'Community Board', href: '/community', icon: 'groups' },
+    { label: 'Marinduque News', href: '/news', icon: 'newspaper' },
     { label: 'RoRo & Port Info', href: '/ports', icon: 'anchor' },
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
