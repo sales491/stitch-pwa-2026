@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import BackButton from '@/components/BackButton';
-
+import ShareButton from '@/components/ShareButton';
 export const revalidate = 60; // Dynamic route can revalidate safely
 
 interface PageProps {
@@ -114,10 +114,19 @@ export default async function NewsArticlePage({ params }: PageProps) {
             <div className="max-w-3xl mx-auto px-5 md:px-0 -mt-24 relative z-10">
                 <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-6 md:p-10 shadow-2xl shadow-black/5 dark:shadow-black/20 border border-slate-100 dark:border-zinc-800 mb-8">
                     
-                    {/* Timestamp */}
-                    <p className="text-xs font-bold uppercase tracking-widest text-moriones-red mb-3">
-                        {new Date(article.published_at || article.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                    </p>
+                    {/* Timestamp and Share Button */}
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs font-bold uppercase tracking-widest text-moriones-red">
+                            {new Date(article.published_at || article.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                        </p>
+                        <ShareButton 
+                            title={article.title} 
+                            text={article.summary} 
+                            url={`/news/${article.slug}`} 
+                            variant="icon" 
+                            className="bg-slate-100 dark:bg-zinc-800"
+                        />
+                    </div>
 
                     {/* Headline */}
                     <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight mb-4 tracking-tight">

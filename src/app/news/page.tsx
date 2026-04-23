@@ -46,7 +46,7 @@ export default async function NewsFeed() {
 
             <div className="mb-8">
                 <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2">Marinduque News</h1>
-                <p className="text-slate-600 dark:text-slate-400">Brief, daily updates and local announcements driven by AI.</p>
+                <p className="text-slate-600 dark:text-slate-400">Brief, daily updates and local announcements driven by technology.</p>
             </div>
 
             {(!articles || articles.length === 0) ? (
@@ -95,7 +95,7 @@ export default async function NewsFeed() {
             )}
             
             <div className="mt-12">
-                <SeoTextBlock heading="About the AI-Assisted News Feed">
+                <SeoTextBlock heading="About the Technology Assisted News Feed">
                     <p>The Marinduque News page aggregates and optimizes local public information for quick reading. Using advanced AI agents, we synthesize announcements into a concise format, ensuring high-value takeaways for our users, optimizing images, and keeping you updated directly from your PWA.</p>
                 </SeoTextBlock>
             </div>
