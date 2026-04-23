@@ -69,8 +69,19 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
     return (
         <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
-            <PageHeader title="Local Gems" subtitle="Found in Marinduque">
-                {/* Search bar */}
+            <PageHeader 
+                title="Local Gems" 
+                subtitle="Found in Marinduque"
+                rightAction={
+                    <Link
+                        href="/gems/create"
+                        className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-moriones-red text-white rounded-full font-black text-[10px] uppercase tracking-widest shadow-md shadow-moriones-red/20 active:scale-95 transition-all"
+                    >
+                        <span className="material-symbols-outlined text-[14px]">add_location_alt</span>
+                        Post a Gem
+                    </Link>
+                }
+            >
                 <div className="px-4 pb-3">
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400" style={{ fontSize: 17 }}>search</span>
@@ -156,13 +167,7 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                 </div>
             )}
 
-            {/* ── FAB — red location pin, matches live site ────────── */}
-            <Link
-                href="/gems/create"
-                className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-moriones-red text-white shadow-2xl shadow-moriones-red/40 active:scale-95 transition-all"
-            >
-                <span className="material-symbols-outlined text-[28px]">add_location_alt</span>
-            </Link>
+
         </div>
     );
 }
