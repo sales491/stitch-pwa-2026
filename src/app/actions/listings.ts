@@ -182,6 +182,10 @@ export async function resolveFlag(flagId: string) {
     if (!hasAdminAccess) throw new Error('Forbidden');
 
     const adminClient = await createAdminClient();
+    
+    // First retrieve the flag so we can find its related content_id
+    const { data: flag } = await adminClient.from('content_flags').select('content_id').eq('id', flagId).single();
+
     const { error } = await adminClient
         .from('content_flags')
         .update({
@@ -192,6 +196,25 @@ export async function resolveFlag(flagId: string) {
         .eq('id', flagId);
 
     if (error) throw new Error(error.message);
+
+    // Synchronize the main moderation_queue 
+    if (flag?.content_id) {
+        const { count } = await adminClient.from('content_flags')
+            .select('*', { count: 'exact', head: true })
+            .eq('content_id', flag.content_id)
+            .eq('resolved', false);
+            
+        if (count === 0) {
+            await adminClient.from('moderation_queue')
+                .update({ 
+                    status: 'rejected',
+                    reviewed_at: new Date().toISOString(),
+                    reviewed_by: user.id
+                })
+                .eq('content_id', flag.content_id)
+                .eq('status', 'pending');
+        }
+    }
 
     revalidatePath('/admin');
     revalidatePath('/admin/moderation');

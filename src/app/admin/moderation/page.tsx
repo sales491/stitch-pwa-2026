@@ -16,11 +16,7 @@ export default async function ModerationPage() {
             reason,
             details,
             created_at,
-            resolved,
-            reporter:profiles!content_flags_flagged_by_fkey (
-                full_name,
-                avatar_url
-            )
+            resolved
         `)
         .or('resolved.is.null,resolved.eq.false')
         .order('created_at', { ascending: true });

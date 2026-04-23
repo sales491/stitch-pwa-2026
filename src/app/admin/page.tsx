@@ -15,24 +15,33 @@ export default async function AdminDashboard() {
         { data: newUsers },
         { data: newBusinesses },
         { data: recentListings },
-        { count: pendingCount },
         { data: contactMessages },
         { data: boatServices },
         { data: transportServices },
         { data: pendingBusinesses },
+        { data: pendingListings },
+        { data: pendingGems },
+        { data: pendingQueue },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('business_profiles').select('id, business_name, is_verified, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('listings').select('id, title, status, created_at').order('created_at', { ascending: false }).limit(6),
-        supabase.from('listings').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
         supabase.from('contact_messages').select('id, name, email, subject, message, is_read, created_at').order('created_at', { ascending: false }).limit(20),
         supabase.from('boat_services').select('id, operator_name, boat_type, service_type, base_municipality, contact_number, created_at').order('created_at', { ascending: false }),
         supabase.from('transport_services').select('id, driver_name, vehicle_type, service_type, base_town, contact_number, created_at').order('created_at', { ascending: false }),
         supabase.from('business_profiles').select('id, business_name, business_type, location, gallery_image, created_at').eq('is_verified', false).order('created_at', { ascending: false }),
+        supabase.from('listings').select('id, title, category, images, created_at').eq('status', 'pending').order('created_at', { ascending: false }),
+        supabase.from('gems').select('id, title, town, images, created_at').eq('is_approved', false).order('created_at', { ascending: false }),
+        supabase.from('moderation_queue').select('id, content_type, content_id, flag_count, queued_at').eq('status', 'pending').order('queued_at', { ascending: false }),
     ]);
 
     const unreadMessages = (contactMessages ?? []).filter(m => !m.is_read).length;
-    const totalPendingApprovals = (pendingBusinesses ?? []).length;
+    const pendingCount = pendingListings?.length || 0;
+    const totalPendingApprovals = 
+        (pendingBusinesses?.length || 0) + 
+        (pendingListings?.length || 0) + 
+        (pendingGems?.length || 0) + 
+        (pendingQueue?.length || 0);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 space-y-8 sm:space-y-12 pb-24 font-display">
@@ -117,11 +126,108 @@ export default async function AdminDashboard() {
                                         </div>
                                     ))}
                                 </div>
-                                <p className="text-[10px] text-slate-400 font-bold mt-2 text-center">
-                                    Full approval controls in <Link href="/admin/dashboard" className="text-teal-600 hover:underline">Business Dashboard →</Link>
-                                </p>
                             </div>
                         )}
+
+                        {/* Marketplace Listings */}
+                        {(pendingListings ?? []).length > 0 && (
+                            <div className="pt-2">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-3 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[14px]">inventory_2</span>
+                                    Marketplace Listings ({pendingListings!.length})
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    {pendingListings!.map(list => (
+                                        <div key={list.id} className="bg-white border border-amber-200 rounded-2xl p-4 flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
+                                                {list.images?.[0]
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    ? <img src={list.images[0]} alt={list.title} className="w-full h-full object-cover" />
+                                                    : <span className="material-symbols-outlined text-slate-400">shopping_bag</span>}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-black text-slate-900 text-sm truncate">{list.title}</p>
+                                                <p className="text-[11px] text-slate-500 truncate">{list.category}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                <Link href={`/marketplace/${list.id}`} target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-black hover:bg-slate-200 transition-colors">
+                                                    View
+                                                </Link>
+                                                <Link href={`/admin/moderation`} className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors">
+                                                    Approve →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Island Gems */}
+                        {(pendingGems ?? []).length > 0 && (
+                            <div className="pt-2">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-3 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[14px]">diamond</span>
+                                    Marinduque Gems ({pendingGems!.length})
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    {pendingGems!.map(gem => (
+                                        <div key={gem.id} className="bg-white border border-amber-200 rounded-2xl p-4 flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
+                                                {gem.images?.[0]
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    ? <img src={gem.images?.[0]} alt={gem.title} className="w-full h-full object-cover" />
+                                                    : <span className="material-symbols-outlined text-slate-400">image</span>}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-black text-slate-900 text-sm truncate">{gem.title}</p>
+                                                <p className="text-[11px] text-slate-500 truncate">{gem.town}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                <Link href={`/admin/dashboard`} className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors">
+                                                    Manage →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Moderation Queue (Flagged Items) */}
+                        {(pendingQueue ?? []).length > 0 && (
+                            <div className="pt-2">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-red-600 mb-3 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[14px]">flag</span>
+                                    Flagged Reports ({pendingQueue!.length})
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    {pendingQueue!.map(queueItem => (
+                                        <div key={queueItem.id} className="bg-white border border-red-200 rounded-2xl p-4 flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-red-50 text-red-500 shrink-0 flex items-center justify-center">
+                                                <span className="material-symbols-outlined">warning</span>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-black text-slate-900 text-sm truncate uppercase">Reported: {queueItem.content_type}</p>
+                                                <p className="text-[11px] text-red-600 truncate font-bold">Priority Flags: {queueItem.flag_count}</p>
+                                                <p className="text-[10px] text-slate-500 font-mono mt-0.5 truncate">ID: {queueItem.content_id}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                <Link href={`/admin/moderation`} className="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-black hover:bg-slate-800 transition-colors">
+                                                    Review Case →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="mt-4 pt-4 border-t border-amber-200/50">
+                            <p className="text-[10px] text-slate-400 font-bold text-center">
+                                Use the respective Manage buttons above to permanently approve or reject items.
+                            </p>
+                        </div>
                     </div>
                 )}
             </section>
