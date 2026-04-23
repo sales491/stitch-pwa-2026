@@ -47,7 +47,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         supabase.from('listings').select('*').eq('status', 'active').limit(4).order('created_at', { ascending: false }),
         supabase.from('jobs').select('*').eq('status', 'active').limit(4).order('created_at', { ascending: false }),
         supabase.from('gems').select('*').limit(4).order('created_at', { ascending: false }),
-        supabase.from('business_profiles').select('*').limit(4).order('is_verified', { ascending: false }).order('business_name', { ascending: true }),
+        supabase.from('business_profiles').select('*').limit(4).order('is_verified', { ascending: false }).order('average_rating', { ascending: false }),
         supabase.from('transport_services').select('*').eq('is_available', true).limit(2),
         supabase.from('events').select('*').limit(1).order('event_date', { ascending: true }),
         supabase.from('port_updates').select('*').limit(1).order('created_at', { ascending: false }),
@@ -78,6 +78,17 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
         link: `/gem/${g.id}`,
         extraInfo: 'Trending',
     }));
+
+    if (businesses && businesses.length >= 4) {
+        // Manual swap requested by user for layout
+        const temp0 = businesses[0];
+        businesses[0] = businesses[1];
+        businesses[1] = temp0;
+
+        const temp2 = businesses[2];
+        businesses[2] = businesses[3];
+        businesses[3] = temp2;
+    }
 
     businesses?.forEach(b => items.push({
         id: b.id, type: 'businesses', categoryLabel: 'BUSINESS',

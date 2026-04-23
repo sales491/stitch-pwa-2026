@@ -253,8 +253,14 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, n
                                                         fill
                                                         sizes="(max-width: 768px) 50vw, 33vw"
                                                     />
+                                                    {item.type === 'businesses' && item.image.includes('store_manager.webp') && (
+                                                        <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center p-2 text-center group-hover:bg-black/40 transition-colors">
+                                                            <span className="material-symbols-outlined text-white/90 text-2xl mb-1 drop-shadow-lg">domain_verification</span>
+                                                            <span className="text-white font-black text-[10px] uppercase tracking-widest drop-shadow-lg leading-tight">Verify Your<br/>Business</span>
+                                                        </div>
+                                                    )}
                                                     {item.extraInfo && (
-                                                        <div className="absolute bottom-2 left-2 rounded-lg bg-black/60 px-2 py-1 backdrop-blur-sm shadow-lg border border-white/10">
+                                                        <div className="absolute bottom-2 left-2 rounded-lg bg-black/60 px-2 py-1 backdrop-blur-sm shadow-lg border border-white/10 z-10">
                                                             <p className="text-[10px] font-black text-white">{item.extraInfo}</p>
                                                         </div>
                                                     )}
