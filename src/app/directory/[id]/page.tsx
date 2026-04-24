@@ -24,11 +24,20 @@ export async function generateMetadata({
         .eq('id', id)
         .single();
 
-    if (!biz) return { title: 'Business Not Found' };
+    const typeLabel = biz.categories?.[0] || 'business';
+    const taglishKeywords = [
+        `${biz.business_name} in ${biz.location}`,
+        `${typeLabel} in ${biz.location} Marinduque`,
+        `saan makikita ang ${biz.business_name}`,
+        `contact number of ${biz.business_name}`,
+        `reviews for ${biz.business_name} ${biz.location}`,
+        `${biz.business_name} hours of operation`
+    ];
 
     return {
         title: `${biz.business_name} — ${biz.location}, Marinduque`,
         description: biz.description?.slice(0, 155) ?? `${biz.business_name} in ${biz.location}, Marinduque. ${biz.categories?.join(', ') || 'Local business'}.`,
+        keywords: taglishKeywords,
         openGraph: {
             title: `${biz.business_name} — Marinduque Business Directory`,
             description: biz.description?.slice(0, 155) ?? `Discover ${biz.business_name} in ${biz.location}, Marinduque.`,
@@ -153,8 +162,47 @@ export default async function BusinessProfileDetailPage({
     const phone = contactInfo.phone || '';
     const messenger = socialMedia.messenger || '';
 
+    // Generate dynamic FAQ for AEO
+    const faqs = [];
+    faqs.push({
+        '@type': 'Question',
+        name: `Saan matatagpuan ang ${business.business_name}?`,
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: `Ang ${business.business_name} ay matatagpuan sa ${business.barangay ? `Brgy. ${business.barangay}, ` : ''}${business.location}, Marinduque.`
+        }
+    });
+    
+    if (business.operating_hours) {
+        faqs.push({
+            '@type': 'Question',
+            name: `What are the operating hours of ${business.business_name}?`,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: `${business.business_name} is open during the following hours: ${business.operating_hours}.`
+            }
+        });
+    }
+
+    if (business.delivery_available) {
+        faqs.push({
+            '@type': 'Question',
+            name: `Does ${business.business_name} offer delivery?`,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: `Yes, ${business.business_name} offers delivery services in Marinduque.`
+            }
+        });
+    }
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs
+    };
+
     return (
-        <div className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
+        <main className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
             {/* LocalBusiness JSON-LD for Google Maps, Knowledge Panels, and AI Answer Engines */}
             <script
                 type="application/ld+json"
@@ -179,12 +227,27 @@ export default async function BusinessProfileDetailPage({
                     ...(business.is_verified && {
                         award: 'Verified Business — Marinduque Market Hub',
                     }),
+                    ...(business.average_rating > 0 && business.review_count > 0 && {
+                        aggregateRating: {
+                            '@type': 'AggregateRating',
+                            ratingValue: business.average_rating,
+                            reviewCount: business.review_count,
+                            bestRating: '5',
+                            worstRating: '1'
+                        }
+                    }),
+                    priceRange: '₱₱',
                     isAccessibleForFree: true,
                     areaServed: {
                         '@type': 'AdministrativeArea',
                         name: 'Marinduque',
                     },
                 }) }}
+            />
+            {/* Dynamic FAQPage JSON-LD for AEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             <PageHeader title="Business" subtitle="Directory Listing" rightAction={
                 canEdit ? (
@@ -371,17 +434,17 @@ export default async function BusinessProfileDetailPage({
                     )}
                 </div>
 
-                <div className="border-t border-slate-200 dark:border-zinc-800/80 pt-10 mb-12">
+                <article className="border-t border-slate-200 dark:border-zinc-800/80 pt-10 mb-12">
                     <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-5 flex items-center gap-2">
                         <span className="material-symbols-outlined text-[20px] text-slate-400">info</span>
-                        About
+                        About {business.business_name}
                     </h2>
                     <div className="bg-transparent">
                         <p className="text-slate-600 dark:text-zinc-400 text-[15px] leading-[1.8] font-medium whitespace-pre-wrap">
                             {business.description || "No description provided yet."}
                         </p>
                     </div>
-                </div>
+                </article>
 
                 {/* Verify / Pending Banner (if not verified) */}
                 {!business.is_verified && (
@@ -420,7 +483,9 @@ export default async function BusinessProfileDetailPage({
             </div>
 
             {/* Internal linking — other businesses nearby */}
-            <RelatedItems type="businesses" town={business.location} excludeId={String(business.id)} heading="Other Businesses Nearby" />
-        </div>
+            <aside>
+                <RelatedItems type="businesses" town={business.location} excludeId={String(business.id)} heading="Other Businesses Nearby" />
+            </aside>
+        </main>
     );
 }

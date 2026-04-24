@@ -1,0 +1,4127 @@
+[
+  {
+    "id": "de003f67-d5f7-4e6f-83bd-8785be53ba91",
+    "business_name": "Makapuyat National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0f5f944f-f69a-4d1b-b990-cc3bf6476fe3",
+    "business_name": "Jm's Bike Shop",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bc354733-d675-4562-b978-f81b6996210d",
+    "business_name": "AJAC Hardware Store",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e45e213f-2494-4f8b-afa5-47912b0174e3",
+    "business_name": "Roby’s Bakeshoppe",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0a37c6d9-ea1f-42cd-a724-cb313da1e9a2",
+    "business_name": "Bahi Barangay Hall",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8cf23e0a-d64d-4e10-b3ac-76fc0f6a22d5",
+    "business_name": "Community Fish Landing Center",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "78753af4-01eb-41b2-8f2c-64c6fd287e84",
+    "business_name": "Labao Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "853ff662-0446-4f96-acad-b7f01a29f5a1",
+    "business_name": "Sarang-Jin Minimart",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cde9358d-6f89-4890-8b03-2fc0824fedfc",
+    "business_name": "JN'M Consumer Goods Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a98dcf40-4820-4e42-b7cb-43f645b41de7",
+    "business_name": "Sumangga Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4efe381c-cd81-480f-a851-0348fdaffbf3",
+    "business_name": "DAYO",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a9866358-87f7-432b-a482-7fec66f5b481",
+    "business_name": "Cafe Ma Mita Restaurant",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ba38bf1e-cd1d-444f-a73a-32e701fffa0f",
+    "business_name": "Zmoke",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f0896e3d-ef75-4451-946f-f7a1e1013316",
+    "business_name": "BellyBelles Coffee - Boac",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d9a43355-e105-4be2-884e-dfae88905340",
+    "business_name": "Cafe Benevolo Boac",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f0c36a5c-a10a-4e9c-b94a-b9bc67d04513",
+    "business_name": "Boac Expo",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "37de83e9-9597-4769-938e-9be4da094f06",
+    "business_name": "Cafe Benevolo Bangbangalon",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cc33cb6e-9b27-4a1b-9507-8e3f71dbea5a",
+    "business_name": "sa bundok",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "39fdf9f1-0b3a-4c2f-aa0a-139d874ea597",
+    "business_name": "Boac Cafe",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8632c03b-8b41-4741-9306-331e35161643",
+    "business_name": "Sip Ur Happiness Cafe",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6685b193-1980-43c8-8ec9-4163a96b53b5",
+    "business_name": "Chinggay’s",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1e3eb058-e872-497a-98d1-f2f8a332a402",
+    "business_name": "Doughboys Cafe and Bakeshop",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1af8092b-b707-4670-9e30-a88ebe179da1",
+    "business_name": "Blossoms & Brews",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "608fb0eb-8aa6-4bcf-9f3c-e8c40827e53a",
+    "business_name": "1015 Foodhouse",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cfde5d9f-8fa9-4bc3-98c8-6547c86c6d15",
+    "business_name": "Siomai King Food Cart Marinduque",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c3dc974b-f70e-4c3d-b8d7-bfc9f4298817",
+    "business_name": "Food vendor",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3f42a2b8-b21c-437f-a712-2d0b8b2ec855",
+    "business_name": "Marinduque Food Center and Restaurant",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c85ea7f4-80e2-4103-bf38-81efd0ccd375",
+    "business_name": "Boac Food Corner (BFC Restaurant)",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5c7c72e1-391a-4e42-9259-4e4bef1381c2",
+    "business_name": "D TREEHOUSE FOOD PARK",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "aebd8236-c432-4506-b0ee-6ecefe72aa07",
+    "business_name": "Cravings Food and Refreshment Hub",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f4c5912b-5e90-4b55-ae8c-d9abb8007801",
+    "business_name": "Villa Negro Cafe'",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ad816af0-2b3b-4c04-97f7-b95799bcc18d",
+    "business_name": "Poblacion Pares",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "31b10964-def2-4294-b36a-fd490646e13c",
+    "business_name": "Adis Resort Hotel and Restaurant",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3a2f50fa-bc58-43a8-a8c2-ce47135afbbc",
+    "business_name": "Bethany Café",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "89d4f48e-e3ea-4238-a1f4-c867fb32735f",
+    "business_name": "Doña Aurora Café De tous les jours",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e07e31d6-09a6-4d06-8c41-7f23260e6612",
+    "business_name": "Brewista Coffee PH",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c8f52ce1-0177-467e-96d7-f354f9cbd0bc",
+    "business_name": "Boac Public Market",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "74866038-d682-4eb4-8d15-f19fe69fba2b",
+    "business_name": "Marina Marinduque Hotel and Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "79e86601-5717-4ccb-b0d8-81efa5df2bb0",
+    "business_name": "Hotel Marinduque",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "308f10da-6976-4833-9a25-7e24df6691ae",
+    "business_name": "Casita Agnes Private Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "28f68cc0-b352-4def-8689-045190d0b3fd",
+    "business_name": "Freedom Eco Adventure Park",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "987a0dcd-6ccd-4949-b75d-b405fce07172",
+    "business_name": "Villa Worth",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "84fc4a2f-3bce-497c-a237-cd04520a55dd",
+    "business_name": "Eastpoint Hotel",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2baf219f-6918-43df-91ee-76d7fe12285d",
+    "business_name": "Boac Beach Guesthouse",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cab346b3-e036-4dca-a8d1-d52e36a3f07f",
+    "business_name": "Chateau Du Mer",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7e333e20-ae35-4326-80a8-4003c532a626",
+    "business_name": "KASTILYO INN",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7c6645b1-60ee-40fd-b016-da8699612173",
+    "business_name": "Seaview Hotel",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "dd17eae6-5754-4217-8b84-5d9e4965d696",
+    "business_name": "Abby's Place Hotel",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "71ee82a3-2d6b-4d98-9e2b-9155e0d12941",
+    "business_name": "3E's Love Bay Beach Resort & Hotel",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "348e25b2-78dc-4f61-aa3a-d969b3ad7530",
+    "business_name": "Villa Sathy",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4481b1fd-12bf-4168-88d4-3dd664fc8f43",
+    "business_name": "Bellaroca Island Resort & Spa",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7615a19f-9e3e-4cb4-b281-db7f607c809f",
+    "business_name": "Guisian Cove Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "87a26f04-a86b-4598-98ec-85781c3da156",
+    "business_name": "Jethro's Hotel & Resto",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "00767b4f-121c-403f-9a33-6a1e59569b32",
+    "business_name": "Puregold Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "21af6d1b-244f-4340-9622-a1e3c0effdfb",
+    "business_name": "GT168",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d28c0ce6-65b9-4c4b-a730-adfabed579fd",
+    "business_name": "KRM Store your one stop shop",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "14c94e97-3147-4d08-9847-02ffb4bed6f8",
+    "business_name": "Monterey Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "45ea2528-a6ed-4098-b763-7e1abc37ee7b",
+    "business_name": "Alicia Ong Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "43509243-1f93-45ec-a2f9-cf4d59d38419",
+    "business_name": "Magdurulan Consumer Goods Trading",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "31f2e777-8098-48c8-b3bc-37481c2fde41",
+    "business_name": "Malbog buenavista",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ce68523f-6989-4a5a-bbe4-7bde9a7b8ae3",
+    "business_name": "CorBen Mini Mart",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5b6f330d-8070-4581-a0e2-3aad3f22cc47",
+    "business_name": "Oriental MINIMART",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "00373a3b-9f7b-4a46-8579-4e9bb2bdc353",
+    "business_name": "Lorenel's Meat Shop",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "00f6ddfb-e5f2-4496-a0f5-1ba860db5648",
+    "business_name": "Pamilihang Bayan ng Sta. Cruz",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "588ebbda-aa7a-4f11-a5e6-180c74453bfb",
+    "business_name": "Gasan public market",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "faed1d2d-b1af-470e-b776-92d3c284c1ee",
+    "business_name": "Nancy Grocery Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3ccb4b3e-c9eb-477e-bd58-d5a8f344b986",
+    "business_name": "Mogpog Public Market",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ca49ff2d-6221-41ba-9bcb-4d90e7279082",
+    "business_name": "Emmart Enterprise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e8f07e3d-cacf-4662-8e98-110f1872e643",
+    "business_name": "Nelita's Sari-sari Store",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "094f771c-cbe7-4f8e-a9c0-8fc4718c6fc4",
+    "business_name": "Apple Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "57a39570-966e-4ede-849d-d628dcf9042c",
+    "business_name": "Philippine National Bank - Boac",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2a4bd7ad-d794-4095-8917-622c65ee13e0",
+    "business_name": "RCBC BRANCH - BOAC",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4447ea46-9b09-43c4-89a4-c59b9945820d",
+    "business_name": "BPI Direct BanKo",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "945c36a0-c3cd-4696-9ac9-2d83a77430c7",
+    "business_name": "Card Bank, Inc.",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "43d404ff-0681-48ab-8325-aebcd29f51cf",
+    "business_name": "City Savings - Marinduque Branch Lite",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d2d0bf7a-0a67-48fe-a39e-da08d0acbe80",
+    "business_name": "Philippine National Bank ATM",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "41cb2cb4-1771-4be0-96f7-221ed9ace037",
+    "business_name": "RCBC ATM - Golden Three 168 Trading Inc.",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "042d41b6-50b4-4b48-bb11-28a83e47c669",
+    "business_name": "Radiowealth Finance Company-Marinduque Branch",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9b980170-9520-4d99-8a84-5d29287b9d26",
+    "business_name": "Michel J. Lhuillier Financial Services",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7aeb8447-7cf0-4ae1-b1f6-941ba738445c",
+    "business_name": "M Lhuillier - Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "77ec2633-4d78-4667-9345-b0f339d4fca7",
+    "business_name": "Western Union Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "23b36037-db16-4c83-8655-e29dc2ff52eb",
+    "business_name": "Cebuana Lhuillier Pawnshop - Boac",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bfa7e6dc-b76b-442b-89bd-0f67623cf937",
+    "business_name": "MoneyGram",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3adb0bc0-364b-450e-8d41-ba3838992e3d",
+    "business_name": "Palawan Pawnshop",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "84430b04-51ac-49c6-a81a-7d19f5929de6",
+    "business_name": "Capt. Dela Rosa Bldg.",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ac2d9851-950b-4460-ae13-fdb466d0226b",
+    "business_name": "Patrick Freelance Services",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a2169a19-0d17-41ed-971a-4e03ce882b04",
+    "business_name": "AP Cargo Boac Branch",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "67a5219d-52b6-443c-9bc2-d0abc8451b9e",
+    "business_name": "Dr. Damian J. Reyes Memorial Hospital",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1a82b6b4-d3d5-4418-a258-07780b0281f5",
+    "business_name": "Holy Infant Jesus Medical and Diagnostic Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a5bc4840-83e1-4957-8bf1-1fabce059f9d",
+    "business_name": "Boac Municipal Health Office",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "346440ec-846d-4137-aefb-fc99edcad7fa",
+    "business_name": "Doctor Labay Medical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9bb8e4c3-1c28-46ac-b0c6-36d752fbd265",
+    "business_name": "Corehealth Medical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "76203413-f7b2-4287-bbb8-d02e36cc48a8",
+    "business_name": "Miraculous Medal Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "88672aba-417e-4877-8ced-31bbc52c0681",
+    "business_name": "Jimarian Medical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "70bdf1b5-63b7-40a5-b4aa-a7a9a2a3689f",
+    "business_name": "The Íle Skin MD Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "faa9176e-ea32-4ad1-9d30-806e6037cff3",
+    "business_name": "Orthodocs Dental Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cdd2701a-6666-4c17-b52d-d2572f9e2648",
+    "business_name": "Lazarus Medical And Diagnostic Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "15986935-83a0-4ba7-83c1-810c2821bc9b",
+    "business_name": "URRUTIA MEDICAL AND DIAGNOSTIC CLINIC",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c49a4e79-cab7-46b0-bced-2d80eab72117",
+    "business_name": "Ancheta Medical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3c3d5f85-e5e7-4c04-8372-c0b24f0dfcc3",
+    "business_name": "Boac Animal Bite Center",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "40c6164a-580c-4fdb-8082-646b12b549cf",
+    "business_name": "MALUBAY EYE CLINIC",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "90f60f75-b1fe-468b-b6af-cac4a0753642",
+    "business_name": "Isentro Medical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "197cd12e-fa7a-48c8-950b-8181c76179a1",
+    "business_name": "Dermaesthetique",
+    "business_type": "Beauty / Spa",
+    "categories": [
+      "Beauty / Personal Care"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7a402be3-e6b7-4395-9b0d-b8c4c7360eaf",
+    "business_name": "Dentalign Dental Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "248c1c2b-3f79-4d6d-adf6-d7f6efa0f5f6",
+    "business_name": "Light Psychiatric Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cc07e2e8-2c09-4f1f-a7e6-240fd3ba0172",
+    "business_name": "Watsons Pharmacy Boac",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2a40d783-4598-4de1-9830-39c548399921",
+    "business_name": "St. Pancratius Pharmacy",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0e312cfd-6feb-4e68-920d-1ac83e483cb0",
+    "business_name": "D'Zaimircon Pharmacy",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "45989a77-1b95-48f1-b0cf-4c9231ce5d22",
+    "business_name": "Jimarian Pharmacy and General Merchandise",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a7a79065-84e4-40b2-bd23-94d55915efc2",
+    "business_name": "Office of the Municipal Assessor - Muncipality of Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e843744d-dc36-411d-a95d-08d0d7dab821",
+    "business_name": "TGP The Generics Pharmacy (Boac)",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ba6e2560-1e86-411d-a7ec-8c8388b0aa2c",
+    "business_name": "Botica Infant Jesus Main & General Merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7af45556-1632-4a67-8091-80a1f05224c7",
+    "business_name": "Marinduque Drug Testing Center",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4cf60a01-7dfb-4eea-82ee-85b0144edccd",
+    "business_name": "Gamot Publiko Boac",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e41e2352-65bd-48ea-8eae-04a77f167d28",
+    "business_name": "WATSONS GOV D REYES ST BOAC",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6491e8d3-a39d-4c83-8af4-f75f5dfa71f8",
+    "business_name": "Claretian Pharmacy",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "709834ff-f317-4712-a77e-911818b3dea2",
+    "business_name": "Mercury Drug Store - Marinduque Branch",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2a64a22b-3922-4482-9915-71122fed23f2",
+    "business_name": "Ipharma mart",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "06be5684-2d3d-4acc-bfd3-46480b8da784",
+    "business_name": "Municipal Government of Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "84547204-3c91-455d-bb98-5bb9b525c5a0",
+    "business_name": "Public Employment Service Office - Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "45c020fb-2b34-4556-adc7-0a993c236ae7",
+    "business_name": "Land Transportation Office - Boac District Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9ca16a94-af4a-48e2-9a59-2a6fcc3238f3",
+    "business_name": "Bureau of Internal Revenue (BIR) District Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ba7fd09a-3f45-4b82-81fe-b99d6db81083",
+    "business_name": "CIVIL SERVICE COMMISSION MARINDUQUE FIELD OFFICE",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "041163fd-9abc-4850-a950-dbb795d37120",
+    "business_name": "Philippine Statistics Authority Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8d86c4a0-2d7a-4057-8c93-5f91002fd521",
+    "business_name": "Department of Agrarian Reform (DAR) - Marinduque Provincial Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "af4dddc9-bd8a-4f6b-9f75-ccfcf37f943c",
+    "business_name": "Marinduque Provincial Police Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "94dd7258-3d14-4c92-a7c9-e3c54aa4e31c",
+    "business_name": "Provincial Statistics Office - NSO",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7d0e3e16-b165-4441-9e39-018f7c257a53",
+    "business_name": "Office of the Municipal Assessor - Municipality of Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a753bb24-37cd-4827-8adb-d599e735abec",
+    "business_name": "PhilHealth Marinduque",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "78c7aecf-a35a-4ef9-8c96-2af02cc47f3f",
+    "business_name": "Department of Science and Technology (Marinduque)",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "25345f8d-36db-4b88-b43b-a8e9eebc0506",
+    "business_name": "MARINDUQUE PROVINCIAL INTERNAL AFFAIRS SERVICE",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "99d28eb4-0e06-4bc7-9abb-8cdcc9bcf2ed",
+    "business_name": "Provincial Environment and Natural Resources Office - Boac",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c83f298a-d252-4b67-bac0-529d13add5f6",
+    "business_name": "Provincial Tourism and Cultural Office - Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d6f6b15f-0aed-46ab-9735-4f47d79516e1",
+    "business_name": "Department of Labor and Employment - Marinduque Field Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "62669da3-866d-4b35-a6d2-5b6b93e9dde7",
+    "business_name": "Department of Environment and Natural Resources (DENR) - PENRO (Marinduque)",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4e64eadf-3b92-4e9e-9894-f695fdecda11",
+    "business_name": "SK Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ea74e5a7-0109-4527-9943-b487a72a2a02",
+    "business_name": "Pagibig Fund Building",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0088b9c8-2007-4f0e-a276-9191c71f8374",
+    "business_name": "Marinduque National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "560326fb-fce7-4759-8128-e8cf9a088da5",
+    "business_name": "St. Mary's College Of Marinduque",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "87844144-b227-4f63-9a2e-82e654ec9274",
+    "business_name": "Department of Education - SDO Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "05949b10-72ee-48a4-b999-7410adc936e6",
+    "business_name": "Educational System Technological Institute",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c765cfb4-b788-427c-8f5a-592cfcf24b97",
+    "business_name": "Don Luis Hidalgo Memorial School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "aeb9ac8b-6f95-48f5-96d0-8ca1906b3494",
+    "business_name": "Ilaya National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "00fd785b-a7ff-4dee-81e5-040edbd5ed7c",
+    "business_name": "Boac South Central School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "20945c0f-ea3a-4522-ba16-d6e7ad869acd",
+    "business_name": "Little Stars Pre-school",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "08263296-bb33-4973-931f-b6495d345663",
+    "business_name": "Everbright International Academy Marinduque Branch",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "57788f61-4d0d-464a-bc22-0abf457a393a",
+    "business_name": "Maybo Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1dfac768-734a-42a6-8509-e56df397e28b",
+    "business_name": "Marinduque State College - Campus Director, MSC Boac",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1ff54f76-0167-434a-9c79-63b22bbb34a7",
+    "business_name": "Lord of lords Christian School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "aa5b336d-4878-4dc8-b1c5-25dbdc614cfb",
+    "business_name": "Technical Education and Skills Development Authority (TESDA) - Marinduque Provincial Office",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2f07d9e2-933d-40be-a0af-4fb05a4e664c",
+    "business_name": "MSC SEng Building (part of Marinduque State University)",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "468a2e09-9ebb-408e-b757-ad09138558f7",
+    "business_name": "Poras Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "22538ba8-f5f7-465b-b784-be91d4bcf8e7",
+    "business_name": "Bangbang National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d3a35389-bd7f-4525-8ccd-e743643504a7",
+    "business_name": "MSC SEng Building",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5e74c3ad-e613-4400-bc3f-7e3dd8732585",
+    "business_name": "Quezon-Roxas High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1f4864ff-d40b-4695-b552-cf4a6122cbd8",
+    "business_name": "Paula Lim Lumber & Hardware",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "027b621c-07ca-447d-bcbc-364e3f2bd7b3",
+    "business_name": "ABC Central Hardware",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1d4839ae-71ae-40ff-bb3f-8b879b5da3bb",
+    "business_name": "MR.DIY",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ca98a2a5-e611-461b-8ab3-3fe13fc5629a",
+    "business_name": "GMJ Lumber and Hardware",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5b1161b6-2c07-4ffb-ab54-e56f9e551c52",
+    "business_name": "J and B Hardware Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8a8cd466-cf3b-4619-86c8-32759794b35f",
+    "business_name": "new plaza aurora commercial",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "31159ffe-f772-44f8-a616-6c530aa3cf38",
+    "business_name": "R.Masculino Trading",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "57bd4a17-c3b6-4ce4-8012-192e5631ce3c",
+    "business_name": "JRM BUILDERS",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "32e94dd1-7d77-4e86-8951-2deb4e6c8997",
+    "business_name": "Bobar Builders",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b2a27d98-fd8f-48cf-9807-a5456d932e0b",
+    "business_name": "SMJ GLASS ALUMINUM AND METAL WORKS",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "516f262e-aee2-49ab-9274-99ac0d13d0de",
+    "business_name": "ZL & MZ Hardware and Construction Supplies",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "66d66f04-0ec2-487d-aec0-43d10859dd4e",
+    "business_name": "Her-Man Hardware And construction supplies",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9687837c-66a9-4161-8794-cd4aa1b12447",
+    "business_name": "Triple J Hardware and Sari Sari Store",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "81d2fb0e-a5fd-4993-a31b-265040c33b7e",
+    "business_name": "Bikkurim Construction Supplies Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bf5fca0d-29ae-4b89-8fb6-ee334048d257",
+    "business_name": "Home base RJ Solar",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "eb02e32f-4d11-4787-a253-c1afb2fd6c80",
+    "business_name": "Ipi",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "049d1a80-6edd-4be2-8896-0045c16f016f",
+    "business_name": "Mid-Way Construction Supplies Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "db07df31-0567-4366-b459-bfd72df127ab",
+    "business_name": "Wheel-Power Auto Parts Repair Services",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1c43e1ff-a6f9-4b5e-8169-90ed4bafe858",
+    "business_name": "Elmer",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "12b0cbb0-c125-486a-a276-35a19b3e8c75",
+    "business_name": "HENRICH Auto Repair Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "768e6f1f-bc0c-4aa3-86d4-4afcbc92c481",
+    "business_name": "Red Line Car Aircon service",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a773d756-cd82-4c5e-b1f5-59f9f167d55c",
+    "business_name": "8 DEGREE AIRCON AND REFRIGERATION SERVICES",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5586ddae-2153-41ce-b175-3aa3929a2b70",
+    "business_name": "MMQuinto Trading and Motor Repair Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ab9061ce-2b2f-451f-8aa4-d819de751eb8",
+    "business_name": "CTM CARWASH and DETAILING Boac Branch",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "34e2f8d5-5173-4c10-84ba-c6860619f6a0",
+    "business_name": "Foam Stars Carwash And Detailing Services",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "23c353a4-bd71-42a0-8e80-4b08e6c46f08",
+    "business_name": "Vendo Car Wash",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d35e048f-e7f8-4e19-ae88-ec5ab6b3fd17",
+    "business_name": "JCM Hardware & Construction Supply",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2207a1e3-b2a5-4387-80ab-79f7bb3e7e6f",
+    "business_name": "carwash",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ffc5060b-7a85-47f1-9e26-35e8513cd10f",
+    "business_name": "Tyang’s Car Wash",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b063ffae-d571-495f-bb58-6e503b0db32c",
+    "business_name": "JQJ CONSTRUCTION SUPPLY",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "de14bd10-0a1d-4e5c-a877-2208051df88d",
+    "business_name": "Joaquin auto diesel repair shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "fb10f989-3ff6-44cc-a242-0faaa96895bf",
+    "business_name": "Talyer Sa Amoingon",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6aef9ef1-0d3e-41b2-9d88-2b3be6229d80",
+    "business_name": "LMC MOTOR PARTS AND GEN. MDSE.",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "26d99d0a-7ccf-4c8a-b0db-bc84595e0045",
+    "business_name": "Motorcycle Repair Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e1b67106-dbb6-4976-820d-f7de7b5eaf1a",
+    "business_name": "W. Red Emission Testing",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "65672c0e-ddcd-4ead-8e06-d0a96bfcc83b",
+    "business_name": "GTZ EMISSION TESTING CENTER",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bcb1e4d2-3330-4765-b380-16cdf57a62e6",
+    "business_name": "Lagran General Merchandise and Copra Buyer",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bfee861a-4de3-4bdd-87d8-20f40a6c01f2",
+    "business_name": "Skyscraper Construction and Engineering Services",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5115f2f7-ff93-41ea-af5d-18ab6704c8c9",
+    "business_name": "L.A. Clamor Construction",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2756ba08-6e5f-47cf-b1d3-607ec66e484c",
+    "business_name": "ERM Construction Supplies Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f619e0a2-0e09-408f-816e-3e04feda82d9",
+    "business_name": "Marinduque Province Community eCenter",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0837c18e-5e81-43d9-af95-cae616be6cc9",
+    "business_name": "Riverside",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "35d265be-5c9f-4414-9af3-19c1b22f4243",
+    "business_name": "drainage",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "13069081-b85f-4f78-b27c-737da3b79057",
+    "business_name": "B&H",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "57b3e435-36e2-43d1-aa82-06fe0a88c7fb",
+    "business_name": "White House",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "dd99e431-80c7-4ec0-8270-80df37b5b4f9",
+    "business_name": "Agustin Residence",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "66bf78b2-f5c0-4b3e-ab46-8acab2f20a10",
+    "business_name": "Rowin's Tree House",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "68d0cc6e-607a-4afc-a7b2-59514b6ea7fe",
+    "business_name": "Sitio Turil",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "376ded57-422e-4279-abfe-455773a6a486",
+    "business_name": "Randy Malabayabas House",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e1d05702-5f32-43ce-9ece-9aad5195fefd",
+    "business_name": "Apo-Rey Construction Supplies Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9451e036-8123-4f18-a07b-65384d1dca9b",
+    "business_name": "Construction Materials Direct Manufacturer",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a5149265-74b5-4554-b43e-0501766f4cb6",
+    "business_name": "MERES HARDWARE AND CONSTRUCTION SUPPLY",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b4655196-2cc6-47e2-8a0c-6d7950826ee4",
+    "business_name": "Arwa Construction Supplies Trading",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "41a2e883-dbe1-4bf3-b4a2-1ce1505ef907",
+    "business_name": "Rapide 1 Marinduque - Auto Service, Car Repair.",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d3f7c45f-ee04-4dd5-83eb-64ae003ea34b",
+    "business_name": "Proff Tech Auto Care",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "dd467adc-e051-4f4c-97a2-e319d78c6095",
+    "business_name": "Boac Cellphone Repair Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "92a10202-1ea0-4227-ac3c-2cf920efe175",
+    "business_name": "Laon ,Mogpog ,Mogpog ,Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d532e570-4bf6-4a5d-b532-50f113d60aef",
+    "business_name": "Joemar dela Costa",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "dddff294-a7c8-48ec-9314-22bfeb831f9d",
+    "business_name": "Star Honda Boac Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "15cdb332-11f6-4d75-82d7-1d4eec548f12",
+    "business_name": "V-Likebee Motorcycle Parts and Accessories Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ee295129-c571-4bd5-bca4-18879cde0162",
+    "business_name": "Motortrade - Boac",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "83f5e66f-ea5b-4a55-a931-ecf6a6037eec",
+    "business_name": "4R Motorcycle Parts and Accessories Store",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c528d48d-d8b0-48e9-a003-13251f5948b0",
+    "business_name": "Adds Motorcycle Parts and General Merchandise",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "aee3b90e-3237-407c-9216-a12cfe61259e",
+    "business_name": "2bros motorcycle shop and repair shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ce21d175-6e8a-40a5-aeac-449717615ad2",
+    "business_name": "Motorcentral Yamaha Boac Marinduque",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d7459674-9847-427b-a74f-3225de518e24",
+    "business_name": "J-Specs Motorcycle Part and Accessories Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "dffa332f-423a-41d5-a78a-c95dc3d51720",
+    "business_name": "Ryse Carwash & Vulcanizing Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9d5205b6-1565-4930-b06f-179c90f2463a",
+    "business_name": "Marigold Kitchenette",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ae7a6740-787c-43bf-86ab-e76b38271b85",
+    "business_name": "MONSANBREW",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "392b80fc-fd69-4857-be5f-08de8ef2cb09",
+    "business_name": "Gasan Recreation Center",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ec8455f8-aa71-459c-a38b-812fbe282dcd",
+    "business_name": "Jem-Cel Eatery",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "fcb357dd-0035-49c4-bd41-502e5940c225",
+    "business_name": "Bayview Bistros & Pub",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7d348795-3343-4aa3-9ec3-88b69c6ada0a",
+    "business_name": "Love Sakura Food Hub",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5fe5fc63-6666-4acb-a5fc-58a06bb30aab",
+    "business_name": "Two Kings' Cafe & Bar",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "678a1daf-5c31-485b-b05c-c6c8818084eb",
+    "business_name": "SINUGBA By: Ristorante D’l Jose",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "92977188-0227-4a2d-b0cd-5d0f9670b460",
+    "business_name": "El Capitan Resto Bar",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "543c9e2d-4eeb-40f1-af68-75ee12f54b62",
+    "business_name": "TwenTeaOne cafe",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "92147460-ee52-4b1c-9e8c-f096e75fb4bd",
+    "business_name": "MAMIHAN SA KUBO,Antipolo ,Gasan ,Marinduque",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1589878f-ce29-4805-b2dd-07c864658ac1",
+    "business_name": "Ayns Moving kitchen HQ",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "31931ac4-b2ba-44ba-9d9d-3d290227822f",
+    "business_name": "Bangketa Brew",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "70fed7a6-7486-4824-9c5b-325ab1953c4f",
+    "business_name": "D' Capskie Western Food House",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "df7ee921-e8dd-4d28-b3b6-38f6a3841b29",
+    "business_name": "Jhaja's cake House cafe",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1ef4bd99-4ed6-41eb-9ba6-7dfb1c449c96",
+    "business_name": "Tabag's Place",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a07e0610-75d7-4c7a-9afa-51c8d426f713",
+    "business_name": "DJ Plaza Hotel",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "08835f5c-38d5-41c8-849b-775d1a8fe590",
+    "business_name": "ARJ & Abbygail Lodging House",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "bd4fb1e0-36ee-4069-8d31-6bc93a5ca76f",
+    "business_name": "R and B Bed And Breakfast",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5a7df0a7-bc2a-46fa-a280-d9500435e9d6",
+    "business_name": "Blue Castle Beach Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2c7d6547-a01d-4bd3-ba0b-d5a37b25cb78",
+    "business_name": "Pinky's Taha Beach Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "03175f84-4696-4aef-b0d0-e676e37cfea7",
+    "business_name": "Narvas Treasure place",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7a6cb789-6d14-4fd0-ad0e-24886e3490d0",
+    "business_name": "Cozea Beach Lodge",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c93ce507-2f91-4563-bbbd-01edb15c5692",
+    "business_name": "Hidden Greenery Resort & Event Place",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "abe90bb4-fa1c-430b-9b44-79073c1de0bf",
+    "business_name": "Ellaine's Private Resort",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6969e7e6-f195-48e9-8778-a6ac56cf5353",
+    "business_name": "GRACIA'S BEACH RESORT",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a6bf3b6d-176a-4e8d-a1cc-d5e95820233a",
+    "business_name": "Spencer’s Transient Inn",
+    "business_type": "Hotel / Resort",
+    "categories": [
+      "Accommodation"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "528a5e24-1a96-4317-a1f3-475dfa4ad321",
+    "business_name": "Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "426f51eb-7237-4c3d-ada7-f08200a53a3d",
+    "business_name": "Libtangin Tiangge Market",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3a8b46f7-089f-4e4c-a687-1407b087fddd",
+    "business_name": "SOUTH emerald SUPERMARKET",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d45ad4eb-c721-420d-b6ae-de291631b1dd",
+    "business_name": "Lady's Minimart",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0ab66901-0bb5-4089-bde3-dcd7c9bf34a5",
+    "business_name": "Chona's Grocery store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6f9e7bc7-f7d1-44e7-bc9f-b90a60fa6def",
+    "business_name": "Tiya Amy Sari-Sari Store/PisoWifi and Pony Gcash",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "460721f7-5dd7-4c91-b5c4-84b41243c14f",
+    "business_name": "Yorkshire Rose",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "96e9ca01-06cb-4ed3-b05d-550ba14f80c6",
+    "business_name": "the garage foodhouse",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ef35af2d-386b-4da3-b7d1-8507fa299179",
+    "business_name": "Labuanan's Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f3fc4fd1-3f78-4c67-b559-aec895a234ff",
+    "business_name": "Villamin Handicrafts & General Merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6dfbf081-deff-49c2-b7a3-3f80063fb402",
+    "business_name": "JB’s Yard",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3a6a0629-73c3-4c37-81a8-321c1f21fcb8",
+    "business_name": "Sugar Sari- Sari Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "62e810dc-db9d-4289-a04e-01164e7c060b",
+    "business_name": "Tapuyan Baranggay Hall",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "639418a8-8841-40d5-9bac-812305dce837",
+    "business_name": "Barangay Bognuyan Multi Purpose Hall",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1ae94564-1fef-49b9-ac9e-bcef53c05e9a",
+    "business_name": "Tiguion Public School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1255f85e-94b0-43f0-b11b-79764c01b72b",
+    "business_name": "Gasan Central School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7419cd80-44f1-4433-9123-51a6c44982f0",
+    "business_name": "Tiguion National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1583aa5e-e819-46ae-bece-f0957c04423e",
+    "business_name": "Bognuyan National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "fbb0eedd-7ef2-43e9-bc78-d6458097f49d",
+    "business_name": "Tapuyan National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "617918ca-df88-4d9f-b66f-4beafce75286",
+    "business_name": "Marinduque Christian Academy",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6bbbabbe-256e-4abb-9521-36259a2bf7fa",
+    "business_name": "Philippine Dental Association Incorporated Marinduque Chapter",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b5d9ffe6-9c73-4d7c-922c-18deed93f072",
+    "business_name": "Roma Cris",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d92a9164-2f08-4441-ba5d-27ed22e86126",
+    "business_name": "Buenavista Municipal Complex",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8ff3bd55-2b14-4c37-a5ee-10dc22beded5",
+    "business_name": "JGARAY HARDWARE",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "88b01351-0497-46cf-aa83-fa04b62ccae8",
+    "business_name": "QUATIS HARDWARE AND CONSTRUCTION SUPPLIES",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8a4e34a9-0e04-406e-86c1-dca162621c9d",
+    "business_name": "A & D Hardware and General Merchandise",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e1f72c61-82cb-489a-b1aa-8568d923bea7",
+    "business_name": "JS Sapungan Hardware",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5c2ddd06-3302-4a5b-b76c-8ee37765cc5c",
+    "business_name": "Kate's Hardware and General Merchandise",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5778e31a-5568-4683-abbc-19a077730735",
+    "business_name": "Cyclequeen Motorcycle Parts and Accessories Trading",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "48a331a7-07f2-49f2-9a6c-2969d96fcdaf",
+    "business_name": "Morion Yayamanin Thai Parts Shop",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9b4d9525-027c-42d0-91e9-8762e21e39db",
+    "business_name": "IAH LPG TRADING",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e02fa183-b98a-46b0-8c40-0d309f474c01",
+    "business_name": "JMSL motorcycle parts and accessories",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a7b9c0a5-bc23-479c-976e-f7791968d960",
+    "business_name": "Bermark Gen. Merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "586adbc1-962f-472a-b0c4-9528973d371d",
+    "business_name": "Marinduque GETAWAY Car Rental",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "91e97c30-d2e0-4090-be79-447fd5d13cf2",
+    "business_name": "Wish Oil Gasoline Station",
+    "business_type": "Gas Station",
+    "categories": [
+      "Gas / Fuel Station"
+    ],
+    "location": "Gasan",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "137250e9-3089-45ad-8918-4c25f2492b17",
+    "business_name": "Sitio Cafe",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "99b4ef69-fb7a-4387-bc71-125dfacf1bc5",
+    "business_name": "Ate Bry's Smoothies & Snack house Mogpog",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cb5ce691-4ec3-41f8-aca2-80eec8268f43",
+    "business_name": "Street 74 Restaurant",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "286380e6-c17f-4242-8b25-89a7023085d1",
+    "business_name": "Kainan sa Parola Pancitan",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "645f97ff-54d6-4e96-b763-80fcb87d7435",
+    "business_name": "Carinderia sa Balancan",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "85dba26b-bb9f-4872-8768-30e86cf65f52",
+    "business_name": "Mariano's Food Stop",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "65f02c42-fec0-4b7e-9bc2-eded5773df08",
+    "business_name": "MCLAUDE FRIED CHICKEN",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a69aa6a2-e9cb-468e-9681-797a0e2e5aef",
+    "business_name": "Kalambingan food hub",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b82bdb77-dc07-44a1-a0f7-4db966fa9700",
+    "business_name": "Casa Silmara",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7c804d4a-579a-40cd-a34b-c04e815e981b",
+    "business_name": "CM's Mogpog Food Stall",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "5845f225-c013-4797-88c5-f7b8d76a0004",
+    "business_name": "Sarang-Jin Keopi Hub",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3e63708b-fb1a-4dc8-a675-6149b0ed03a1",
+    "business_name": "Doughboys Bakery",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d89df976-1cbb-4fc5-832b-4a6cef9c21b5",
+    "business_name": "Pull Over Mamanes Dampa",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4a310c8d-c2d7-4936-9fd0-b216becf76c7",
+    "business_name": "Caffe Lea and Riztoran",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "647973f3-2b9b-47f9-92d1-bd62eadf38ee",
+    "business_name": "R & J Dry Goods Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "eb83d225-61b7-4c92-8035-e30d01790eea",
+    "business_name": "Rosing Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "320ef9ea-33c5-45a6-aeca-14f676b96e64",
+    "business_name": "Samu't samo general merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cc182072-fd8d-4140-83ba-0ed12deddf88",
+    "business_name": "MotoCrush Helmet and Apparels",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3f85b991-44f2-4b75-a0e4-1f2c8ffb65c9",
+    "business_name": "Japan Store O Share Marinduque",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6137f121-adaf-4f22-976e-a600cca30d71",
+    "business_name": "AJ&A CHOCO HUB [20 from Shops query]",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "034fa728-643a-47af-947c-3bab5b35635f",
+    "business_name": "Dakero Dry Goods Store [12 from Supermarkets query]",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "95bc922a-97e2-42cf-93f7-51773a375dc2",
+    "business_name": "Ronald & Rochelle Vegetable and Sari-sari Store [14 from Supermarkets query]",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e6ee6f34-8559-4c78-becd-d3a4bdaef96e",
+    "business_name": "TAKOYAKI PRINCE [16 from Supermarkets query]",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b761f8df-fdc9-4c87-8206-a0e7eeac0d6c",
+    "business_name": "EMILY'S SARI SARI STORE [20 from Supermarkets query]",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "9f57b7d0-65c1-4a3e-a015-9f81bdb8f5a2",
+    "business_name": "GPOD",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "27b8cb5c-98a2-4e3b-99ba-f901dffda728",
+    "business_name": "MELCHI PAWNSHOP (Mogpog Branch)",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c150f745-559a-4bd7-a912-0e3a141f4781",
+    "business_name": "MharketPlace DGS",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8cc667ad-f20d-42bd-9345-f0871b06a58e",
+    "business_name": "STOP N SHOP gen. merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "40962a13-a057-4710-b315-744f7d2cc0f4",
+    "business_name": "AJ&A CHOCO HUB",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a8ee64d6-71f2-4edf-af38-503fa0ae4337",
+    "business_name": "Dakero Dry Goods Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "121c637c-df64-4116-b80f-7fa00aeabf06",
+    "business_name": "TAKOYAKI PRINCE",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b3ab7b29-961e-44df-b948-b231ba9582ab",
+    "business_name": "EMILY'S SARI SARI STORE",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "fae0c20f-25b0-433d-8b0e-088d41bf37dc",
+    "business_name": "Ronald & Rochelle Vegetable and Sari-sari Store",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ce8fd8b2-20c6-43e5-937d-eb866d1b1e15",
+    "business_name": "Card Bank-Mogpog Branch",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d50281dc-c7e8-4d8e-9eea-7fe23358a536",
+    "business_name": "M Lhuillier - Mogpog",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "b0976e4c-29fd-4ed0-bb29-122c30b08eb2",
+    "business_name": "RCBC ATM - Sta. Cruz City Hall",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e9f16d57-f888-4dd6-9a3b-5c0bb603f13f",
+    "business_name": "Landbank ATM",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "031d5574-d731-4732-a3c9-0dcce6d6acf6",
+    "business_name": "DIANNE CARLO GENERAL MERCHANDISE",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "92798613-0ed1-4029-a8e9-c135765871eb",
+    "business_name": "Mogpog Health Center",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4de61f91-9c50-499d-8383-e41dfa36b43a",
+    "business_name": "Chua Dental Clinic II (Mogpog Branch)",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "78536f83-fda3-4692-bcfd-573130e79855",
+    "business_name": "Mogpog Birthing Facility",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "34daa95e-54c9-4189-aeb1-34b035a45227",
+    "business_name": "RN Dental Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8693f4e1-f03e-4b11-8c56-d6739494dbfe",
+    "business_name": "Family Optical Clinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "64c3ba04-9e16-4bb9-8885-8efa658f881a",
+    "business_name": "Dr. Ana Michelle Leal",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1385798c-4569-444f-92f5-08459efe2141",
+    "business_name": "RN Dental CClinic",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "722bf9a1-376a-40e7-94d1-76b0d15eb0f6",
+    "business_name": "Sayao Health Center",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "332dcb9e-4ff8-4359-8f70-4a35e5539fc6",
+    "business_name": "Mongpong Barangay Health Station",
+    "business_type": "Medical / Pharmacy",
+    "categories": [
+      "Healthcare / Medical"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "951b0923-c8f9-4a35-912e-971c27583048",
+    "business_name": "Mogpog Municipal Hall",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ce45616e-b81e-4356-be87-aaff1ce8ebf5",
+    "business_name": "Mogpog Municipal Agriculture Office (MAO)",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2d61789c-df90-4f45-9d46-470232ea07bc",
+    "business_name": "Mogpog Fire Station",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "efd5c947-d6b4-466c-b312-b4d6dea261bd",
+    "business_name": "OSCA Office, Mogpog",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "67340bd8-b2af-4e21-b688-a0909d6149d7",
+    "business_name": "Mogpog Municipal Police Station",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f30d8457-3b9b-40ba-8460-21c09a17e316",
+    "business_name": "Bureau of Agricultural Statistics Marinduque POC",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "67fa9275-780f-470b-90c4-39eeff78de56",
+    "business_name": "Mogpog Tech4ed Center",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c656b83b-ffd1-424a-911a-a0be8de8b710",
+    "business_name": "Department of Agrarian Reform Municipal Office - Boac and Mogpog",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "a17cec3b-02c8-4052-8979-5d45a071ccc8",
+    "business_name": "Mogpog Central School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "7b07dbf0-0d7c-431c-bfc2-287375b0a4e8",
+    "business_name": "Mogpog National Comprehensive High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6f9a8bb3-0144-4cb9-b9ca-96f1e1018071",
+    "business_name": "MOGPOG INTERNATIONAL CULINARY SCHOOL INC.",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0152e484-c958-4017-adcc-dba0883d35fa",
+    "business_name": "Mendez Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8b874781-f84e-4fd9-bfe4-946401313ff0",
+    "business_name": "Tarug Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "daddb808-24d9-4358-970c-08ae533c573f",
+    "business_name": "Balanacan National High School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "95c5db1a-6846-4fd4-ac7d-bfebaf327e50",
+    "business_name": "Ino Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "824e403a-2f9a-4be8-a791-c8c11cce9983",
+    "business_name": "Paye Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cb44512b-93f3-43ec-bf2e-cf130da55bce",
+    "business_name": "Magapua Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "cd173c20-b4ca-44cb-98c0-db5ad2c6eece",
+    "business_name": "Bocboc Elementary School",
+    "business_type": "School",
+    "categories": [
+      "Education / School"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f42b7bf4-da8d-40ca-80e0-e14a1c8cd00f",
+    "business_name": "Barangay Multi Purpose Hall",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Mogpog",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "aa43e37d-0180-421a-9812-c6b77363b0c5",
+    "business_name": "D-ONE Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "1e47dde9-4b43-44da-bb9c-7f4bbc8e1a0b",
+    "business_name": "Vincent Trading",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "33db7f97-200e-46fb-bd2d-427a4bf753d7",
+    "business_name": "BAKALA",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "ae3986bc-ea0f-4013-9634-4f3e1fe778f9",
+    "business_name": "Ramyeon Stop Korean Food Mart",
+    "business_type": "Restaurant",
+    "categories": [
+      "Restaurant / Food"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "446a47ed-7af3-4bf7-a3a2-6b77e648607e",
+    "business_name": "Alex SariSari Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e6856f19-2f1f-4de5-865c-60ea91ad9c86",
+    "business_name": "Susana Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "e72955f8-7be2-4b36-8395-da68d8449623",
+    "business_name": "R & M Gen. Merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6d30a103-5c51-41f3-99da-7dbcca142b75",
+    "business_name": "Irene’s Brilliant Store Sta.Cruz Branch",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "0e1d1118-45b6-4867-950f-a594723111e1",
+    "business_name": "STOshopstore",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "c4781f65-3f5b-457b-b1b1-6e95f7b061b4",
+    "business_name": "Super Malou Sari-Sari Store",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "4524de3a-9b42-4a1f-a9d7-111efe26a46f",
+    "business_name": "Vape station sta cruz by bantad",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2680776b-10ac-48a1-9bcc-aa5d14cf2472",
+    "business_name": "Diosel and Ella Mae general merchandise",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d6fe071b-09d7-4311-9e87-9b819d4b4012",
+    "business_name": "Hikaw Small store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "705e832d-54cf-45c4-bd03-928403a27414",
+    "business_name": "A&J Sari-sari Store",
+    "business_type": "Sari-Sari Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "39a89d08-2d44-4a0b-9bab-1244c2edb175",
+    "business_name": "Dalisay Antonio Glassware Store",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "6ea5f485-8265-4dbe-a077-0dc2cffe8f18",
+    "business_name": "Sofia Conde Dry Goods",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "f75abe57-19d6-445b-9bb2-88ebcbc6dd22",
+    "business_name": "J's vape shop",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "2c276b44-771c-4b14-8907-7cb006b8ca25",
+    "business_name": "Torrijos Public Market",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Sta. Cruz",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "3678e292-b5fd-44fa-a78e-88db29177598",
+    "business_name": "Shopee Xpress Marinduque",
+    "business_type": "Retail Store",
+    "categories": [
+      "Retail / Shop"
+    ],
+    "location": "Sta. Cruz",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "34f9a16d-118d-4a16-b19d-c7f14c77630d",
+    "business_name": "Cebuana Lhuillier Pawnshop - Sta Cruz Marinduque",
+    "business_type": "Bank / Financial",
+    "categories": [
+      "Finance / Banking"
+    ],
+    "location": "Sta. Cruz",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "74a33c2c-10f1-4608-a32f-34b157cdcd81",
+    "business_name": "Print Xpress Santa Cruz Marinduque",
+    "business_type": "Local Business",
+    "categories": [
+      "Other"
+    ],
+    "location": "Sta. Cruz",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "8fc09698-5242-436e-b8a5-489d13e70de9",
+    "business_name": "Luisaga Motorparts",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "85f81a93-fd67-4e3d-9bf7-c34daace6e73",
+    "business_name": "RM Motorcycle Parts and Accessories Trading",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "d01d7a0c-48d8-4afc-8e0e-b4c118e6caca",
+    "business_name": "DAVID HARDWARE",
+    "business_type": "Hardware",
+    "categories": [
+      "Construction / Hardware"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  },
+  {
+    "id": "860bd45f-1d16-4080-ba11-f6c5c05266d1",
+    "business_name": "Bologo Carwash and Detailing",
+    "business_type": "Auto Service / Repair",
+    "categories": [
+      "Services / Repair"
+    ],
+    "location": "Boac",
+    "description": null,
+    "operating_hours": null
+  }
+]
