@@ -41,7 +41,13 @@ export default async function NewsApprovalPage() {
                                         <h3 className="font-black text-sm uppercase tracking-widest text-slate-500 mb-1">AI Generated Draft</h3>
                                         <p className="text-xs text-slate-400">Created: {new Date(news.published_at).toLocaleString()}</p>
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-wrap gap-2">
+                                        {news.source_url && (
+                                            <a href={news.source_url} target="_blank" rel="noopener noreferrer" className="xl:hidden px-4 py-2 bg-blue-50 text-blue-600 border border-blue-200 font-bold rounded-xl text-xs hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                                <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                                                Source
+                                            </a>
+                                        )}
                                         <form action={rejectNews}>
                                             <input type="hidden" name="id" value={news.id} />
                                             <button type="submit" className="px-4 py-2 bg-white border border-red-200 text-red-600 font-bold rounded-xl text-xs hover:bg-red-50 hover:border-red-300 transition-colors">
@@ -100,8 +106,8 @@ export default async function NewsApprovalPage() {
                                 </div>
                             </div>
 
-                            {/* RIGHT SIDE: SOURCE URL FRAME */}
-                            <div className="w-full xl:w-1/2 flex flex-col h-[600px] xl:h-full bg-slate-50">
+                            {/* RIGHT SIDE: SOURCE URL FRAME (Hidden on mobile) */}
+                            <div className="hidden xl:flex w-1/2 flex-col h-full bg-slate-50 border-l border-slate-200">
                                 <div className="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-slate-100">
                                     <div>
                                         <h3 className="font-black text-sm uppercase tracking-widest text-slate-500 mb-1 flex items-center gap-2">
