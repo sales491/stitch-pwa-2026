@@ -24,6 +24,8 @@ export async function generateMetadata({
         .eq('id', id)
         .single();
 
+    if (!biz) return { title: 'Business Not Found' };
+
     const typeLabel = biz.categories?.[0] || 'business';
     const taglishKeywords = [
         `${biz.business_name} in ${biz.location}`,

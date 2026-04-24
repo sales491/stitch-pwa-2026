@@ -44,6 +44,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   { url: `${BASE}/island-life/gas-prices`, lastModified: STATIC_DATE, changeFrequency: 'hourly', priority: 0.7 },
   { url: `${BASE}/live-market`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.7 },
+  { url: `${BASE}/live-selling`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/best-of-boac-monthly-spotlight`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${BASE}/advanced-search-filters`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
   { url: `${BASE}/post`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.5 },
