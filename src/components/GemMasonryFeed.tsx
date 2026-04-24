@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { toggleGemLike } from '@/app/actions/gems';
 import PageHeader from '@/components/PageHeader';
+import { TOWNS } from '@/data/towns';
 
 type Gem = {
     id: string;
@@ -94,6 +95,22 @@ export default function GemMasonryFeed({ gems, isLoggedIn }: Props) {
                     </div>
                 </div>
             </PageHeader>
+
+            {/* Town Navigation Grid */}
+            <div className="w-full pt-4 pb-2 px-4 bg-background-light dark:bg-background-dark mb-1">
+                <div className="grid grid-cols-3 gap-2">
+                    {Object.values(TOWNS).map(town => (
+                        <Link 
+                            key={town.slug} 
+                            href={`/towns/${town.slug}`}
+                            className="flex items-center justify-center gap-1 py-2 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-full shadow-sm hover:border-moriones-red/30 transition-all active:scale-95"
+                        >
+                            <span className="material-symbols-outlined text-moriones-red" style={{ fontSize: 14 }}>{town.icon}</span>
+                            <span className="text-[11px] font-bold text-text-main dark:text-text-main-dark tracking-tight truncate">{town.name}</span>
+                        </Link>
+                    ))}
+                </div>
+            </div>
 
             {/* ── Empty state — matches live "Geographic Data Empty" ── */}
             {filtered.length === 0 && (
