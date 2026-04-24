@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import PageHeader from '@/components/PageHeader';
 import { approveNews, rejectNews } from './actions';
 import Link from 'next/link';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function NewsApprovalPage() {
-    const supabase = await createClient();
+    const supabase = await createAdminClient();
 
     const { data: pendingNews } = await supabase
         .from('news')

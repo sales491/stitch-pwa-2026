@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import Link from 'next/link';
 import OperatorManagementPanel from '@/components/OperatorManagementPanel';
 import DbHealthWidget from '@/components/DbHealthWidget';
@@ -10,6 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
     const supabase = await createClient();
+    const adminSupabase = await createAdminClient();
 
     const [
         { data: newUsers },
@@ -34,7 +36,7 @@ export default async function AdminDashboard() {
         supabase.from('listings').select('id, title, category, images, created_at').eq('status', 'pending').order('created_at', { ascending: false }),
         supabase.from('gems').select('id, title, town, images, created_at').eq('is_approved', false).order('created_at', { ascending: false }),
         supabase.from('moderation_queue').select('id, content_type, content_id, flag_count, queued_at').eq('status', 'pending').order('queued_at', { ascending: false }),
-        supabase.from('news').select('id, title, published_at').eq('status', 'pending').order('published_at', { ascending: false }),
+        adminSupabase.from('news').select('id, title, published_at').eq('status', 'pending').order('published_at', { ascending: false }),
     ]);
 
     const unreadMessages = (contactMessages ?? []).filter(m => !m.is_read).length;
