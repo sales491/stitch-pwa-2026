@@ -283,6 +283,13 @@ export default async function AdminDashboard() {
                         <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block mb-1">Listings</span>
                         <span className="text-xl sm:text-2xl font-black text-amber-600 tracking-tight">{pendingCount ?? 0} flagged</span>
                     </Link>
+                    <Link href="/admin/news-approval" className="bg-white border border-slate-200 p-4 rounded-3xl min-w-[140px] shadow-sm flex-shrink-0 hover:border-blue-300 hover:shadow-md transition-all relative">
+                        {((pendingNews ?? []).length) > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center">{(pendingNews ?? []).length}</span>
+                        )}
+                        <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block mb-1">News Drafts</span>
+                        <span className="text-xl sm:text-2xl font-black text-blue-600 tracking-tight">Review</span>
+                    </Link>
                 </div>
             </div>
 
