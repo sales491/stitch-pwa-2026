@@ -92,7 +92,7 @@ export default async function NewsApprovalPage() {
 
                                     {news.faq_json && news.faq_json.length > 0 && (
                                         <div>
-                                            <h4 className="font-black text-xs uppercase tracking-widest text-slate-500 mb-4">FAQ Schema</h4>
+                                            <h4 className="font-black text-xs uppercase tracking-widest text-slate-500 mb-4">Frequently Asked Questions</h4>
                                             <div className="space-y-4">
                                                 {news.faq_json.map((faq: any, i: number) => (
                                                     <div key={i} className="bg-slate-50 rounded-xl p-4">

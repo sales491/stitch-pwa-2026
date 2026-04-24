@@ -163,6 +163,27 @@ export default async function NewsArticlePage({ params }: PageProps) {
                             </ul>
                         </div>
                     )}
+
+                    {/* Frequently Asked Questions */}
+                    {article.faq_json && article.faq_json.length > 0 && (
+                        <div className="mt-12 border-t border-slate-100 dark:border-zinc-800 pt-8">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-6">
+                                Frequently Asked Questions
+                            </h3>
+                            <div className="space-y-6">
+                                {article.faq_json.map((faq: any, idx: number) => (
+                                    <div key={idx} className="bg-slate-50 dark:bg-zinc-800/30 rounded-2xl p-6 border border-slate-100 dark:border-zinc-800/50">
+                                        <h4 className="text-[17px] font-bold text-slate-900 dark:text-white mb-2">
+                                            {faq.question || faq.q}
+                                        </h4>
+                                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                            {faq.answer || faq.a}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
