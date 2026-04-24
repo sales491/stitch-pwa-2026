@@ -16,11 +16,19 @@ if (fs.existsSync(envPath)) {
   dotenv.config(); // fallback
 }
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error("❌ Error: Missing Supabase credentials in .env.local");
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handleAccept(aiData) {
   try {
-    console.log("Starting publication process...");
+    console.log("Pushing draft to Admin News Approval Queue...");
     
     // Purge old articles (older than 14 days)
     const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
@@ -44,7 +52,7 @@ export default async function handleAccept(aiData) {
       content: aiData.content,
       image_url: aiData.image_url || null,
       source_url: aiData.url || null,
-      status: 'published',
+      status: 'pending',
       key_takeaways: aiData.key_takeaways || [],
       faq_json: aiData.faq || [],
       published_at: new Date().toISOString()
@@ -53,7 +61,7 @@ export default async function handleAccept(aiData) {
     if (error) {
       console.error("❌ Failed to push to Supabase:", error);
     } else {
-      console.log(`✅ Article '${aiData.title}' published to PWA successfully.`);
+      console.log(`✅ Draft '${aiData.title}' sent to Admin Dashboard for approval.`);
     }
   } catch (err) {
     console.error("Exception during publication:", err);
