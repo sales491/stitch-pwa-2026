@@ -6,45 +6,16 @@ import AdminActions from './AdminActions';
 import type { Event } from '@/utils/eventData';
 import PageHeader from '@/components/PageHeader';
 
-export default function MarinduqueEventsCalendar() {
+export default function MarinduqueEventsCalendar({ initialEvents }: { initialEvents: Event[] }) {
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
   const [selectedTown, setSelectedTown] = useState('All');
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState<Event[]>(initialEvents);
+  const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
   const currentYear = viewDate.getFullYear();
   const currentMonth = viewDate.getMonth();
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      const { data } = await supabase
-        .from('events')
-        .select(`
-          *,
-          author:profiles(full_name, avatar_url)
-        `);
-
-      if (data) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const transformedEvents = data.map((e: any) => ({
-          ...e,
-          fullDate: e.full_date,
-          dayOfMonth: e.day_of_month,
-          description: e.description || 'Join us for this local event in Marinduque!',
-          attendees: e.attendees || Math.floor(Math.random() * 50) + 10,
-          image: e.image || '/images/hub/event_placeholder.jpg',
-          category: e.category || 'Community'
-        }));
-        setEvents(transformedEvents);
-      }
-      setLoading(false);
-    };
-
-    fetchEvents();
-  }, [supabase]);
 
   const goToPrevMonth = () => {
     setViewDate(new Date(currentYear, currentMonth - 1, 1));

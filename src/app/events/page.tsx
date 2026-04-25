@@ -14,7 +14,30 @@ export const metadata: Metadata = {
     alternates: hreflangAlternates('/events'),
 };
 
-export default function EventsPage() {
+import { createClient } from '@/utils/supabase/server';
+
+export default async function EventsPage() {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('events')
+      .select(`
+        *,
+        author:profiles(full_name, avatar_url)
+      `);
+
+    let initialEvents = [];
+    if (data) {
+      initialEvents = data.map((e: any) => ({
+        ...e,
+        fullDate: e.full_date,
+        dayOfMonth: e.day_of_month,
+        description: e.description || 'Join us for this local event in Marinduque!',
+        attendees: e.attendees || Math.floor(Math.random() * 50) + 10,
+        image: e.image || '/images/hub/event_placeholder.jpg',
+        category: e.category || 'Community'
+      }));
+    }
+
     return (
         <>
             <script
@@ -27,7 +50,7 @@ export default function EventsPage() {
                     url: 'https://marinduquemarket.com/events'
                 }) }}
             />
-            <MarinduqueEventsCalendar />
+            <MarinduqueEventsCalendar initialEvents={initialEvents} />
         </>
     );
 }

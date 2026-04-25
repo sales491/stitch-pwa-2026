@@ -18,9 +18,8 @@ type Props = {
 export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, newArrivals, popularSection, liveSellersActive }: Props) {
     const [selectedTown, setSelectedTown] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
-    const [categorizedItems, setCategorizedItems] = useState<{ [key: string]: HubItem[] }>({});
 
-    useEffect(() => {
+    const categorizedItems = React.useMemo(() => {
         const normalizeTown = (name: string) => name.toLowerCase().replace('sta.', 'santa');
 
         const filteredItems = initialItems.filter(item => {
@@ -42,7 +41,7 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, n
             groups[type] = filteredItems.filter(item => item.type === type);
         });
 
-        setCategorizedItems(groups);
+        return groups;
     }, [selectedTown, searchQuery, initialItems]);
 
     return (
