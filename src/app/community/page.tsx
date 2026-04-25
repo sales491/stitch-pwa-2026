@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { hreflangAlternates, TAGALOG_KEYWORDS_COMMUNITY } from '@/utils/seo';
 import CommunityBoardCommuterHub from '@/components/CommunityBoardCommuterHub';
+import { getCommunityPosts } from '@/app/actions/community';
 
 export const metadata: Metadata = {
     title: 'Community Board — Marinduque',
@@ -14,7 +15,11 @@ export const metadata: Metadata = {
     alternates: hreflangAlternates('/community'),
 };
 
-export default function CommunityFeedPage() {
+export const revalidate = 60; // Cache for 60 seconds
+
+export default async function CommunityFeedPage() {
+    const initialPosts = await getCommunityPosts('All Towns', 'all', 0);
+
     return (
         <>
             <script
@@ -27,7 +32,7 @@ export default function CommunityFeedPage() {
                     url: 'https://marinduquemarket.com/community'
                 }) }}
             />
-            <CommunityBoardCommuterHub />
+            <CommunityBoardCommuterHub initialPosts={initialPosts} />
         </>
     );
 }

@@ -15,7 +15,59 @@ export const metadata: Metadata = {
     alternates: hreflangAlternates('/commute'),
 };
 
-export default function CommuteBoard() {
+import { createClient } from '@/utils/supabase/server';
+
+export const revalidate = 60; // Cache for 60 seconds
+
+export default async function CommuteBoard() {
+    const supabase = await createClient();
+
+    // Fetch services for SSR
+    const { data: services } = await supabase
+        .from('transport_services')
+        .select(`
+            *,
+            provider:profiles!transport_services_provider_id_fkey(trust_score, is_verified, phone)
+        `);
+
+    // Fetch vouch counts for SSR
+    const { data: vouchesCount } = await supabase
+        .from('transport_vouches')
+        .select('service_id');
+
+    const countsByService: Record<string, number> = {};
+    vouchesCount?.forEach(v => {
+        countsByService[v.service_id] = (countsByService[v.service_id] || 0) + 1;
+    });
+
+    let initialOperators: any[] = [];
+    if (services) {
+        initialOperators = services.map((d: any) => ({
+            id: d.id,
+            name: `${d.vehicle_type}: ${d.base_town}`,
+            operator: d.driver_name,
+            vehicleType: d.vehicle_type,
+            serviceType: d.service_type,
+            towns: d.towns_covered || [d.base_town],
+            price: '0',
+            vouchCount: countsByService[d.id] || 0,
+            hasVouched: false, // Rehydrated on client
+            available: d.is_available,
+            phone: d.contact_number || d.provider?.phone || '',
+            img: d.images?.[0] || '',
+            images: d.images,
+            provider_id: d.provider_id,
+            route: d.route,
+            schedule: d.schedule,
+            charterAvail: d.charter_avail,
+            fb: d.contact_details?.fb_username,
+            email: d.contact_details?.email
+        })).sort((a, b) => {
+            if (a.available !== b.available) return a.available ? -1 : 1;
+            return b.vouchCount - a.vouchCount;
+        });
+    }
+
     return (
         <>
             <script
@@ -57,7 +109,7 @@ export default function CommuteBoard() {
                     ]
                 }) }}
             />
-            <CommuterDeliveryHub />
+            <CommuterDeliveryHub initialOperators={initialOperators} />
             <SeoTextBlock heading="Getting Around Marinduque Island">
                 <div className="bg-slate-100 dark:bg-zinc-800 p-4 border-l-4 border-slate-500 mb-6 rounded-r-xl">
                     <p className="font-bold mb-0">TL;DR: How to Get Around</p>

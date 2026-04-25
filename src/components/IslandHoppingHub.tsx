@@ -282,57 +282,74 @@ function BoatOperatorCard({ op, highlighted }: { op: BoatOperator; highlighted?:
 }
 
 
-export default function IslandHoppingHub() {
+export default function IslandHoppingHub({ initialOperators = [] }: { initialOperators?: BoatOperator[] }) {
     const searchParams = useSearchParams();
     const highlightedId = searchParams.get('operator');
 
     const [boatFilter, setBoatFilter] = useState<string>('all');
     const [serviceFilter, setServiceFilter] = useState<string>('all');
     const [municipalityFilter, setMunicipalityFilter] = useState<string>('All');
-    const [operators, setOperators] = useState<BoatOperator[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [operators, setOperators] = useState<BoatOperator[]>(initialOperators);
+    const [loading, setLoading] = useState(initialOperators.length === 0);
     const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
     const [filterOpen, setFilterOpen] = useState(false);
     const supabase = createClient();
 
     React.useEffect(() => {
-        async function fetchOperators() {
-            setLoading(true);
+        async function loadData() {
             const { data: { user } } = await supabase.auth.getUser();
             setCurrentUser(user);
-            const { data: services } = await supabase.from('boat_services').select(`*, provider:profiles!boat_services_provider_id_fkey(trust_score, is_verified, phone)`);
-            if (services) {
-                const { data: vouchesData } = await supabase.from('boat_vouches').select('service_id');
-                const counts: Record<string, number> = {};
-                vouchesData?.forEach(v => { counts[v.service_id] = (counts[v.service_id] || 0) + 1; });
-                let userVouches = new Set<string>();
-                if (user) {
-                    const { data: uv } = await supabase.from('boat_vouches').select('service_id').eq('user_id', user.id);
-                    uv?.forEach(v => userVouches.add(v.service_id));
+
+            if (initialOperators.length === 0) {
+                setLoading(true);
+                const { data: services } = await supabase.from('boat_services').select(`*, provider:profiles!boat_services_provider_id_fkey(trust_score, is_verified, phone)`);
+                if (services) {
+                    const { data: vouchesData } = await supabase.from('boat_vouches').select('service_id');
+                    const counts: Record<string, number> = {};
+                    vouchesData?.forEach(v => { counts[v.service_id] = (counts[v.service_id] || 0) + 1; });
+                    let userVouches = new Set<string>();
+                    if (user) {
+                        const { data: uv } = await supabase.from('boat_vouches').select('service_id').eq('user_id', user.id);
+                        uv?.forEach(v => userVouches.add(v.service_id));
+                    }
+                    const mapped: BoatOperator[] = services
+                        .map((d: any) => ({
+                            id: d.id, operator_name: d.operator_name, boat_type: d.boat_type, service_type: d.service_type,
+                            destinations: d.destinations || [], base_municipality: d.base_municipality,
+                            price_per_head: d.price_per_head || 0, charter_rate: d.charter_rate, charter_avail: d.charter_avail,
+                            charter_details: d.charter_details, schedule: d.schedule,
+                            contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details,
+                            images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
+                            vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id)
+                        }))
+                        .sort((a, b) => {
+                            if (user) {
+                                if (a.provider_id === user.id) return -1;
+                                if (b.provider_id === user.id) return 1;
+                            }
+                            if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
+                            return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
+                        });
+                    setOperators(mapped);
                 }
-                const mapped: BoatOperator[] = services
-                    .map((d: any) => ({
-                        id: d.id, operator_name: d.operator_name, boat_type: d.boat_type, service_type: d.service_type,
-                        destinations: d.destinations || [], base_municipality: d.base_municipality,
-                        price_per_head: d.price_per_head || 0, charter_rate: d.charter_rate, charter_avail: d.charter_avail,
-                        charter_details: d.charter_details, schedule: d.schedule,
-                        contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details,
-                        images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
-                        vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id)
-                    }))
-                    .sort((a, b) => {
-                        if (user) {
-                            if (a.provider_id === user.id) return -1;
-                            if (b.provider_id === user.id) return 1;
-                        }
+                setLoading(false);
+            } else if (user) {
+                // If we already have initialOperators from SSR, just hydrate user-specific state
+                const { data: uv } = await supabase.from('boat_vouches').select('service_id').eq('user_id', user.id);
+                let userVouches = new Set<string>();
+                uv?.forEach(v => userVouches.add(v.service_id));
+                
+                setOperators(prev => {
+                    return prev.map(op => ({ ...op, hasVouched: userVouches.has(op.id) })).sort((a, b) => {
+                        if (a.provider_id === user.id) return -1;
+                        if (b.provider_id === user.id) return 1;
                         if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
                         return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
                     });
-                setOperators(mapped);
+                });
             }
-            setLoading(false);
         }
-        fetchOperators();
+        loadData();
 
         // Silent background poll — refreshes availability every 30s, no spinner
         async function pollAvailability() {

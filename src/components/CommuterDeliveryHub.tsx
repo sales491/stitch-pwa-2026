@@ -401,7 +401,7 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
   );
 }
 
-export default function CommuterDeliveryHub() {
+export default function CommuterDeliveryHub({ initialOperators = [] }: { initialOperators?: Operator[] }) {
   const searchParams = useSearchParams();
   const highlightedId = searchParams.get('operator');
 
@@ -413,21 +413,22 @@ export default function CommuterDeliveryHub() {
   const [routeFromFilter, setRouteFromFilter] = useState<string>('');
   const [routeToFilter, setRouteToFilter] = useState<string>('');
 
-  const [operators, setOperators] = useState<Operator[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [operators, setOperators] = useState<Operator[]>(initialOperators);
+  const [loading, setLoading] = useState(initialOperators.length === 0);
   const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
 
   const supabase = createClient();
 
   React.useEffect(() => {
-    async function fetchOperators() {
-      setLoading(true);
+    async function loadData() {
+      if (initialOperators.length === 0) setLoading(true);
 
       const { data: { user } } = await supabase.auth.getUser();
       setCurrentUser(user);
 
-      // Fetch services with provider trust scores, verification and phone via join
+      if (initialOperators.length === 0) {
+        // Fetch services with provider trust scores, verification and phone via join
       const { data: services, error: serviceError } = await supabase
         .from('transport_services')
         .select(`
@@ -491,7 +492,27 @@ export default function CommuterDeliveryHub() {
 
         setOperators(mapped);
       }
-      setLoading(false);
+      }
+      if (initialOperators.length === 0) setLoading(false);
+      else if (user) {
+        // Hydrate user-specific state if SSR data is present
+        const { data: userVouchData } = await supabase
+          .from('transport_vouches')
+          .select('service_id')
+          .eq('user_id', user.id);
+
+        let userVouches = new Set<string>();
+        userVouchData?.forEach(v => userVouches.add(v.service_id));
+
+        setOperators(prev => {
+          return prev.map(op => ({ ...op, hasVouched: userVouches.has(op.id) })).sort((a, b) => {
+            if (a.provider_id === user.id) return -1;
+            if (b.provider_id === user.id) return 1;
+            if (a.available !== b.available) return a.available ? -1 : 1;
+            return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
+          });
+        });
+      }
     }
 
     // Silent background poll — only refreshes availability, no spinner
@@ -506,7 +527,7 @@ export default function CommuterDeliveryHub() {
       }
     }
 
-    fetchOperators();
+    loadData();
     const poll = setInterval(pollAvailability, 30_000);
     return () => clearInterval(poll);
   }, [supabase]);

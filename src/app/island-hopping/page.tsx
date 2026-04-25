@@ -2,12 +2,42 @@ export const dynamic = 'force-dynamic';
 import IslandHoppingHub from '@/components/IslandHoppingHub';
 import SeoTextBlock from '@/components/SeoTextBlock';
 
+import { createClient } from '@/utils/supabase/server';
+
 export const metadata = {
     title: 'Island Hopping & Boat Operators | Marinduque Market Hub',
     description: 'Find local boat operators and tour guides for Maniwaya Island, Palad Sandbar, Tres Reyes Islands, and island hopping in Marinduque.',
 };
 
-export default function Page() {
+export const revalidate = 60; // Cache for 60 seconds
+
+export default async function Page() {
+    const supabase = await createClient();
+
+    // Fetch operators for SSR
+    const { data: services } = await supabase.from('boat_services').select(`*, provider:profiles!boat_services_provider_id_fkey(trust_score, is_verified, phone)`);
+    
+    // Fetch total vouch counts for SSR
+    const { data: vouchesData } = await supabase.from('boat_vouches').select('service_id');
+    const counts: Record<string, number> = {};
+    vouchesData?.forEach(v => { counts[v.service_id] = (counts[v.service_id] || 0) + 1; });
+
+    let initialOperators: any[] = [];
+    if (services) {
+        initialOperators = services.map((d: any) => ({
+            id: d.id, operator_name: d.operator_name, boat_type: d.boat_type, service_type: d.service_type,
+            destinations: d.destinations || [], base_municipality: d.base_municipality,
+            price_per_head: d.price_per_head || 0, charter_rate: d.charter_rate, charter_avail: d.charter_avail,
+            charter_details: d.charter_details, schedule: d.schedule,
+            contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details,
+            images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
+            vouchCount: counts[d.id] || 0, hasVouched: false // Rehydrated on client
+        })).sort((a, b) => {
+            if (a.is_available !== b.is_available) return a.is_available ? -1 : 1;
+            return (b.vouchCount ?? 0) - (a.vouchCount ?? 0);
+        });
+    }
+
     const jsonLd = [
         {
             '@context': 'https://schema.org',
@@ -27,7 +57,7 @@ export default function Page() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <IslandHoppingHub />
+            <IslandHoppingHub initialOperators={initialOperators} />
             <SeoTextBlock heading="Island Hopping in Marinduque">
                 <p>Marinduque offers some of the best island hopping experiences in the Philippines. The most popular destinations include the <strong>Tres Reyes Islands</strong> — Gaspar, Melchor, and Baltazar — named after the Three Kings. These uninhabited islands feature pristine white sand beaches, crystal-clear waters, and vibrant coral reefs perfect for snorkeling.</p>
                 <p><strong>Maniwaya Island</strong> and <strong>Palad Sandbar</strong> in Santa Cruz are the island's most photographed destinations. Maniwaya features a long stretch of white sand and budget-friendly accommodations, while the Palad Sandbar is a stunning sandspit that appears during low tide. Other popular spots include <strong>Bathala Caves</strong>, <strong>Malbog Sulfur Springs</strong>, and the <strong>Bellarocca Island Resort</strong>.</p>

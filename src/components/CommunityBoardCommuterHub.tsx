@@ -25,9 +25,9 @@ const CATEGORIES = [
   { key: 'general', label: 'General', icon: 'chat_bubble', color: 'text-emerald-600' },
 ] as const;
 
-export default function CommunityBoardCommuterHub() {
+export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initialPosts?: any[] }) {
   const { profile } = useAuth();
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[]>(initialPosts);
   const [isPending, startTransition] = useTransition();
   const [postText, setPostText] = useState('');
   const [selectedTown, setSelectedTown] = useState('All Towns');
@@ -71,13 +71,35 @@ export default function CommunityBoardCommuterHub() {
 
   const handlePhotoClick = () => fileInputRef.current?.click();
 
+  const isInitialMount = useRef(true);
+
   // Reset and reload when filters change
   useEffect(() => {
+    if (isInitialMount.current && initialPosts.length > 0) {
+      isInitialMount.current = false;
+      return;
+    }
     setPosts([]);
     setPage(0);
     setHasMore(true);
     fetchPage(0, true);
   }, [selectedTown, selectedCategory]);
+
+  const hasHydratedLikes = useRef(false);
+  // Seed initial user likes for SSR posts
+  useEffect(() => {
+    if (profile && initialPosts.length > 0 && !hasHydratedLikes.current) {
+       hasHydratedLikes.current = true;
+       const ids = initialPosts.map((p: any) => p.id);
+       getUserLikedPostIds(ids).then(liked => {
+         setLikedPostIds(prev => {
+           const next = new Set(prev);
+           liked.forEach(id => next.add(id));
+           return next;
+         });
+       });
+    }
+  }, [profile]);
 
   // Load more when page increments (skip page 0 — handled above)
   useEffect(() => {
