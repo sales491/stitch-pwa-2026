@@ -97,35 +97,36 @@ export default function MarinduqueConnectHomeFeed({ initialItems, alertBanner, n
                 {/* ── 3. Alert Banner (active calamity/outage alerts) ────── */}
                 {alertBanner}
 
-                {/* ── 3.5. SEO Fast-Track Carousel (Static SSR injection) ─── */}
-                {newArrivals && newArrivals.length > 0 && <NewArrivalsCarousel arrivals={newArrivals} />}
                 {/* ── 3a. Live Selling Radar (Flashing CTA if active) ─────── */}
                 <Link
                     href="/live-selling"
-                    className={`mx-4 mb-3 flex items-center gap-3 rounded-xl p-3 shadow-sm active:scale-[0.98] transition-transform border ${
+                    className={`mx-4 mb-3 flex items-center gap-2.5 rounded-xl px-3 py-2 shadow-sm active:scale-[0.98] transition-transform border ${
                         liveSellersActive 
-                          ? 'bg-gradient-to-r from-red-600 to-rose-500 text-white shadow-lg shadow-red-500/30 border-transparent' 
-                          : 'bg-gradient-to-r from-fuchsia-500/10 to-rose-500/10 border border-fuchsia-200/50 dark:from-fuchsia-900/20 dark:to-rose-900/20 dark:border-fuchsia-800/30'
+                          ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30 border-transparent' 
+                          : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-200/50 dark:from-blue-900/20 dark:to-cyan-900/20 dark:border-blue-800/30'
                     }`}
                 >
-                    <div className="relative flex h-3 w-3 shrink-0">
+                    <div className="relative flex h-2.5 w-2.5 shrink-0">
                         {liveSellersActive && (
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-200 opacity-75"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                         )}
-                        <span className={`relative inline-flex rounded-full h-3 w-3 ${liveSellersActive ? 'bg-red-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-rose-400/50 dark:bg-rose-600/50'}`}></span>
+                        <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${liveSellersActive ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-red-500/70 dark:bg-red-600/70'}`}></span>
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-white drop-shadow-md' : 'text-fuchsia-900 dark:text-fuchsia-100'}`}>
+                        <p className={`text-[12px] font-black uppercase tracking-wider leading-tight truncate ${liveSellersActive ? 'text-white drop-shadow-md' : 'text-blue-900 dark:text-blue-100'}`}>
                             Live Selling Radar
                         </p>
-                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-red-50' : 'text-rose-700/80 dark:text-rose-300'}`}>
+                        <p className={`text-[10px] font-medium tracking-wide truncate ${liveSellersActive ? 'text-blue-50' : 'text-blue-700/80 dark:text-blue-300'}`}>
                             {liveSellersActive ? '🔴 Locals are streaming right now!' : 'Find locals selling live on TikTok, Shopee, YT & FB'}
                         </p>
                     </div>
-                    <span className={`material-symbols-outlined shrink-0 drop-shadow-sm ${liveSellersActive ? 'text-white/90' : 'text-rose-500/70 dark:text-rose-400/70'}`}>
+                    <span className={`material-symbols-outlined text-[20px] shrink-0 drop-shadow-sm ${liveSellersActive ? 'text-red-400 drop-shadow-md' : 'text-red-500/80 dark:text-red-500/80'}`}>
                         sensors
                     </span>
                 </Link>
+
+                {/* ── 3.5. SEO Fast-Track Carousel (Static SSR injection) ─── */}
+                {newArrivals && newArrivals.length > 0 && <NewArrivalsCarousel arrivals={newArrivals} />}
 
                 {/* ── 3. Quick-Action Cards (static, horizontal scroll, centred on Marketplace) ───── */}
                 <div
