@@ -10,6 +10,14 @@ import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import PageHeader from '@/components/PageHeader';
 import RelatedItems from '@/components/RelatedItems';
 import { hreflangAlternates } from '@/utils/seo';
+const TOWN_DATA: Record<string, { sameAs: string }> = {
+    'Boac': { sameAs: 'https://en.wikipedia.org/wiki/Boac' },
+    'Gasan': { sameAs: 'https://en.wikipedia.org/wiki/Gasan,_Marinduque' },
+    'Mogpog': { sameAs: 'https://en.wikipedia.org/wiki/Mogpog' },
+    'Santa Cruz': { sameAs: 'https://en.wikipedia.org/wiki/Santa_Cruz,_Marinduque' },
+    'Buenavista': { sameAs: 'https://en.wikipedia.org/wiki/Buenavista,_Marinduque' },
+    'Torrijos': { sameAs: 'https://en.wikipedia.org/wiki/Torrijos,_Marinduque' },
+};
 
 export async function generateMetadata({
     params,
@@ -43,11 +51,11 @@ export async function generateMetadata({
         openGraph: {
             title: `${biz.business_name} — Marinduque Business Directory`,
             description: biz.description?.slice(0, 155) ?? `Discover ${biz.business_name} in ${biz.location}, Marinduque.`,
-            url: `https://marinduquemarket.com/directory/${id}`,
+            url: `https://marinduquemarket.com/directory/b/${id}`,
             type: 'website',
             images: biz.gallery_images?.[0] ? [{ url: biz.gallery_images[0], alt: biz.business_name }] : undefined,
         },
-        alternates: hreflangAlternates(`/directory/${id}`),
+        alternates: hreflangAlternates(`/directory/b/${id}`),
     };
 }
 
@@ -203,6 +211,10 @@ export default async function BusinessProfileDetailPage({
         mainEntity: faqs
     };
 
+    const isService = (business.categories as string[])?.some((cat: string) => 
+        ['Services / Repair', 'Healthcare / Medical', 'Education / School', 'Finance / Banking'].includes(cat)
+    );
+
     return (
         <main className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
             {/* LocalBusiness JSON-LD for Google Maps, Knowledge Panels, and AI Answer Engines */}
@@ -213,7 +225,7 @@ export default async function BusinessProfileDetailPage({
                     '@type': 'LocalBusiness',
                     name: business.business_name,
                     description: business.description || `${business.business_name} in ${business.location}, Marinduque.`,
-                    url: `https://marinduquemarket.com/directory/${business.id}`,
+                    url: `https://marinduquemarket.com/directory/b/${business.id}`,
                     ...(business.gallery_images?.[0] && { image: business.gallery_images[0] }),
                     ...(phone && { telephone: phone }),
                     address: {
@@ -222,9 +234,33 @@ export default async function BusinessProfileDetailPage({
                         ...(business.barangay && { streetAddress: `Brgy. ${business.barangay}` }),
                         addressRegion: 'Marinduque',
                         addressCountry: 'PH',
+                        ...(TOWN_DATA[business.location] && { sameAs: TOWN_DATA[business.location].sameAs }),
                     },
                     ...((business.categories?.[0] || business.business_type) && {
-                        additionalType: [business.business_type, ...(business.categories || [])].filter(Boolean).join(', '),
+                        additionalType: [
+                            business.business_type, 
+                            ...(business.categories || []),
+                            // Comprehensive mapping of categories to Schema.org types
+                            ...(business.categories as string[] || []).map((cat: string) => {
+                                switch(cat) {
+                                    case 'Accommodation': return 'https://schema.org/Accommodation';
+                                    case 'Beauty / Personal Care': return 'https://schema.org/HealthAndBeautyBusiness';
+                                    case 'Cafe': return 'https://schema.org/CafeOrCoffeeShop';
+                                    case 'Construction / Hardware': return 'https://schema.org/HardwareStore';
+                                    case 'Education / School': return 'https://schema.org/EducationalOrganization';
+                                    case 'Finance / Banking': return 'https://schema.org/FinancialService';
+                                    case 'Food & Dining':
+                                    case 'Restaurant':
+                                    case 'Food': return 'https://schema.org/Restaurant';
+                                    case 'Gas / Fuel Station': return 'https://schema.org/GasStation';
+                                    case 'Healthcare / Medical': return 'https://schema.org/MedicalBusiness';
+                                    case 'Retail / Shop': return 'https://schema.org/Store';
+                                    case 'Services / Repair': return 'https://schema.org/ProfessionalService';
+                                    case 'Sports & Fitness': return 'https://schema.org/HealthClub';
+                                    default: return null;
+                                }
+                            })
+                        ].filter(Boolean).join(', '),
                     }),
                     ...(business.is_verified && {
                         award: 'Verified Business — Marinduque Market Hub',
@@ -240,12 +276,48 @@ export default async function BusinessProfileDetailPage({
                     }),
                     priceRange: '₱₱',
                     isAccessibleForFree: true,
-                    areaServed: {
-                        '@type': 'AdministrativeArea',
-                        name: 'Marinduque',
-                    },
+                    areaServed: [
+                        {
+                            '@type': 'AdministrativeArea',
+                            name: 'Marinduque',
+                            sameAs: 'https://en.wikipedia.org/wiki/Marinduque'
+                        },
+                        ...(TOWN_DATA[business.location] ? [{
+                            '@type': 'AdministrativeArea',
+                            name: business.location,
+                            sameAs: TOWN_DATA[business.location].sameAs
+                        }] : [])
+                    ],
                 }) }}
             />
+            {/* Service schema for trade/service businesses */}
+            {isService && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'Service',
+                        serviceType: business.business_type,
+                        provider: {
+                            '@type': 'LocalBusiness',
+                            name: business.business_name
+                        },
+                        areaServed: [
+                            {
+                                '@type': 'AdministrativeArea',
+                                name: 'Marinduque',
+                                sameAs: 'https://en.wikipedia.org/wiki/Marinduque'
+                            },
+                            ...(TOWN_DATA[business.location] ? [{
+                                '@type': 'AdministrativeArea',
+                                name: business.location,
+                                sameAs: TOWN_DATA[business.location].sameAs
+                            }] : [])
+                        ],
+                        description: business.description
+                    }) }}
+                />
+            )}
             {/* Dynamic FAQPage JSON-LD for AEO */}
             <script
                 type="application/ld+json"

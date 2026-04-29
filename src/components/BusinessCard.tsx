@@ -40,7 +40,7 @@ export default function BusinessCard({
     };
 
     return (
-        <Link href={`/directory/${id}`} className="block bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] p-5 mb-4 shadow-sm hover:shadow-md transition-all relative group overflow-hidden min-h-[120px]">
+        <Link href={`/directory/b/${id}`} className="block bg-white dark:bg-[#1A1B1E] border border-slate-100 dark:border-white/[0.05] rounded-[2rem] p-5 mb-4 shadow-sm hover:shadow-md transition-all relative group overflow-hidden min-h-[120px]">
             <div className="flex items-start gap-4">
             {/* Logo / Image Area */}
             <div className="w-28 aspect-square bg-slate-50 dark:bg-white/[0.03] text-moriones-red dark:text-[#F44336] rounded-2xl flex items-center justify-center font-black text-3xl flex-shrink-0 overflow-hidden relative border border-transparent dark:border-white/[0.05]">

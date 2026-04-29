@@ -293,7 +293,7 @@ function BusinessOnboardingForm() {
             // Show success toast, wait, then redirect to the specific business profile
             setShowSuccessToast(true);
             await new Promise(resolve => setTimeout(resolve, 2000));
-            router.push(`/directory/${newBusinessId}`);
+            router.push(`/directory/b/${newBusinessId}`);
             
         } catch (err: any) {
             setErrorMsg(err.message || 'An unexpected error occurred.');

@@ -91,6 +91,11 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: '/icons/icon-192.png',
+    shortcut: '/icons/icon-192.png',
+    apple: '/icons/icon-192.png',
+  },
 };
 
 export const viewport: Viewport = {
@@ -146,7 +151,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="MarketHub" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         {/* Local SEO geo tags */}
         <meta name="geo.region" content="PH-MAR" />
         <meta name="geo.placename" content="Marinduque, Philippines" />

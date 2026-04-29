@@ -86,7 +86,7 @@ export default async function BusinessDirectory() {
                 item: {
                     '@type': 'LocalBusiness',
                     name: biz.business_name,
-                    url: `https://marinduquemarket.com/directory/${biz.id}`,
+                    url: `https://marinduquemarket.com/directory/b/${biz.id}`,
                     address: {
                         '@type': 'PostalAddress',
                         addressLocality: biz.location,

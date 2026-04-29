@@ -200,7 +200,7 @@ async function fetchRelated(
 
             return (data ?? []).map(b => ({
                 id: String(b.id),
-                href: `/directory/${b.id}`,
+                href: `/directory/b/${b.id}`,
                 title: b.business_name,
                 subtitle: `${b.business_type || 'Local Business'} · ${b.location}`,
                 badge: b.is_verified ? '✓ Verified' : undefined,
