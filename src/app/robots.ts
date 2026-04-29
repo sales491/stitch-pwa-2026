@@ -123,6 +123,27 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: DISALLOW_PATHS,
       },
+
+      // ── Common Crawl (CCBot) ──────────────────────────────────────────────
+      {
+        userAgent: 'CCBot',
+        allow: '/',
+        disallow: DISALLOW_PATHS,
+      },
+
+      // ── Social Media & Link Previews ──────────────────────────────────────
+      {
+        userAgent: ['facebookexternalhit', 'Twitterbot', 'LinkedInBot', 'Discordbot', 'Slackbot'],
+        allow: '/',
+        disallow: DISALLOW_PATHS,
+      },
+
+      // ── Other Major Search Engines & AI ───────────────────────────────────
+      {
+        userAgent: ['Google-Extended', 'DuckDuckBot'],
+        allow: '/',
+        disallow: DISALLOW_PATHS,
+      },
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,
