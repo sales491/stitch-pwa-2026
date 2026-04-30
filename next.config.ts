@@ -56,7 +56,19 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/business/:id',
-        destination: '/directory/:id',
+        destination: '/directory/b/:id',
+        permanent: true,
+      },
+      // Safely catch old UUID-based business routes without intercepting /directory/Boac
+      {
+        source: '/directory/:id([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})',
+        destination: '/directory/b/:id',
+        permanent: true,
+      },
+      // Redirect old standalone town pages to the new directory hubs
+      {
+        source: '/towns/:town',
+        destination: '/directory/:town',
         permanent: true,
       },
       {
