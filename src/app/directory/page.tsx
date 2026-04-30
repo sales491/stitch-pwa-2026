@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import BusinessDirectoryClient from '@/components/BusinessDirectoryClient';
 import SeoTextBlock from '@/components/SeoTextBlock';
 import Link from 'next/link';
+import { ROUTES } from '@/utils/routes';
 
 export const metadata: Metadata = {
     title: 'Marinduque Business Directory | Local Shops & Services',
@@ -87,7 +88,7 @@ export default async function BusinessDirectory() {
                 item: {
                     '@type': 'LocalBusiness',
                     name: biz.business_name,
-                    url: `https://marinduquemarket.com/directory/b/${biz.id}`,
+                    url: `https://marinduquemarket.com${ROUTES.BUSINESS_PROFILE(biz.id)}`,
                     address: {
                         '@type': 'PostalAddress',
                         addressLocality: biz.location,
@@ -146,12 +147,12 @@ export default async function BusinessDirectory() {
                     <h2 className="text-sm font-black text-slate-800 dark:text-zinc-200 uppercase tracking-wider mb-1">Explore by Municipality</h2>
                     <p className="mb-3 text-xs text-slate-500 dark:text-zinc-400">Browse verified businesses directly by their respective town hubs:</p>
                     <ul className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        <li><Link href="/directory/Boac" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Boac</Link></li>
-                        <li><Link href="/directory/Gasan" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Gasan</Link></li>
-                        <li><Link href="/directory/Mogpog" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Mogpog</Link></li>
-                        <li><Link href="/directory/Santa-Cruz" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Santa Cruz</Link></li>
-                        <li><Link href="/directory/Torrijos" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Torrijos</Link></li>
-                        <li><Link href="/directory/Buenavista" className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Buenavista</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Boac')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Boac</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Gasan')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Gasan</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Mogpog')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Mogpog</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Santa Cruz')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Santa Cruz</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Torrijos')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Torrijos</Link></li>
+                        <li><Link href={ROUTES.DIRECTORY_TOWN('Buenavista')} className="flex items-center gap-1.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-xs text-slate-700 dark:text-zinc-300"><span className="material-symbols-outlined text-[16px] text-moriones-red">location_city</span> Buenavista</Link></li>
                     </ul>
                 </div>
             </section>

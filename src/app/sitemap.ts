@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/utils/supabase/server';
+import { ROUTES } from '@/utils/routes';
 
 const BASE = 'https://marinduquemarket.com';
 
@@ -14,13 +15,13 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/jobs`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.9 },
   { url: `${BASE}/events`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.8 },
   { url: `${BASE}/gems`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.8 },
-  { url: `${BASE}/directory/Boac`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory/Buenavista`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory/Gasan`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory/Mogpog`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory/Santa-Cruz`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory/Torrijos`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/directory`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Boac')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Buenavista')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Gasan')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Mogpog')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Santa Cruz')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Torrijos')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}${ROUTES.DIRECTORY_HOME}`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
 
   { url: `${BASE}/community`, lastModified: STATIC_DATE, changeFrequency: 'hourly', priority: 0.8 },
   { url: `${BASE}/island-hopping`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
@@ -143,7 +144,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .limit(300);
 
     businessRoutes = (businesses ?? []).map(b => ({
-      url: `${BASE}/directory/b/${b.id}`,
+      url: `${BASE}${ROUTES.BUSINESS_PROFILE(b.id)}`,
       lastModified: b.updated_at ? new Date(b.updated_at) : new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
