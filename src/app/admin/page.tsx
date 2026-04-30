@@ -32,7 +32,7 @@ export default async function AdminDashboard() {
         supabase.from('contact_messages').select('id, name, email, subject, message, is_read, created_at').order('created_at', { ascending: false }).limit(20),
         supabase.from('boat_services').select('id, operator_name, boat_type, service_type, base_municipality, contact_number, created_at').order('created_at', { ascending: false }),
         supabase.from('transport_services').select('id, driver_name, vehicle_type, service_type, base_town, contact_number, created_at').order('created_at', { ascending: false }),
-        supabase.from('business_profiles').select('id, business_name, business_type, location, gallery_image, created_at').eq('is_verified', false).order('created_at', { ascending: false }),
+        supabase.from('business_profiles').select('id, business_name, business_type, location, gallery_image, created_at').eq('verification_status', 'pending').order('created_at', { ascending: false }),
         supabase.from('listings').select('id, title, category, images, created_at').eq('status', 'pending').order('created_at', { ascending: false }),
         supabase.from('gems').select('id, title, town, images, created_at').eq('is_approved', false).order('created_at', { ascending: false }),
         supabase.from('moderation_queue').select('id, content_type, content_id, flag_count, queued_at').eq('status', 'pending').order('queued_at', { ascending: false }),

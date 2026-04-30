@@ -38,7 +38,7 @@ export default function AppAdminDashboard() {
 
         // Fetch Stats
         const { count: verifiedCount } = await supabase.from('business_profiles').select('*', { count: 'exact', head: true }).eq('is_verified', true);
-        const { count: pendingCount } = await supabase.from('business_profiles').select('*', { count: 'exact', head: true }).eq('is_verified', false);
+        const { count: pendingCount } = await supabase.from('business_profiles').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
         const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
 
         setTotalVerified(verifiedCount || 0);
@@ -49,7 +49,7 @@ export default function AppAdminDashboard() {
         const { data: pendingList, error: pendingError } = await supabase
             .from('business_profiles')
             .select('id, business_name, business_type, gallery_image, location')
-            .eq('is_verified', false)
+            .eq('verification_status', 'pending')
             .order('created_at', { ascending: false });
 
         if (!pendingError) {
