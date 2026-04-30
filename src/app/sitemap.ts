@@ -14,12 +14,12 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/jobs`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.9 },
   { url: `${BASE}/events`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.8 },
   { url: `${BASE}/gems`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.8 },
-  { url: `${BASE}/towns/boac`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/towns/buenavista`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/towns/gasan`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/towns/mogpog`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/towns/santa-cruz`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
-  { url: `${BASE}/towns/torrijos`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Boac`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Buenavista`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Gasan`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Mogpog`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Santa-Cruz`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE}/directory/Torrijos`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/directory`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
 
   { url: `${BASE}/community`, lastModified: STATIC_DATE, changeFrequency: 'hourly', priority: 0.8 },
@@ -143,7 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .limit(300);
 
     businessRoutes = (businesses ?? []).map(b => ({
-      url: `${BASE}/directory/${b.id}`,
+      url: `${BASE}/directory/b/${b.id}`,
       lastModified: b.updated_at ? new Date(b.updated_at) : new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
