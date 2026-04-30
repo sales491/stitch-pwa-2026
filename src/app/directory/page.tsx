@@ -3,6 +3,7 @@ import { hreflangAlternates, TAGALOG_KEYWORDS_DIRECTORY } from '@/utils/seo';
 import { createClient } from '@/utils/supabase/server';
 import BusinessDirectoryClient from '@/components/BusinessDirectoryClient';
 import SeoTextBlock from '@/components/SeoTextBlock';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Marinduque Business Directory | Local Shops & Services',
@@ -143,6 +144,18 @@ export default async function BusinessDirectory() {
             <BusinessDirectoryClient initialBusinesses={businesses || []} />
             
             <section className="bg-white dark:bg-zinc-950 border-t border-slate-100 dark:border-zinc-900 mt-12 pb-12">
+                <SeoTextBlock heading="Explore by Municipality">
+                    <p className="mb-4">Browse verified businesses directly by their respective town hubs:</p>
+                    <ul className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+                        <li><Link href="/directory/Boac" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Boac</Link></li>
+                        <li><Link href="/directory/Gasan" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Gasan</Link></li>
+                        <li><Link href="/directory/Mogpog" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Mogpog</Link></li>
+                        <li><Link href="/directory/Santa-Cruz" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Santa Cruz</Link></li>
+                        <li><Link href="/directory/Torrijos" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Torrijos</Link></li>
+                        <li><Link href="/directory/Buenavista" className="flex items-center gap-2 p-3 rounded-xl border border-border-light dark:border-zinc-800 hover:border-moriones-red hover:bg-moriones-red/5 transition-colors font-bold text-slate-800 dark:text-zinc-200"><span className="material-symbols-outlined text-moriones-red">location_city</span> Buenavista</Link></li>
+                    </ul>
+                </SeoTextBlock>
+
                 <SeoTextBlock heading="About the Marinduque Business Directory">
                     <p>The Marinduque Business Directory is the island’s most comprehensive listing of local enterprises. It includes restaurants, cafes, retail shops, hardware stores, health clinics, pharmacies, schools, resorts, guesthouses, agricultural suppliers, and professional services across all six municipalities: <strong>Boac</strong>, <strong>Mogpog</strong>, <strong>Gasan</strong>, <strong>Santa Cruz</strong>, <strong>Torrijos</strong>, and <strong>Buenavista</strong>.</p>
                     <p>Verified businesses display a checkmark badge, confirming their legitimacy and active operation. Business owners can claim and manage their profile, upload photos, update contact information, and respond to customer reviews. The directory supports categories like Food &amp; Dining, Retail &amp; Shopping, Health &amp; Wellness, Education, Transport, and Accommodations.</p>
