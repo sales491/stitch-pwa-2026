@@ -3,10 +3,18 @@
 // Phase 0: Placeholder only — not linked in navigation
 
 import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_LIVE_SELLING } from '@/utils/seo';
 
 export const metadata: Metadata = {
-    title: 'Live Market — Live Selling for Marinduque',
-    description: 'Watch and shop live selling sessions from local Marinduque sellers. Real-time commerce for the island community.',
+  title: 'Live Market — Live Selling for Marinduque',
+  description: 'Watch and shop live selling sessions from local Marinduque sellers. Real-time commerce for the island community — coming soon.',
+  keywords: ['live market Marinduque', 'live selling Marinduque', 'Marinduque online sellers', 'real-time commerce Philippines', 'local sellers Marinduque', ...TAGALOG_KEYWORDS_LIVE_SELLING],
+  openGraph: {
+    title: 'Live Market — Marinduque',
+    description: 'Real-time live selling sessions from local Marinduque sellers. Coming soon.',
+    url: 'https://marinduquemarket.com/live-market',
+  },
+  alternates: hreflangAlternates('/live-market'),
 };
 
 export default function LiveMarketFeedPage() {

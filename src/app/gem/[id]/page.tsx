@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import PageHeader from '@/components/PageHeader';
@@ -5,6 +6,32 @@ import PageHeader from '@/components/PageHeader';
 type Props = {
     params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { id } = await params;
+    const supabase = await createClient();
+    const { data: gem } = await supabase
+        .from('gems')
+        .select('title, description, town, images')
+        .eq('id', id)
+        .single();
+
+    if (!gem) {
+        return {
+            title: 'Gem Not Found | Marinduque Market Hub',
+        };
+    }
+
+    return {
+        title: `${gem.title} — Hidden Gem in ${gem.town}, Marinduque`,
+        description: gem.description?.slice(0, 155) ?? `Discover ${gem.title} in ${gem.town}, Marinduque — a hidden gem shared by the community.`,
+        openGraph: {
+            title: `${gem.title} — Marinduque Hidden Gems`,
+            description: gem.description?.slice(0, 155) ?? `Discover ${gem.title} in ${gem.town}, Marinduque.`,
+            images: gem.images?.[0] ? [{ url: gem.images[0] }] : undefined,
+        },
+    };
+}
 
 export default async function GemDetailsPage({ params }: Props) {
     const { id } = await params;

@@ -1,18 +1,20 @@
+import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_BARANGAY } from '@/utils/seo';
 import Link from 'next/link';
 import { getMyGroups } from '@/app/actions/paluwagan';
 import PaluwaganGroupCard from '@/components/PaluwaganGroupCard';
 import PageHeader from '@/components/PageHeader';
 
-export const metadata = {
-    title: 'Paluwagan — Marinduque Market Hub',
-    description: 'Manage your rotating savings group digitally. Create or join a paluwagan with friends and family.',
-    alternates: {
-        canonical: 'https://marinduquemarket.com/my-barangay/paluwagan',
-        languages: {
-            'en-PH': 'https://marinduquemarket.com/my-barangay/paluwagan',
-            'tl-PH': 'https://marinduquemarket.com/my-barangay/paluwagan',
-        }
-    }
+export const metadata: Metadata = {
+    title: 'Paluwagan — Digital Savings Circles | Marinduque',
+    description: 'Join or create a digital paluwagan (rotating savings group) with friends and family in Marinduque. Manage your group savings digitally — safe, transparent, and community-driven.',
+    keywords: ['paluwagan Marinduque', 'digital savings Philippines', 'rotating savings group', 'community savings Marinduque', 'paluwagan online', ...TAGALOG_KEYWORDS_BARANGAY],
+    openGraph: {
+        title: 'Paluwagan — Marinduque Market Hub',
+        description: 'Digital rotating savings groups for the Marinduque community. Create or join a paluwagan with friends and family.',
+        url: 'https://marinduquemarket.com/my-barangay/paluwagan',
+    },
+    alternates: hreflangAlternates('/my-barangay/paluwagan'),
 };
 
 export const dynamic = 'force-dynamic';
@@ -28,37 +30,29 @@ export default async function PaluwaganPage() {
             <div className="px-4 pt-4 grid grid-cols-2 gap-3">
                 <Link
                     href="/my-barangay/paluwagan/new"
-                    className="flex flex-col items-center gap-1.5 bg-amber-500 text-white rounded-2xl py-4 shadow-md hover:bg-amber-600 active:scale-[0.97] transition-all"
+                    className="flex items-center justify-center gap-2 rounded-2xl bg-[#C62828] text-white font-bold py-3 text-sm hover:bg-[#B71C1C] transition-colors"
                 >
-                    <span className="material-symbols-outlined text-[28px]">add_circle</span>
-                    <span className="text-[12px] font-black uppercase tracking-wider">Create Group</span>
+                    <span>+ New Group</span>
                 </Link>
                 <Link
                     href="/my-barangay/paluwagan/join"
-                    className="flex flex-col items-center gap-1.5 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-slate-300 rounded-2xl py-4 shadow-sm hover:shadow-md active:scale-[0.97] transition-all"
+                    className="flex items-center justify-center gap-2 rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1A1A1A] font-bold py-3 text-sm hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
                 >
-                    <span className="material-symbols-outlined text-[28px]">group_add</span>
-                    <span className="text-[12px] font-black uppercase tracking-wider">Join with Code</span>
+                    <span>Join a Group</span>
                 </Link>
             </div>
 
             {/* Groups list */}
-            <div className="px-4 pt-5 space-y-3">
+            <div className="px-4 mt-4 space-y-3">
                 {groups.length === 0 ? (
-                    <div className="text-center py-16">
-                        <p className="text-4xl mb-4">💰</p>
-                        <p className="font-black text-slate-700 dark:text-white text-[15px] mb-1">No paluwagan yet</p>
-                        <p className="text-[12px] text-slate-400 dark:text-zinc-500 max-w-xs mx-auto leading-relaxed">
-                            Create a group and invite your barkada, or join one using an invite code.
-                        </p>
+                    <div className="text-center py-12">
+                        <p className="text-slate-400 dark:text-slate-500 text-sm">No paluwagan groups yet.</p>
+                        <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">Create one to get started!</p>
                     </div>
                 ) : (
-                    <>
-                        <p className="text-[11px] font-black text-slate-400 dark:text-zinc-500 uppercase tracking-wider">Your Groups</p>
-                        {groups.map(g => (
-                            <PaluwaganGroupCard key={g.id} group={g} />
-                        ))}
-                    </>
+                    groups.map((group: any) => (
+                        <PaluwaganGroupCard key={group.id} group={group} />
+                    ))
                 )}
             </div>
         </main>

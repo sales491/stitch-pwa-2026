@@ -1,6 +1,20 @@
+import type { Metadata } from 'next';
+import { hreflangAlternates, TAGALOG_KEYWORDS_ISLAND_LIFE } from '@/utils/seo';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 import SeoTextBlock from '@/components/SeoTextBlock';
+
+export const metadata: Metadata = {
+    title: 'Island Life — Marinduque Living Hub',
+    description: 'Your daily guide to island living in Marinduque — palengke prices, gas prices, tides & fishing, power outage alerts, and local skills exchange. Updated daily by the community.',
+    keywords: ['island life Marinduque', 'Marinduque daily living', 'palengke prices', 'gas prices Marinduque', 'tides Marinduque', 'power outage Marinduque', 'skills exchange Marinduque', ...TAGALOG_KEYWORDS_ISLAND_LIFE],
+    openGraph: {
+        title: 'Island Life — Marinduque',
+        description: 'Daily island living hub — palengke prices, gas prices, tides, outages, and skills exchange for Marinduque.',
+        url: 'https://marinduquemarket.com/island-life',
+    },
+    alternates: hreflangAlternates('/island-life'),
+};
 
 const FEATURES = [
     {
@@ -28,18 +42,17 @@ const FEATURES = [
         label: 'Tides & Fishing',
         sub: 'Tide times, moon phases & fishing conditions',
         href: '/island-life/tides',
-        color: 'from-blue-500 to-cyan-500',
-        bg: 'bg-blue-50 dark:bg-blue-950/30',
-        border: 'border-blue-100 dark:border-blue-900/40',
+        color: 'from-cyan-500 to-blue-500',
+        bg: 'bg-cyan-50 dark:bg-cyan-950/30',
+        border: 'border-cyan-100 dark:border-cyan-900/40',
         badge: 'Live',
     },
     {
-
         emoji: '⚡',
-        label: 'Outage Reports',
-        sub: 'Community-reported power & water outages',
+        label: 'Outages',
+        sub: 'Power & water outage reports across the island',
         href: '/island-life/outages',
-        color: 'from-yellow-500 to-orange-500',
+        color: 'from-yellow-500 to-amber-500',
         bg: 'bg-yellow-50 dark:bg-yellow-950/30',
         border: 'border-yellow-100 dark:border-yellow-900/40',
         badge: 'Live',
@@ -47,62 +60,48 @@ const FEATURES = [
     {
         emoji: '🛠️',
         label: 'Skills Exchange',
-        sub: 'Find local skills — teaching, repairs, crafts & more',
+        sub: 'Find locals offering teaching, repairs, crafts & services',
         href: '/island-life/skills',
         color: 'from-purple-500 to-violet-500',
         bg: 'bg-purple-50 dark:bg-purple-950/30',
         border: 'border-purple-100 dark:border-purple-900/40',
         badge: 'Live',
     },
-    {
-        emoji: '🏪',
-        label: 'Business Directory',
-        sub: 'Browse local Marinduque businesses',
-        href: '/directory',
-        color: 'from-slate-500 to-zinc-500',
-        bg: 'bg-slate-50 dark:bg-zinc-900/50',
-        border: 'border-slate-100 dark:border-zinc-800',
-        badge: 'Live',
-    },
 ];
 
-export const metadata = {
-    title: 'Island Life — Marinduque Market Hub',
-    description: 'Daily tools for island living: market prices, tides, outage reports, skills exchange and more.',
-};
-
-export default function IslandLifePage() {
+export default function IslandLifeHub() {
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
-            <PageHeader title="Island Life" subtitle="Daily tools for Marinduque locals" emoji="🌿" />
+            <PageHeader title="Island Life" subtitle="Daily Living Hub" emoji="🌴" />
 
-            {/* Feature Grid */}
-            <div className="px-4 pt-5 space-y-3">
+            <div className="px-4 space-y-3">
                 {FEATURES.map((f) => (
-                    <Link
-                        key={f.href}
-                        href={f.href}
-                        className={`flex items-center gap-4 ${f.bg} border ${f.border} rounded-2xl px-4 py-4 shadow-sm hover:shadow-md active:scale-[0.98] transition-all`}
-                    >
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center text-2xl shadow-sm flex-shrink-0`}>
-                            {f.emoji}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-0.5">
-                                <p className="font-black text-slate-900 dark:text-white text-[14px]">{f.label}</p>
-                                <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider ${f.badge === 'Live' ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400' : 'bg-slate-100 dark:bg-zinc-800 text-slate-400 dark:text-slate-500'}`}>
-                                    {f.badge}
-                                </span>
+                    <Link key={f.href} href={f.href}>
+                        <div className={`rounded-2xl border ${f.border} ${f.bg} p-4 hover:shadow-md transition-shadow`}>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">{f.emoji}</span>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="font-bold text-slate-900 dark:text-white text-[15px]">{f.label}</h3>
+                                        {f.badge && (
+                                            <span className="text-[10px] font-bold uppercase tracking-wider text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded-full">
+                                                {f.badge}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-0.5">{f.sub}</p>
+                                </div>
+                                <svg className="w-5 h-5 text-slate-300 dark:text-slate-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
                             </div>
-                            <p className="text-[12px] text-slate-500 dark:text-slate-400 leading-snug">{f.sub}</p>
                         </div>
-                        <span className="material-symbols-outlined text-slate-300 dark:text-zinc-600 text-[20px] flex-shrink-0">chevron_right</span>
                     </Link>
                 ))}
             </div>
-            <SeoTextBlock heading="Daily Life on Marinduque Island">
-                <p>Island Life is your one-stop hub for daily living information on Marinduque island. Track <strong>real-time gas prices</strong> reported by residents at stations across all six towns. Check <strong>palengke (wet market) prices</strong> for fish, meat, and produce at the public markets in Boac, Gasan, Santa Cruz, and Torrijos. Monitor <strong>tide schedules</strong> for fishing, boating, and coastal activities.</p>
-                <p>The community also reports <strong>power and water outages</strong> in real time, helping residents and businesses plan around service disruptions. Local <strong>skilled trades workers</strong> — electricians, plumbers, carpenters, welders, and mechanics — are listed so you can find reliable services when you need them. Marinduque has roughly 240,000 residents across an area of 960 square kilometers.</p>
+
+            <SeoTextBlock heading="About Island Life">
+                <p>Island Life is your daily living hub for Marinduque. Check live palengke (wet market) prices for fish, produce, and meat across all six municipalities. Track community-sourced gas prices by town. Plan your fishing trips with accurate tide times, moon phases, and solunar data. Report and track power and water outages in real time. Find local skilled workers offering teaching, repairs, crafts, and services through the Skills Exchange. All data is community-powered and updated daily by Marinduque residents.</p>
             </SeoTextBlock>
         </main>
     );

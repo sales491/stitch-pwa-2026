@@ -1,0 +1,12 @@
+{
+  "business_name": "SJ Foodies",
+  "alt_name": "SJ foodhub",
+  "address": "Mesa st., Brgy. 597, Sta. Mesa, Manila",
+  "contact_numbers": ["09053617826", "09559111409"],
+  "operating_hours": "4:00 PM – 3:00 AM (Daily)",
+  "category": "Food Stall / Snack Bar",
+  "facebook_url": "https://www.facebook.com/SJFoodies",
+  "specialties": ["Potato Spuds (Loaded Fries)", "Dinakdakan with Egg", "Chef Krish ulam/meals"],
+  "payment_methods": ["COD", "GCash", "BDO Bank Transfer"],
+  "service_area": ["Sta. Mesa", "Malate", "San Andres Bukid", "Paco", "Mendiola"]
+}
