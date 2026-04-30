@@ -54,16 +54,7 @@ export default async function BusinessDirectory() {
         .order('is_verified', { ascending: false })
         .order('business_name', { ascending: true });
 
-    // Ensure general public only sees verified businesses
-    if (!isAdmin) {
-        if (session?.user?.id) {
-            // Logged in users see verified + their own pending listings
-            query = query.or(`is_verified.eq.true,owner_id.eq.${session.user.id}`);
-        } else {
-            // General public only sees verified
-            query = query.eq('is_verified', true);
-        }
-    }
+    // Removed filtering by is_verified so that public can see and verify businesses
 
     const { data: businesses, error } = await query;
 

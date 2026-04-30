@@ -150,13 +150,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
             .order('business_name', { ascending: true })
             .range(from, to);
 
-        // Mirror the visibility logic from the server page:
-        // Logged-in users can also see their own pending listings
-        if (userId) {
-            q = q.or(`is_verified.eq.true,owner_id.eq.${userId}`);
-        } else {
-            q = q.eq('is_verified', true);
-        }
+        // Removed visibility logic so unverified businesses are shown to public
 
         // Search across name, type, location, and categories description
         if (query.trim()) {

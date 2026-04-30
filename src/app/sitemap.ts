@@ -139,7 +139,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const { data: businesses } = await supabase
       .from('business_profiles')
       .select('id, updated_at')
-      .eq('is_verified', true)
       .order('updated_at', { ascending: false })
       .limit(300);
 

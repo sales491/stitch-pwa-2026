@@ -162,10 +162,7 @@ export default async function BusinessProfileDetailPage({
         isModerator(user.email)
     );
 
-    // Restrict public access to unverified, user-created businesses
-    if (!business.is_verified && business.owner_id && !canEdit) {
-        return notFound();
-    }
+    // Unverified businesses are now public to encourage claiming
 
     const contactInfo = business.contact_info || {};
     const socialMedia = business.social_media || {};
@@ -332,7 +329,7 @@ export default async function BusinessProfileDetailPage({
                 ) : (business.owner_id === '7da9eb71-7757-4335-97c3-34eb40e4f34a') ? (
                     <Link href={`/claim-business/${id}`} className="h-10 px-4 flex items-center justify-center bg-[#2196F3] rounded-full text-white shadow-md active:scale-95 transition-all hover:bg-blue-600 gap-2 font-black text-[10px] uppercase tracking-widest border border-blue-700">
                         <span className="material-symbols-outlined text-sm">verified_user</span>
-                        Claim Listing
+                        Verify Your Business
                     </Link>
                 ) : undefined
             } />
@@ -543,7 +540,7 @@ export default async function BusinessProfileDetailPage({
                                 </p>
                                 <p className="text-xs font-medium text-slate-400 mb-6 tracking-tight leading-relaxed max-w-[90%]">Claim this page to unlock analytics and start responding to reviews.</p>
                                 <Link href={`/claim-business/${business.id}`} className="inline-block bg-white text-slate-900 hover:bg-slate-100 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-md">
-                                    Claim This Business
+                                    Verify Your Business
                                 </Link>
                             </>
                         )}

@@ -66,7 +66,7 @@ export default function BusinessCard({
                         </div>
                     ) : (
                         <div className="flex items-center gap-1 bg-amber-50/50 dark:bg-amber-900/20 px-2 py-0.5 rounded-full border border-amber-100 dark:border-amber-500/20 shadow-sm">
-                            <span className="text-amber-600 dark:text-amber-500 text-[9px] font-black tracking-tight uppercase">Unclaimed</span>
+                            <span className="text-amber-600 dark:text-amber-500 text-[9px] font-black tracking-tight uppercase">Unverified</span>
                         </div>
                     )}
                 </div>
@@ -110,7 +110,7 @@ export default function BusinessCard({
                     {isClaimable && (
                         <button onClick={handleClaimClick} className="ml-auto bg-[#2196F3] text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-1 z-10 relative">
                             <span className="material-symbols-outlined text-[12px]">verified_user</span>
-                            Claim
+                            Verify Your Business
                         </button>
                     )}
                 </div>
