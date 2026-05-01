@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-function processBatch(location, jsonFile, resultsFile) {
+async function processBatch(location, jsonFile, resultsFile) {
     console.log(`\n--- Processing ${location} ---`);
     if (!fs.existsSync(jsonFile)) return;
 
@@ -24,6 +24,11 @@ function processBatch(location, jsonFile, resultsFile) {
         } catch (e) {
             console.error(`Failed to scrape ${url}`);
         }
+        
+        // Random delay between 5 to 15 seconds to prevent rate limiting / CAPTCHAs
+        const delay = Math.floor(Math.random() * (15000 - 5000 + 1) + 5000);
+        console.log(`Waiting ${Math.floor(delay / 1000)} seconds before next scrape...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
     const files = fs.readdirSync(process.cwd());
@@ -42,15 +47,17 @@ function processBatch(location, jsonFile, resultsFile) {
     console.log(`Saved ${results.length} scraped results for ${location}.`);
 }
 
-processBatch('Gasan', 'gasan_business_links.json', 'gasan_pilot_results.json');
-processBatch('Boac', 'boac_business_links.json', 'boac_pilot_results.json');
+(async () => {
+    await processBatch('Gasan', 'gasan_business_links.json', 'gasan_pilot_results.json');
+    await processBatch('Boac', 'boac_business_links.json', 'boac_pilot_results.json');
 
-console.log("\n--- Executing Sync Scripts ---");
-try {
-    execSync('node scripts/sync-gasan.mjs', { stdio: 'inherit' });
-    execSync('node scripts/sync-boac.mjs', { stdio: 'inherit' });
-} catch (e) {
-    console.error("Error during sync:", e);
-}
+    console.log("\n--- Executing Sync Scripts ---");
+    try {
+        execSync('node scripts/sync-gasan.mjs', { stdio: 'inherit' });
+        execSync('node scripts/sync-boac.mjs', { stdio: 'inherit' });
+    } catch (e) {
+        console.error("Error during sync:", e);
+    }
 
-console.log("\n✅ All done!");
+    console.log("\n✅ All done!");
+})();

@@ -139,7 +139,19 @@ export default function PortsClientShell({ updates: initialUpdates, latestAlert:
     return (
         <div className="relative flex flex-col w-full bg-background-light dark:bg-background-dark min-h-screen pb-28">
 
-            <PageHeader title="Barko Watch" subtitle="RoRo Port Live Updates" emoji="🚢" />
+            <PageHeader 
+                title="Barko Watch" 
+                subtitle="RoRo Port Live Updates" 
+                emoji="🚢" 
+                rightAction={
+                    <ShareButton 
+                        title="Barko Watch - RoRo Port Live Updates" 
+                        text="Check real-time RoRo ferry schedules, departure status, and port updates for Marinduque." 
+                        url="/ports" 
+                        variant="icon" 
+                    />
+                }
+            />
 
             {/* Latest alert banner */}
             {latestAlert && (

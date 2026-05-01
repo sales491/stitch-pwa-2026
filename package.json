@@ -18,6 +18,8 @@
     "@supabase/supabase-js": "^2.98.0",
     "next": "16.1.6",
     "node-notifier": "^10.0.1",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "qrcode.react": "^4.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"

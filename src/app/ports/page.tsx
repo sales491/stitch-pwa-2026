@@ -13,6 +13,14 @@ export const metadata: Metadata = {
         title: 'RoRo Port Schedules & Updates — Marinduque',
         description: 'Live ferry schedules and port status updates for Marinduque island.',
         url: 'https://marinduquemarket.com/ports',
+        images: [
+            {
+                url: '/images/og-barko-watch.png',
+                width: 1200,
+                height: 630,
+                alt: 'Barko Watch - RoRo Port Live Updates',
+            },
+        ],
     },
     alternates: hreflangAlternates('/ports'),
 };

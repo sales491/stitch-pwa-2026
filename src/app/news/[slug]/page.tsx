@@ -106,6 +106,17 @@ export default async function NewsArticlePage({ params }: PageProps) {
                 {/* Back Button Overlay */}
                 <BackButton className="absolute top-4 left-4 z-20 bg-black/30 backdrop-blur-md text-white hover:bg-black/50" />
                 
+                {/* Share Button Overlay */}
+                <div className="absolute top-4 right-4 z-20">
+                    <ShareButton 
+                        title={`${article.title} | Marinduque News`} 
+                        text={article.summary} 
+                        url={`/news/${article.slug}`} 
+                        variant="icon" 
+                        className="bg-black/30 backdrop-blur-md text-white border-0 hover:bg-black/50 hover:text-white dark:bg-black/30 dark:hover:bg-black/50"
+                    />
+                </div>
+                
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-zinc-950 via-transparent to-transparent opacity-100 h-full w-full" />
             </div>

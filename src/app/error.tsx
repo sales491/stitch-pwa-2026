@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 
+import { useRouter } from 'next/navigation';
+
 export default function GlobalError({
     error,
     reset,
@@ -10,6 +12,8 @@ export default function GlobalError({
     error: Error & { digest?: string };
     reset: () => void;
 }) {
+    const router = useRouter();
+
     useEffect(() => {
         console.error('[Global Error]', error);
     }, [error]);
@@ -33,7 +37,10 @@ export default function GlobalError({
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <button
-                    onClick={reset}
+                    onClick={() => {
+                        reset();
+                        router.refresh();
+                    }}
                     style={{
                         padding: '0.6rem 1.4rem',
                         background: '#3b82f6',
