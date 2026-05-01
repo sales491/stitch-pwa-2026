@@ -56,7 +56,7 @@ async function syncResults() {
             categories: [category],
             social_media: { facebook: biz.url },
             is_verified: false,
-            verification_status: 'pending'
+            verification_status: 'rejected'
         };
 
         // Manual Upsert

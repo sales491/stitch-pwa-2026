@@ -1,13 +1,13 @@
 import { chromium } from 'playwright';
 import * as fs from 'fs';
 
-async function searchGasanBusinesses() {
-    console.log("🔍 Launching visible browser to search for Gasan businesses on Facebook...");
+async function searchBoacBusinesses() {
+    console.log("🔍 Launching visible browser to search for Boac businesses on Facebook...");
     const browser = await chromium.launch({ headless: false });
     const context = await browser.newContext();
     const page = await context.newPage();
     
-    const query = `site:facebook.com "Gasan, Marinduque" boutique OR clothing OR "ukay-ukay" OR thrift OR apparel`;
+    const query = `site:facebook.com "Boac, Marinduque" boutique OR clothing OR "ukay-ukay" OR thrift OR apparel`;
     
     try {
         await page.goto(`https://www.google.com/search?q=${encodeURIComponent(query)}&num=30`, { waitUntil: 'networkidle' });
@@ -35,10 +35,10 @@ async function searchGasanBusinesses() {
         // Deduplicate
         const uniqueLinks = [...new Set(links)];
         
-        console.log(`✅ Found ${uniqueLinks.length} unique business pages in Gasan!`);
+        console.log(`✅ Found ${uniqueLinks.length} unique business pages in Boac!`);
         
-        fs.writeFileSync('gasan_business_links.json', JSON.stringify(uniqueLinks, null, 2));
-        console.log("Saved URLs to gasan_business_links.json. You can now feed these to the pilot-scraper.");
+        fs.writeFileSync('boac_business_links.json', JSON.stringify(uniqueLinks, null, 2));
+        console.log("Saved URLs to boac_business_links.json. You can now feed these to the pilot-scraper.");
         
         await browser.close();
     } catch (e) {
@@ -47,4 +47,4 @@ async function searchGasanBusinesses() {
     }
 }
 
-searchGasanBusinesses();
+searchBoacBusinesses();
