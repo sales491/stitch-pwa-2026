@@ -24,9 +24,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: `${article.title} | Marinduque News`,
         description: article.summary,
+        alternates: {
+            canonical: `/news/${article.slug}`,
+        },
         openGraph: {
             title: article.title,
             description: article.summary,
+            url: `/news/${article.slug}`,
+            type: 'article',
             images: article.image_url ? [article.image_url] : undefined,
         }
     };
@@ -125,18 +130,11 @@ export default async function NewsArticlePage({ params }: PageProps) {
             <div className="max-w-3xl mx-auto px-5 md:px-0 -mt-24 relative z-10">
                 <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-6 md:p-10 shadow-2xl shadow-black/5 dark:shadow-black/20 border border-slate-100 dark:border-zinc-800 mb-8">
                     
-                    {/* Timestamp and Share Button */}
-                    <div className="flex items-center justify-between mb-3">
+                    {/* Timestamp */}
+                    <div className="mb-3">
                         <p className="text-xs font-bold uppercase tracking-widest text-moriones-red">
                             {new Date(article.published_at || article.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                         </p>
-                        <ShareButton 
-                            title={article.title} 
-                            text={article.summary} 
-                            url={`/news/${article.slug}`} 
-                            variant="icon" 
-                            className="bg-slate-100 dark:bg-zinc-800"
-                        />
                     </div>
 
                     {/* Headline */}
