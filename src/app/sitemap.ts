@@ -22,6 +22,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Santa Cruz')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}${ROUTES.DIRECTORY_TOWN('Torrijos')}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}${ROUTES.DIRECTORY_HOME}`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
+  { url: `${BASE}/map`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
 
   { url: `${BASE}/community`, lastModified: STATIC_DATE, changeFrequency: 'hourly', priority: 0.8 },
   { url: `${BASE}/island-hopping`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.8 },
