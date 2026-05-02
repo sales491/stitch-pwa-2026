@@ -123,9 +123,20 @@ export default function ManilaToMarinduqueGuide() {
                     <p className="text-emerald-400 text-sm md:text-base font-bold mb-3">
                         The "Pro" Way to Cross the Sea
                     </p>
-                    <p className="text-slate-300 text-xs md:text-sm font-medium leading-relaxed">
+                    <p className="text-slate-300 text-xs md:text-sm font-medium leading-relaxed mb-5">
                         Skip the slow vans. Discover the fastest, most reliable, and comfortable route to the Heart of the Philippines (2026 Edition).
                     </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-3 mt-2 border-t border-slate-700 pt-5">
+                        <Link href="/map" className="flex items-center justify-center gap-2 px-5 py-3 bg-[#0077be] hover:bg-blue-500 text-white rounded-xl font-black text-[11px] uppercase tracking-widest transition-colors w-full sm:w-auto shadow-lg shadow-blue-900/20">
+                            <span className="material-symbols-outlined text-[18px]">map</span>
+                            Open Offline Tourist Map
+                        </Link>
+                        <Link href="/ferry-schedule" className="flex items-center justify-center gap-2 px-5 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-xl font-black text-[11px] uppercase tracking-widest transition-colors w-full sm:w-auto">
+                            <span className="material-symbols-outlined text-[18px]">directions_boat</span>
+                            View Ferry Schedules
+                        </Link>
+                    </div>
                 </div>
             </div>
 

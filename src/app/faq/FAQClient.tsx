@@ -26,7 +26,7 @@ export default function FAQClient({ initialFaqs }: { initialFaqs: FAQ[] }) {
   const filteredFaqs = initialFaqs.filter((faq) => faq.category === activeTab);
 
   const categories = [
-    { id: 'general', label: 'Users' },
+    { id: 'general', label: 'Travel & Life' },
     { id: 'business', label: 'Local Businesses' },
     { id: 'operator', label: 'Transport Operators' },
     { id: 'palengke', label: 'Palengke Sellers' },

@@ -165,8 +165,10 @@ export default function RootLayout({
                 '@context': 'https://schema.org',
                 '@type': 'Organization',
                 name: 'Marinduque Market Hub',
+                alternateName: 'Marinduque Connect',
                 url: 'https://marinduquemarket.com',
                 logo: 'https://marinduquemarket.com/icons/icon-192.png',
+                additionalType: 'https://en.wikipedia.org/wiki/Online_hub',
                 description: 'The digital community hub for the people of Marinduque island, Philippines. Buy & sell locally, find jobs, discover island hopping tours, and stay connected.',
                 areaServed: {
                   '@type': 'AdministrativeArea',
@@ -187,6 +189,7 @@ export default function RootLayout({
                 '@type': 'WebSite',
                 name: 'Marinduque Market Hub',
                 url: 'https://marinduquemarket.com',
+                additionalType: 'https://schema.org/CollectionPage',
                 description: 'Community platform for Marinduque island — marketplace, jobs, events, island hopping, RoRo ferry schedules, and barangay tools.',
                 potentialAction: {
                   '@type': 'SearchAction',

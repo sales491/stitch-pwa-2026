@@ -9,6 +9,7 @@ type BusinessProps = {
     name: string;
     type: string;
     location: string;
+    barangay?: string;
     isVerified: boolean;
     rating: number;
     reviewCount: number;
@@ -23,6 +24,7 @@ export default function BusinessCard({
     name,
     type,
     location,
+    barangay,
     isVerified,
     rating,
     reviewCount,
@@ -76,7 +78,7 @@ export default function BusinessCard({
                     <span className="text-slate-300 dark:text-white/10 text-xs">•</span>
                     <p className="text-slate-500 dark:text-white/40 text-xs font-bold flex items-center gap-0.5">
                         <span className="material-symbols-outlined text-[14px]">location_on</span>
-                        {location}
+                        {barangay ? `Brgy. ${barangay}, ` : ''}{location}
                     </p>
                 </div>
 

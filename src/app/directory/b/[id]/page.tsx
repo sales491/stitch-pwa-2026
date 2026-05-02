@@ -28,29 +28,34 @@ export async function generateMetadata({
     const supabase = await createClient();
     const { data: biz } = await supabase
         .from('business_profiles')
-        .select('business_name, description, location, categories, gallery_images')
+        .select('business_name, description, location, categories, gallery_images, contact_info')
         .eq('id', id)
         .single();
 
     if (!biz) return { title: 'Business Not Found' };
 
+    const contactInfo = biz.contact_info || {};
+    const barangayStr = contactInfo.barangay ? `Brgy. ${contactInfo.barangay}, ` : '';
+    const fullLocation = `${barangayStr}${biz.location}`;
+
     const typeLabel = biz.categories?.[0] || 'business';
     const taglishKeywords = [
-        `${biz.business_name} in ${biz.location}`,
-        `${typeLabel} in ${biz.location} Marinduque`,
+        `${biz.business_name} in ${fullLocation}`,
+        `${typeLabel} in ${fullLocation} Marinduque`,
         `saan makikita ang ${biz.business_name}`,
         `contact number of ${biz.business_name}`,
-        `reviews for ${biz.business_name} ${biz.location}`,
-        `${biz.business_name} hours of operation`
+        `reviews for ${biz.business_name} ${fullLocation}`,
+        `${biz.business_name} hours of operation`,
+        `${biz.business_name} ${biz.location}`
     ];
 
     return {
-        title: `${biz.business_name} — ${biz.location}, Marinduque`,
-        description: biz.description?.slice(0, 155) ?? `${biz.business_name} in ${biz.location}, Marinduque. ${biz.categories?.join(', ') || 'Local business'}.`,
+        title: `${biz.business_name} — ${fullLocation}, Marinduque`,
+        description: biz.description?.slice(0, 155) ?? `${biz.business_name} in ${fullLocation}, Marinduque. ${biz.categories?.join(', ') || 'Local business'}.`,
         keywords: taglishKeywords,
         openGraph: {
             title: `${biz.business_name} — Marinduque Business Directory`,
-            description: biz.description?.slice(0, 155) ?? `Discover ${biz.business_name} in ${biz.location}, Marinduque.`,
+            description: biz.description?.slice(0, 155) ?? `Discover ${biz.business_name} in ${fullLocation}, Marinduque.`,
             url: `https://marinduquemarket.com/directory/b/${id}`,
             type: 'website',
             images: biz.gallery_images?.[0] ? [{ url: biz.gallery_images[0], alt: biz.business_name }] : undefined,

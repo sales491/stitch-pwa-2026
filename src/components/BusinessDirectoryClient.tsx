@@ -19,6 +19,7 @@ type Business = {
     delivery_available?: boolean;
     owner_id: string;
     description?: string;
+    contact_info?: any;
 };
 
 const TOWNS = ['All Towns', 'Boac', 'Mogpog', 'Gasan', 'Sta. Cruz', 'Torrijos', 'Buenavista'];
@@ -145,7 +146,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
 
         let q = supabase
             .from('business_profiles')
-            .select('id, business_name, business_type, location, is_verified, average_rating, review_count, gallery_image, categories, delivery_available, owner_id, description')
+            .select('id, business_name, business_type, location, is_verified, average_rating, review_count, gallery_image, categories, delivery_available, owner_id, description, contact_info')
             .order('is_verified', { ascending: false })
             .order('business_name', { ascending: true })
             .range(from, to);
@@ -269,6 +270,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
                                 name={biz.business_name}
                                 type={biz.business_type || 'Local Business'}
                                 location={biz.location || 'Marinduque'}
+                                barangay={biz.contact_info?.barangay}
                                 isVerified={biz.is_verified}
                                 rating={biz.average_rating || 0}
                                 reviewCount={biz.review_count || 0}

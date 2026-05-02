@@ -14,6 +14,33 @@ const SLUG_TO_TOWN: Record<string, string> = {
     'torrijos': 'Torrijos',
 };
 
+const TOWN_ENTITIES: Record<string, { name: string, url: string }[]> = {
+    'Boac': [
+        { name: 'Marinduque State College', url: 'https://en.wikipedia.org/wiki/Marinduque_State_College' },
+        { name: 'Boac Cathedral', url: 'https://en.wikipedia.org/wiki/Boac_Cathedral' },
+        { name: 'Moriones Festival', url: 'https://en.wikipedia.org/wiki/Moriones_Festival' }
+    ],
+    'Mogpog': [
+        { name: 'Luzon Datum of 1911', url: 'https://en.wikipedia.org/wiki/Luzon_Datum_of_1911' },
+        { name: 'Moriones Festival', url: 'https://en.wikipedia.org/wiki/Moriones_Festival' }
+    ],
+    'Gasan': [
+        { name: 'Tres Reyes Islands', url: 'https://en.wikipedia.org/wiki/Tres_Reyes_Islands' },
+        { name: 'Marinduque Airport', url: 'https://en.wikipedia.org/wiki/Marinduque_Airport' }
+    ],
+    'Santa Cruz': [
+        { name: 'Maniwaya Island', url: 'https://en.wikipedia.org/wiki/Maniwaya_Island' }
+    ],
+    'Torrijos': [
+        { name: 'Poctoy White Beach', url: 'https://en.wikipedia.org/wiki/Torrijos,_Marinduque#Tourism' },
+        { name: 'Battle of Pulang Lupa', url: 'https://en.wikipedia.org/wiki/Battle_of_Pulang_Lupa' }
+    ],
+    'Buenavista': [
+        { name: 'Mount Malindig', url: 'https://en.wikipedia.org/wiki/Mount_Malindig' },
+        { name: 'Malbog Sulfur Spring', url: 'https://en.wikipedia.org/wiki/Buenavista,_Marinduque#Tourism' }
+    ]
+};
+
 const CATEGORIES = [
     { label: 'Accommodation', slug: 'accommodation', icon: 'bed' },
     { label: 'Beauty & Care', slug: 'beauty-personal-care', icon: 'content_cut' },
@@ -73,8 +100,35 @@ export default async function TownHubPage({
         .order('is_verified', { ascending: false })
         .limit(5);
 
+    const townEntities = TOWN_ENTITIES[townName] || [];
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: `Business Directory for ${townName}, Marinduque`,
+        description: `Explore the local economy of ${townName}. From historic establishments to new favorites, find everything you need in the heart of Marinduque.`,
+        url: `https://marinduquemarket.com/directory/${town}`,
+        about: {
+            '@type': 'City',
+            name: townName,
+            containedInPlace: {
+                '@type': 'Province',
+                name: 'Marinduque',
+                sameAs: 'https://en.wikipedia.org/wiki/Marinduque'
+            }
+        },
+        mentions: townEntities.map(entity => ({
+            '@type': 'Thing',
+            name: entity.name,
+            sameAs: entity.url
+        }))
+    };
+
     return (
         <main className="bg-slate-50 dark:bg-zinc-950 min-h-screen pb-24">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <PageHeader 
                 title={townName} 
                 subtitle="Marinduque Town Hub" 

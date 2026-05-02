@@ -7,19 +7,27 @@ import { useNotifications } from './NotificationProvider';
 import { isAdmin, isModerator } from '@/utils/roles';
 
 const mainNav = [
+    // Core & Daily Utility
     { label: 'Home', href: '/', icon: 'home' },
     { label: 'Marketplace', href: '/marketplace', icon: 'storefront' },
-    { label: 'Business Directory', href: '/directory', icon: 'business' },
-    { label: 'Jobs', href: '/jobs', icon: 'work' },
-    { label: 'Events', href: '/events', icon: 'event' },
-    { label: 'Delivery & Commuting', href: '/commute', icon: 'directions_car' },
-    { label: 'Island Hopping', href: '/island-hopping', icon: 'sailing' },
-    { label: 'Community Board', href: '/community', icon: 'groups' },
     { label: 'Marinduque News', href: '/news', icon: 'newspaper' },
-    { label: 'RoRo & Port Info', href: '/ports', icon: 'anchor' },
+    { label: 'Community Board', href: '/community', icon: 'groups' },
+    { label: 'Events', href: '/events', icon: 'event' },
+
+    // Discover & Travel
+    { label: 'Explorer Map', href: '/map', icon: 'map' },
     { label: 'Travel Guides', href: '/guides/manila-to-marinduque', icon: 'explore' },
+    { label: 'Island Hopping', href: '/island-hopping', icon: 'sailing' },
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
+
+    // Local Services & Tools
+    { label: 'Business Directory', href: '/directory', icon: 'business' },
+    { label: 'Jobs', href: '/jobs', icon: 'work' },
+    { label: 'Delivery & Commuting', href: '/commute', icon: 'directions_car' },
+    { label: 'Gas Prices', href: '/island-life/gas-prices', icon: 'local_gas_station' },
+
+    // Support
     { label: 'Policies', href: '/policies', icon: 'gavel' },
     { label: 'Help & FAQ', href: '/faq', icon: 'help' },
 ];

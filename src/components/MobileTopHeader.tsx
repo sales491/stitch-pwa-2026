@@ -9,19 +9,26 @@ import ThemeToggle from './ThemeToggle';
 import { QRCodeSVG } from 'qrcode.react';
 
 const CATEGORIES = [
-    { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
-    { label: 'Marinduque News', icon: '📰', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/news' },
-    { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
-    { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
-    { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },
-    { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/jobs' },
-    { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
+    // Core & Daily Utility
     { label: 'Marketplace', icon: '🛒', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400', href: '/marketplace' },
-    { label: 'RoRo & Port Info', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/ports' },
-    { label: 'Travel Guides', icon: '🧭', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/guides/manila-to-marinduque' },
-    { label: 'Gas Prices', icon: '⛽', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/island-life/gas-prices' },
-    { label: 'Business Directory', icon: '🏪', color: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400', href: '/directory' },
+    { label: 'Marinduque News', icon: '📰', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400', href: '/news' },
     { label: 'Community Board', icon: '📣', color: 'bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400', href: '/community' },
+    { label: 'Events', icon: '📅', color: 'bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400', href: '/events' },
+
+    // Discover & Travel
+    { label: 'Explorer Map', icon: '🗺️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/map' },
+    { label: 'Travel Guides', icon: '🧭', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/guides/manila-to-marinduque' },
+    { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
+    { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
+    { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
+
+    // Local Services & Tools
+    { label: 'Business Directory', icon: '🏪', color: 'bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400', href: '/directory' },
+    { label: 'Jobs', icon: '💼', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/jobs' },
+    { label: 'Delivery & Commuting', icon: '🛵', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400', href: '/commute' },
+    { label: 'Gas Prices', icon: '⛽', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400', href: '/island-life/gas-prices' },
+    
+    // Support
     { label: 'Policies', icon: '⚖️', color: 'bg-slate-50 text-slate-600 dark:bg-slate-800/40 dark:text-slate-400', href: '/policies' },
 ];
 

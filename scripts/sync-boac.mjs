@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
+import { updateMissingBarangays } from './update_barangays_db.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -82,6 +83,9 @@ async function syncResults() {
             else console.log(`✨ Inserted: ${biz.name} (${category})`);
         }
     }
+
+    console.log('\nRunning automatic Barangay scrubbing pass...');
+    await updateMissingBarangays();
 }
 
 syncResults();

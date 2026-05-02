@@ -5,6 +5,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { businessSchema, BusinessInput } from '@/lib/validations/business';
 import { revalidatePath } from 'next/cache';
 import { isAdmin } from '@/utils/roles';
+import { determineBarangay } from '@/utils/barangay-matcher';
 
 async function isUserAdmin(user: any): Promise<boolean> {
     if (isAdmin(user.email)) return true;
@@ -26,6 +27,19 @@ export async function createBusinessProfile(data: BusinessInput) {
 
     // Validation
     const validated = businessSchema.parse(data);
+
+    // Auto-detect and assign barangay if missing
+    let contactInfoObj: any = validated.contact_info || {};
+    if (typeof contactInfoObj === 'string') {
+        try { contactInfoObj = JSON.parse(contactInfoObj); } catch(e) { contactInfoObj = {}; }
+    }
+    if (!contactInfoObj.barangay) {
+        const detectedBarangay = determineBarangay(validated.business_name, validated.location || null, contactInfoObj);
+        if (detectedBarangay) {
+            contactInfoObj.barangay = detectedBarangay;
+            validated.contact_info = contactInfoObj;
+        }
+    }
 
     const { error } = await supabase
         .from('business_profiles')
@@ -50,6 +64,19 @@ export async function updateBusinessProfile(id: string, data: BusinessInput) {
 
     // Validation
     const validated = businessSchema.parse(data);
+
+    // Auto-detect and assign barangay if missing
+    let contactInfoObj: any = validated.contact_info || {};
+    if (typeof contactInfoObj === 'string') {
+        try { contactInfoObj = JSON.parse(contactInfoObj); } catch(e) { contactInfoObj = {}; }
+    }
+    if (!contactInfoObj.barangay) {
+        const detectedBarangay = determineBarangay(validated.business_name, validated.location || null, contactInfoObj);
+        if (detectedBarangay) {
+            contactInfoObj.barangay = detectedBarangay;
+            validated.contact_info = contactInfoObj;
+        }
+    }
 
     const hasAdminAccess = await isUserAdmin(user);
 
