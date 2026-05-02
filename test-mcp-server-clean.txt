@@ -1,5 +1,0 @@
-﻿=== Supabase MCP Server Process Test ===
-Spawning: npx @supabase/mcp-server-supabase@latest
-
-Γ¥î FAIL: Failed to spawn process
-   Error: spawn npx ENOENT

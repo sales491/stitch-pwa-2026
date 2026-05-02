@@ -164,7 +164,7 @@ export default function ArtisanDirectoryPage() {
 
                 {/* Artisan Grid */}
                 <section className="space-y-20">
-                    {DATA.categories.map((category) => (
+                    {DATA.categories.map((category: any) => (
                         <div key={category.region} className="relative">
                             <div className="flex items-baseline gap-4 mb-10 border-b border-slate-100 dark:border-zinc-800 pb-6">
                                 <h3 className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter uppercase">{category.region}</h3>
@@ -181,7 +181,7 @@ export default function ArtisanDirectoryPage() {
                             )}
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {category.artisans.map((artisan) => (
+                                {category.artisans.map((artisan: any) => (
                                     <div key={artisan.name} className="group relative bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-[2rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
                                         <div className="absolute top-8 right-8">
                                             <span className="material-symbols-outlined text-slate-200 dark:text-zinc-800 text-5xl font-thin group-hover:text-moriones-red/20 transition-colors">sculpture</span>
