@@ -11,6 +11,8 @@ const STATIC_ASSETS = [
     '/',
     '/markethub-logo.png',
     '/manifest.json',
+    '/ferry-schedule',
+    '/my-barangay/calamity',
 ];
 
 // ── Install: pre-cache static assets only ─────────────────────

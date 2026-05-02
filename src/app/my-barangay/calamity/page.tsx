@@ -28,13 +28,35 @@ export default async function CalamityPage() {
         <main className="min-h-screen bg-slate-50 dark:bg-[#0F0F10] pb-32">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify({
-                    '@context': 'https://schema.org',
-                    '@type': 'WebPage',
-                    name: metadata.openGraph?.title || 'Mga Abiso — Marinduque Emergency Alerts',
-                    description: metadata.openGraph?.description || 'Community calamity alerts: typhoons, floods, and emergencies in Marinduque.',
-                    url: 'https://marinduquemarket.com/my-barangay/calamity'
-                }) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify([
+                    {
+                        '@context': 'https://schema.org',
+                        '@type': 'WebPage',
+                        name: metadata.openGraph?.title || 'Mga Abiso — Marinduque Emergency Alerts',
+                        description: metadata.openGraph?.description || 'Community calamity alerts: typhoons, floods, and emergencies in Marinduque.',
+                        url: 'https://marinduquemarket.com/my-barangay/calamity'
+                    },
+                    {
+                        '@context': 'https://schema.org',
+                        '@type': 'Dataset',
+                        name: 'Marinduque Local Government Announcements and Emergency Alerts',
+                        description: 'Real-time and community-reported emergency alerts, weather warnings, and local government announcements for Marinduque province.',
+                        url: 'https://marinduquemarket.com/my-barangay/calamity',
+                        creator: {
+                            '@type': 'Organization',
+                            name: 'Marinduque Market Hub Community'
+                        },
+                        spatialCoverage: {
+                            '@type': 'Place',
+                            name: 'Marinduque',
+                            address: {
+                                '@type': 'PostalAddress',
+                                addressRegion: 'Marinduque',
+                                addressCountry: 'PH'
+                            }
+                        }
+                    }
+                ]) }}
             />
             <PageHeader title="Mga Abiso" subtitle="My Barangay" emoji="🚨" />
 
