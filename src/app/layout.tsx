@@ -178,11 +178,6 @@ export default function RootLayout({
                 sameAs: [
                   'https://facebook.com/marinduquemarket',
                 ],
-                contactPoint: {
-                  '@type': 'ContactPoint',
-                  contactType: 'customer support',
-                  url: 'https://marinduquemarket.com/contact',
-                },
               },
               {
                 '@context': 'https://schema.org',

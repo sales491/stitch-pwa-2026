@@ -32,6 +32,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/just-landed`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/things-to-do`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.9 },
   { url: `${BASE}/moriones-festival`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.9 },
+  { url: `${BASE}/moriones-festival/artisans`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/island-life`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/island-life/palengke`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.7 },
   { url: `${BASE}/island-life/tides`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.6 },
@@ -55,7 +56,6 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   { url: `${BASE}/faq`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.5 },
   { url: `${BASE}/about`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.5 },
-  { url: `${BASE}/contact`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
   { url: `${BASE}/profile`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.4 },
   { url: `${BASE}/policies`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
   { url: `${BASE}/privacy-policy-data-rights`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },

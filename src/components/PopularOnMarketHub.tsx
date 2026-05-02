@@ -89,6 +89,7 @@ export default async function PopularOnMarketHub() {
                     { href: '/ferry-schedule', label: '⛴️ Ferry Schedule' },
                     { href: '/things-to-do', label: '🏝️ Things to Do' },
                     { href: '/moriones-festival', label: '🎭 Moriones Festival' },
+                    { href: '/moriones-festival/artisans', label: '🪓 Artisan Directory' },
                 ].map(link => (
                     <Link
                         key={link.href}

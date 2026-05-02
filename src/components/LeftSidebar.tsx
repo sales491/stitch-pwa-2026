@@ -16,9 +16,11 @@ const mainNav = [
 
     // Discover & Travel
     { label: 'Explorer Map', href: '/map', icon: 'map' },
+    { label: 'RoRo & Ports', href: '/ports', icon: 'directions_boat' },
     { label: 'Travel Guides', href: '/guides/manila-to-marinduque', icon: 'explore' },
     { label: 'Island Hopping', href: '/island-hopping', icon: 'sailing' },
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
+    { label: 'Moriones Festival', href: '/moriones-festival', icon: 'theater_comedy' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
 
     // Local Services & Tools

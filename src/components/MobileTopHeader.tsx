@@ -17,8 +17,10 @@ const CATEGORIES = [
 
     // Discover & Travel
     { label: 'Explorer Map', icon: '🗺️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/map' },
+    { label: 'RoRo & Ports', icon: '🚢', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400', href: '/ports' },
     { label: 'Travel Guides', icon: '🧭', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/guides/manila-to-marinduque' },
     { label: 'Island Hopping', icon: '🏝️', color: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400', href: '/island-hopping' },
+    { label: 'Moriones Festival', icon: '🎭', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/moriones-festival' },
     { label: 'Marinduque Gems', icon: '💎', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400', href: '/gems' },
     { label: 'Best of Boac', icon: '🏆', color: 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400', href: '/best-of-boac-monthly-spotlight' },
 

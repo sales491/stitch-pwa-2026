@@ -21,7 +21,7 @@ function randomDelay(min, max) {
 }
 
 async function getGoogleSnippet(name) {
-    const browser = await chromium.launch({ headless: false });
+    const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({ userAgent: getRandomUserAgent() });
     const page = await context.newPage();
     const query = `site:facebook.com "${name}" phone number Marinduque`;
@@ -45,24 +45,44 @@ async function getGoogleSnippet(name) {
 }
 
 async function scrapeFacebookPage(url) {
-    const browser = await chromium.launch({ headless: false });
+    const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
         userAgent: getRandomUserAgent(),
         viewport: { width: 1280, height: 900 }
     });
     const page = await context.newPage();
 
-    const aboutUrl = url.endsWith('/') ? `${url}about` : `${url}/about`;
-    console.log(`🔎 Accessing: ${aboutUrl}...`);
+    // resiliant URL selection: /p/ URLs often block /about when not logged in
+    const isIdUrl = url.includes('/p/');
+    const targetUrl = isIdUrl ? url : (url.endsWith('/') ? `${url}about` : `${url}/about`);
+    
+    console.log(`🔎 Accessing: ${targetUrl}...`);
     
     try {
-        await randomDelay(1500, 3000);
-        await page.goto(aboutUrl, { waitUntil: 'networkidle', timeout: 30000 });
+        await randomDelay(2000, 4000);
+        await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 45000 });
         await page.waitForTimeout(3000);
 
         const bodyText = await page.innerText('body');
         const title = await page.title();
-        const cleanName = title.split('|')[0].trim();
+        let cleanName = title.split('|')[0].trim();
+
+        // Fallback for name if title is generic
+        if (cleanName === 'About Meta' || cleanName === 'Facebook' || cleanName === 'Log into Facebook') {
+            try {
+                const h1 = await page.innerText('h1');
+                if (h1 && !h1.includes('Facebook')) {
+                    cleanName = h1.trim();
+                } else {
+                    // Try to extract from URL
+                    const parts = url.split('/').filter(Boolean);
+                    cleanName = parts[parts.length - 1].replace(/-/g, ' ');
+                }
+            } catch (e) {
+                const parts = url.split('/').filter(Boolean);
+                cleanName = parts[parts.length - 1].replace(/-/g, ' ');
+            }
+        }
 
         // Phone extraction
         const phoneRegex = /(?:\+63|0)9\d{2}[\s-]?\d{3}[\s-]?\d{4}/g;
@@ -73,13 +93,13 @@ async function scrapeFacebookPage(url) {
         const emails = bodyText.match(emailRegex) || [];
 
         // Address hints
-        const keywords = ['Boac', 'Marinduque', 'Street', 'Brgy', 'Barangay', 'St.', 'Poblacion'];
+        const keywords = ['Mogpog', 'Boac', 'Marinduque', 'Street', 'Brgy', 'Barangay', 'St.', 'Poblacion'];
         const addressLines = bodyText.split('\n').filter(line => 
             keywords.some(keyword => line.includes(keyword)) && line.length < 80
         );
 
         // Path 2: Google Check (Fast Snippet Search)
-        const googlePhones = await getGoogleSnippet(cleanName);
+        const googlePhones = (cleanName && cleanName !== 'Facebook') ? await getGoogleSnippet(cleanName) : [];
 
         const results = {
             name: cleanName,
@@ -96,7 +116,7 @@ async function scrapeFacebookPage(url) {
     } catch (error) {
         console.error(`❌ Error scanning ${url}:`, error.message);
         await browser.close();
-        return { error: error.message, url };
+        return { error: error.message, url, scraped_at: new Date().toISOString() };
     }
 }
 

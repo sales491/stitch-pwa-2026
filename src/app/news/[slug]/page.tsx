@@ -111,17 +111,6 @@ export default async function NewsArticlePage({ params }: PageProps) {
                 {/* Back Button Overlay */}
                 <BackButton className="absolute top-4 left-4 z-20 bg-black/30 backdrop-blur-md text-white hover:bg-black/50" />
                 
-                {/* Share Button Overlay */}
-                <div className="absolute top-4 right-4 z-20">
-                    <ShareButton 
-                        title={`${article.title} | Marinduque News`} 
-                        text={article.summary} 
-                        url={`/news/${article.slug}`} 
-                        variant="icon" 
-                        className="bg-black/30 backdrop-blur-md text-white border-0 hover:bg-black/50 hover:text-white dark:bg-black/30 dark:hover:bg-black/50"
-                    />
-                </div>
-                
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-zinc-950 via-transparent to-transparent opacity-100 h-full w-full" />
             </div>
@@ -130,11 +119,18 @@ export default async function NewsArticlePage({ params }: PageProps) {
             <div className="max-w-3xl mx-auto px-5 md:px-0 -mt-24 relative z-10">
                 <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-6 md:p-10 shadow-2xl shadow-black/5 dark:shadow-black/20 border border-slate-100 dark:border-zinc-800 mb-8">
                     
-                    {/* Timestamp */}
-                    <div className="mb-3">
+                    {/* Timestamp & Share */}
+                    <div className="mb-3 flex items-center justify-between">
                         <p className="text-xs font-bold uppercase tracking-widest text-moriones-red">
                             {new Date(article.published_at || article.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                         </p>
+                        <ShareButton 
+                            title={`${article.title} | Marinduque News`} 
+                            text={article.summary} 
+                            url={`/news/${article.slug}`} 
+                            variant="icon" 
+                            className="text-slate-400 hover:text-moriones-red transition-colors"
+                        />
                     </div>
 
                     {/* Headline */}

@@ -68,8 +68,8 @@ export default async function FAQPage() {
       <div className="rounded-3xl border border-gray-200 dark:border-white/[0.06] bg-white dark:bg-[#1A1A1A] px-5 py-5 mt-8">
         <p className="text-sm text-slate-500 dark:text-slate-400">
           Still have questions?{' '}
-          <Link href="/contact" className="text-[#C62828] font-semibold hover:underline">
-            Contact our support team
+          <Link href="/about" className="text-[#C62828] font-semibold hover:underline">
+            reach out to us
           </Link>
         </p>
       </div>

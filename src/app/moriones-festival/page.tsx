@@ -129,13 +129,22 @@ export default function MorionesFestivalPage() {
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
                         The festival has been celebrated for <strong>over 200 years</strong> and draws thousands of visitors annually. It was recognized by the Philippine government as a National Cultural Treasure and is a candidate for UNESCO Intangible Cultural Heritage listing.
                     </p>
-                    <Link
-                        href="/events"
-                        className="inline-flex items-center gap-2 bg-moriones-red text-white px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors shadow-md"
-                    >
-                        <span className="material-symbols-outlined text-sm">event</span>
-                        View All Local Events
-                    </Link>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        <Link
+                            href="/events"
+                            className="inline-flex items-center gap-2 bg-moriones-red text-white px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors shadow-md"
+                        >
+                            <span className="material-symbols-outlined text-sm">event</span>
+                            View All Local Events
+                        </Link>
+                        <Link
+                            href="/moriones-festival/artisans"
+                            className="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-zinc-700 transition-colors border border-slate-200 dark:border-zinc-700 shadow-sm"
+                        >
+                            <span className="material-symbols-outlined text-sm">sculpture</span>
+                            Meet the Mask Makers
+                        </Link>
+                    </div>
                 </article>
 
                 {/* Schedule */}

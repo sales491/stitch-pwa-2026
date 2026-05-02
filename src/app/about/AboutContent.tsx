@@ -102,18 +102,6 @@ export default function AboutContent() {
                     </div>
                 </section>
 
-                {/* Contact CTA */}
-                <section className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-slate-100 dark:border-zinc-800 p-5 text-center">
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-                        Have questions or feedback? We'd love to hear from you.
-                    </p>
-                    <Link
-                        href="/contact"
-                        className="inline-block bg-[#C62828] hover:bg-[#B71C1C] text-white font-bold py-2.5 px-6 rounded-xl transition-colors text-sm"
-                    >
-                        Contact Us
-                    </Link>
-                </section>
             </div>
         </div>
     );
