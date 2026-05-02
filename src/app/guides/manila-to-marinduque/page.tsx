@@ -157,7 +157,7 @@ export default function ManilaToMarinduqueGuide() {
                         </p>
                     </div>
                     <p>
-                        The most efficient, reliable, and honestly most "island-vibe" way to get there is the classic <strong>Bus + RoRo combo</strong>.
+                        The most efficient, reliable, and honestly most "island-vibe" way to get there is the classic <strong>Bus + RoRo combo</strong>. For the latest 2026 fares and departure times, check out our <Link href="/ferry-schedule" className="text-[#0077be] font-bold hover:underline">Complete Ferry Schedule</Link>.
                     </p>
                 </section>
 

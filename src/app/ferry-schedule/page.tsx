@@ -30,27 +30,27 @@ const ROUTES = [
         id: 'dalahican-balanacan',
         from: 'Dalahican, Lucena City',
         to: 'Balanacan Port, Mogpog',
-        operators: ['Starlite Ferries', 'Montenegro Shipping'],
+        operators: ['Starhorse Shipping', 'Montenegro Shipping'],
         duration: '3–4 hours',
         frequency: 'Multiple daily departures',
-        farePassenger: '₱200–₱400',
-        fareVehicle: '₱1,500–₱3,000 (car)',
-        notes: 'Most popular route. Dalahican Wharf is the primary departure point from Quezon Province.',
-        departureTimesFrom: ['6:00 AM', '9:00 AM', '12:00 PM', '3:00 PM'],
-        departureTimesTo: ['6:00 AM', '9:00 AM', '12:00 PM', '3:00 PM'],
+        farePassenger: '₱299–₱470',
+        fareVehicle: '₱1,500–₱3,500 (car)',
+        notes: 'Most popular route. Starhorse and Montenegro operate almost alternating schedules 24/7 during peak seasons.',
+        departureTimesFrom: ['2:30 AM', '4:00 AM', '8:30 AM', '10:30 AM', '2:30 PM', '4:30 PM', '10:30 PM'],
+        departureTimesTo: ['2:30 AM', '4:00 AM', '8:30 AM', '10:30 AM', '2:30 PM', '4:30 PM', '10:30 PM'],
     },
     {
-        id: 'lucena-balanacan',
-        from: 'Lucena Grand Terminal',
-        to: 'Balanacan Port, Mogpog',
-        operators: ['Starlite Ferries'],
-        duration: '4–5 hours',
-        frequency: 'Selected departures',
-        farePassenger: '₱250–₱450',
+        id: 'lucena-cawit',
+        from: 'Dalahican, Lucena City',
+        to: 'Cawit Port, Boac',
+        operators: ['Starhorse Shipping'],
+        duration: '3.5–4.5 hours',
+        frequency: 'Weekly (Scheduled Days)',
+        farePassenger: '₱350–₱470',
         fareVehicle: '₱1,800–₱3,500 (car)',
-        notes: 'Less frequent than Dalahican route. Some travelers prefer this for its bus terminal accessibility.',
-        departureTimesFrom: ['7:00 AM', '1:00 PM'],
-        departureTimesTo: ['7:00 AM', '1:00 PM'],
+        notes: 'Direct route to Boac. Lucena to Cawit operates Mon/Wed/Sat. Cawit to Lucena operates Sun/Tue/Thu.',
+        departureTimesFrom: ['4:00 PM (Mon, Wed, Sat)'],
+        departureTimesTo: ['4:00 PM (Sun, Tue, Thu)'],
     },
     {
         id: 'pinamalayan-buyabod',
@@ -94,11 +94,11 @@ const PORTS = [
 const FAQ_ITEMS = [
     {
         q: 'How do I get to Marinduque from Manila?',
-        a: 'From Manila, take a bus from Cubao or Buendia to Lucena City or Dalahican (4–5 hours, ₱300–₱500). From Dalahican Wharf, board a RoRo ferry to Balanacan Port, Marinduque (3–4 hours, ₱200–₱400). The entire trip takes approximately 7–9 hours.',
+        a: 'From Manila, take a bus from Cubao or Buendia to Lucena City or Dalahican (4–5 hours, ₱300–₱500). From Dalahican Wharf, board a RoRo ferry to Balanacan Port, Marinduque (3–4 hours, approx ₱470 base fare). The entire trip takes approximately 7–9 hours.',
     },
     {
         q: 'What are the ferry operating hours?',
-        a: 'Ferries typically operate from 6:00 AM to 3:00 PM on the Dalahican–Balanacan route, with multiple daily departures. Schedules may vary during typhoon season (June–November) or during peak travel periods like Holy Week (Moriones Festival).',
+        a: 'Ferries on the primary Dalahican–Balanacan route operate essentially 24/7 during peak seasons, with departures as early as 2:30 AM and as late as 10:30 PM. Starhorse and Montenegro operate alternating schedules. Schedules may vary during typhoon season (June–November).',
     },
     {
         q: 'Can I bring my car or motorcycle to Marinduque?',
@@ -201,7 +201,7 @@ export default function FerrySchedulePage() {
                         Marinduque Ferry Schedule 2026
                     </h1>
                     <p className="text-slate-900 dark:text-white font-bold leading-relaxed mb-4 text-sm bg-slate-50 dark:bg-zinc-900 p-4 rounded-xl border border-slate-100 dark:border-zinc-800">
-                        <strong>TL;DR:</strong> The easiest way to get to Marinduque is taking a bus from Manila to Dalahican, Lucena (4-5 hrs), then a RoRo ferry to Balanacan Port (3-4 hrs, ₱200-₱400). Ferries run daily.
+                        <strong>TL;DR:</strong> The easiest way to get to Marinduque is taking a bus from Manila to Dalahican, Lucena (4-5 hrs), then a RoRo ferry to Balanacan Port (3-4 hrs, approx ₱470 base fare). Ferries run daily.
                     </p>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
                         Marinduque is accessible by Roll-on/Roll-off (RoRo) ferry from <strong>Quezon Province</strong> and <strong>Oriental Mindoro</strong>. Three ports serve the island: <strong>Balanacan Port</strong> (Mogpog), <strong>Buyabod Port</strong> (Santa Cruz), and <strong>Cawit Port</strong> (Boac). This guide covers all routes, fares, schedules, and travel tips.
@@ -279,10 +279,21 @@ export default function FerrySchedulePage() {
                         ))}
                     </div>
 
-                    <div className="mt-4 bg-amber-50 dark:bg-amber-950/30 rounded-2xl p-4 border border-amber-100 dark:border-amber-900/50">
-                        <p className="text-xs text-amber-700 dark:text-amber-400 font-bold">
-                            ⚠️ Schedules are approximate and may change without notice. Ferry operations are suspended during typhoons and rough seas. Always check the <Link href="/ports" className="underline font-black">live port updates</Link> before traveling.
-                        </p>
+                    <div className="mt-4 space-y-3">
+                        <div className="bg-red-50 dark:bg-red-950/30 rounded-2xl p-4 border border-red-200 dark:border-red-900/50">
+                            <h4 className="text-sm font-black text-red-800 dark:text-red-400 mb-1 flex items-center gap-2">
+                                <span className="material-symbols-outlined text-base">local_gas_station</span>
+                                March 2026 Fuel Surcharge Advisory
+                            </h4>
+                            <p className="text-xs text-red-700 dark:text-red-300 font-medium leading-relaxed">
+                                Due to global fuel price surges, MARINA (Advisory No. 2026-10) authorized domestic shipping lines to collect up to a 20% fuel surcharge. As of March 23, 2026, both Montenegro and Starhorse implemented a 10%–20% adjustment, pushing base passenger fares to the ~₱470 mark. This surcharge is temporary and subject to change as fuel prices stabilize.
+                            </p>
+                        </div>
+                        <div className="bg-amber-50 dark:bg-amber-950/30 rounded-2xl p-4 border border-amber-100 dark:border-amber-900/50">
+                            <p className="text-xs text-amber-700 dark:text-amber-400 font-bold">
+                                ⚠️ Schedules are approximate and may change without notice. Ferry operations are suspended during typhoons and rough seas. Always check the <Link href="/ports" className="underline font-black">live port updates</Link> before traveling.
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -330,7 +341,7 @@ export default function FerrySchedulePage() {
                     <ol className="space-y-3">
                         {[
                             { step: 1, icon: 'directions_bus', title: 'Bus to Lucena / Dalahican', desc: 'From Manila (Cubao or Buendia), take a DLTB, JAC Liner, or JAM Transit bus to Dalahican Wharf. Travel time: 4–5 hours, Fare: ₱300–₱500.', color: 'bg-violet-500' },
-                            { step: 2, icon: 'confirmation_number', title: 'Buy ferry ticket at the port', desc: 'Purchase your ticket at the Starlite or Montenegro counter. Arrive at least 1 hour early, especially during peak season. Keep your ticket — you\'ll need it to board.', color: 'bg-blue-500' },
+                            { step: 2, icon: 'confirmation_number', title: 'Buy ferry ticket at the port', desc: 'Purchase your ticket at the Starhorse or Montenegro counter. Arrive at least 1 hour early, especially during peak season. Keep your ticket — you\'ll need it to board.', color: 'bg-blue-500' },
                             { step: 3, icon: 'sailing', title: 'Board the RoRo ferry', desc: 'The ferry departs from Dalahican Wharf bound for Balanacan Port, Mogpog. The crossing takes 3–4 hours. RoRo ferries have seating areas, small canteens, and restrooms.', color: 'bg-cyan-500' },
                             { step: 4, icon: 'local_taxi', title: 'Arrive at Balanacan — take a tricycle', desc: 'Tricycles and vans meet arriving ferries. Tricycle fare to Boac town proper is ₱30–₱50. For other towns, arrange a special trip (₱200–₱500) or wait for a jeepney.', color: 'bg-emerald-500' },
                         ].map(s => (
