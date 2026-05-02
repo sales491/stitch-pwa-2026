@@ -89,7 +89,7 @@ export default function ManilaToMarinduqueGuide() {
             {/* Hero Image Section - Natural Aspect Ratio */}
             <div className="w-full bg-[#cde8f6] relative border-b border-slate-200">
                 <div className="absolute top-4 left-4 z-20">
-                    <BackButton fallbackHref="/ports" label="Back to Ports" className="text-slate-800 bg-white/90 hover:bg-white shadow-sm border-white" />
+                    <BackButton className="text-slate-800 bg-white/90 hover:bg-white shadow-sm border-white" />
                 </div>
                 
                 <Image
