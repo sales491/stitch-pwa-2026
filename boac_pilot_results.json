@@ -1,83 +1,70 @@
 [
   {
-    "name": "The Boac Hotel",
-    "url": "https://www.facebook.com/TheBoacHotel/",
+    "name": "Kreative Studios",
+    "url": "https://www.facebook.com/hellokreativestudios/",
     "phones": [],
     "emails": [
-      "theboachotel@yahoo.com"
+      "kreativestudios.info@gmail.com"
     ],
     "address_snippets": [
-      "The Boac Hotel ",
-      "Brgy. San Miguel, Boac, Philippines, 4900",
-      "The Boac Hotel's Reels"
+      "3rd Flr. Above Precision Clinic, Brgy. San Miguel, Boac, Marinduque"
     ],
-    "scraped_at": "2026-05-01T18:09:26.502Z"
+    "scraped_at": "2026-05-01T22:51:14.678Z"
+  },
+  {
+    "name": "The Events Chef",
+    "url": "https://www.facebook.com/TheEventsChef/",
+    "phones": [],
+    "emails": [
+      "the.eventschef@gmail.com"
+    ],
+    "address_snippets": [],
+    "scraped_at": "2026-05-01T22:51:39.244Z"
+  },
+  {
+    "name": "Southern Planners",
+    "url": "https://www.facebook.com/southernplanners/",
+    "phones": [],
+    "emails": [
+      "thesouthernplanners@gmail.com"
+    ],
+    "address_snippets": [
+      "Buliasnin, Boac, Philippines, 4900"
+    ],
+    "scraped_at": "2026-05-01T22:52:04.381Z"
   },
   {
     "name": "About Meta",
-    "url": "https://www.facebook.com/p/Hotel-Marinduque-100064020406164/",
+    "url": "https://www.facebook.com/p/Elvis-Food-Hub-61574710277504/",
     "phones": [],
     "emails": [],
     "address_snippets": [],
-    "scraped_at": "2026-05-01T18:09:55.800Z"
+    "scraped_at": "2026-05-01T22:52:31.132Z"
   },
   {
-    "name": "The Penthouse by Marina",
-    "url": "https://www.facebook.com/PenthousebyMarina/",
+    "name": "Goodchow Dining and Function Hall",
+    "url": "https://www.facebook.com/goodchowcaterings/",
     "phones": [],
-    "emails": [
-      "ccapmarinahotelandresort@gmail.com"
-    ],
+    "emails": [],
     "address_snippets": [
-      "Beachfront Balaring, Marinduque, Boac, Philippines, 4900"
+      "Lardizabal Street, Boac, Philippines, 4900"
     ],
-    "scraped_at": "2026-05-01T18:10:24.070Z"
+    "scraped_at": "2026-05-01T22:52:55.874Z"
   },
   {
-    "name": "Marina Marinduque Hotel and Resort",
-    "url": "https://www.facebook.com/MarinahotelandresortOfficialAccount/",
-    "phones": [],
-    "emails": [
-      "ccapmarinahotelandresort@gmail.com"
-    ],
-    "address_snippets": [
-      "Marina Marinduque Hotel and Resort  (Official Facebook Page)",
-      "Details About Marina Marinduque Hotel and Resort",
-      "Balaring, Boac, Philippines, 4900",
-      "Marina Marinduque Hotel and Resort's Reels"
-    ],
-    "scraped_at": "2026-05-01T18:10:45.436Z"
-  },
-  {
-    "name": "Adis Resort and Restobar Corp.",
-    "url": "https://www.facebook.com/adisresortandrestobar/",
-    "phones": [],
-    "emails": [
-      "adisresort@gmail.com"
-    ],
-    "address_snippets": [
-      "Brgy. Ihatub, Boac, Philippines, 4900"
-    ],
-    "scraped_at": "2026-05-01T18:11:10.169Z"
-  },
-  {
-    "name": "Kusina sa Plaza",
-    "url": "https://www.facebook.com/kusinasaplaza/",
-    "phones": [],
-    "emails": [
-      "kusinasaplaza@gmail.com"
-    ],
-    "address_snippets": [
-      "Boac, Marinduque, Boac, Philippines, 4900"
-    ],
-    "scraped_at": "2026-05-01T18:11:33.482Z"
-  },
-  {
-    "name": "Facebook",
-    "url": "https://www.facebook.com/159115130855451",
+    "name": "",
+    "url": "https://www.facebook.com/100092565753276/mentions/",
     "phones": [],
     "emails": [],
     "address_snippets": [],
-    "scraped_at": "2026-05-01T18:12:02.507Z"
+    "scraped_at": "2026-05-01T22:53:14.134Z"
+  },
+  {
+    "name": "About Meta",
+    "url": "https://www.facebook.com/p/Capt-Rolando-Dela-Rosas-Events-Place-100075935384770/",
+    "phones": [],
+    "emails": [],
+    "address_snippets": [],
+    "scraped_at": "2026-05-01T22:53:46.771Z"
   }
 ]

@@ -29,8 +29,8 @@ async function searchBoacBusinesses() {
     });
     const page = await context.newPage();
     
-    // Updated query for missing Food & Accommodation categories
-    const query = `site:facebook.com "Boac, Marinduque" restaurant OR resort OR cafe OR bakery OR hotel OR kusina`;
+    // Updated query for Event Services categories
+    const query = `site:facebook.com "Boac, Marinduque" photography OR catering OR "party needs" OR events`;
     
     try {
         await randomDelay(1500, 3000);

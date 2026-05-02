@@ -25,4 +25,7 @@ export const ROUTES = {
     EVENT_POST: (eventId: string) => `/events/${eventId}`,
     GEM_POST: (gemId: string) => `/gems/${gemId}`,
     NEWS_ARTICLE: (newsSlug: string) => `/news/${newsSlug}`,
+
+    // ── Guides ───────────────────────────────────────────────────────────
+    GUIDE_MANILA_TO_MARINDUQUE: '/guides/manila-to-marinduque',
 };

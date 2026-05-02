@@ -17,6 +17,7 @@ const mainNav = [
     { label: 'Community Board', href: '/community', icon: 'groups' },
     { label: 'Marinduque News', href: '/news', icon: 'newspaper' },
     { label: 'RoRo & Port Info', href: '/ports', icon: 'anchor' },
+    { label: 'Travel Guides', href: '/guides/manila-to-marinduque', icon: 'explore' },
     { label: 'Marinduque Gems', href: '/gems', icon: 'diamond' },
     { label: 'Best of Boac', href: '/best-of-boac-monthly-spotlight', icon: 'emoji_events' },
     { label: 'Policies', href: '/policies', icon: 'gavel' },

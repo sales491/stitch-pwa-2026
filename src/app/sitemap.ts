@@ -49,6 +49,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${BASE}/best-of-boac-monthly-spotlight`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${BASE}/advanced-search-filters`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
   { url: `${BASE}/post`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.5 },
+  { url: `${BASE}${ROUTES.GUIDE_MANILA_TO_MARINDUQUE}`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.9 },
 
   { url: `${BASE}/faq`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.5 },
   { url: `${BASE}/about`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.5 },
