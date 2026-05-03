@@ -1,13 +1,20 @@
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import ModerationQueue from '@/components/ModerationQueue';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ModerationPage() {
+    // Verify authentication first (will throw if not logged in)
     const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Unauthorized');
+
+    // Use admin client to bypass RLS for sensitive queue data
+    const adminSupabase = await createAdminClient();
 
     // ── 1. Community flags (all content types) ───────────────────────────────
-    const { data: communityFlags } = await supabase
+    const { data: communityFlags } = await adminSupabase
         .from('content_flags')
         .select(`
             id,
@@ -22,14 +29,14 @@ export default async function ModerationPage() {
         .order('created_at', { ascending: true });
 
     // ── 2. Pending new business profiles ────────────────────────────────────
-    const { data: pendingBusinesses } = await supabase
+    const { data: pendingBusinesses } = await adminSupabase
         .from('business_profiles')
         .select('id, name:business_name, category:business_type, town:location, description, created_at, owner_id, is_verified')
         .eq('verification_status', 'pending')
         .order('created_at', { ascending: true });
 
     // ── 3. Pending business claim requests ───────────────────────────────────
-    const { data: claimRequests } = await supabase
+    const { data: claimRequests } = await adminSupabase
         .from('business_claim_requests')
         .select(`
             id,
