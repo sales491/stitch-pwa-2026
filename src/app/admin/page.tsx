@@ -25,6 +25,7 @@ export default async function AdminDashboard() {
         { data: pendingGems },
         { data: pendingQueue },
         { data: pendingNews },
+        { data: pendingClaims },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
         supabase.from('business_profiles').select('id, business_name, is_verified, created_at').order('created_at', { ascending: false }).limit(6),
@@ -37,6 +38,7 @@ export default async function AdminDashboard() {
         supabase.from('gems').select('id, title, town, images, created_at').eq('is_approved', false).order('created_at', { ascending: false }),
         supabase.from('moderation_queue').select('id, content_type, content_id, flag_count, queued_at').eq('status', 'pending').order('queued_at', { ascending: false }),
         adminSupabase.from('news').select('id, title, published_at').eq('status', 'pending').order('published_at', { ascending: false }),
+        adminSupabase.from('business_claim_requests').select('id, business_id, requester_name, business:business_profiles!business_claim_requests_business_id_fkey(name:business_name)').eq('status', 'pending').order('created_at', { ascending: false }),
     ]);
 
     const unreadMessages = (contactMessages ?? []).filter(m => !m.is_read).length;
@@ -46,7 +48,8 @@ export default async function AdminDashboard() {
         (pendingListings?.length || 0) + 
         (pendingGems?.length || 0) + 
         (pendingQueue?.length || 0) +
-        (pendingNews?.length || 0);
+        (pendingNews?.length || 0) +
+        (pendingClaims?.length || 0);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 space-y-8 sm:space-y-12 pb-24 font-display">
@@ -126,6 +129,36 @@ export default async function AdminDashboard() {
                                                     className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors"
                                                 >
                                                     Approve →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Business Claim Requests */}
+                        {(pendingClaims ?? []).length > 0 && (
+                            <div className="pt-2">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-teal-600 mb-3 flex items-center gap-1.5">
+                                    <span className="material-symbols-outlined text-[14px]">verified_user</span>
+                                    Business Claim Requests ({pendingClaims!.length})
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    {pendingClaims!.map(claim => (
+                                        <div key={claim.id} className="bg-white border border-teal-200 rounded-2xl p-4 flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 shrink-0 flex items-center justify-center">
+                                                <span className="material-symbols-outlined">shield_person</span>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-black text-slate-900 text-sm truncate">
+                                                    Claim: {(claim.business as any)?.name ?? 'Business'}
+                                                </p>
+                                                <p className="text-[11px] text-slate-500 truncate">By: {claim.requester_name}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 shrink-0">
+                                                <Link href={`/admin/moderation`} className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors">
+                                                    Review Claim →
                                                 </Link>
                                             </div>
                                         </div>
