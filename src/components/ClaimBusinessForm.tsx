@@ -56,6 +56,13 @@ export default function ClaimBusinessForm({ businessId, businessName }: ClaimBus
             setErrorMsg(error.message);
             setState('error');
         } else {
+            // Notify the admin about the new verification request
+            await supabase.from('notifications').insert({
+                user_id: '7da9eb71-7757-4335-97c3-34eb40e4f34a', // Admin ID
+                title: 'New Verification Request',
+                message: `${form.requester_name.trim()} requested to verify: ${businessName}.`,
+                payload: { type: 'business_verification', business_id: businessId },
+            });
             setState('success');
         }
     };

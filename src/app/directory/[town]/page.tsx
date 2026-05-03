@@ -151,6 +151,18 @@ export default async function TownHubPage({
                         Browse by Category
                     </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {/* Town Biography Prominent Link */}
+                        <Link 
+                            href={`/towns/${town}`}
+                            className="col-span-2 sm:col-span-3 bg-moriones-red/10 dark:bg-moriones-red/20 p-6 rounded-[2rem] border border-moriones-red/20 text-center hover:border-moriones-red hover:shadow-md transition-all group"
+                        >
+                            <span className="material-symbols-outlined text-3xl text-moriones-red mb-2">menu_book</span>
+                            <p className="text-sm font-black uppercase tracking-widest text-moriones-red mb-1">
+                                {townName} Biography & History
+                            </p>
+                            <p className="text-xs text-moriones-red/70 font-medium">Read the "Total History" deep dive into our town's origins.</p>
+                        </Link>
+
                         {CATEGORIES.map((cat) => (
                             <Link 
                                 key={cat.slug} 

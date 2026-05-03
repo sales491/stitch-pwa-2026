@@ -66,11 +66,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       // Redirect old standalone town pages to the new directory hubs
-      {
-        source: '/towns/:town',
-        destination: '/directory/:town',
-        permanent: true,
-      },
+      // {
+      //   source: '/towns/:town',
+      //   destination: '/directory/:town',
+      //   permanent: true,
+      // },
       {
         source: '/local-business-profile-page',
         destination: '/directory',

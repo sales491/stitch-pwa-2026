@@ -70,6 +70,38 @@ export const TOWNS: Record<string, TownData> = {
 
 <hr />
 
+<h2>Summary of Forward-Looking Investments</h2>
+<div class="overflow-x-auto my-6 rounded-xl border border-slate-200 dark:border-zinc-800 shadow-sm">
+  <table class="w-full text-left text-sm md:text-base border-collapse">
+    <thead class="bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-300">
+      <tr>
+        <th class="p-3 font-bold border-b border-slate-200 dark:border-zinc-700">Sector</th>
+        <th class="p-3 font-bold border-b border-slate-200 dark:border-zinc-700">Investment Focus</th>
+        <th class="p-3 font-bold border-b border-slate-200 dark:border-zinc-700">Goal for 2030</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 bg-white dark:bg-zinc-900 text-slate-600 dark:text-slate-300">
+      <tr>
+        <td class="p-3 font-medium">Heritage</td>
+        <td class="p-3">Visual Corridor Zoning</td>
+        <td class="p-3">Protect the Cathedral's visual dominance and preserve the Museum-City.</td>
+      </tr>
+      <tr>
+        <td class="p-3 font-medium">Environment</td>
+        <td class="p-3">Boac River Project</td>
+        <td class="p-3">Build natural defenses against flooding via riverine green belts.</td>
+      </tr>
+      <tr>
+        <td class="p-3 font-medium">Technology</td>
+        <td class="p-3">Historic Core Fiber-Optics</td>
+        <td class="p-3">Support "Digital Nomads" while preserving sacred atmosphere.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr />
+
 <h2>Conclusion: The Total City</h2>
 <p>Boac is a rare example of a city that knows exactly what it is. It is a fortress of faith, a center of commerce, and a blueprint for sustainable heritage. By honoring its "creation myths" while rigorously managing its "hard data," Boac is evolving into its ultimate form: a sanctuary that is as technically resilient as it is divinely inspired. To visit Boac is to witness a city that has finally reached its "sacred" state—a place where the past is not behind us, but beneath our feet, supporting the future.</p>
         `
@@ -83,22 +115,20 @@ export const TOWNS: Record<string, TownData> = {
         image_url: '/images/towns/buenavista_malindig_art.png',
         keywords: ['Buenavista Marinduque', 'Mount Malindig', 'Malbog Sulfur Spring', 'Bellarocca', 'Elephant Island', 'hiking Marinduque', ...TAGALOG_KEYWORDS_GEMS, ...TAGALOG_KEYWORDS_TRAVEL],
         content: `
-<h2>The Geothermal Retreat: A Vision for Buenavista</h2>
-<p>Nestled in the shadow of Marinduque's highest peak, Buenavista stands as the island's premier destination for eco-tourism and geothermal wellness. Combining breathtaking topography with healing natural springs, the town is rapidly evolving into a sanctuary for nature enthusiasts and wellness seekers alike.</p>
+<h2>The Geothermal Retreat: A Biography of Buenavista</h2>
+<p>Nestled in the shadow of Marinduque's highest peak, Buenavista is rapidly evolving into a sanctuary for nature enthusiasts and wellness seekers. To understand Buenavista is to explore a "Total History" where imposing natural monoliths, agricultural rhythms, and a futuristic vision for geothermal wellness converge.</p>
 
 <hr />
 
-<h2>I. The Natural Monuments</h2>
-<h3>Mount Malindig: The Sleeping Giant</h3>
-<p>Dominating the southern horizon, <strong>Mount Malindig</strong> is a potentially active stratovolcano that defines Buenavista's landscape. Its lush slopes are a haven for biodiversity and a prime destination for mountaineers looking for a challenging yet rewarding ascent.</p>
+<h2>The Natural Monuments: A Hagiography of the Soul</h2>
+<p>The "Soul" of Buenavista is forged in fire and stone. Dominating the southern horizon is <strong>Mount Malindig</strong>, a potentially active stratovolcano that defines the town's landscape and local lore. Its lush, mist-covered slopes are revered by locals as a guardian entity, providing a haven for biodiversity and serving as the ultimate pilgrimage for mountaineers.</p>
 
 <figure>
   <img src="/images/towns/buenavista_malindig_art.png" alt="Mount Malindig towering over Buenavista" />
   <figcaption class="text-center text-sm text-slate-500 mt-2 italic">The majestic peak of Mount Malindig towering over the coconut groves of Buenavista.</figcaption>
 </figure>
 
-<h3>Malbog Sulfur Springs: The Healing Waters</h3>
-<p>Located at the foot of Mount Malindig, the <strong>Malbog Sulfur Springs</strong> offer naturally heated, mineral-rich waters. For generations, locals and tourists have bathed in these therapeutic pools, which are believed to cure various skin ailments and ease muscle tension.</p>
+<p>At the foot of this sleeping giant lie the <strong>Malbog Sulfur Springs</strong>. For generations, the mineral-rich, naturally heated waters bubbling up from the earth have been a site of healing. Locals and tourists alike bathe in these therapeutic pools, which are believed to cure ailments and wash away exhaustion. This geothermal gift is the true spiritual core of Buenavista—a place where the earth directly nurtures its people.</p>
 
 <figure>
   <img src="/images/towns/buenavista_malbog_art.png" alt="Malbog Sulfur Springs" />
@@ -107,14 +137,28 @@ export const TOWNS: Record<string, TownData> = {
 
 <hr />
 
-<h2>II. Future Plans & Economic Outlook</h2>
-<p>Buenavista is actively positioning itself as the province's "Wellness and Eco-Tourism Capital." The local government's forward-looking strategies are centered on balancing tourism growth with strict environmental protections.</p>
+<h2>The Agricultural Base: A Profile of the Body</h2>
+<p>The "Body" of Buenavista is grounded in the fertile volcanic soil that sustains its people. As a 4th Class Municipality, its daily life revolves around a quiet but robust agricultural economy.</p>
 
 <ul>
-<li><strong>Geothermal Wellness Tourism:</strong> Investments are being funneled into upgrading the facilities surrounding the Malbog Sulfur Springs, turning it into a world-class, eco-friendly spa destination while preserving the natural landscape.</li>
-<li><strong>Elephant Island Redevelopment:</strong> The famous Elephant Island (formerly Bellarocca) is undergoing strategic reassessment to reintroduce sustainable luxury tourism that benefits the local economy through jobs and localized supply chains.</li>
-<li><strong>Agri-Tourism Integration:</strong> To support local farmers, there is a strong push to combine agriculture with tourism. Coconut and cacao plantations are being developed into experiential "farm-to-table" destinations.</li>
+<li><strong>The Inhabitants:</strong> Home to a tight-knit community across 15 barangays, Buenavista’s residents are deeply connected to the land, maintaining generational farming traditions while slowly adapting to a growing eco-tourism influx.</li>
+<li><strong>The Engine:</strong> The local economy is primarily driven by coconut and cacao plantations. The volcanic soil provides ideal conditions for these crops, making Buenavista a critical player in the island's agricultural output.</li>
+<li><strong>The Coastal Connection:</strong> While defined by its mountain, Buenavista also maintains a strong fishing industry, with coastal barangays providing a steady harvest from the Tablas Strait.</li>
 </ul>
+
+<hr />
+
+<h2>The Eco-Tourism Citadel: A Blueprint for the Future</h2>
+<p>The "Skeleton" of Buenavista—its visionary blueprint for 2030 and beyond—positions the town as the province's premier "Wellness and Eco-Tourism Capital," carefully balancing high-value tourism with strict environmental stewardship.</p>
+
+<h3>1. Geothermal Wellness Tourism</h3>
+<p>Investments are being channeled into upgrading the facilities surrounding the Malbog Sulfur Springs. The goal is to transform it into a world-class, eco-friendly spa destination that utilizes sustainable architecture, ensuring the healing waters remain pristine.</p>
+
+<h3>2. Elephant Island Redevelopment</h3>
+<p>The famous Elephant Island (formerly the Bellarocca resort) is undergoing a strategic reassessment. The blueprint envisions reintroducing sustainable luxury tourism that deeply integrates with the local economy, prioritizing local hiring and farm-to-table supply chains over isolated resort models.</p>
+
+<h3>3. Agri-Tourism Integration</h3>
+<p>To support local farmers, there is a strong push to combine agriculture with tourism. Experiential "farm-to-table" destinations are being developed within cacao and coconut plantations, offering tourists immersive agricultural experiences.</p>
 
 <hr />
 
@@ -147,6 +191,11 @@ export const TOWNS: Record<string, TownData> = {
     </tbody>
   </table>
 </div>
+
+<hr />
+
+<h2>Conclusion: The Total Municipality</h2>
+<p>Buenavista is a town that draws its power directly from the earth. By honoring the majestic presence of Mount Malindig and the healing energy of its sulfur springs, while simultaneously building a modern eco-tourism framework, Buenavista is achieving a perfect symbiosis of nature and progress. To visit Buenavista is to experience Marinduque in its most elemental and rejuvenating form—a place where the future is grown from fertile volcanic soil.</p>
         `
     },
     'gasan': {
@@ -158,13 +207,12 @@ export const TOWNS: Record<string, TownData> = {
         image_url: '/images/towns/gasan_tres_reyes_art.png',
         keywords: ['Gasan Marinduque', 'Tres Reyes Islands', 'Marinduque butterflies', 'Gasang-Gasang Festival', 'Gasan sunset', 'culture', ...TAGALOG_KEYWORDS_GEMS, ...TAGALOG_KEYWORDS_TRAVEL],
         content: `
-<h2>Sustainable Coastal Urbanism: A Blueprint for Gasan</h2>
-<p>As the cultural and logistical gateway of the province, Gasan is moving toward a future defined by Sustainable Coastal Urbanism. This article explores the town through the lens of its upcoming investments and its transformation into a "Blue-Green Economy" hub by 2030.</p>
+<h2>Sustainable Coastal Urbanism: A Biography of Gasan</h2>
+<p>As the cultural and logistical gateway of the province, Gasan is moving toward a future defined by Sustainable Coastal Urbanism. This "Total History" explores the town through the lens of its mythic origins, its current logistical power, and its transformation into a "Blue-Green Economy" hub by 2030.</p>
 
 <hr />
 
-<h2>I. The Coral Foundation: A Hagiography of the Shore</h2>
-<h3>The Soul: Mythic & Reverent</h3>
+<h2>The Coral Foundation: A Hagiography of the Soul</h2>
 <p>In the spiritual geography of Marinduque, Gasan is the child of the reef. Its name is whispered to have come from <em>Gasáng-gasáng</em>—the sharp, white corals that once carpeted its shores. The city does not just sit by the water; it is born from it.</p>
 
 <figure>
@@ -172,18 +220,17 @@ export const TOWNS: Record<string, TownData> = {
   <figcaption class="text-center text-sm text-slate-500 mt-2 italic">The Tres Reyes Islands standing watch in the Tablas Strait.</figcaption>
 </figure>
 
-<p>The town’s spirit is guarded by the <strong>Tres Reyes Islands</strong> (Melchor, Gaspar, and Baltazar), three limestone giants standing watch in the Tablas Strait. Locals view these islands as silent sentinels that have shielded the town from storms and invaders for centuries. At the heart of the <em>poblacion</em> stands the <strong>St. Joseph the Worker Parish</strong>, perched on a hill like a shepherd overlooking his flock. Here, the "spirit" of Gasan is one of meticulous beauty and rhythmic devotion, best expressed in the <strong>Gasang-Gasang Festival</strong>, where the streets explode into a synchronized dance of gratitude for the harvest of both land and sea.</p>
+<p>The town’s spirit is guarded by the <strong>Tres Reyes Islands</strong> (Melchor, Gaspar, and Baltazar), three limestone giants standing watch in the Tablas Strait. Locals view these islands as silent sentinels that have shielded the town from storms and invaders for centuries. At the heart of the <em>poblacion</em> stands the <strong>St. Joseph the Worker Parish</strong>, perched on a hill like a shepherd overlooking his flock. Here, the "soul" of Gasan is one of meticulous beauty and rhythmic devotion, best expressed in the <strong>Gasang-Gasang Festival</strong>, where the streets explode into a synchronized dance of gratitude for the harvest of both land and sea.</p>
 
 <hr />
 
-<h2>II. The Coastal Pulse: The 2026 Economic Gateway</h2>
-<h3>The Body: Objective & Grounded</h3>
-<p>Transitioning to the empirical, Gasan is currently the primary entry point for the province's air travel and a leader in environmental governance.</p>
+<h2>The Coastal Pulse: A Profile of the Body</h2>
+<p>Transitioning to the empirical, the "Body" of Gasan is grounded in its role as the primary entry point for the province's air travel and as a leader in environmental governance.</p>
 
 <ul>
-<li><strong>Logistics Hub:</strong> As the host of the Marinduque Airport, Gasan is the administrative anchor for the province’s connectivity. In early 2026, new aviation infrastructure, including the CSIS office facility and terminal enhancements, has solidified its role as a regional transport leader.</li>
-<li><strong>The "Cleanest & Greenest" Legacy:</strong> Consistently awarded for its environmental management, Gasan maintains a 3rd Class status with a heavy focus on artisanal fisheries and coconut agriculture.</li>
-<li><strong>The Butterfly Capital:</strong> Gasan accounts for a significant portion of the Philippines' butterfly pupae exports. This niche "Bio-Economy" provides livelihoods for hundreds of families, merging traditional farming with global scientific exports.</li>
+<li><strong>Logistics Hub:</strong> As the host of the Marinduque Airport, Gasan is the administrative anchor for the province’s connectivity. In early 2026, new aviation infrastructure, including the CSIS office facility and terminal enhancements, solidified its role as a regional transport leader.</li>
+<li><strong>The "Cleanest & Greenest" Legacy:</strong> Consistently awarded for its environmental management, Gasan maintains a 3rd Class status with a heavy focus on artisanal fisheries and coconut agriculture, balancing economic output with strict cleanliness.</li>
+<li><strong>The Butterfly Capital:</strong> Gasan accounts for a significant portion of the Philippines' butterfly pupae exports. This niche "Bio-Economy" provides livelihoods for hundreds of families, merging traditional farming with global scientific exports and serving as a major tourist attraction.</li>
 </ul>
 
 <figure>
@@ -193,23 +240,17 @@ export const TOWNS: Record<string, TownData> = {
 
 <hr />
 
-<h2>III. The Eco-Citadel: The Blueprint for 2030 and Beyond</h2>
-<h3>The Skeleton: Technical & Visionary</h3>
-<p>The future of Gasan is anchored in forward-looking infrastructure and the "Blue Economy." The urban plan envisions a town that is both an "Aerotropolis" and an ecological sanctuary.</p>
+<h2>The Eco-Citadel: A Blueprint for the Future</h2>
+<p>The "Skeleton" of Gasan is anchored in forward-looking infrastructure and the "Blue Economy." The urban plan envisions a town that is both an "Aerotropolis" and an ecological sanctuary.</p>
 
 <h3>1. Aviation Expansion & the "2,100-Meter" Vision</h3>
-<p>Aligning with the national Department of Transportation (DOTr) mandate for 2026, the blueprint for Gasan includes the expansion of the Marinduque Airport runway to 2,100 meters. This will allow for larger jet aircraft (like the Airbus A320) and night-rating capabilities, effectively lowering airfares and positioning Gasan as a competitive regional travel hub.</p>
+<p>Aligning with the national Department of Transportation (DOTr) mandate for 2026, the blueprint for Gasan includes the expansion of the Marinduque Airport runway to 2,100 meters. This will allow for larger jet aircraft (like the Airbus A320) and night-rating capabilities, effectively lowering airfares and cementing Gasan as a competitive regional travel hub.</p>
 
-<h3>2. The Tres Reyes Marine Sanctuary & Blue Investment</h3>
-<p>The 2026–2030 development cycle prioritizes the Marine Protected Area (MPA) Expansion. Investment is being channeled into sustainable "Blue Tourism" facilities on Gaspar Island, including eco-lodges that utilize solar power and rainwater harvesting, ensuring that the "Coral Foundation" remains biologically viable for the next century.</p>
+<h3>2. The Tres Reyes Marine Sanctuary</h3>
+<p>The 2026–2030 development cycle prioritizes the Marine Protected Area (MPA) Expansion. Investment is being channeled into sustainable "Blue Tourism" facilities on Gaspar Island, including eco-lodges that utilize solar power, ensuring that the "Coral Foundation" remains biologically viable for tourists and locals alike.</p>
 
 <h3>3. The Butterfly Bio-Hub</h3>
-<p>The urban plan outlines a specialized "Bio-Export Zone" in Gasan. This technical facility will professionalize butterfly breeding with climate-controlled laboratories and a centralized logistics center, turning a cottage industry into a world-class biotechnological asset.</p>
-
-<h3>4. Sustainable Infrastructure (SIPAG Projects)</h3>
-<p>Under the 2026 Sustainable Infrastructure Projects Alleviating Gaps (SIPAG), Gasan is seeing the construction of advanced access roads and bridges in key barangays like Tapuyan. These routes are designed as "Green Corridors," integrating flood control with tree-lined boulevards to support both logistics and local wellness.</p>
-
-<p><strong>The Vision:</strong> By 2030, Gasan will serve as the Philippines' premier example of an "Eco-Gateway"—a place where the technical efficiency of a modern airport serves the delicate, mythic beauty of its coral reefs and butterfly gardens.</p>
+<p>The urban plan outlines a specialized "Bio-Export Zone." This technical facility will professionalize butterfly breeding with climate-controlled laboratories and a centralized logistics center, turning a cottage industry into a world-class biotechnological asset.</p>
 
 <hr />
 
@@ -239,14 +280,14 @@ export const TOWNS: Record<string, TownData> = {
         <td class="p-3">Butterfly Bio-Hub</td>
         <td class="p-3">Scientific-grade export and lab facilities.</td>
       </tr>
-      <tr>
-        <td class="p-3 font-medium">Environment</td>
-        <td class="p-3">Marine Protected Area expansion</td>
-        <td class="p-3">Restoration of the "Gasáng-gasáng" coral health.</td>
-      </tr>
     </tbody>
   </table>
 </div>
+
+<hr />
+
+<h2>Conclusion: The Total Municipality</h2>
+<p>By 2030, Gasan will serve as the Philippines' premier example of an "Eco-Gateway"—a place where the technical efficiency of a modern airport serves the delicate, mythic beauty of its coral reefs and butterfly gardens. In embracing its identity as a cultural and ecological protector, Gasan has built a "Total History" that honors its past while fiercely innovating for the future.</p>
         `
     },
     'mogpog': {
@@ -258,38 +299,52 @@ export const TOWNS: Record<string, TownData> = {
         image_url: '/images/towns/mogpog_balanacan_art.png',
         keywords: ['Mogpog Marinduque', 'origin of Moriones', 'Balanacan Port', 'Luzon Datum', 'Paadyao Cascades', 'Mogpog tourist spots', ...TAGALOG_KEYWORDS_GEMS, ...TAGALOG_KEYWORDS_TRAVEL],
         content: `
-<h2>The Historic Gateway: Charting Mogpog's Future</h2>
-<p>As the northernmost municipality, Mogpog is the beating heart of Marinduque's logistics and the undisputed origin of its most famous cultural export: the Moriones tradition. It is a town where modern maritime trade meets deep historical roots.</p>
+<h2>The Historic Gateway: A Biography of Mogpog</h2>
+<p>As the northernmost municipality, Mogpog is the beating heart of Marinduque's logistics and the undisputed origin of its most famous cultural export. To traverse Mogpog is to navigate a "Total History" where the mythic origins of the Moriones tradition seamlessly intersect with the massive steel hulls of modern Ro-Ro vessels.</p>
 
 <hr />
 
-<h2>I. The Geographic and Cultural Heart</h2>
-<h3>Balanacan Port: The Island's Lifeline</h3>
-<p>For most travelers and cargo, <strong>Balanacan Port</strong> is the first and last thing they see of Marinduque. Nestled in a naturally protected cove, it is one of the most picturesque seaports in the Philippines, marked by the towering statue of Our Lady of Peace and Good Voyage.</p>
+<h2>The Geographic Heart: A Hagiography of the Soul</h2>
+<p>The "Soul" of Mogpog is defined by deep historical roots and geographical supremacy. Above all else, Mogpog is revered as the birthplace of the <strong>Moriones</strong> tradition. It was here, in the late 1800s, that a local priest first organized the masked penitents to dramatize the story of Longinus. This profound Lenten devotion has since become the defining cultural symbol of the entire province.</p>
 
-<figure>
-  <img src="/images/towns/mogpog_balanacan_art.png" alt="Balanacan Port in Mogpog" />
-  <figcaption class="text-center text-sm text-slate-500 mt-2 italic">Inter-island ferries docked at the bustling, picturesque Balanacan Port.</figcaption>
-</figure>
-
-<h3>The Luzon Datum of 1911</h3>
-<p>Situated atop Mount Mataas, the <strong>Luzon Datum</strong> serves as the primary geodetic reference center for all map-making and surveys in the Philippines. This historical marker literally makes Marinduque the "Heart of the Philippines."</p>
+<p>Equally significant is the town's geographic anchoring. Situated atop Mount Mataas, the <strong>Luzon Datum of 1911</strong> serves as the primary geodetic reference center for all map-making in the Philippines. This historical marker literally makes Mogpog the "Heart of the Philippines," a title residents hold with immense pride.</p>
 
 <figure>
   <img src="/images/towns/mogpog_luzon_datum_art.png" alt="Luzon Datum Marker in Mogpog" />
   <figcaption class="text-center text-sm text-slate-500 mt-2 italic">A panoramic view from the Luzon Datum, the geographic center of the Philippines.</figcaption>
 </figure>
 
+<p>Finally, there is <strong>Balanacan Port</strong>. Nestled in a naturally protected cove and watched over by the towering statue of Our Lady of Peace and Good Voyage, it is the welcoming embrace of the island. For nearly every traveler, the mythic journey into Marinduque begins by sailing into this stunning, mountainous harbor.</p>
+
+<figure>
+  <img src="/images/towns/mogpog_balanacan_art.png" alt="Balanacan Port in Mogpog" />
+  <figcaption class="text-center text-sm text-slate-500 mt-2 italic">Inter-island ferries docked at the bustling, picturesque Balanacan Port.</figcaption>
+</figure>
+
 <hr />
 
-<h2>II. Future Plans & Economic Outlook</h2>
-<p>Mogpog's future is heavily tied to its role as the primary logistics gateway. The municipality is balancing massive infrastructure upgrades with the preservation of its sacred Moriones heritage.</p>
+<h2>The Logistics Engine: A Profile of the Body</h2>
+<p>The "Body" of Mogpog is a powerhouse of commerce and transit. As a 3rd Class Municipality, its daily operations dictate the economic heartbeat of the entire island.</p>
 
 <ul>
-<li><strong>Balanacan Port Modernization:</strong> The Philippine Ports Authority (PPA) is executing ongoing expansions to Balanacan Port to accommodate larger Ro-Ro vessels and cruise ships, aiming to increase trade throughput and lower commodity prices island-wide.</li>
-<li><strong>Heritage Tourism Integration:</strong> To capitalize on the transit traffic, Mogpog is investing in cultural tourism zones, including improved access roads to the Luzon Datum and the Paadyao Cascades, ensuring visitors stay in the municipality rather than just passing through.</li>
-<li><strong>The Moriones Cultural Center:</strong> Plans are underway to establish a dedicated museum and artisan workshop space to preserve the traditional carving of wooden Moriones masks, ensuring the craft survives the next generation.</li>
+<li><strong>The Inhabitants:</strong> With a population spread across 37 barangays, Mogpog’s residents balance agricultural life with the demands of a high-throughput maritime port economy.</li>
+<li><strong>The Transit Hub:</strong> Balanacan Port handles the vast majority of the province's Ro-Ro passenger and cargo traffic. The continuous flow of goods, fuel, and tourists makes Mogpog the island's undisputed logistical engine.</li>
+<li><strong>Agricultural Reserves:</strong> Beyond the port, the town maintains robust coconut farming and fishing sectors, alongside hidden natural tourist gems like the Paadyao Cascades and Bintakay Cave.</li>
 </ul>
+
+<hr />
+
+<h2>The Maritime Citadel: A Blueprint for the Future</h2>
+<p>The "Skeleton" of Mogpog's future involves balancing massive infrastructure upgrades with the rigorous preservation of its sacred heritage, ensuring it remains more than just a transit point.</p>
+
+<h3>1. Balanacan Port Modernization</h3>
+<p>The Philippine Ports Authority (PPA) is executing ongoing expansions to Balanacan to accommodate larger Ro-Ro vessels and potentially cruise ships. This involves dredging, expanded passenger terminals, and streamlined cargo trade to lower commodity prices island-wide.</p>
+
+<h3>2. Heritage Tourism Integration</h3>
+<p>To capitalize on the transit traffic, Mogpog is investing in cultural tourism zones. Improved access roads to the Luzon Datum and eco-parks around the Paadyao Cascades are designed to entice visitors to stay and explore the municipality rather than just passing through to Boac.</p>
+
+<h3>3. The Moriones Cultural Center</h3>
+<p>Plans are underway to establish a dedicated museum and artisan workshop space to preserve the traditional carving of wooden Moriones masks. This ensures the craft survives the next generation and provides a central hub for tourists to engage with the town's core identity.</p>
 
 <hr />
 
@@ -307,7 +362,7 @@ export const TOWNS: Record<string, TownData> = {
       <tr>
         <td class="p-3 font-medium">Logistics</td>
         <td class="p-3">Balanacan Port Expansion</td>
-        <td class="p-3">Handle larger Ro-Ro vessels and streamline cargo trade.</td>
+        <td class="p-3">Handle larger vessels and streamline island cargo trade.</td>
       </tr>
       <tr>
         <td class="p-3 font-medium">Heritage</td>
@@ -322,6 +377,11 @@ export const TOWNS: Record<string, TownData> = {
     </tbody>
   </table>
 </div>
+
+<hr />
+
+<h2>Conclusion: The Total Municipality</h2>
+<p>Mogpog is a city defined by motion—the steady arrival of ferries, the march of the Moriones, the historic drawing of map lines. By fiercely protecting its status as the origin of the island's soul while radically expanding its capacity as the island's economic gateway, Mogpog is securing its place as a "Total Municipality." It stands as the vital bridge between Marinduque's legendary past and its interconnected future.</p>
         `
     },
     'santa-cruz': {
@@ -333,38 +393,50 @@ export const TOWNS: Record<string, TownData> = {
         image_url: '/images/towns/santacruz_palad_art.png',
         keywords: ['Santa Cruz Marinduque', 'Maniwaya Island', 'Palad Sandbar', 'Mongpong Island', 'Bathala Caves', 'Buyabod Port', 'island hopping', ...TAGALOG_KEYWORDS_GEMS, ...TAGALOG_KEYWORDS_TRAVEL],
         content: `
-<h2>The Archipelago's Playground: Santa Cruz Tomorrow</h2>
-<p>Santa Cruz is the largest municipality in Marinduque, both in land area and in the sheer scale of its natural attractions. As the undisputed adventure capital of the province, it is leveraging its offshore islands to become a premier destination for sustainable island-hopping.</p>
+<h2>The Archipelago's Playground: A Biography of Santa Cruz</h2>
+<p>Santa Cruz is the largest municipality in Marinduque, both in land area and in the sheer scale of its natural attractions. A "Total History" of Santa Cruz reveals a town where mystical ancient caverns, a booming island-hopping economy, and strict marine conservation blueprints form a vibrant, dynamic whole.</p>
 
 <hr />
 
-<h2>I. The Wonders of the Sea and Stone</h2>
-<h3>Maniwaya Island & Palad Sandbar</h3>
-<p>The crown jewels of Santa Cruz are its offshore islands. <strong>Maniwaya Island</strong> offers pristine white sands, while the mystical <strong>Palad Sandbar</strong> emerges only during low tide, offering visitors a fleeting, surreal experience of walking on water amidst the vibrant turquoise ocean.</p>
-
-<figure>
-  <img src="/images/towns/santacruz_palad_art.png" alt="Palad Sandbar in Santa Cruz" />
-  <figcaption class="text-center text-sm text-slate-500 mt-2 italic">The breathtaking Palad Sandbar, surrounded by the crystal-clear waters of the Sibuyan Sea.</figcaption>
-</figure>
-
-<h3>The Bathala Caves</h3>
-<p>Inland, Santa Cruz hides a complex network of limestone caverns known as the <strong>Bathala Caves</strong>. Believed by pre-colonial locals to be the dwelling place of the supreme god <em>Bathala</em>, the caves feature stunning stalactites, underground pools, and dramatic light rays piercing through natural skylights.</p>
+<h2>The Wonders of Sea and Stone: A Hagiography of the Soul</h2>
+<p>The "Soul" of Santa Cruz is etched into its limestone and scattered across its offshore islands. Inland, the town hides a complex network of caverns known as the <strong>Bathala Caves</strong>. Believed by pre-colonial locals to be the dwelling place of the supreme god <em>Bathala</em>, the caves feature stunning stalactites, underground pools, and dramatic light rays piercing through natural skylights. This is a place of profound reverence and ancient magic.</p>
 
 <figure>
   <img src="/images/towns/santacruz_bathala_art.png" alt="Bathala Caves interior" />
   <figcaption class="text-center text-sm text-slate-500 mt-2 italic">Dramatic light rays illuminate the mystical interior of the Bathala Caves.</figcaption>
 </figure>
 
+<p>Off the coast, the soul of the town extends into the sea. The crown jewels are the offshore islands: <strong>Maniwaya Island</strong> offers pristine white sands, while the mystical <strong>Palad Sandbar</strong> emerges only during low tide, offering visitors a fleeting, surreal experience of walking on water amidst the vibrant turquoise ocean. These are not just tourist spots; they are the natural monuments that define the town's identity.</p>
+
+<figure>
+  <img src="/images/towns/santacruz_palad_art.png" alt="Palad Sandbar in Santa Cruz" />
+  <figcaption class="text-center text-sm text-slate-500 mt-2 italic">The breathtaking Palad Sandbar, surrounded by the crystal-clear waters of the Sibuyan Sea.</figcaption>
+</figure>
+
 <hr />
 
-<h2>II. Future Plans & Economic Outlook</h2>
-<p>With tourism acting as the primary economic engine, the strategic plan for Santa Cruz focuses heavily on upgrading marine infrastructure and establishing strict ecological carrying capacities to prevent over-tourism.</p>
+<h2>The Agricultural Giant: A Profile of the Body</h2>
+<p>The "Body" of Santa Cruz is expansive. As a 1st Class Municipality and the largest by land area, it boasts a thriving, multifaceted economy.</p>
 
 <ul>
-<li><strong>Buyabod Port Modernization:</strong> Buyabod Port, the primary jump-off point for island hopping, is being upgraded with better passenger terminals and regulated docking fees to ensure safety and streamline the tourist experience.</li>
-<li><strong>Marine Conservation Initiatives:</strong> To protect the fragile coral reefs around Mongpong and Maniwaya, the local government is deploying artificial reefs and establishing "No-Take" zones to allow fish populations to recover.</li>
-<li><strong>Ecotourism Training:</strong> The municipality is heavily investing in training local boatmen and guides, certifying them in ecological preservation and first-aid to elevate the standard of service for international tourists.</li>
+<li><strong>The Inhabitants:</strong> With a population of over 60,000 spread across 55 barangays, it is a bustling hub of commerce and agriculture in the northeastern part of the island.</li>
+<li><strong>The Economic Engine:</strong> Beyond the high-revenue island-hopping tourism, Santa Cruz possesses vast agricultural expanses. It is a major producer of rice, copra, and arrowroot (the primary ingredient for the famous Marinduque arrowroot cookies).</li>
+<li><strong>The Marine Economy:</strong> Its long coastline and offshore islands support a massive fishing industry, providing seafood not just for the town, but for the entire province and beyond.</li>
 </ul>
+
+<hr />
+
+<h2>The Ecotourism Citadel: A Blueprint for the Future</h2>
+<p>The "Skeleton" of Santa Cruz addresses the challenges of its own popularity. The strategic plan focuses heavily on upgrading marine infrastructure and establishing strict ecological carrying capacities to prevent over-tourism.</p>
+
+<h3>1. Buyabod Port Modernization</h3>
+<p>Buyabod Port, the primary jump-off point for island hopping, is being upgraded with better passenger terminals, regulated docking fees, and improved safety protocols to provide a world-class, organized experience for international tourists.</p>
+
+<h3>2. Strict Marine Conservation</h3>
+<p>To protect the fragile coral reefs around Mongpong and Maniwaya from boat anchors and pollution, the local government is deploying artificial reefs and establishing strict "No-Take" marine zones, allowing fish populations to recover and ensuring the reefs remain vibrant for decades.</p>
+
+<h3>3. Ecotourism Guide Certification</h3>
+<p>The municipality is heavily investing in training local boatmen and guides, certifying them in ecological preservation, marine biology basics, and first-aid. This professionalizes the local workforce and elevates the standard of service.</p>
 
 <hr />
 
@@ -397,6 +469,11 @@ export const TOWNS: Record<string, TownData> = {
     </tbody>
   </table>
 </div>
+
+<hr />
+
+<h2>Conclusion: The Total Municipality</h2>
+<p>Santa Cruz is the undisputed adventure capital of Marinduque. By treating its mythical caves and pristine sandbars not just as commodities, but as sacred natural endowments requiring strict protection, Santa Cruz is charting a sustainable path forward. It stands as a "Total Municipality"—vast, bountiful, and fiercely committed to preserving the natural wonders that make it an island paradise.</p>
         `
     },
     'torrijos': {
@@ -408,22 +485,20 @@ export const TOWNS: Record<string, TownData> = {
         image_url: '/images/towns/torrijos_poctoy_art.png',
         keywords: ['Torrijos Marinduque', 'Poctoy White Beach', 'Battle of Pulang Lupa', 'loom weaving Marinduque', 'Torrijos tourist spots', 'beaches', ...TAGALOG_KEYWORDS_GEMS, ...TAGALOG_KEYWORDS_TRAVEL],
         content: `
-<h2>The Eastern Sanctuary: Torrijos Beyond 2026</h2>
-<p>Situated on the southeastern coast, Torrijos is synonymous with relaxation, pristine shorelines, and fierce historical pride. As it looks toward the future, the municipality is balancing the modernization of its traditional crafts with the protection of its beloved coastal assets.</p>
+<h2>The Eastern Sanctuary: A Biography of Torrijos</h2>
+<p>Situated on the southeastern coast, Torrijos is synonymous with relaxation, pristine shorelines, and fierce historical pride. To delve into Torrijos is to read a "Total History" where the scars of revolutionary battles coexist with peaceful beachfronts and forward-looking heritage industries.</p>
 
 <hr />
 
-<h2>I. The Coast and the Conflict</h2>
-<h3>Poctoy White Beach</h3>
-<p><strong>Poctoy White Beach</strong> is arguably the most famous and accessible public beach on the Marinduque mainland. With its fine white sand, clear blue waters, and the towering silhouette of Mount Malindig in the background, it represents the ultimate provincial beach experience.</p>
+<h2>The Coast and the Conflict: A Hagiography of the Soul</h2>
+<p>The "Soul" of Torrijos is a striking dichotomy of peace and valor. On one hand, it is the sanctuary of the island. <strong>Poctoy White Beach</strong> is arguably the most famous and accessible public beach on the Marinduque mainland. With its fine white sand, clear blue waters, and the towering silhouette of Mount Malindig in the distance, it represents the ultimate, idyllic provincial escape.</p>
 
 <figure>
   <img src="/images/towns/torrijos_poctoy_art.png" alt="Poctoy White Beach in Torrijos" />
   <figcaption class="text-center text-sm text-slate-500 mt-2 italic">Relaxing views of Poctoy White Beach, set against a stunning mountainous backdrop.</figcaption>
 </figure>
 
-<h3>The Battle of Pulang Lupa</h3>
-<p>High in the mountains of Torrijos lies the <strong>Pulang Lupa Historical Park</strong>. This monument commemorates the September 1900 Battle of Pulang Lupa, where Filipino revolutionaries achieved a decisive and brilliant victory against American forces during the Philippine-American War.</p>
+<p>Yet, high in the mountains above these peaceful shores lies the town's fiercely proud historical core: the <strong>Pulang Lupa Historical Park</strong>. This monument commemorates the September 1900 Battle of Pulang Lupa, where Filipino revolutionaries achieved a brilliant, decisive victory against American forces during the Philippine-American War. This blood-soaked soil gives Torrijos an aura of profound nationalistic pride that permeates the local culture.</p>
 
 <figure>
   <img src="/images/towns/torrijos_pulang_lupa_art.png" alt="Pulang Lupa Historical Monument" />
@@ -432,14 +507,28 @@ export const TOWNS: Record<string, TownData> = {
 
 <hr />
 
-<h2>II. Future Plans & Economic Outlook</h2>
-<p>Torrijos is charting a course that protects its coastal environment while reviving its heritage industries for the modern market.</p>
+<h2>The Heritage Loom: A Profile of the Body</h2>
+<p>The "Body" of Torrijos is grounded in meticulous craftsmanship and coastal agriculture. As a 3rd Class Municipality, its economy is steady and deeply rooted in tradition.</p>
 
 <ul>
-<li><strong>Coastal Resilience & Protection:</strong> Faced with changing tides, local initiatives are focusing on mangrove reforestation and seawall enhancements to protect the Poctoy shoreline from erosion without disrupting the natural aesthetic.</li>
-<li><strong>Modernizing Loom Weaving:</strong> Torrijos is famous for its traditional buntal and abaca loom weaving. The government is providing grants to local weavers to integrate modern designs and establish e-commerce channels, ensuring this heritage craft reaches international markets.</li>
-<li><strong>Historical Tourism Circuit:</strong> Investments are being made to improve the winding access roads to Pulang Lupa, with plans to build an interactive visitor center that properly honors the historical significance of the site.</li>
+<li><strong>The Inhabitants:</strong> Torrijos is home to a peaceful population spread across 25 barangays, characterized by a relaxed coastal lifestyle and strong community ties.</li>
+<li><strong>The Master Weavers:</strong> The town is famous throughout the country for its traditional loom weaving. Artisans meticulously craft textiles, placemats, and bags from buntal and abaca fibers, a heritage industry that provides significant local employment.</li>
+<li><strong>The Coastal Yield:</strong> A thriving local fishing industry and extensive coconut plantations form the backbone of daily life, supported by the steady influx of local tourists visiting Poctoy White Beach.</li>
 </ul>
+
+<hr />
+
+<h2>The Resilient Citadel: A Blueprint for the Future</h2>
+<p>The "Skeleton" of Torrijos involves charting a course that physically protects its coastal environment while reviving its heritage industries for the global digital market.</p>
+
+<h3>1. Coastal Resilience & Protection</h3>
+<p>Faced with changing climate patterns and rising tides, local initiatives are prioritizing mangrove reforestation and subtle seawall enhancements. The goal is to protect the structural integrity of the Poctoy shoreline from erosion without disrupting its natural aesthetic.</p>
+
+<h3>2. Modernizing Loom Weaving</h3>
+<p>To ensure the survival of its weaving heritage, the government is providing grants and training to local weavers. By integrating modern design trends and establishing e-commerce channels, Torrijos aims to elevate its local textiles to global export quality, securing the craft for the next generation.</p>
+
+<h3>3. The Historical Tourism Circuit</h3>
+<p>Investments are being made to improve the winding mountain access roads to Pulang Lupa. Plans include building an interactive visitor center that properly honors the historical significance of the site, drawing tourists away from the beach to engage with the island's revolutionary history.</p>
 
 <hr />
 
@@ -462,7 +551,7 @@ export const TOWNS: Record<string, TownData> = {
       <tr>
         <td class="p-3 font-medium">Economy</td>
         <td class="p-3">Loom Weaving Grants</td>
-        <td class="p-3">Elevate local textiles to global export quality.</td>
+        <td class="p-3">Elevate local textiles to global export quality via e-commerce.</td>
       </tr>
       <tr>
         <td class="p-3 font-medium">Heritage</td>
@@ -472,6 +561,11 @@ export const TOWNS: Record<string, TownData> = {
     </tbody>
   </table>
 </div>
+
+<hr />
+
+<h2>Conclusion: The Total Municipality</h2>
+<p>Torrijos perfectly balances the tranquility of its beaches with the fiery pride of its history. By reinforcing its shores against the changing climate and modernizing its ancient weaving looms for the digital age, Torrijos is ensuring its identity remains intact. It stands as a "Total Municipality"—a sanctuary that is as deeply rooted in revolutionary valor as it is dedicated to a peaceful, prosperous future.</p>
         `
     }
 };

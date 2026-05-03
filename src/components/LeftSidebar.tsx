@@ -15,6 +15,7 @@ const mainNav = [
     { label: 'Events', href: '/events', icon: 'event' },
 
     // Discover & Travel
+    { label: 'Town Biographies', href: '/towns', icon: 'menu_book' },
     { label: 'Explorer Map', href: '/map', icon: 'map' },
     { label: 'RoRo & Ports', href: '/ports', icon: 'directions_boat' },
     { label: 'Travel Guides', href: '/guides/manila-to-marinduque', icon: 'explore' },

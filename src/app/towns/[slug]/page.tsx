@@ -6,7 +6,7 @@ import ShareButton from '@/components/ShareButton';
 import { hreflangAlternates } from '@/utils/seo';
 import { TOWNS, TownData } from '@/data/towns';
 
-export const revalidate = 86400; // 1 day
+// export const revalidate = 86400; // 1 day (commented out to clear cache)
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -151,6 +151,22 @@ export default async function TownPage({ params }: PageProps) {
                         className="max-w-none text-lg leading-relaxed text-slate-700 dark:text-slate-300 [&>h2]:text-2xl md:[&>h2]:text-3xl [&>h2]:font-black [&>h2]:text-slate-900 dark:[&>h2]:text-white [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-xl md:[&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-slate-800 dark:[&>h3]:text-slate-100 [&>h3]:mb-3 [&>h3]:mt-6 [&>p]:mb-6 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ul>li]:mb-2 [&>ul>li]:text-slate-700 dark:[&>ul>li]:text-slate-300 [&>strong]:text-moriones-red [&>img]:w-full [&>img]:rounded-2xl [&>img]:shadow-lg [&>img]:my-8 [&>img]:object-cover [&>figure]:my-8 [&>figure>img]:w-full [&>figure>img]:rounded-2xl [&>figure>img]:shadow-lg [&>figure>img]:object-cover [&>figure>figcaption]:text-center [&>figure>figcaption]:text-sm [&>figure>figcaption]:text-slate-500 dark:[&>figure>figcaption]:text-slate-400 [&>figure>figcaption]:mt-3 [&>figure>figcaption]:italic [&>hr]:my-10 [&>hr]:border-slate-200 dark:[&>hr]:border-zinc-800"
                         dangerouslySetInnerHTML={{ __html: town.content }} 
                     />
+                    
+                    {/* Link back to Directory */}
+                    <div className="mt-12 bg-slate-50 dark:bg-zinc-950/50 p-8 rounded-3xl border border-slate-200 dark:border-zinc-800 text-center shadow-inner">
+                        <span className="material-symbols-outlined text-4xl text-slate-300 dark:text-zinc-700 mb-3">storefront</span>
+                        <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">Explore Local Commerce</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
+                            Fascinated by {town.name}? Support the local economy by visiting our verified business directory for this town.
+                        </p>
+                        <Link 
+                            href={`/directory/${slug}`}
+                            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform"
+                        >
+                            Visit {town.name} Directory
+                            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
