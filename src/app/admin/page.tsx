@@ -24,7 +24,6 @@ export default async function AdminDashboard() {
         { data: pendingListings },
         { data: pendingGems },
         { data: pendingQueue },
-        {/* pendingNews removed */},
         { data: pendingClaims },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
