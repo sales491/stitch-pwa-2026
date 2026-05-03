@@ -311,27 +311,43 @@ export async function adminApproveClaimRequest(claimId: string, businessId: stri
         await verifyAdminServer();
         const adminSupabase = await createAdminClient();
         
-        // 1. Fetch the claim request to get the requester's email
+        // 1. Fetch the claim request to get the requester's email and JSON message
         const { data: claim, error: fetchError } = await adminSupabase
             .from('business_claim_requests')
-            .select('requester_email')
+            .select('requester_email, message')
             .eq('id', claimId)
             .single();
             
         if (fetchError || !claim) throw new Error('Claim request not found.');
 
-        // 2. Look up the user profile by email
-        const { data: profile, error: profileError } = await adminSupabase
-            .from('profiles')
-            .select('id')
-            .eq('email', claim.requester_email)
-            .single();
-            
-        if (profileError || !profile) {
-            throw new Error(`User with email ${claim.requester_email} not found.`);
+        let ownerId = null;
+
+        // Try parsing the exact authenticated user ID stored inside the message JSON
+        try {
+            const parsed = JSON.parse(claim.message || '{}');
+            if (parsed.submitter_user_id) {
+                ownerId = parsed.submitter_user_id;
+            }
+        } catch {
+            // Ignore parse errors, it means it's an old claim with just a text string
         }
 
-        const ownerId = profile.id;
+        // Fallback: if we didn't find the exact ID, look up the profile by email
+        if (!ownerId) {
+            const { data: profile } = await adminSupabase
+                .from('profiles')
+                .select('id')
+                .eq('email', claim.requester_email)
+                .single();
+                
+            if (profile) {
+                ownerId = profile.id;
+            }
+        }
+
+        if (!ownerId) {
+            throw new Error(`Could not determine the exact user ID for this claim. The user may not exist.`);
+        }
 
         // 3. Update the business profile
         const { error: bizError } = await adminSupabase

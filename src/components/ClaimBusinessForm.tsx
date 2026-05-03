@@ -42,13 +42,27 @@ export default function ClaimBusinessForm({ businessId, businessName }: ClaimBus
         e.preventDefault();
         if (!form.requester_name.trim() || !form.requester_email.trim() || !form.requester_phone.trim()) return;
 
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            setErrorMsg('You must be signed in to submit a claim.');
+            setState('error');
+            return;
+        }
+
         setState('submitting');
+        
+        // Encode the actual authenticated user_id inside the message column to bypass the email mismatch issue
+        const payloadMessage = JSON.stringify({
+            original_message: form.message.trim() || '',
+            submitter_user_id: user.id
+        });
+
         const { error } = await supabase.from('business_claim_requests').insert({
             business_id: businessId,
             requester_name: form.requester_name.trim(),
             requester_email: form.requester_email.trim(),
             requester_phone: form.requester_phone.trim(),
-            message: form.message.trim() || null,
+            message: payloadMessage,
             status: 'pending',
         });
 

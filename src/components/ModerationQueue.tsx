@@ -173,6 +173,16 @@ function ClaimCard({ claim, onAction }: { claim: ClaimRequest; onAction: () => v
     const [isPending, startTransition] = useTransition();
     const [done, setDone] = useState<'approved' | 'rejected' | null>(null);
 
+    let displayMessage = claim.message;
+    if (claim.message) {
+        try {
+            const parsed = JSON.parse(claim.message);
+            if (parsed.original_message !== undefined) {
+                displayMessage = parsed.original_message;
+            }
+        } catch {}
+    }
+
     if (done) return <DoneCard label={done === 'approved' ? 'Claim approved — ownership transferred' : 'Claim rejected'} approved={done === 'approved'} />;
 
     return (
@@ -191,7 +201,7 @@ function ClaimCard({ claim, onAction }: { claim: ClaimRequest; onAction: () => v
                 <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Requester</p>
                 <p className="text-sm text-slate-800 dark:text-white font-semibold">{claim.requester_name}</p>
                 <p className="text-xs text-slate-500">{claim.requester_email} · +63{claim.requester_phone}</p>
-                {claim.message && <p className="text-sm text-slate-500 dark:text-zinc-400 italic leading-relaxed">"{claim.message}"</p>}
+                {displayMessage && <p className="text-sm text-slate-500 dark:text-zinc-400 italic leading-relaxed">"{displayMessage}"</p>}
             </div>
             <div className="flex items-center justify-between px-5 py-3 bg-slate-50 dark:bg-zinc-800/50 border-t border-slate-100 dark:border-white/5">
                 <Link href={`/directory/${claim.business_id}`} target="_blank" className="text-[11px] font-black text-slate-500 hover:text-slate-800 uppercase tracking-widest flex items-center gap-1.5">
