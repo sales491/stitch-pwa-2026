@@ -139,9 +139,8 @@ export default function MorionesFestivalPage() {
                         </Link>
                         <Link
                             href="/moriones-festival/artisans"
-                            className="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 px-5 py-2.5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-zinc-700 transition-colors border border-slate-200 dark:border-zinc-700 shadow-sm"
+                            className="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-zinc-700 transition-colors border border-slate-200 dark:border-zinc-700 shadow-sm"
                         >
-                            <span className="material-symbols-outlined text-sm">sculpture</span>
                             Meet the Mask Makers
                         </Link>
                     </div>

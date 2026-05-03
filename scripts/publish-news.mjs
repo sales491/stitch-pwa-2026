@@ -52,7 +52,7 @@ export default async function handleAccept(aiData) {
       content: aiData.content,
       image_url: aiData.image_url || null,
       source_url: aiData.url || null,
-      status: 'pending',
+      status: 'published',
       key_takeaways: aiData.key_takeaways || [],
       faq_json: aiData.faq || [],
       published_at: new Date().toISOString()

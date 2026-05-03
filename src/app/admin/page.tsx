@@ -24,7 +24,7 @@ export default async function AdminDashboard() {
         { data: pendingListings },
         { data: pendingGems },
         { data: pendingQueue },
-        { data: pendingNews },
+        {/* pendingNews removed */},
         { data: pendingClaims },
     ] = await Promise.all([
         supabase.from('profiles').select('id, full_name, avatar_url, role, created_at').order('created_at', { ascending: false }).limit(6),
@@ -37,7 +37,7 @@ export default async function AdminDashboard() {
         supabase.from('listings').select('id, title, category, images, created_at').eq('status', 'pending').order('created_at', { ascending: false }),
         supabase.from('gems').select('id, title, town, images, created_at').eq('is_approved', false).order('created_at', { ascending: false }),
         supabase.from('moderation_queue').select('id, content_type, content_id, flag_count, queued_at').eq('status', 'pending').order('queued_at', { ascending: false }),
-        adminSupabase.from('news').select('id, title, published_at').eq('status', 'pending').order('published_at', { ascending: false }),
+        /* adminSupabase.from('news').select('id, title, published_at').eq('status', 'pending').order('published_at', { ascending: false }), */
         adminSupabase.from('business_claim_requests').select('id, business_id, requester_name, business:business_profiles!business_claim_requests_business_id_fkey(name:business_name)').eq('status', 'pending').order('created_at', { ascending: false }),
     ]);
 
@@ -48,7 +48,7 @@ export default async function AdminDashboard() {
         (pendingListings?.length || 0) + 
         (pendingGems?.length || 0) + 
         (pendingQueue?.length || 0) +
-        (pendingNews?.length || 0) +
+        /* (pendingNews?.length || 0) + */
         (pendingClaims?.length || 0);
 
     return (
@@ -232,33 +232,7 @@ export default async function AdminDashboard() {
                             </div>
                         )}
 
-                        {/* News Drafts */}
-                        {(pendingNews ?? []).length > 0 && (
-                            <div className="pt-2">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-3 flex items-center gap-1.5">
-                                    <span className="material-symbols-outlined text-[14px]">article</span>
-                                    Pending News Drafts ({pendingNews!.length})
-                                </p>
-                                <div className="flex flex-col gap-3">
-                                    {pendingNews!.map(news => (
-                                        <div key={news.id} className="bg-white border border-amber-200 rounded-2xl p-4 flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-xl bg-slate-100 shrink-0 overflow-hidden flex items-center justify-center">
-                                                <span className="material-symbols-outlined text-slate-400">newspaper</span>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-black text-slate-900 text-sm truncate">{news.title}</p>
-                                                <p className="text-[11px] text-slate-500 truncate">Drafted {new Date(news.published_at).toLocaleDateString()}</p>
-                                            </div>
-                                            <div className="flex items-center gap-2 shrink-0">
-                                                <Link href={`/admin/news-approval`} className="px-3 py-1.5 rounded-xl bg-teal-600 text-white text-[11px] font-black hover:bg-teal-700 transition-colors">
-                                                    Fact Check →
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        {/* News Drafts Removed */}
 
                         {/* Moderation Queue (Flagged Items) */}
                         {(pendingQueue ?? []).length > 0 && (
@@ -318,13 +292,7 @@ export default async function AdminDashboard() {
                         <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block mb-1">Listings</span>
                         <span className="text-xl sm:text-2xl font-black text-amber-600 tracking-tight">{pendingCount ?? 0} flagged</span>
                     </Link>
-                    <Link href="/admin/news-approval" className="bg-white border border-slate-200 p-4 rounded-3xl min-w-[140px] shadow-sm flex-shrink-0 hover:border-blue-300 hover:shadow-md transition-all relative">
-                        {((pendingNews ?? []).length) > 0 && (
-                            <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center">{(pendingNews ?? []).length}</span>
-                        )}
-                        <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase block mb-1">News Drafts</span>
-                        <span className="text-xl sm:text-2xl font-black text-blue-600 tracking-tight">Review</span>
-                    </Link>
+                    {/* News Drafts Link Removed */}
                 </div>
             </div>
 

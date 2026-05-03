@@ -183,9 +183,7 @@ export default function ArtisanDirectoryPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {category.artisans.map((artisan: any) => (
                                     <div key={artisan.name} className="group relative bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-[2rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
-                                        <div className="absolute top-8 right-8">
-                                            <span className="material-symbols-outlined text-slate-200 dark:text-zinc-800 text-5xl font-thin group-hover:text-moriones-red/20 transition-colors">sculpture</span>
-                                        </div>
+                                        {/* Artisan Card Content */}
                                         
                                         <div className="relative mb-6">
                                             {(artisan.title || artisan.status) && (
