@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import BackButton from '@/components/BackButton';
 import ShareButton from '@/components/ShareButton';
