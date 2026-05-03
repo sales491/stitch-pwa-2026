@@ -80,6 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let eventRoutes: MetadataRoute.Sitemap = [];
   let gemRoutes: MetadataRoute.Sitemap = [];
   let businessRoutes: MetadataRoute.Sitemap = [];
+  let categoryRoutes: MetadataRoute.Sitemap = [];
   let newsRoutes: MetadataRoute.Sitemap = [];
 
   try {
@@ -145,10 +146,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    // Dynamic: business directory
+    // Dynamic: business directory and town/category intersections
     const { data: businesses } = await supabase
       .from('business_profiles')
-      .select('id, updated_at')
+      .select('id, updated_at, location, business_type')
       .order('updated_at', { ascending: false })
       .limit(300);
 
@@ -158,6 +159,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }));
+
+    const uniqueCategories = new Set<string>();
+    
+    (businesses ?? []).forEach(b => {
+      if (b.location && b.business_type) {
+        const key = `${b.location.toLowerCase()}/${b.business_type.toLowerCase()}`;
+        
+        if (!uniqueCategories.has(key)) {
+          uniqueCategories.add(key);
+          categoryRoutes.push({
+            url: `${BASE}${ROUTES.DIRECTORY_CATEGORY(b.location, b.business_type)}`,
+            lastModified: b.updated_at ? new Date(b.updated_at) : new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.8, // High priority for local SEO
+          });
+        }
+      }
+    });
 
     // Dynamic: news pages
     const { data: news } = await supabase
@@ -184,6 +203,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...eventRoutes,
     ...gemRoutes,
     ...businessRoutes,
+    ...categoryRoutes,
     ...newsRoutes,
   ];
 }
