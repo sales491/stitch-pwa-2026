@@ -24,7 +24,7 @@ export default async function ModerationPage() {
     // ── 2. Pending new business profiles ────────────────────────────────────
     const { data: pendingBusinesses } = await supabase
         .from('business_profiles')
-        .select('id, name, category, town, description, created_at, owner_id, is_verified')
+        .select('id, name:business_name, category:business_type, town:location, description, created_at, owner_id, is_verified')
         .eq('verification_status', 'pending')
         .order('created_at', { ascending: true });
 
@@ -41,9 +41,9 @@ export default async function ModerationPage() {
             created_at,
             status,
             business:business_profiles!business_claim_requests_business_id_fkey (
-                name,
-                category,
-                town
+                name:business_name,
+                category:business_type,
+                town:location
             )
         `)
         .eq('status', 'pending')
