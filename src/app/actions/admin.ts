@@ -306,25 +306,53 @@ export async function adminRejectBusiness(businessId: string) {
     }
 }
 
-export async function adminApproveClaimRequest(claimId: string, businessId: string, requesterId: string) {
+export async function adminApproveClaimRequest(claimId: string, businessId: string, _requesterId?: string) {
     try {
         await verifyAdminServer();
         const adminSupabase = await createAdminClient();
+        
+        // 1. Fetch the claim request to get the requester's email
+        const { data: claim, error: fetchError } = await adminSupabase
+            .from('business_claim_requests')
+            .select('requester_email')
+            .eq('id', claimId)
+            .single();
+            
+        if (fetchError || !claim) throw new Error('Claim request not found.');
+
+        // 2. Look up the user profile by email
+        const { data: profile, error: profileError } = await adminSupabase
+            .from('profiles')
+            .select('id')
+            .eq('email', claim.requester_email)
+            .single();
+            
+        if (profileError || !profile) {
+            throw new Error(`User with email ${claim.requester_email} not found.`);
+        }
+
+        const ownerId = profile.id;
+
+        // 3. Update the business profile
         const { error: bizError } = await adminSupabase
             .from('business_profiles')
-            .update({ owner_id: requesterId, is_verified: true, verification_status: 'verified' })
+            .update({ owner_id: ownerId, is_verified: true, verification_status: 'verified' })
             .eq('id', businessId);
         if (bizError) throw new Error(bizError.message);
+        
+        // 4. Update the claim request
         const { error: claimError } = await adminSupabase
             .from('business_claim_requests')
             .update({ status: 'approved' })
             .eq('id', claimId);
         if (claimError) throw new Error(claimError.message);
+        
         revalidatePath('/directory');
         revalidatePath(`/directory/${businessId}`);
         revalidatePath('/admin/moderation');
         return { success: true };
     } catch (e: any) {
+        console.error('[adminApproveClaimRequest] Error:', e.message);
         return { success: false, error: e.message };
     }
 }

@@ -143,8 +143,24 @@ function BusinessCard({ biz, onAction }: { biz: PendingBusiness; onAction: () =>
                 </Link>
                 <ActionButtons
                     isPending={isPending}
-                    onApprove={() => startTransition(async () => { await adminApproveBusiness(biz.id); setDone('approved'); onAction(); })}
-                    onReject={() => startTransition(async () => { await adminRejectBusiness(biz.id); setDone('rejected'); onAction(); })}
+                    onApprove={() => startTransition(async () => { 
+                        const res = await adminApproveBusiness(biz.id); 
+                        if (res.success) {
+                            setDone('approved'); 
+                            onAction(); 
+                        } else {
+                            alert(`Approval failed: ${res.error}`);
+                        }
+                    })}
+                    onReject={() => startTransition(async () => { 
+                        const res = await adminRejectBusiness(biz.id); 
+                        if (res.success) {
+                            setDone('rejected'); 
+                            onAction(); 
+                        } else {
+                            alert(`Rejection failed: ${res.error}`);
+                        }
+                    })}
                 />
             </div>
         </div>
@@ -184,13 +200,23 @@ function ClaimCard({ claim, onAction }: { claim: ClaimRequest; onAction: () => v
                 <ActionButtons
                     isPending={isPending}
                     onApprove={() => startTransition(async () => {
-                        // We need the requester's user ID to assign ownership.
-                        // For now, pass empty string — admin.ts will need enhancement
-                        // for full ownership transfer (requires user lookup by email).
-                        await adminApproveClaimRequest(claim.id, claim.business_id, '');
-                        setDone('approved'); onAction();
+                        const res = await adminApproveClaimRequest(claim.id, claim.business_id);
+                        if (res.success) {
+                            setDone('approved'); 
+                            onAction();
+                        } else {
+                            alert(`Approval failed: ${res.error}`);
+                        }
                     })}
-                    onReject={() => startTransition(async () => { await adminRejectClaimRequest(claim.id); setDone('rejected'); onAction(); })}
+                    onReject={() => startTransition(async () => { 
+                        const res = await adminRejectClaimRequest(claim.id); 
+                        if (res.success) {
+                            setDone('rejected'); 
+                            onAction();
+                        } else {
+                            alert(`Rejection failed: ${res.error}`);
+                        }
+                    })}
                 />
             </div>
         </div>
