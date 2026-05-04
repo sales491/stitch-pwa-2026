@@ -42,12 +42,10 @@ export default function MobileTopHeader() {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [qrOpen, setQrOpen] = useState(false);
 
+    // Close the categories menu when the user navigates to a new page
     useEffect(() => {
-        if (isMenuOpen) {
-            const timer = setTimeout(() => setIsMenuOpen(false), 0);
-            return () => clearTimeout(timer);
-        }
-    }, [pathname, isMenuOpen]);
+        setIsMenuOpen(false);
+    }, [pathname]);
 
     useEffect(() => {
         if (isMenuOpen) {
