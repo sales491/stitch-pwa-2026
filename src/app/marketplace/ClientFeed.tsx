@@ -243,7 +243,6 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
                             <ListingCard
                                 key={listing.id}
                                 id={String(listing.id)}
-                                slug={listing.slug || listing.id}
                                 title={listing.title}
                                 price={listing.price_value || 0}
                                 town={listing.town}

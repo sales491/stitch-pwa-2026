@@ -91,9 +91,10 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
 
       if (error) throw error;
       setIsAvailable(nextStatus);
-    } catch (err: any) {
-      console.error("Toggle error:", err);
-      alert(err.message || "Failed to update status");
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error("Toggle error:", error);
+      alert(error.message || "Failed to update status");
     } finally {
       setIsToggling(false);
     }
@@ -131,9 +132,10 @@ function OperatorCard({ op, highlighted }: { op: Operator; highlighted?: boolean
         setVouchCount(prev => prev + 1);
         setHasVouched(true);
       }
-    } catch (err: any) {
-      if (err.code !== '23505') { // Ignore unique constraint errors
-        console.error("Vouch error:", err);
+    } catch (err: unknown) {
+      const error = err as any;
+      if (error.code !== '23505') { // Ignore unique constraint errors
+        console.error("Vouch error:", error);
         alert("Failed to update recommendation.");
       }
     } finally {
@@ -447,7 +449,7 @@ export default function CommuterDeliveryHub({ initialOperators = [] }: { initial
           countsByService[v.service_id] = (countsByService[v.service_id] || 0) + 1;
         });
 
-        let userVouches = new Set<string>();
+        const userVouches = new Set<string>();
         if (user) {
           const { data: userVouchData } = await supabase
             .from('transport_vouches')
@@ -458,7 +460,7 @@ export default function CommuterDeliveryHub({ initialOperators = [] }: { initial
         }
 
         const mapped: Operator[] = services
-          .map((d: any) => ({
+          .map((d) => ({
             id: d.id,
             name: `${d.vehicle_type}: ${d.base_town}`,
             operator: d.driver_name,
@@ -501,7 +503,7 @@ export default function CommuterDeliveryHub({ initialOperators = [] }: { initial
           .select('service_id')
           .eq('user_id', user.id);
 
-        let userVouches = new Set<string>();
+        const userVouches = new Set<string>();
         userVouchData?.forEach(v => userVouches.add(v.service_id));
 
         setOperators(prev => {
@@ -522,7 +524,7 @@ export default function CommuterDeliveryHub({ initialOperators = [] }: { initial
         .select('id, is_available');
       if (data) {
         const statusMap: Record<string, boolean> = {};
-        data.forEach((s: any) => { statusMap[s.id] = s.is_available; });
+        data.forEach((s) => { statusMap[s.id] = s.is_available; });
         setOperators(prev => prev.map(op => ({ ...op, available: statusMap[op.id] ?? op.available })));
       }
     }

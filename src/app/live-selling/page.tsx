@@ -1,9 +1,9 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getLiveSellingFeed } from '@/lib/live-selling';
+import Image from 'next/image';
+import { getLiveSellingFeed, type LiveSellingEvent } from '@/lib/live-selling';
 import BackButton from '@/components/BackButton';
-import PageHeader from '@/components/PageHeader';
 import LiveEventActions from '@/components/LiveEventActions';
 import SeoTextBlock from '@/components/SeoTextBlock';
 import { createClient } from '@/utils/supabase/server';
@@ -97,7 +97,9 @@ const PAGE_SCHEMA = [
     },
 ];
 
-function LiveCard({ event, isLiveNow, currentUserId }: { event: any, isLiveNow: boolean, currentUserId?: string | null }) {
+// LiveSellingEvent type imported from '@/lib/live-selling'
+
+function LiveCard({ event, isLiveNow, currentUserId }: { event: LiveSellingEvent, isLiveNow: boolean, currentUserId?: string | null }) {
     const formatTime = (dateStr: string) => {
         return new Date(dateStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     };
@@ -124,9 +126,9 @@ function LiveCard({ event, isLiveNow, currentUserId }: { event: any, isLiveNow: 
         >
             <div className="p-4 flex gap-4">
                 <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-700 relative">
                         {event.profiles?.avatar_url ? (
-                            <img src={event.profiles.avatar_url} alt={`${sellerName} — live seller on Marinduque`} className="w-full h-full object-cover" />
+                            <Image src={event.profiles.avatar_url} alt={`${sellerName} — live seller on Marinduque`} fill className="object-cover" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-slate-200 dark:bg-zinc-800">
                                 <span className="material-symbols-outlined text-slate-400" aria-hidden="true">person</span>
@@ -307,7 +309,7 @@ export default async function LiveSellingRadarPage() {
                 {/* 🔍 SEO / AIO — Crawlable About Section */}
                 <SeoTextBlock heading="About the Live Selling Radar">
                     <p>The Live Selling Radar is a free community tool for Marinduque online sellers. Local entrepreneurs from Boac, Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista can post their upcoming TikTok, Shopee, Facebook, YouTube, and Instagram live selling schedules so the community knows exactly when to tune in. Whether you sell ukay-ukay jackets, fresh seafood, handmade ornaments, or agricultural products — this is your stage to reach local buyers.</p>
-                    <p>Buyers can browse the "Happening Now" section to join active streams, or check "Upcoming Streams" to plan ahead. All sellers must log in with their Marinduque Market Hub account to post. Listings automatically expire after the stream's estimated duration ends, keeping the radar fresh and accurate. Editing and deleting your own listings is easy — just tap the "Manage" button on your card.</p>
+                    <p>Buyers can browse the &quot;Happening Now&quot; section to join active streams, or check &quot;Upcoming Streams&quot; to plan ahead. All sellers must log in with their Marinduque Market Hub account to post. Listings automatically expire after the stream&apos;s estimated duration ends, keeping the radar fresh and accurate. Editing and deleting your own listings is easy — just tap the &quot;Manage&quot; button on your card.</p>
                 </SeoTextBlock>
             </main>
         </>

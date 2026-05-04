@@ -7,9 +7,10 @@ interface Notification {
     id: string;
     title: string;
     message: string;
-    payload?: any;
+    payload?: Record<string, unknown>;
     is_read: boolean;
     created_at: string;
+    user_id?: string;
 }
 
 interface NotificationContextType {
@@ -104,7 +105,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                 schema: 'public',
                 table: 'notifications'
             }, (payload) => {
-                if ((payload.new as any).user_id === user.id) {
+                const newRow = payload.new as Notification;
+                if (newRow && newRow.user_id === user.id) {
                     fetchNotifications(user.id);
                 }
             })

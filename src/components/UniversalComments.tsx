@@ -14,9 +14,21 @@ type CommentProps = {
     entityType: 'listing' | 'post' | 'business' | 'gem' | 'event' | 'job' | 'blog';
 };
 
+interface Comment {
+    id: string;
+    content: string;
+    created_at: string;
+    author_id: string;
+    author: {
+        id: string;
+        full_name: string | null;
+        avatar_url: string | null;
+    } | null;
+}
+
 export default function UniversalComments({ entityId, entityType }: CommentProps) {
     const { profile } = useAuth();
-    const [comments, setComments] = useState<any[]>([]);
+    const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -31,8 +43,6 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
 
     // Fetch comments on load and initialize realtime subscription
     useEffect(() => {
-        let channel: any;
-
         async function fetchComments() {
             const { data } = await supabase
                 .from('comments')
@@ -44,13 +54,13 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                 .eq('entity_type', entityType)
                 .order('created_at', { ascending: true }); // Oldest first, like FB
 
-            if (data) setComments(data);
+            if (data) setComments(data as unknown as Comment[]);
         }
 
         fetchComments();
 
         // Establish the Realtime connection specific to THIS entity
-        channel = supabase
+        const channel = supabase
             .channel(`comments-${entityId}`)
             .on('postgres_changes',
                 {
@@ -73,8 +83,8 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                     if (newCommentData) {
                         setComments((currentComments) => {
                             // Prevent duplicates if the user themselves just submitted it
-                            if (currentComments.some(c => c.id === newCommentData.id)) return currentComments;
-                            return [...currentComments, newCommentData];
+                            if (currentComments.some(c => c.id === (newCommentData as unknown as Comment).id)) return currentComments;
+                            return [...currentComments, newCommentData as unknown as Comment];
                         });
                     }
                 }
@@ -96,9 +106,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
 
         // Cleanup function when the component unmounts
         return () => {
-            if (channel) {
-                supabase.removeChannel(channel);
-            }
+            supabase.removeChannel(channel);
         };
 
     }, [entityId, entityType, supabase]);
@@ -121,7 +129,7 @@ export default function UniversalComments({ entityId, entityType }: CommentProps
                 .single();
 
             if (!error && insertedComment) {
-                setComments([...comments, insertedComment]); // Add to UI instantly
+                setComments([...comments, insertedComment as unknown as Comment]); // Add to UI instantly
                 setNewComment(''); // Clear input
                 setShowSuccess(true);
                 setTimeout(() => setShowSuccess(false), 3000);

@@ -398,7 +398,6 @@ export default async function AdminDashboard() {
                     <OperatorManagementPanel
                         operators={boatServices ?? []}
                         table="boat_services"
-                        editBasePath="/island-hopping"
                         label="boat operators"
                         icon="sailing"
                     />
@@ -419,7 +418,6 @@ export default async function AdminDashboard() {
                     <OperatorManagementPanel
                         operators={transportServices ?? []}
                         table="transport_services"
-                        editBasePath="/commute"
                         label="drivers"
                         icon="directions_bus"
                     />
