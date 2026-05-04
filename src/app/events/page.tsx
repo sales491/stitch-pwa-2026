@@ -25,14 +25,15 @@ export default async function EventsPage() {
         author:profiles(full_name, avatar_url)
       `);
 
-    let initialEvents = [];
+    let initialEvents: any[] = [];
     if (data) {
-      initialEvents = data.map((e: any) => ({
+      initialEvents = data.map((e) => ({
         ...e,
         fullDate: e.full_date,
         dayOfMonth: e.day_of_month,
         description: e.description || 'Join us for this local event in Marinduque!',
-        attendees: e.attendees || Math.floor(Math.random() * 50) + 10,
+        // Use a stable "random" number based on ID length + day to avoid 'impure function' lint error
+        attendees: e.attendees || ((e.id.length * 7) % 50) + 10,
         image: e.image || '/images/hub/event_placeholder.jpg',
         category: e.category || 'Community'
       }));

@@ -187,7 +187,7 @@ export default function ListingDetailPage({ listing }: { listing: Listing }) {
                 {/* Community Discussions */}
                 <div className="border-t border-slate-100 dark:border-zinc-800 pt-8 mt-8">
                     <div className="mb-6 flex flex-col gap-1 items-start">
-                        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Discuss "{listing.title}"</h2>
+                        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">Discuss &quot;{listing.title}&quot;</h2>
                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Ask about condition, availability, or negotiate pricing specific to this listing.</p>
                     </div>
                     <UniversalComments entityId={listing.id.toString()} entityType="listing" />

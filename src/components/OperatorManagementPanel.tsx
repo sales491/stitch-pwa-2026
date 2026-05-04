@@ -102,13 +102,11 @@ function OperatorCard({
 export default function OperatorManagementPanel({
     operators,
     table,
-    editBasePath,
     label,
     icon,
 }: {
     operators: Operator[];
     table: TableName;
-    editBasePath: string;
     label: string;
     icon: string;
 }) {

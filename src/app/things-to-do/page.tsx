@@ -149,10 +149,10 @@ export default function ThingsToDoPage() {
                         Things to Do in Marinduque
                     </h1>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-3">
-                        Marinduque is a heart-shaped island province in the <strong>MIMAROPA region</strong> of the Philippines, located south of Quezon Province and north of Romblon. With a population of roughly 240,000, it remains one of the country's best-kept secrets — offering pristine beaches, world-class island hopping, rich culture, and an authentically Filipino island experience.
+                        Marinduque is a heart-shaped island province in the <strong>MIMAROPA region</strong> of the Philippines, located south of Quezon Province and north of Romblon. With a population of roughly 240,000, it remains one of the country&apos;s best-kept secrets — offering pristine beaches, world-class island hopping, rich culture, and an authentically Filipino island experience.
                     </p>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
-                        The island is divided into <strong>six municipalities</strong>: Boac (the capital), Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista. Each town has its own character, from the commercial center of Boac to the beach paradise of Santa Cruz. Here's everything worth doing on the island.
+                        The island is divided into <strong>six municipalities</strong>: Boac (the capital), Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista. Each town has its own character, from the commercial center of Boac to the beach paradise of Santa Cruz. Here&apos;s everything worth doing on the island.
                     </p>
                     <div className="flex flex-wrap gap-2">
                         <Link href="/ferry-schedule" className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-sm">

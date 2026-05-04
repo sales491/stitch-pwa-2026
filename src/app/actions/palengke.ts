@@ -4,6 +4,25 @@ import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import type { Municipality, PricesByCategory, PalengkePrice } from '@/lib/palengke-constants';
 
+interface RawPalengkePrice {
+    id: string;
+    created_at: string;
+    municipality: string;
+    category: 'fish' | 'produce' | 'meat' | 'other';
+    item_name: string;
+    price: number;
+    unit: string;
+    note: string | null;
+    stall_location: string | null;
+    availability_tag: 'limited' | 'available' | 'just_arrived' | 'fresh_today' | 'preorder' | null;
+    posted_by: string;
+    fb_username: string | null;
+    vendor_name: string | null;
+    profiles: {
+        full_name: string | null;
+    } | null;
+}
+
 // Fetch today's prices for a municipality (last 24h)
 export async function getPalengkePrices(municipality: Municipality): Promise<PricesByCategory> {
     const supabase = await createClient();
@@ -16,7 +35,9 @@ export async function getPalengkePrices(municipality: Municipality): Promise<Pri
         .gte('created_at', since)
         .order('created_at', { ascending: false });
 
-    const rows: PalengkePrice[] = (data ?? []).map((r: any) => ({
+    const rawData = (data as unknown as RawPalengkePrice[]) ?? [];
+
+    const rows: PalengkePrice[] = rawData.map((r) => ({
         ...r,
         poster_name: r.vendor_name ?? r.profiles?.full_name ?? null,
         fb_username: r.fb_username ?? null,
@@ -75,7 +96,7 @@ export async function submitPrice(formData: FormData) {
 
     const newItem = {
         ...inserted,
-        poster_name: (inserted as any).profiles?.full_name ?? null,
+        poster_name: (inserted as unknown as RawPalengkePrice).profiles?.full_name ?? null,
         profiles: undefined,
     };
 

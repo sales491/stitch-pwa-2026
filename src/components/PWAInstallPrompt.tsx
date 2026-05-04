@@ -6,6 +6,18 @@ import Image from 'next/image';
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Platform = 'android' | 'ios' | 'ios-non-safari' | 'none';
 
+interface BeforeInstallPromptEvent extends Event {
+    readonly platforms: string[];
+    readonly userChoice: Promise<{ outcome: 'accepted' | 'dismissed', platform: string }>;
+    prompt(): Promise<void>;
+}
+
+declare global {
+    interface Navigator {
+        standalone?: boolean;
+    }
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 function detectPlatform(): Platform {
     if (typeof window === 'undefined') return 'none';
@@ -13,7 +25,7 @@ function detectPlatform(): Platform {
     const isIOS = /iPhone|iPad|iPod/i.test(ua);
     const isAndroid = /Android/i.test(ua);
     const isStandalone =
-        ('standalone' in navigator && (navigator as any).standalone) ||
+        (navigator.standalone) ||
         window.matchMedia('(display-mode: standalone)').matches;
 
     if (isStandalone) return 'none'; // already installed
@@ -30,7 +42,7 @@ function detectPlatform(): Platform {
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function PWAInstallPrompt() {
     const [platform, setPlatform] = useState<Platform>('none');
-    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
     const [dismissed, setDismissed] = useState(true); // start hidden to avoid flash
 
     useEffect(() => {
@@ -38,13 +50,15 @@ export default function PWAInstallPrompt() {
         if (alreadyDismissed) return;
 
         const p = detectPlatform();
-        setPlatform(p);
-        if (p !== 'none') setDismissed(false);
+        setTimeout(() => {
+            setPlatform(p);
+            if (p !== 'none') setDismissed(false);
+        }, 0);
 
         // Capture the Android beforeinstallprompt event
         const handler = (e: Event) => {
             e.preventDefault();
-            setDeferredPrompt(e);
+            setDeferredPrompt(e as BeforeInstallPromptEvent);
         };
         window.addEventListener('beforeinstallprompt', handler);
         return () => window.removeEventListener('beforeinstallprompt', handler);

@@ -23,11 +23,11 @@ interface MineButtonProps {
 }
 
 export function MineButton({
-  productId,
-  sessionId,
+  productId: _productId,
+  sessionId: _sessionId,
   isActive,
-  onWin,
-  onLose,
+  onWin: _onWin,
+  onLose: _onLose,
 }: MineButtonProps) {
   // TODO — Phase 1 implementation using useMine() hook
 

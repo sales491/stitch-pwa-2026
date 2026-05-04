@@ -7,7 +7,7 @@
 // Phase 1 implementation: connect channel, subscribe to broadcasts,
 // expose sendEvent() for Mine button and chat input
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useMemo } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { REALTIME_CHANNEL_PREFIX } from './constants';
 import type { LmRealtimeEvent } from './types';
@@ -16,27 +16,29 @@ export function useRealtimeRoom(
   sessionId: string,
   onEvent: (event: LmRealtimeEvent) => void
 ) {
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
-    // TODO — Phase 1:
-    // const channel = supabase.channel(`${REALTIME_CHANNEL_PREFIX}${sessionId}`)
-    //   .on('broadcast', { event: '*' }, ({ event, payload }) => {
-    //     onEvent(payload as LmRealtimeEvent);
-    //   })
-    //   .subscribe();
-    // channelRef.current = channel;
-    // return () => { supabase.removeChannel(channel); };
-  }, [sessionId]);
+    const channel = supabase.channel(`${REALTIME_CHANNEL_PREFIX}${sessionId}`)
+      .on('broadcast', { event: '*' }, ({ payload }) => {
+        onEvent(payload as LmRealtimeEvent);
+      })
+      .subscribe();
+    
+    channelRef.current = channel;
+    
+    return () => { 
+      supabase.removeChannel(channel); 
+    };
+  }, [sessionId, onEvent, supabase]);
 
   const sendEvent = useCallback(async (event: LmRealtimeEvent) => {
-    // TODO — Phase 1:
-    // await channelRef.current?.send({
-    //   type: 'broadcast',
-    //   event: event.type,
-    //   payload: event,
-    // });
+    await channelRef.current?.send({
+      type: 'broadcast',
+      event: event.type,
+      payload: event,
+    });
   }, []);
 
   return { sendEvent };

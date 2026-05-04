@@ -100,7 +100,7 @@ export default function DriverCard({ id, providerId, driverName, vehicleType, se
                 </div>
                 {notes && (
                     <div className="text-sm font-medium text-slate-500 dark:text-zinc-500 italic leading-relaxed">
-                        "{notes}"
+                        &quot;{notes}&quot;
                     </div>
                 )}
             </div>

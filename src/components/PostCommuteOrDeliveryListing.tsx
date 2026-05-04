@@ -9,7 +9,7 @@ import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
-import ImageUploadHint from '@/components/ImageUploadHint';
+import Image from 'next/image';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 const PREDEFINED_ROUTES = [
@@ -105,7 +105,6 @@ export default function PostCommuteOrDeliveryListing() {
     const [scheduleTime, setScheduleTime] = useState('');
     const [scheduleList, setScheduleList] = useState<{ day: string; time: string }[]>([]);
     const [seats, setSeats] = useState(10);
-    const [pricePerSeat, setPricePerSeat] = useState('');
     const [charterAvail, setCharterAvail] = useState(false);
     const [charterMinPax, setCharterMinPax] = useState(10);
     const [charterRate, setCharterRate] = useState('');
@@ -132,6 +131,24 @@ export default function PostCommuteOrDeliveryListing() {
         async function fetchListing() {
             if (!editId) return;
             const supabase = createClient();
+            interface TransportServiceRow {
+                id: string;
+                vehicle_type: VehicleType;
+                service_type: ServiceType;
+                towns_covered: string[] | null;
+                driver_name: string | null;
+                contact_number: string | null;
+                route: { from?: string; to?: string } | null;
+                schedule: { day: string; time: string }[] | null;
+                seats_available: number | null;
+                notes: string | null;
+                charter_avail: boolean | null;
+                charter_details: { min_pax?: number; rate?: string; notes?: string } | null;
+                contact_details: { fb_username?: string; email?: string } | null;
+                is_available: boolean | null;
+                images: string[] | null;
+            }
+
             const { data, error } = await supabase
                 .from('transport_services')
                 .select('*')
@@ -139,41 +156,41 @@ export default function PostCommuteOrDeliveryListing() {
                 .single();
 
             if (data && !error) {
-                setOperatorType(data.vehicle_type);
-                setServiceType(data.service_type);
-                setSelectedTowns(data.towns_covered || []);
-                setDriverName(data.driver_name || '');
-                setPhone(data.contact_number || '');
+                const row = data as unknown as TransportServiceRow;
+                setOperatorType(row.vehicle_type);
+                setServiceType(row.service_type);
+                setSelectedTowns(row.towns_covered || []);
+                setDriverName(row.driver_name || '');
+                setPhone(row.contact_number || '');
 
-                if (data.route) {
-                    setRouteFrom(data.route.from || '');
-                    setRouteTo(data.route.to || '');
+                if (row.route) {
+                    setRouteFrom(row.route.from || '');
+                    setRouteTo(row.route.to || '');
                 }
 
-                if (data.schedule) {
-                    setScheduleList(data.schedule || []);
+                if (row.schedule) {
+                    setScheduleList(row.schedule || []);
                 }
 
-                setSeats(data.seats_available || 10);
-                setPricePerSeat('0');
-                setAvailHours(data.notes || '');
+                setSeats(row.seats_available || 10);
+                setAvailHours(row.notes || '');
 
-                setCharterAvail(data.charter_avail || false);
-                if (data.charter_details) {
-                    setCharterMinPax(data.charter_details.min_pax || 10);
-                    setCharterRate(data.charter_details.rate || '');
-                    setCharterNotes(data.charter_details.notes || '');
+                setCharterAvail(row.charter_avail || false);
+                if (row.charter_details) {
+                    setCharterMinPax(row.charter_details.min_pax || 10);
+                    setCharterRate(row.charter_details.rate || '');
+                    setCharterNotes(row.charter_details.notes || '');
                 }
 
-                if (data.contact_details) {
-                    setFbUsername(data.contact_details.fb_username || '');
-                    setEmail(data.contact_details.email || '');
+                if (row.contact_details) {
+                    setFbUsername(row.contact_details.fb_username || '');
+                    setEmail(row.contact_details.email || '');
                 }
 
-                setIsAvailable(data.is_available ?? true);
+                setIsAvailable(row.is_available ?? true);
 
-                if (data.images) {
-                    setExistingImages(data.images);
+                if (row.images) {
+                    setExistingImages(row.images);
                 }
             }
         }
@@ -269,7 +286,7 @@ export default function PostCommuteOrDeliveryListing() {
 
         setIsUploading(true);
         try {
-            let uploadedImages: string[] = [];
+            const uploadedImages: string[] = [];
             if (imageFiles.length > 0) {
                 for (const file of imageFiles) {
                     const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8, aspectRatio: 4/3 });
@@ -325,7 +342,7 @@ export default function PostCommuteOrDeliveryListing() {
                             router.push("/commute");
                             router.refresh();
                         }, 2000);
-                    } catch (error: any) {
+                    } catch (error) {
                         // Rollback: delete any images that were just uploaded
                         // to prevent orphaned blobs in Storage
                         if (uploadedImages.length > 0) {
@@ -336,11 +353,11 @@ export default function PostCommuteOrDeliveryListing() {
                                 await supabase.storage.from('listings').remove(paths);
                             }
                         }
-                        setFilterError(error.message || 'Failed to save listing');
+                        setFilterError((error as Error).message || 'Failed to save listing');
                     }
                 });
-        } catch (error: any) {
-            setFilterError(error.message || 'Failed to upload images');
+        } catch (error) {
+            setFilterError((error as Error).message || 'Failed to upload images');
         } finally {
             setIsUploading(false);
         }
@@ -429,15 +446,15 @@ export default function PostCommuteOrDeliveryListing() {
                             <div className="grid grid-cols-2 gap-3">
                                 {existingImages.map((url, idx) => (
                                     <div key={`existing-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden group">
-                                        <img src={url} className="w-full h-full object-cover opacity-80" alt="Existing" />
+                                        <Image src={url} fill className="object-cover opacity-80" alt="Existing" />
                                         <button
                                             type="button"
                                             onClick={() => removeExistingImage(url)}
-                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-moriones-red transition-colors"
+                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-moriones-red transition-colors z-10"
                                         >
                                             <span className="material-symbols-outlined text-sm">delete</span>
                                         </button>
-                                        <div className="absolute top-1.5 left-1.5 bg-green-500/80 backdrop-blur-sm text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest">
+                                        <div className="absolute top-1.5 left-1.5 bg-green-500/80 backdrop-blur-sm text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest z-10">
                                             Saved
                                         </div>
                                     </div>
@@ -445,15 +462,15 @@ export default function PostCommuteOrDeliveryListing() {
 
                                 {imageFiles.map((file, idx) => (
                                     <div key={`new-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden group">
-                                        <img src={URL.createObjectURL(file)} className="w-full h-full object-cover" alt="Preview" />
+                                        <Image src={URL.createObjectURL(file)} fill className="object-cover" alt="Preview" />
                                         <button
                                             type="button"
                                             onClick={() => removeImage(idx)}
-                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-moriones-red transition-colors"
+                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-moriones-red transition-colors z-10"
                                         >
                                             <span className="material-symbols-outlined text-sm">close</span>
                                         </button>
-                                        <div className="absolute top-1.5 left-1.5 bg-blue-500/80 backdrop-blur-sm text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest">
+                                        <div className="absolute top-1.5 left-1.5 bg-blue-500/80 backdrop-blur-sm text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest z-10">
                                             New
                                         </div>
                                     </div>

@@ -14,19 +14,21 @@ export function useViewerCount(sessionId: string) {
   const [viewerCount, setViewerCount] = useState(0);
 
   useEffect(() => {
-    // TODO — Phase 1:
-    // const supabase = createClient();
-    // const channel = supabase.channel(`${REALTIME_CHANNEL_PREFIX}${sessionId}:presence`)
-    //   .on('presence', { event: 'sync' }, () => {
-    //     const state = channel.presenceState();
-    //     setViewerCount(Object.keys(state).length);
-    //   })
-    //   .subscribe(async (status) => {
-    //     if (status === 'SUBSCRIBED') {
-    //       await channel.track({ joined_at: Date.now() });
-    //     }
-    //   });
-    // return () => { supabase.removeChannel(channel); };
+    const supabase = createClient();
+    const channel = supabase.channel(`${REALTIME_CHANNEL_PREFIX}${sessionId}:presence`)
+      .on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState();
+        setViewerCount(Object.keys(state).length);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await channel.track({ joined_at: Date.now() });
+        }
+      });
+      
+    return () => { 
+        supabase.removeChannel(channel); 
+    };
   }, [sessionId]);
 
   return viewerCount;

@@ -34,17 +34,27 @@ export function useMine({
     setIsLoading(true);
     setHasClaimed(true);
 
-    // TODO — Phase 1:
-    // const expiresAt = new Date(Date.now() + claimWindowMinutes * 60 * 1000).toISOString();
-    // const { data, error } = await supabase.rpc('lm_claim_item', {
-    //   p_product_id: productId,
-    //   p_buyer_id: (await supabase.auth.getUser()).data.user?.id,
-    //   p_session_id: sessionId,
-    //   p_expires_at: expiresAt,
-    // });
-    // if (error || !data?.success) { onLose(); } else { onWin(data.claim_id, data.product_name); }
-    // setIsLoading(false);
+    const expiresAt = new Date(Date.now() + claimWindowMinutes * 60 * 1000).toISOString();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+        onLose();
+        setIsLoading(false);
+        return;
+    }
 
+    const { data, error } = await supabase.rpc('lm_claim_item', {
+      p_product_id: productId,
+      p_buyer_id: user.id,
+      p_session_id: sessionId,
+      p_expires_at: expiresAt,
+    });
+
+    if (error || !data?.success) { 
+        onLose(); 
+    } else { 
+        onWin(data.claim_id, data.product_name); 
+    }
     setIsLoading(false);
   }, [isLoading, hasClaimed, sessionId, claimWindowMinutes, onWin, onLose, supabase]);
 

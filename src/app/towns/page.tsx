@@ -24,7 +24,7 @@ export default function TownsIndexPage() {
                         Explore the Island
                     </h1>
                     <p className="text-slate-500 dark:text-zinc-400 text-lg font-medium leading-relaxed max-w-2xl mx-auto">
-                        Dive into the "Total History" of Marinduque. Discover the mythic origins, modern economies, and visionary futures of all six municipalities.
+                        Dive into the &quot;Total History&quot; of Marinduque. Discover the mythic origins, modern economies, and visionary futures of all six municipalities.
                     </p>
                 </div>
 

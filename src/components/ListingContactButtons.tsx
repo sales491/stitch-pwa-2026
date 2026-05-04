@@ -6,9 +6,6 @@ type Props = {
 };
 
 export default function ListingContactButtons({ phone, fbUsername }: Props) {
-    const noPhone = () => alert('No phone number listed for this seller.');
-    const noMessenger = () => alert('No Messenger listed for this seller.');
-
     return (
         <div className="flex gap-2">
             {/* Call */}

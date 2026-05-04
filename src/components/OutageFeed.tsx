@@ -11,7 +11,7 @@ const MUNICIPALITIES = ['All', 'Boac', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos
 type Props = { initialReports: OutageReport[]; userId?: string | null };
 
 export default function OutageFeed({ initialReports, userId }: Props) {
-    const { profile } = useAuth() as any;
+    const { profile } = useAuth();
     const [reports, setReports] = useState<OutageReport[]>(initialReports);
     const [typeFilter, setTypeFilter] = useState<'all' | 'power' | 'water'>('all');
     const [municipality, setMunicipality] = useState('All');
@@ -28,7 +28,7 @@ export default function OutageFeed({ initialReports, userId }: Props) {
         const m = overrides.muni ?? municipality;
         const r = overrides.resolved ?? showResolved;
         const filters: OutageFilters = {
-            type: t === 'all' ? undefined : t as any,
+            type: t === 'all' ? undefined : t as OutageFilters['type'],
             municipality: m === 'All' ? undefined : m,
             status: r ? 'all' : 'active',
             page: 0,
@@ -43,7 +43,7 @@ export default function OutageFeed({ initialReports, userId }: Props) {
         const next = page + 1;
         startTransition(async () => {
             const more = await getOutageReports({
-                type: typeFilter === 'all' ? undefined : typeFilter as any,
+                type: typeFilter === 'all' ? undefined : typeFilter as OutageFilters['type'],
                 municipality: municipality === 'All' ? undefined : municipality,
                 status: showResolved ? 'all' : 'active',
                 page: next,

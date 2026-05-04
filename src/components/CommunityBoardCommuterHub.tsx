@@ -25,9 +25,35 @@ const CATEGORIES = [
   { key: 'general', label: 'General', icon: 'chat_bubble', color: 'text-emerald-600' },
 ] as const;
 
-export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initialPosts?: any[] }) {
+export interface CommunityPost {
+  id: string;
+  author_id: string;
+  author?: {
+    id: string;
+    full_name: string | null;
+    avatar_url: string | null;
+  };
+  content: string;
+  title?: string | null;
+  location: string;
+  images?: string[] | null;
+  poll_data?: {
+    options: {
+      id: string;
+      text: string;
+      votes: string[];
+    }[];
+  } | null;
+  type: string;
+  tags?: string[] | null;
+  likes_count: number;
+  comments_count: number;
+  created_at: string;
+}
+
+export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initialPosts?: CommunityPost[] }) {
   const { profile } = useAuth();
-  const [posts, setPosts] = useState<any[]>(initialPosts);
+  const [posts, setPosts] = useState<CommunityPost[]>(initialPosts);
   const [isPending, startTransition] = useTransition();
   const [postText, setPostText] = useState('');
   const [selectedTown, setSelectedTown] = useState('All Towns');
@@ -49,7 +75,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
   const [taggedTown, setTaggedTown] = useState<string | null>(null);
   const [pollOptions, setPollOptions] = useState<string[]>(['', '']);
   const [showPoll, setShowPoll] = useState(false);
-  const [activeMood, setActiveMood] = useState<string | null>(null);
+  const [activeMood, _setActiveMood] = useState<string | null>(null);
   const [expandedComments, setExpandedComments] = useState<string[]>([]);
   const [isPostTownOpen, setIsPostTownOpen] = useState(false);
 
@@ -73,51 +99,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
 
   const isInitialMount = useRef(true);
 
-  // Reset and reload when filters change
-  useEffect(() => {
-    if (isInitialMount.current && initialPosts.length > 0) {
-      isInitialMount.current = false;
-      return;
-    }
-    setPosts([]);
-    setPage(0);
-    setHasMore(true);
-    fetchPage(0, true);
-  }, [selectedTown, selectedCategory]);
-
-  const hasHydratedLikes = useRef(false);
-  // Seed initial user likes for SSR posts
-  useEffect(() => {
-    if (profile && initialPosts.length > 0 && !hasHydratedLikes.current) {
-       hasHydratedLikes.current = true;
-       const ids = initialPosts.map((p: any) => p.id);
-       getUserLikedPostIds(ids).then(liked => {
-         setLikedPostIds(prev => {
-           const next = new Set(prev);
-           liked.forEach(id => next.add(id));
-           return next;
-         });
-       });
-    }
-  }, [profile]);
-
-  // Load more when page increments (skip page 0 — handled above)
-  useEffect(() => {
-    if (page > 0) fetchPage(page, false);
-  }, [page]);
-
-  // Infinite scroll — trigger when sentinel enters viewport
-  useEffect(() => {
-    const el = sentinelRef.current;
-    if (!el || !hasMore) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !isLoadingMore) setPage(p => p + 1);
-    }, { threshold: 0.5 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [hasMore, isLoadingMore]);
-
-  const fetchPage = async (pg: number, replace: boolean) => {
+  const fetchPage = React.useCallback(async (pg: number, replace: boolean) => {
     if (pg > 0) setIsLoadingMore(true);
     const data = await getCommunityPosts(selectedTown, selectedCategory, pg);
     if (replace) {
@@ -130,7 +112,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
 
     // Seed which posts the logged-in user has already liked
     if (data.length > 0 && profile) {
-      const ids = data.map((p: any) => p.id);
+      const ids = data.map((p: CommunityPost) => p.id);
       const liked = await getUserLikedPostIds(ids);
       setLikedPostIds(prev => {
         const next = new Set(prev);
@@ -138,9 +120,53 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
         return next;
       });
     }
-  };
+  }, [profile, selectedTown, selectedCategory]);
 
-  const fetchPosts = () => fetchPage(0, true);
+  const fetchPosts = React.useCallback(() => fetchPage(0, true), [fetchPage]);
+
+  // Reset and reload when filters change
+  useEffect(() => {
+    if (isInitialMount.current && initialPosts.length > 0) {
+      isInitialMount.current = false;
+      return;
+    }
+    setPosts([]);
+    setPage(0);
+    setHasMore(true);
+    fetchPage(0, true);
+  }, [selectedTown, selectedCategory, initialPosts.length, fetchPage]);
+
+  const hasHydratedLikes = useRef(false);
+  // Seed initial user likes for SSR posts
+  useEffect(() => {
+    if (profile && initialPosts.length > 0 && !hasHydratedLikes.current) {
+       hasHydratedLikes.current = true;
+       const ids = initialPosts.map((p: CommunityPost) => p.id);
+       getUserLikedPostIds(ids).then(liked => {
+         setLikedPostIds(prev => {
+           const next = new Set(prev);
+           liked.forEach(id => next.add(id));
+           return next;
+         });
+       });
+    }
+  }, [profile, initialPosts]);
+
+  // Load more when page increments (skip page 0 — handled above)
+  useEffect(() => {
+    if (page > 0) fetchPage(page, false);
+  }, [page, fetchPage]);
+
+  // Infinite scroll — trigger when sentinel enters viewport
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !hasMore) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !isLoadingMore) setPage(p => p + 1);
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, isLoadingMore]);
 
   // Check guidelines acceptance before allowing a post
   const checkGuidelinesAndPost = async () => {
@@ -237,8 +263,8 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
       } else {
         setErrorHeader(result.error || 'Failed to post.');
       }
-    } catch (err: any) {
-      setErrorHeader(err.message);
+    } catch (err) {
+      setErrorHeader((err as Error).message);
     } finally {
       setIsUploading(false);
     }
@@ -312,9 +338,9 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
           text,
           url,
         });
-      } catch (err: any) {
+      } catch (err) {
         // User cancelled — not an error
-        if (err?.name !== 'AbortError') console.warn('Share failed:', err);
+        if ((err as Error).name !== 'AbortError') console.warn('Share failed:', err);
       }
     } else {
       // Fallback: copy to clipboard
@@ -644,8 +670,8 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
                   <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest mb-1 flex items-center gap-2">
                     <span className="material-symbols-outlined text-sm">poll</span> Public Poll
                   </p>
-                  {post.poll_data.options.map((opt: any) => {
-                    const totalVotes = post.poll_data.options.reduce((acc: number, o: any) => acc + (o.votes?.length || 0), 0);
+                  {post.poll_data.options.map((opt) => {
+                    const totalVotes = post.poll_data!.options.reduce((acc: number, o) => acc + (o.votes?.length || 0), 0);
                     const voteCount = opt.votes?.length || 0;
                     const percentage = totalVotes > 0 ? (voteCount / totalVotes) * 100 : 0;
                     const hasVoted = profile && opt.votes?.includes(profile.id);
@@ -654,7 +680,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
                       <button
                         key={opt.id}
                         onClick={() => handleVote(post.id, opt.id)}
-                        disabled={!profile || post.poll_data.options.some((o: any) => o.votes?.includes(profile.id))}
+                        disabled={!profile || post.poll_data!.options.some((o) => o.votes?.includes(profile.id))}
                         className="w-full group relative overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-700 text-left transition-all active:scale-[0.98]"
                       >
                         <div className={`absolute inset-0 bg-purple-500/10 transition-all`} style={{ width: `${percentage}%` }} />
@@ -669,7 +695,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
                     );
                   })}
                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight pl-1">
-                    {post.poll_data.options.reduce((acc: number, o: any) => acc + (o.votes?.length || 0), 0)} Total Votes
+                    {post.poll_data.options.reduce((acc: number, o) => acc + (o.votes?.length || 0), 0)} Total Votes
                   </p>
                 </div>
               )}

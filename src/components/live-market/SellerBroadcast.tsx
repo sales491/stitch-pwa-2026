@@ -6,7 +6,7 @@
 //           Shows: video preview, Go Live button, mute toggle, end stream button
 //           "Next Item" and "Spotlight" controls sit alongside this in the seller view
 
-export function SellerBroadcast({ sessionId }: { sessionId: string }) {
+export function SellerBroadcast({ sessionId: _sessionId }: { sessionId: string }) {
   // TODO — Phase 1 implementation
 
   return (

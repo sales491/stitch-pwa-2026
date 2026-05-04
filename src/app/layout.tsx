@@ -14,6 +14,7 @@ import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 const isDev = process.env.NODE_ENV === 'development';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const DevInspector = isDev
   ? require('@/components/DevInspector').default
   : null;

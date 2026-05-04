@@ -45,9 +45,15 @@ function deriveFishingRating(moonFraction: number | null, extremeCount: number):
     return 'fair';
 }
 
+interface TideExtreme {
+    time: string;
+    height: number;
+    type: string;
+}
+
 // Compute rough fishing windows: 1.5 hours around each tide extreme
 // (incoming tide approaching high = prime time; outgoing approaching low = secondary)
-function computePeakPeriods(extremes: { time: string; type: string }[]): { start: string; end: string; type: 'major' | 'minor' }[] {
+function computePeakPeriods(extremes: TideExtreme[]): { start: string; end: string; type: 'major' | 'minor' }[] {
     return extremes.map(e => {
         const t = new Date(e.time).getTime();
         const windowMs = e.type === 'High' ? 90 * 60 * 1000 : 60 * 60 * 1000;
@@ -82,7 +88,7 @@ export async function GET(req: NextRequest) {
 
     const errors: string[] = [];
     // Store astronomy by date for cross-referencing
-    const astroByDate: Record<string, { moonFraction: number | null; extremes: any[] }> = {};
+    const astroByDate: Record<string, { moonFraction: number | null; extremes: TideExtreme[] }> = {};
 
     // ── CALL 1: Tide extremes (7 days) ──────────────────────────────────────
     try {
@@ -91,7 +97,7 @@ export async function GET(req: NextRequest) {
             { headers: { Authorization: apiKey } }
         );
         const tidesJson = await tidesRes.json();
-        const extremesByDay: Record<string, any[]> = {};
+        const extremesByDay: Record<string, TideExtreme[]> = {};
 
         for (const extreme of tidesJson.data ?? []) {
             const d = phtDateStr(new Date(extreme.time));
@@ -107,8 +113,8 @@ export async function GET(req: NextRequest) {
             await supabase.from('tide_extremes').upsert({ date, extremes, fetched_at: new Date().toISOString() }, { onConflict: 'date' });
             astroByDate[date] = { moonFraction: null, extremes };
         }
-    } catch (e: any) {
-        errors.push(`tides: ${e.message}`);
+    } catch (e) {
+        errors.push(`tides: ${(e as Error).message}`);
     }
 
     // ── CALL 2: Astronomy (7 days) — includes moonFraction ──────────────────
@@ -138,8 +144,8 @@ export async function GET(req: NextRequest) {
 
             if (astroByDate[date]) astroByDate[date].moonFraction = moonFraction;
         }
-    } catch (e: any) {
-        errors.push(`astronomy: ${e.message}`);
+    } catch (e) {
+        errors.push(`astronomy: ${(e as Error).message}`);
     }
 
     // ── DERIVED: Fishing windows (no extra API call) ─────────────────────────
@@ -156,8 +162,8 @@ export async function GET(req: NextRequest) {
                 fetched_at: new Date().toISOString(),
             }, { onConflict: 'date' });
         }
-    } catch (e: any) {
-        errors.push(`solunar-derived: ${e.message}`);
+    } catch (e) {
+        errors.push(`solunar-derived: ${(e as Error).message}`);
     }
 
     return NextResponse.json({

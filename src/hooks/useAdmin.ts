@@ -6,9 +6,8 @@ import { createClient } from '@/utils/supabase/client'
 export const useAdmin = () => {
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
-    const supabase = createClient()
-
     useEffect(() => {
+        const supabase = createClient()
         const checkAdmin = async () => {
             try {
                 const { data: { user } } = await supabase.auth.getUser()

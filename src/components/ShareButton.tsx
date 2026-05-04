@@ -28,10 +28,11 @@ export default function ShareButton({ title, text, url, variant = 'icon', classN
                     url: shareUrl,
                 });
                 return;
-            } catch (error: any) {
+            } catch (error) {
+                const err = error as Error;
                 // If the user cancelled the share, don't fallback to copy
-                if (error.name === 'AbortError') return;
-                console.error('Error sharing:', error);
+                if (err.name === 'AbortError') return;
+                console.error('Error sharing:', err);
             }
         }
 

@@ -9,7 +9,7 @@ import { MARINDUQUE_BARANGAYS } from '@/data/marinduque-barangays';
  * @param contactInfo Any contact info object or string that might contain an address
  * @returns The matched barangay string, or null if none found
  */
-export function determineBarangay(businessName: string, locationStr: string | null, contactInfo: any): string | null {
+export function determineBarangay(businessName: string, locationStr: string | null, contactInfo: unknown): string | null {
   const locRaw = (locationStr || '').toLowerCase();
   
   // Determine municipality context

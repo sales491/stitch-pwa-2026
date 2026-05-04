@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 /**
  * RelatedItems — Server-rendered internal linking component.
@@ -42,7 +43,7 @@ async function fetchRelated(
 
     switch (type) {
         case 'jobs': {
-            let baseQ = supabase
+            const baseQ = supabase
                 .from('jobs')
                 .select('slug, title, company_name, location, employment_type')
                 .neq('slug', excludeId)
@@ -73,7 +74,7 @@ async function fetchRelated(
         }
 
         case 'listings': {
-            let baseQ = supabase
+            const baseQ = supabase
                 .from('listings')
                 .select('id, title, price_value, town, category, images')
                 .neq('id', excludeId)
@@ -111,7 +112,7 @@ async function fetchRelated(
         }
 
         case 'events': {
-            let baseQ = supabase
+            const baseQ = supabase
                 .from('events')
                 .select('id, title, location, event_date, category')
                 .neq('id', excludeId)
@@ -142,7 +143,7 @@ async function fetchRelated(
         }
 
         case 'gems': {
-            let baseQ = supabase
+            const baseQ = supabase
                 .from('gems')
                 .select('id, title, town, images')
                 .neq('id', excludeId)
@@ -177,7 +178,7 @@ async function fetchRelated(
         }
 
         case 'businesses': {
-            let baseQ = supabase
+            const baseQ = supabase
                 .from('business_profiles')
                 .select('id, business_name, business_type, location, is_verified, gallery_image')
                 .neq('id', excludeId)
@@ -209,12 +210,12 @@ async function fetchRelated(
         }
 
         case 'transport': {
-            let tQ = supabase
+            const tQ = supabase
                 .from('transport_services')
                 .select('id, driver_name, vehicle_type, base_town, images')
                 .order('created_at', { ascending: false });
             
-            let bQ = supabase
+            const bQ = supabase
                 .from('boat_services')
                 .select('id, operator_name, boat_name, boat_type, base_municipality, images')
                 .order('created_at', { ascending: false });
@@ -231,8 +232,24 @@ async function fetchRelated(
                 if (fbB) bData = [...(bData || []), ...fbB];
             }
 
+            interface TransportItem {
+                id: string;
+                driver_name: string | null;
+                vehicle_type: string;
+                base_town: string;
+                images: string[] | null;
+            }
+            interface BoatItem {
+                id: string;
+                operator_name: string | null;
+                boat_name: string | null;
+                boat_type: string;
+                base_municipality: string;
+                images: string[] | null;
+            }
+
             const combined: RelatedItem[] = [];
-            (tData || []).slice(0, limit).forEach((t: any) => {
+            ((tData || []) as unknown as TransportItem[]).slice(0, limit).forEach((t) => {
                 combined.push({
                     id: String(t.id),
                     href: `/commute?operator=${t.id}`,
@@ -242,7 +259,7 @@ async function fetchRelated(
                     image: t.images?.[0],
                 });
             });
-            (bData || []).slice(0, limit).forEach((b: any) => {
+            ((bData || []) as unknown as BoatItem[]).slice(0, limit).forEach((b) => {
                 combined.push({
                     id: String(b.id),
                     href: `/island-hopping?operator=${b.id}`,
@@ -333,12 +350,12 @@ function RelatedSection({ heading, items }: { heading: string; items: RelatedIte
                         className="flex items-center gap-3 bg-slate-50 dark:bg-zinc-900 rounded-2xl p-3 border border-slate-100 dark:border-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors group"
                     >
                         {item.image && (
-                            <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-zinc-800 overflow-hidden flex-shrink-0">
-                                <img
+                            <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-zinc-800 overflow-hidden flex-shrink-0 relative">
+                                <Image
                                     src={item.image}
                                     alt=""
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    className="object-cover"
                                 />
                             </div>
                         )}

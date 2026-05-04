@@ -6,6 +6,8 @@
 // Buyer uploads a receipt screenshot which is stored in Supabase Storage.
 // Optional: buyer enters GCash reference number for easier seller verification.
 
+import Image from 'next/image';
+
 interface GCashPaymentPanelProps {
   gcashQrUrl: string | null;
   mayaQrUrl: string | null;
@@ -15,9 +17,9 @@ interface GCashPaymentPanelProps {
 
 export function GCashPaymentPanel({
   gcashQrUrl,
-  mayaQrUrl,
-  claimId,
-  onReceiptUploaded,
+  mayaQrUrl: _mayaQrUrl,
+  claimId: _claimId,
+  onReceiptUploaded: _onReceiptUploaded,
 }: GCashPaymentPanelProps) {
   // TODO — Phase 3 implementation:
   // - Display QR image (seller's gcash_qr_url from profiles)
@@ -32,9 +34,11 @@ export function GCashPaymentPanel({
           Scan to Pay
         </p>
         {gcashQrUrl ? (
-          <img
+          <Image
             src={gcashQrUrl}
             alt="GCash QR Code"
+            width={192}
+            height={192}
             className="w-48 h-48 mx-auto rounded-2xl"
           />
         ) : (

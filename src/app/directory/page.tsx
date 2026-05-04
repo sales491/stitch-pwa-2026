@@ -48,7 +48,7 @@ export default async function BusinessDirectory() {
     }
 
     // 2. Fetch businesses based on role
-    let query = supabase
+    const query = supabase
         .from('business_profiles')
         .select('id, business_name, business_type, location, is_verified, average_rating, review_count, gallery_image, categories, delivery_available, owner_id')
         .order('is_verified', { ascending: false })

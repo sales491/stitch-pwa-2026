@@ -23,7 +23,7 @@ type Props = {
 };
 
 export default function LostFoundFeed({ initialPosts }: Props) {
-    const { user } = useAuth() as any;
+    const { user } = useAuth();
     const [posts, setPosts] = useState<LostFoundPost[]>(initialPosts);
     const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
     const [category, setCategory] = useState('all');

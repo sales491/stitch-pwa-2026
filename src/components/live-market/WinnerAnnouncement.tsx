@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 // Marinduque Market — Winner Announcement
 // Fires for ALL viewers when MINE_WIN Realtime event is received.
 // The win is a PUBLIC social moment — not a quiet private notification.
@@ -25,7 +27,13 @@ export function WinnerAnnouncement({
   isCurrentUser,
   onDismiss,
 }: WinnerAnnouncementProps) {
-  // TODO — Phase 1 implementation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onDismiss();
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [onDismiss]);
+
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80">

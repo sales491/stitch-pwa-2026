@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useTransition, useRef, useMemo } from 'react';
-import { MUNICIPALITIES, MARKET_SCHEDULE, AVAILABILITY_TAGS, Municipality, PricesByCategory, PalengkePrice } from '@/lib/palengke-constants';
+import { MUNICIPALITIES, AVAILABILITY_TAGS, Municipality, PricesByCategory, PalengkePrice } from '@/lib/palengke-constants';
 import { submitPrice, deletePrice } from '@/app/actions/palengke';
 
 const CATEGORY_META = {
@@ -172,7 +172,7 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
 
         // Instantly add the new item to local state (optimistic — guaranteed visible)
         if (result.item) {
-            const newItem = result.item as any;
+            const newItem = result.item as PalengkePrice;
             const cat = newItem.category as keyof PricesByCategory;
             const muni = (newItem.municipality ?? activeMuni) as Municipality;
             setPricesByMuni(prev => {
@@ -295,7 +295,7 @@ export default function PalengkeDisplay({ initialMuni, initialPrices, currentUse
                         >
                             <div className="w-10 h-1 bg-slate-200 dark:bg-zinc-700 rounded-full mx-auto mb-4" />
                             <p className="font-black text-slate-900 dark:text-white text-[16px] mb-0.5">Post Your Items</p>
-                            <p className="text-[11px] text-slate-400 dark:text-zinc-500 mb-4">Today's palengke · visible for 24 hours</p>
+                            <p className="text-[11px] text-slate-400 dark:text-zinc-500 mb-4">Today&apos;s palengke · visible for 24 hours</p>
 
                             <form ref={formRef} onSubmit={handleSubmit} className="space-y-3">
                                 <div className="grid grid-cols-2 gap-3">

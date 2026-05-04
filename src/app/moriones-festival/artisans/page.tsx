@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
-import Link from 'next/link';
 import { hreflangAlternates } from '@/utils/seo';
 
 export const metadata: Metadata = {
@@ -16,7 +15,29 @@ export const metadata: Metadata = {
     alternates: hreflangAlternates('/moriones-festival/artisans'),
 };
 
-const DATA = {
+interface Artisan {
+  name: string;
+  title?: string;
+  status?: string;
+  specialty: string;
+  location?: string;
+}
+
+interface ArtisanCategory {
+  region: string;
+  style_description: string;
+  color: string;
+  heritage_note?: string;
+  artisans: Artisan[];
+}
+
+const DATA: {
+  province: string;
+  subject: string;
+  categories: ArtisanCategory[];
+  organizations: { name: string; full_name: string; role: string }[];
+  technical_specs: { materials: string[]; economic_cycle: string; sustainability: string };
+} = {
   "province": "Marinduque",
   "subject": "Moryon Artisan Directory",
   "categories": [
@@ -130,7 +151,7 @@ export default function ArtisanDirectoryPage() {
                         Meet the <span className="text-moriones-red italic">Architects</span> of Our Tradition.
                     </h2>
                     <p className="text-slate-600 dark:text-zinc-400 text-lg leading-relaxed font-medium max-w-2xl">
-                        Behind every Morion is a master carver. This directory showcases the artisans who transform wood and tradition into the iconic symbols of Marinduque's Holy Week.
+                        Behind every Morion is a master carver. This directory showcases the artisans who transform wood and tradition into the iconic symbols of Marinduque&apos;s Holy Week.
                     </p>
                 </header>
 
@@ -142,7 +163,7 @@ export default function ArtisanDirectoryPage() {
                                 <span className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                 <h3 className="text-xl font-black text-blue-900 dark:text-blue-300 tracking-tight uppercase">Mogpog Style</h3>
                             </div>
-                            <p className="text-blue-800/70 dark:text-blue-400 text-sm font-bold leading-tight mb-4">Friendly, smiling, human-like expressions with 'Bulaklakan' floral headgear.</p>
+                            <p className="text-blue-800/70 dark:text-blue-400 text-sm font-bold leading-tight mb-4">Friendly, smiling, human-like expressions with &apos;Bulaklakan&apos; floral headgear.</p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 px-2.5 py-1 rounded-lg">Softwood</span>
                                 <span className="text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-600 px-2.5 py-1 rounded-lg">Intricate Realism</span>
@@ -164,7 +185,7 @@ export default function ArtisanDirectoryPage() {
 
                 {/* Artisan Grid */}
                 <section className="space-y-20">
-                    {DATA.categories.map((category: any) => (
+                    {DATA.categories.map((category) => (
                         <div key={category.region} className="relative">
                             <div className="flex items-baseline gap-4 mb-10 border-b border-slate-100 dark:border-zinc-800 pb-6">
                                 <h3 className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter uppercase">{category.region}</h3>
@@ -181,7 +202,7 @@ export default function ArtisanDirectoryPage() {
                             )}
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {category.artisans.map((artisan: any) => (
+                                {category.artisans.map((artisan) => (
                                     <div key={artisan.name} className="group relative bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-[2rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
                                         {/* Artisan Card Content */}
                                         
@@ -203,7 +224,7 @@ export default function ArtisanDirectoryPage() {
                                         </div>
 
                                         <p className="text-slate-600 dark:text-zinc-400 text-sm font-medium leading-relaxed italic">
-                                            "{artisan.specialty}"
+                                            &quot;{artisan.specialty}&quot;
                                         </p>
                                     </div>
                                 ))}
@@ -221,7 +242,7 @@ export default function ArtisanDirectoryPage() {
                                 <h3 className="text-2xl font-black tracking-tight uppercase">Green Artisan Initiative</h3>
                             </div>
                             <p className="text-zinc-400 dark:text-zinc-600 font-bold mb-8 leading-relaxed italic">
-                                "{DATA.technical_specs.sustainability}"
+                                &quot;{DATA.technical_specs.sustainability}&quot;
                             </p>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-white/5 dark:bg-black/5 rounded-2xl p-4">

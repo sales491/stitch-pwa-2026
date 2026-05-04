@@ -4,9 +4,10 @@ import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { gemSchema, GemInput } from '@/lib/validations/gem';
 import { revalidatePath } from 'next/cache';
+import type { User } from '@supabase/supabase-js';
 import { isAdmin } from '@/utils/roles';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase

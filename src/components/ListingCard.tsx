@@ -11,7 +11,6 @@ import ShareButton from './ShareButton';
 
 type ListingProps = {
     id: string;
-    slug: string;
     title: string;
     price: number;
     town: string;
@@ -19,7 +18,7 @@ type ListingProps = {
     sellerId: string;
 };
 
-export default function ListingCard({ id, slug, title, price, town, imageUrl, sellerId }: ListingProps) {
+export default function ListingCard({ id, title, price, town, imageUrl, sellerId }: ListingProps) {
     const { profile } = useAuth();
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
@@ -64,8 +63,9 @@ export default function ListingCard({ id, slug, title, price, town, imageUrl, se
             // 4. Refresh the page to remove the card from the feed
             router.refresh();
 
-        } catch (error: any) {
-            console.error('Failed to delete:', error.message);
+        } catch (error) {
+            const err = error as Error;
+            console.error('Failed to delete:', err.message);
             alert('Could not delete the item. Please try again.');
             setIsDeleting(false); // Only reset if it fails
         }

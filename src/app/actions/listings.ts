@@ -7,7 +7,9 @@ import { revalidatePath } from 'next/cache';
 import { isAdmin } from '@/utils/roles';
 import { checkContent, checkRateLimit } from '@/lib/moderation/contentFilter';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+import type { User } from '@supabase/supabase-js';
+
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase

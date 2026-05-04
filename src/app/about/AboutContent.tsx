@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 
 export default function AboutContent() {
@@ -45,7 +44,7 @@ export default function AboutContent() {
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="text-[#C62828] mt-0.5">💎</span>
-                            <span><strong>Hidden Gems</strong> — Share and discover Marinduque's best-kept spots</span>
+                            <span><strong>Hidden Gems</strong> — Share and discover Marinduque&apos;s best-kept spots</span>
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="text-[#C62828] mt-0.5">🏘️</span>
@@ -89,14 +88,14 @@ export default function AboutContent() {
                         {tab === 'android' ? (
                             <ol className="list-decimal list-inside space-y-1">
                                 <li>Tap the menu icon (⋮) in Chrome</li>
-                                <li>Select <strong>"Add to Home screen"</strong></li>
-                                <li>Tap <strong>"Install"</strong></li>
+                                <li>Select <strong>&quot;Add to Home screen&quot;</strong></li>
+                                <li>Tap <strong>&quot;Install&quot;</strong></li>
                             </ol>
                         ) : (
                             <ol className="list-decimal list-inside space-y-1">
                                 <li>Tap the <strong>Share</strong> button in Safari</li>
-                                <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
-                                <li>Tap <strong>"Add"</strong> in the top right</li>
+                                <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot;</strong></li>
+                                <li>Tap <strong>&quot;Add&quot;</strong> in the top right</li>
                             </ol>
                         )}
                     </div>

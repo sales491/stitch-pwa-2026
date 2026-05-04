@@ -41,7 +41,7 @@ export async function createCommunityPost(formData: {
     content: string;
     location: string;
     images?: string[];
-    poll_data?: any;
+    poll_data?: unknown;
     type?: string;
     title?: string;
     tags?: string[];
@@ -130,16 +130,16 @@ export async function voteInPoll(postId: string, optionId: string) {
         return { success: false, error: 'Poll not found.' };
     }
 
-    const pollData = post.poll_data;
+    const pollData = post.poll_data as { options: { id: string, votes: string[] }[] };
 
     // Check if user already voted in ANY option
-    const hasVoted = pollData.options.some((opt: any) => opt.votes.includes(user.id));
+    const hasVoted = pollData.options.some((opt) => opt.votes.includes(user.id));
     if (hasVoted) {
         return { success: false, error: 'You have already voted in this poll.' };
     }
 
     // Add vote
-    pollData.options = pollData.options.map((opt: any) => {
+    pollData.options = pollData.options.map((opt) => {
         if (opt.id === optionId) {
             return { ...opt, votes: [...opt.votes, user.id] };
         }

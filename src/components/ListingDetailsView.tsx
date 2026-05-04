@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PageHeader from '@/components/PageHeader';
+import Image from 'next/image';
 
 export default function ListingDetailsView() {
   return (
@@ -75,8 +76,14 @@ export default function ListingDetailsView() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
-                      <img alt="Seller profile picture" className="w-full h-full object-cover" data-alt="Smiling man portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVDAI4ZJbc3Hj8_TSgFN1ugD-Jnot6hkdbWf3mq8Gw4Zdka7icSrRdxdwlIbyO8SynPlwr_9gb8GL24CL2QMhKS4MN-jOfRVBO9Vy_gcI9kwdc9xkcLR34m1M9J-N9YEvtAldrc-Dhi25byLasnB790riFVjYae2sIZYTAh6j2NJfKZhyjcl9n_kFoXnrv-MaquQMQQwACu8a5cDXvM2-_1R1zi_iPeFrqX6020IUKYB4k8u4W-lIpFW2PWGdiHIlurrOg_PHjB54" />
+                    <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden relative">
+                      <Image 
+                        alt="Seller profile picture" 
+                        fill
+                        className="object-cover" 
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVDAI4ZJbc3Hj8_TSgFN1ugD-Jnot6hkdbWf3mq8Gw4Zdka7icSrRdxdwlIbyO8SynPlwr_9gb8GL24CL2QMhKS4MN-jOfRVBO9Vy_gcI9kwdc9xkcLR34m1M9J-N9YEvtAldrc-Dhi25byLasnB790riFVjYae2sIZYTAh6j2NJfKZhyjcl9n_kFoXnrv-MaquQMQQwACu8a5cDXvM2-_1R1zi_iPeFrqX6020IUKYB4k8u4W-lIpFW2PWGdiHIlurrOg_PHjB54" 
+                        unoptimized
+                      />
                     </div>
                     <div className="absolute -bottom-1 -right-1 bg-green-500 border-2 border-white dark:border-slate-800 w-4 h-4 rounded-full" />
                   </div>

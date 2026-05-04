@@ -78,9 +78,8 @@ function BusinessOnboardingForm() {
         if (user?.email && !email) {
             setEmail(user.email);
         }
-    }, [user]);
+    }, [user, email]);
 
-    // Pre-fill form if editing an existing business profile
     useEffect(() => {
         if (!edit_id || !user) return;
         async function fetchBusiness() {
@@ -154,8 +153,8 @@ function BusinessOnboardingForm() {
             }
 
             setImageUrls(prev => [...prev, ...newUrls].slice(0, 4));
-        } catch (err: any) {
-            setErrorMsg(err.message || "Failed to upload photo");
+        } catch (err) {
+            setErrorMsg((err as Error).message || "Failed to upload photo");
         } finally {
             setUploadingImages(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -193,8 +192,8 @@ function BusinessOnboardingForm() {
             }
 
             setMenuImageUrls(prev => [...prev, ...newUrls].slice(0, 8));
-        } catch (err: any) {
-            setErrorMsg(err.message || "Failed to upload menu photo");
+        } catch (err) {
+            setErrorMsg((err as Error).message || "Failed to upload menu photo");
         } finally {
             setUploadingMenuImages(false);
             if (menuFileInputRef.current) menuFileInputRef.current.value = '';
@@ -226,7 +225,23 @@ function BusinessOnboardingForm() {
                 logo: imageUrls[0] || undefined 
             };
 
-            const payload: any = {
+            interface BusinessPayload {
+                business_name: string;
+                categories: string[];
+                description: string;
+                location: string;
+                operating_hours: string;
+                contact_info: { phone: string; email: string; address: string };
+                social_media: { facebook: string; messenger: string; logo?: string };
+                gallery_image: string | null;
+                gallery_images: string[];
+                delivery_available: boolean;
+                menu_images: string[];
+                owner_id?: string;
+                is_verified?: boolean;
+            }
+
+            const payload: BusinessPayload = {
                 business_name: businessName,
                 categories: [category],
                 description: description,
@@ -295,8 +310,8 @@ function BusinessOnboardingForm() {
             await new Promise(resolve => setTimeout(resolve, 2000));
             router.push(`/directory/b/${newBusinessId}`);
             
-        } catch (err: any) {
-            setErrorMsg(err.message || 'An unexpected error occurred.');
+        } catch (err) {
+            setErrorMsg((err as Error).message || 'An unexpected error occurred.');
         } finally {
             setIsSubmitting(false);
         }
@@ -322,9 +337,9 @@ function BusinessOnboardingForm() {
 
             // Redirect to directory page and refresh
             window.location.href = '/directory';
-        } catch (err: any) {
+        } catch (err) {
             console.error('Delete action failed:', err); 
-            setErrorMsg(err.message || 'Failed to delete business profile.');
+            setErrorMsg((err as Error).message || 'Failed to delete business profile.');
             setIsSubmitting(false);
             setShowDeleteConfirm(false);
         }

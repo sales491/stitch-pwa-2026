@@ -6,7 +6,7 @@
 //           Renders video element fullscreen in portrait on mobile
 //           MineButton floats over video when current_product_id is set
 
-export function BuyerPlayer({ sessionId }: { sessionId: string }) {
+export function BuyerPlayer({ sessionId: _sessionId }: { sessionId: string }) {
   // TODO — Phase 1 implementation
 
   return (

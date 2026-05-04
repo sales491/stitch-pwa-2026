@@ -69,7 +69,7 @@ export default function CreateGem() {
         setError(null);
 
         try {
-            let imageUrls: string[] = [];
+            const imageUrls: string[] = [];
 
             // 1. Upload Visuals
             for (const file of imageFiles) {

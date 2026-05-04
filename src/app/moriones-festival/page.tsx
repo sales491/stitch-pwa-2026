@@ -124,7 +124,7 @@ export default function MorionesFestivalPage() {
                         <span className="text-xs font-black bg-slate-100 dark:bg-zinc-800 text-slate-500 px-3 py-1 rounded-full uppercase tracking-widest">March 30 – April 5</span>
                     </div>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-3">
-                        The <strong>Moriones Festival</strong> is Marinduque's most famous cultural event and one of the oldest Lenten traditions in the Philippines. Every Holy Week, locals don elaborate <strong>painted wooden masks</strong> and full <strong>Roman centurion costumes</strong>, transforming the island into a living stage for the biblical story of <strong>Longinus</strong> — the Roman soldier who pierced Christ's side and was later converted and martyred.
+                        The <strong>Moriones Festival</strong> is Marinduque&apos;s most famous cultural event and one of the oldest Lenten traditions in the Philippines. Every Holy Week, locals don elaborate <strong>painted wooden masks</strong> and full <strong>Roman centurion costumes</strong>, transforming the island into a living stage for the biblical story of <strong>Longinus</strong> &mdash; the Roman soldier who pierced Christ&apos;s side and was later converted and martyred.
                     </p>
                     <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-4">
                         The festival has been celebrated for <strong>over 200 years</strong> and draws thousands of visitors annually. It was recognized by the Philippine government as a National Cultural Treasure and is a candidate for UNESCO Intangible Cultural Heritage listing.
@@ -185,9 +185,9 @@ export default function MorionesFestivalPage() {
                         The Story of Longinus
                     </h2>
                     <div className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
-                        <p>According to Philippine folk tradition — and the biblical apocrypha — <strong>Longinus</strong> was the Roman centurion who pierced the side of Jesus Christ with his lance during the crucifixion. Born blind in one eye, Longinus was miraculously healed when drops of Christ's blood fell upon his face.</p>
+                        <p>According to Philippine folk tradition &mdash; and the biblical apocrypha &mdash; <strong>Longinus</strong> was the Roman centurion who pierced the side of Jesus Christ with his lance during the crucifixion. Born blind in one eye, Longinus was miraculously healed when drops of Christ&apos;s blood fell upon his face.</p>
                         <p>Overwhelmed by this miracle, Longinus converted to Christianity and began preaching about the resurrection. His fellow Roman soldiers, loyal to the empire, considered this an act of treason. They hunted Longinus through the streets, eventually capturing him and having him beheaded.</p>
-                        <p>This narrative is the core of the Moriones Festival. Throughout Holy Week, <strong>"Moriones"</strong> — locals wearing hand-carved and painted masks of Roman centurions — roam the streets, performing scenes from this story. The festival culminates on Easter Sunday with the <strong>Pugutan</strong> (beheading), a dramatic public reenactment at the town plaza.</p>
+                        <p>This narrative is the core of the Moriones Festival. Throughout Holy Week, <strong>&quot;Moriones&quot;</strong> &mdash; locals wearing hand-carved and painted masks of Roman centurions &mdash; roam the streets, performing scenes from this story. The festival culminates on Easter Sunday with the <strong>Pugutan</strong> (beheading), a dramatic public reenactment at the town plaza.</p>
                     </div>
                 </section>
 
@@ -200,11 +200,11 @@ export default function MorionesFestivalPage() {
 
                     <div className="space-y-3">
                         {[
-                            { icon: '🏨', title: 'Book accommodation early', desc: 'Hotels and homestays fill up 1–2 months before Holy Week. Consider beachside resorts in Santa Cruz or Gasan if Boac is full.' },
+                            { icon: '🏨', title: 'Book accommodation early', desc: 'Hotels and homestays fill up 1&ndash;2 months before Holy Week. Consider beachside resorts in Santa Cruz or Gasan if Boac is full.' },
                             { icon: '⛴️', title: 'Secure ferry tickets in advance', desc: 'Expect long queues at Dalahican port. The exodus from Manila begins on Palm Sunday. Consider traveling earlier (Saturday) to avoid crowds.' },
                             { icon: '📸', title: 'Bring a good camera', desc: 'The masks, costumes, and dramatic street scenes are incredibly photogenic. The Moriones are generally happy to pose for photos.' },
-                            { icon: '☀️', title: 'Prepare for the heat', desc: 'Holy Week falls in the hot season. Bring sunscreen, hats, and stay hydrated. Temperatures can reach 34–36°C (93–97°F).' },
-                            { icon: '💵', title: 'Carry cash', desc: 'Many vendors and businesses on the island don\'t accept cards. GCash is widely accepted. ATMs are available in Boac and Santa Cruz.' },
+                            { icon: '☀️', title: 'Prepare for the heat', desc: 'Holy Week falls in the hot season. Bring sunscreen, hats, and stay hydrated. Temperatures can reach 34&ndash;36°C (93&ndash;97°F).' },
+                            { icon: '💵', title: 'Carry cash', desc: 'Many vendors and businesses on the island don&apos;t accept cards. GCash is widely accepted. ATMs are available in Boac and Santa Cruz.' },
                             { icon: '🤫', title: 'Respect the traditions', desc: 'While the festival is vibrant, Holy Week is a deeply religious time. Be respectful during solemn processions and church ceremonies.' },
                         ].map(tip => (
                             <div key={tip.title} className="flex gap-3 items-start bg-slate-50 dark:bg-zinc-900 rounded-2xl p-4 border border-slate-100 dark:border-zinc-800">

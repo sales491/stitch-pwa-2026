@@ -10,17 +10,30 @@ import AdminActions from './AdminActions';
 
 import { useNotifications } from './NotificationProvider';
 
+interface UserProfile {
+    id: string;
+    full_name: string | null;
+    avatar_url: string | null;
+    role: string | null;
+    is_verified: boolean;
+}
+
+interface TransportListing { id: string; vehicle_type: string; driver_name: string; base_town: string; images?: string[]; }
+interface ClassListing { id: string; title: string; price: number; images?: string[]; created_at: string; }
+interface JobPosting { id: string; title: string; company_name: string; created_at: string; }
+interface BusinessListing { id: string; business_name: string; business_type: string; is_verified: boolean; gallery_images?: string[]; created_at: string; }
+
 export default function UserProfileDashboard1() {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  const [transportListings, setTransportListings] = useState<any[]>([]);
-  const [classListings, setClassListings] = useState<any[]>([]);
-  const [jobPostings, setJobPostings] = useState<any[]>([]);
-  const [businessListings, setBusinessListings] = useState<any[]>([]);
+  const [transportListings, setTransportListings] = useState<TransportListing[]>([]);
+  const [classListings, setClassListings] = useState<ClassListing[]>([]);
+  const [jobPostings, setJobPostings] = useState<JobPosting[]>([]);
+  const [businessListings, setBusinessListings] = useState<BusinessListing[]>([]);
 
   useEffect(() => {
     // Check active session
@@ -105,7 +118,7 @@ export default function UserProfileDashboard1() {
       subscription.unsubscribe();
       window.removeEventListener('adminActionRefresh', handleAdminAction);
     };
-  }, [supabase]);
+  }, [supabase, user]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -125,7 +138,7 @@ export default function UserProfileDashboard1() {
       if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
       if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    } catch (e) {
+    } catch {
       return 'Recently';
     }
   };

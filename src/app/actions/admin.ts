@@ -128,9 +128,9 @@ export async function adminDeleteContent(contentType: string, contentId: string)
 
         console.log(`[adminDeleteContent] Success.`);
         return { success: true };
-    } catch (e: any) {
+    } catch (e) {
         console.error(`[adminDeleteContent] FATAL ERROR:`, e);
-        return { success: false, error: e.message };
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -152,9 +152,9 @@ export async function adminVerifyBusiness(businessId: string) {
         revalidatePath(`/directory/${businessId}`);
         revalidatePath('/directory');
         return { success: true };
-    } catch (e: any) {
+    } catch (e) {
         console.error(`[adminVerifyBusiness] Error:`, e);
-        return { success: false, error: e.message };
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -171,8 +171,8 @@ export async function adminRevokeBusinessVerification(businessId: string) {
         revalidatePath('/directory');
         revalidatePath('/admin/dashboard');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -187,8 +187,8 @@ export async function adminDeleteBusiness(businessId: string) {
         revalidatePath('/directory');
         revalidatePath('/admin/dashboard');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -208,8 +208,8 @@ export async function adminBanUser(userId: string) {
         if (error) throw new Error(error.message);
         revalidatePath('/admin/users');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -224,8 +224,8 @@ export async function adminUnbanUser(userId: string) {
         if (error) throw new Error(error.message);
         revalidatePath('/admin/users');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -234,8 +234,8 @@ export async function adminDeleteUser(userId: string) {
         await verifyAdminServer();
         // Reuse the existing adminDeleteContent which handles cascades
         return await adminDeleteContent('user', userId);
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -250,8 +250,8 @@ export async function adminMarkContactMessage(messageId: string, isRead: boolean
         if (error) throw new Error(error.message);
         revalidatePath('/admin');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -265,8 +265,8 @@ export async function adminDeleteOperator(table: 'boat_services' | 'transport_se
         revalidatePath('/island-hopping');
         revalidatePath('/commute');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -284,8 +284,8 @@ export async function adminApproveBusiness(businessId: string) {
         revalidatePath(`/directory/${businessId}`);
         revalidatePath('/admin/moderation');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -301,8 +301,8 @@ export async function adminRejectBusiness(businessId: string) {
         revalidatePath('/directory');
         revalidatePath('/admin/moderation');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -367,9 +367,9 @@ export async function adminApproveClaimRequest(claimId: string, businessId: stri
         revalidatePath(`/directory/${businessId}`);
         revalidatePath('/admin/moderation');
         return { success: true };
-    } catch (e: any) {
-        console.error('[adminApproveClaimRequest] Error:', e.message);
-        return { success: false, error: e.message };
+    } catch (e) {
+        console.error('[adminApproveClaimRequest] Error:', (e as Error).message);
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -384,8 +384,8 @@ export async function adminRejectClaimRequest(claimId: string) {
         if (error) throw new Error(error.message);
         revalidatePath('/admin/moderation');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 
@@ -410,8 +410,8 @@ export async function adminUpdateRole(userId: string, newRole: string) {
         if (error) throw new Error(error.message);
         revalidatePath('/admin/users');
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        return { success: false, error: (e as Error).message };
     }
 }
 

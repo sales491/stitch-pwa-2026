@@ -78,8 +78,8 @@ function BoatOperatorCard({ op, highlighted }: { op: BoatOperator; highlighted?:
             const { error } = await supabase.from('boat_services').update({ is_available: nextStatus }).eq('id', op.id);
             if (error) throw error;
             setIsAvailable(nextStatus);
-        } catch (err: any) {
-            alert(err.message || 'Failed to update status');
+        } catch (err) {
+            alert((err as Error).message || 'Failed to update status');
         } finally {
             setIsToggling(false);
         }
@@ -98,8 +98,9 @@ function BoatOperatorCard({ op, highlighted }: { op: BoatOperator; highlighted?:
                 await supabase.from('boat_vouches').insert({ user_id: cu.id, service_id: op.id });
                 setVouchCount(p => p + 1); setHasVouched(true);
             }
-        } catch (err: any) {
-            if (err.code !== '23505') alert('Failed to update vouch.');
+        } catch (err) {
+            const error = err as { code?: string; message?: string };
+            if (error.code !== '23505') alert('Failed to update vouch.');
         } finally { setIsVouching(false); }
     };
 
@@ -295,7 +296,7 @@ export default function IslandHoppingHub({ initialOperators = [] }: { initialOpe
     const [filterOpen, setFilterOpen] = useState(false);
     const supabase = createClient();
 
-    React.useEffect(() => {
+    useEffect(() => {
         async function loadData() {
             const { data: { user } } = await supabase.auth.getUser();
             setCurrentUser(user);
@@ -307,19 +308,40 @@ export default function IslandHoppingHub({ initialOperators = [] }: { initialOpe
                     const { data: vouchesData } = await supabase.from('boat_vouches').select('service_id');
                     const counts: Record<string, number> = {};
                     vouchesData?.forEach(v => { counts[v.service_id] = (counts[v.service_id] || 0) + 1; });
-                    let userVouches = new Set<string>();
+                    const userVouches = new Set<string>();
                     if (user) {
                         const { data: uv } = await supabase.from('boat_vouches').select('service_id').eq('user_id', user.id);
                         uv?.forEach(v => userVouches.add(v.service_id));
                     }
-                    const mapped: BoatOperator[] = services
-                        .map((d: any) => ({
+                    interface BoatService {
+                        id: string;
+                        operator_name: string;
+                        boat_type: BoatType;
+                        service_type: BoatServiceType;
+                        destinations: string[] | null;
+                        base_municipality: string;
+                        price_per_head: number | null;
+                        charter_rate: number | null;
+                        charter_avail: boolean;
+                        charter_details: { min_pax?: number; notes?: string } | null;
+                        schedule: { day: string; time: string }[] | null;
+                        contact_number: string | null;
+                        contact_details: { fb_username?: string; email?: string } | null;
+                        images: string[] | null;
+                        notes: string | null;
+                        is_available: boolean;
+                        provider_id: string;
+                        provider?: { phone?: string | null; trust_score?: number; is_verified?: boolean } | null;
+                    }
+
+                    const mapped: BoatOperator[] = (services as unknown as BoatService[])
+                        .map((d) => ({
                             id: d.id, operator_name: d.operator_name, boat_type: d.boat_type, service_type: d.service_type,
                             destinations: d.destinations || [], base_municipality: d.base_municipality,
-                            price_per_head: d.price_per_head || 0, charter_rate: d.charter_rate, charter_avail: d.charter_avail,
-                            charter_details: d.charter_details, schedule: d.schedule,
-                            contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details,
-                            images: d.images, notes: d.notes, is_available: d.is_available, provider_id: d.provider_id,
+                            price_per_head: d.price_per_head || 0, charter_rate: d.charter_rate || undefined, charter_avail: d.charter_avail,
+                            charter_details: d.charter_details || undefined, schedule: d.schedule || undefined,
+                            contact_number: d.contact_number || d.provider?.phone || '', contact_details: d.contact_details || undefined,
+                            images: d.images || [], notes: d.notes || undefined, is_available: d.is_available, provider_id: d.provider_id,
                             vouchCount: counts[d.id] || 0, hasVouched: userVouches.has(d.id)
                         }))
                         .sort((a, b) => {
@@ -336,7 +358,7 @@ export default function IslandHoppingHub({ initialOperators = [] }: { initialOpe
             } else if (user) {
                 // If we already have initialOperators from SSR, just hydrate user-specific state
                 const { data: uv } = await supabase.from('boat_vouches').select('service_id').eq('user_id', user.id);
-                let userVouches = new Set<string>();
+                const userVouches = new Set<string>();
                 uv?.forEach(v => userVouches.add(v.service_id));
                 
                 setOperators(prev => {
@@ -356,14 +378,14 @@ export default function IslandHoppingHub({ initialOperators = [] }: { initialOpe
             const { data } = await supabase.from('boat_services').select('id, is_available');
             if (data) {
                 const statusMap: Record<string, boolean> = {};
-                data.forEach((s: any) => { statusMap[s.id] = s.is_available; });
+                (data as { id: string; is_available: boolean }[]).forEach((s) => { statusMap[s.id] = s.is_available; });
                 setOperators(prev => prev.map(op => ({ ...op, is_available: statusMap[op.id] ?? op.is_available })));
             }
         }
 
         const poll = setInterval(pollAvailability, 30_000);
         return () => clearInterval(poll);
-    }, []);
+    }, [initialOperators, supabase]);
 
     const municipalities = ['All', 'Boac', 'Buenavista', 'Gasan', 'Mogpog', 'Sta. Cruz', 'Torrijos'];
     const filtered = operators.filter(op => {

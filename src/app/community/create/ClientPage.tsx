@@ -65,7 +65,7 @@ export default function CreatePost() {
         setError('');
 
         try {
-            let imageUrls: string[] = [];
+            const imageUrls: string[] = [];
 
             // 1. Upload Images (If the user attached any)
             if (imageFiles.length > 0) {

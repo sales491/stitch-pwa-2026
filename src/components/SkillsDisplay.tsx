@@ -204,7 +204,7 @@ export default function SkillsDisplay({ initialListings, currentUserId, isLogged
                     {ALL_CATS.map(c => (
                         <button
                             key={c.key}
-                            onClick={() => switchCategory(c.key as any)}
+                            onClick={() => switchCategory(c.key as SkillCategory | 'all')}
                             className={`flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap transition-all ${
                                 activeCategory === c.key
                                     ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800'

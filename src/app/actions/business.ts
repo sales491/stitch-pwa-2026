@@ -6,8 +6,9 @@ import { businessSchema, BusinessInput } from '@/lib/validations/business';
 import { revalidatePath } from 'next/cache';
 import { isAdmin } from '@/utils/roles';
 import { determineBarangay } from '@/utils/barangay-matcher';
+import type { User } from '@supabase/supabase-js';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase
@@ -29,7 +30,7 @@ export async function createBusinessProfile(data: BusinessInput) {
     const validated = businessSchema.parse(data);
 
     // Auto-detect and assign barangay if missing
-    let contactInfoObj: any = validated.contact_info || {};
+    let contactInfoObj = (validated.contact_info as Record<string, unknown>) || {};
     if (typeof contactInfoObj === 'string') {
         try { contactInfoObj = JSON.parse(contactInfoObj); } catch(e) { contactInfoObj = {}; }
     }
@@ -66,7 +67,7 @@ export async function updateBusinessProfile(id: string, data: BusinessInput) {
     const validated = businessSchema.parse(data);
 
     // Auto-detect and assign barangay if missing
-    let contactInfoObj: any = validated.contact_info || {};
+    let contactInfoObj = (validated.contact_info as Record<string, unknown>) || {};
     if (typeof contactInfoObj === 'string') {
         try { contactInfoObj = JSON.parse(contactInfoObj); } catch(e) { contactInfoObj = {}; }
     }

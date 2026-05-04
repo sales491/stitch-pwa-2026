@@ -66,7 +66,7 @@ export default function AdminActions({
             }
         }
         checkRole();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+         
     }, [supabase, authorId, contentType]);
 
     if (!isUserAdmin) return null;

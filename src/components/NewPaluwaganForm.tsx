@@ -98,7 +98,7 @@ export default function NewPaluwaganForm() {
                         onChange={e => set('total_cycles', e.target.value)}
                         className="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-[14px] font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
                     />
-                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 mt-1">Each member = one cycle. You'll be Slot 1.</p>
+                    <p className="text-[10px] text-slate-400 dark:text-zinc-500 mt-1">Each member = one cycle. You&apos;ll be Slot 1.</p>
                 </div>
 
                 {/* Cycle frequency */}

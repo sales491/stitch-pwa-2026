@@ -43,8 +43,11 @@ export default function MobileTopHeader() {
     const [qrOpen, setQrOpen] = useState(false);
 
     useEffect(() => {
-        setIsMenuOpen(false);
-    }, [pathname]);
+        if (isMenuOpen) {
+            const timer = setTimeout(() => setIsMenuOpen(false), 0);
+            return () => clearTimeout(timer);
+        }
+    }, [pathname, isMenuOpen]);
 
     useEffect(() => {
         if (isMenuOpen) {
@@ -113,11 +116,13 @@ export default function MobileTopHeader() {
                         <Link href="/profile" className="ml-1 relative flex items-center justify-center">
                             {/* Profile image with matching colored border from mockup */}
                             <div className="h-8 w-8 rounded-full overflow-hidden border-[1.5px] border-slate-200 dark:border-white/20 shadow-sm relative">
-                                <img
+                                <Image
                                     alt="User Profile"
                                     className="h-full w-full object-cover"
                                     src={avatarUrl}
-                                    referrerPolicy="no-referrer"
+                                    width={32}
+                                    height={32}
+                                    unoptimized={true}
                                 />
                             </div>
                             

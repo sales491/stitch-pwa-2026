@@ -80,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let eventRoutes: MetadataRoute.Sitemap = [];
   let gemRoutes: MetadataRoute.Sitemap = [];
   let businessRoutes: MetadataRoute.Sitemap = [];
-  let categoryRoutes: MetadataRoute.Sitemap = [];
+  const categoryRoutes: MetadataRoute.Sitemap = [];
   let newsRoutes: MetadataRoute.Sitemap = [];
 
   try {

@@ -4,9 +4,10 @@ import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { transportServiceSchema, TransportServiceInput } from '@/lib/validations/transport';
 import { revalidatePath } from 'next/cache';
+import type { User } from '@supabase/supabase-js';
 import { isAdmin } from '@/utils/roles';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase
@@ -17,7 +18,7 @@ async function isUserAdmin(user: any): Promise<boolean> {
     return profile?.role === 'admin' || profile?.role === 'moderator';
 }
 
-export async function createTransportService(data: any, editId?: string | null) {
+export async function createTransportService(data: TransportServiceInput, editId?: string | null) {
     const supabase = await createClient();
 
     // Auth Check

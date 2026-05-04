@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 export default async function PortsPage() {
     const supabase = await createClient();
 
+    // eslint-disable-next-line react-hooks/purity
     const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString();
     const { data: updates } = await supabase
         .from('port_updates')

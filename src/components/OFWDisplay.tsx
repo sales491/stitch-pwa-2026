@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { OFW_CURRENCIES } from '@/lib/ofw-constants';
 import { ExchangeRates, RemittanceCenter } from '@/app/actions/ofw';
 
@@ -79,7 +78,7 @@ export default function OFWDisplay({ rates, centers }: Props) {
                     {/* Rate cards grid */}
                     {hasRates ? (
                         <div className="grid grid-cols-2 gap-2">
-                            {OFW_CURRENCIES.map(({ code, flag, name, country }) => {
+                            {OFW_CURRENCIES.map(({ code, flag, country }) => {
                                 const phpPer1 = rates.rates[code];
                                 if (!phpPer1) return null;
                                 return (

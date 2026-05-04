@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PageHeader from '@/components/PageHeader';
+import Link from 'next/link';
 
 export default function PrivacyPolicyDataRights() {
   return (
@@ -109,9 +110,9 @@ export default function PrivacyPolicyDataRights() {
     </div>
     {/* Extra links */}
     <div className="mt-6 px-5 pb-8 flex justify-center gap-4">
-      <a className="text-xs text-text-sub dark:text-slate-500 hover:text-primary" href="/">Terms of Service</a>
+      <Link className="text-xs text-text-sub dark:text-slate-500 hover:text-primary" href="/">Terms of Service</Link>
       <span className="text-xs text-neutral-light dark:text-neutral-dark">•</span>
-      <a className="text-xs text-text-sub dark:text-slate-500 hover:text-primary" href="/">Community Guidelines</a>
+      <Link className="text-xs text-text-sub dark:text-slate-500 hover:text-primary" href="/">Community Guidelines</Link>
     </div>
   </main>
 </div>

@@ -77,7 +77,7 @@ export default function UserProfileDashboard2() {
       setIsLoading(false);
     };
     load();
-  }, [profile?.id]);
+  }, [profile?.id, supabase]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -129,8 +129,8 @@ export default function UserProfileDashboard2() {
       setToast({ message: 'Profile updated!', type: 'success' });
       // Navigate back after a short pause so the user sees the toast
       setTimeout(() => router.back(), 1400);
-    } catch (err: any) {
-      setToast({ message: err.message || 'Failed to save profile.', type: 'error' });
+    } catch (err) {
+      setToast({ message: (err as Error).message || 'Failed to save profile.', type: 'error' });
     } finally {
       setIsSaving(false);
     }

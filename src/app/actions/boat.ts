@@ -5,7 +5,9 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { revalidatePath } from 'next/cache';
 import { isAdmin } from '@/utils/roles';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+import type { User } from '@supabase/supabase-js';
+
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase
@@ -16,7 +18,7 @@ async function isUserAdmin(user: any): Promise<boolean> {
     return profile?.role === 'admin' || profile?.role === 'moderator';
 }
 
-export async function createBoatService(data: any, editId?: string | null) {
+export async function createBoatService(data: Record<string, unknown>, editId?: string | null) {
     const supabase = await createClient();
 
     const { data: { user } } = await supabase.auth.getUser();

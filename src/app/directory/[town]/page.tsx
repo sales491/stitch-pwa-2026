@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { hreflangAlternates } from '@/utils/seo';
 
@@ -160,7 +161,7 @@ export default async function TownHubPage({
                             <p className="text-sm font-black uppercase tracking-widest text-moriones-red mb-1">
                                 {townName} Biography & History
                             </p>
-                            <p className="text-xs text-moriones-red/70 font-medium">Read the "Total History" deep dive into our town's origins.</p>
+                            <p className="text-xs text-moriones-red/70 font-medium">Read the &quot;Total History&quot; deep dive into our town&apos;s origins.</p>
                         </Link>
 
                         {CATEGORIES.map((cat) => (
@@ -193,7 +194,15 @@ export default async function TownHubPage({
                             >
                                 <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-zinc-800 flex-shrink-0 flex items-center justify-center text-slate-300 overflow-hidden">
                                     {biz.gallery_image ? (
-                                        <img src={biz.gallery_image} alt={biz.business_name} className="w-full h-full object-cover" />
+                                        <div className="relative w-full h-full">
+                                            <Image
+                                                src={biz.gallery_image}
+                                                alt={biz.business_name}
+                                                fill
+                                                className="object-cover"
+                                                unoptimized
+                                            />
+                                        </div>
                                     ) : (
                                         <span className="material-symbols-outlined">storefront</span>
                                     )}

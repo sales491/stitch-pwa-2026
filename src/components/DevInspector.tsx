@@ -2,13 +2,25 @@
 
 import { useEffect } from 'react';
 
+declare global {
+  interface Window {
+    __ag_selected__?: {
+      tag: string;
+      id: string | null;
+      classes: string | null;
+      text: string;
+      html: string;
+    } | null;
+  }
+}
+
 export default function DevInspector() {
   useEffect(() => {
     // Clean up any previous instance
     ['__ag_hl__', '__ag_badge__'].forEach(id => {
       document.getElementById(id)?.remove();
     });
-    (window as any).__ag_selected__ = null;
+    window.__ag_selected__ = null;
 
     // Highlight overlay
     const hl = document.createElement('div');
@@ -31,7 +43,7 @@ export default function DevInspector() {
     function setActive(on: boolean) {
       active = on;
       locked = false;
-      (window as any).__ag_selected__ = null;
+      window.__ag_selected__ = null;
       hl.style.display = 'none';
       if (on) {
         badge.style.background = '#14532d';
@@ -54,7 +66,7 @@ export default function DevInspector() {
       }
       if (e.key === 'Escape' && active) {
         locked = false;
-        (window as any).__ag_selected__ = null;
+        window.__ag_selected__ = null;
         hl.style.outline = '2px solid #3b82f6';
         hl.style.background = 'rgba(59,130,246,0.08)';
       }
@@ -74,7 +86,7 @@ export default function DevInspector() {
       hl.style.outline = '2px solid #22c55e';
       hl.style.background = 'rgba(34,197,94,0.08)';
       const el = e.target as HTMLElement;
-      (window as any).__ag_selected__ = {
+      window.__ag_selected__ = {
         tag: el.tagName,
         id: el.id || null,
         classes: typeof el.className === 'string' ? el.className : null,

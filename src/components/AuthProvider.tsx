@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
+import type { User } from '@supabase/supabase-js'
 
 type Profile = {
     id: string
@@ -11,7 +12,7 @@ type Profile = {
 }
 
 type AuthContextType = {
-    user: any | null
+    user: User | null
     profile: Profile | null
     isLoading: boolean
 }
@@ -19,7 +20,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({ user: null, profile: null, isLoading: true })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<any | null>(null)
+    const [user, setUser] = useState<User | null>(null)
     const [profile, setProfile] = useState<Profile | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -74,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         })
 
         return () => subscription.unsubscribe()
-    }, [])
+    }, [supabase])
 
     return (
         <AuthContext.Provider value={{ user, profile, isLoading }}>

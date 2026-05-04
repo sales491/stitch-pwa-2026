@@ -15,13 +15,16 @@ export default function CreateBusinessProfileStep2() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPhone(localStorage.getItem('bp_phone') || '');
-      setMessengerUsername(localStorage.getItem('bp_messenger') || '');
-      setFbPageUsername(localStorage.getItem('bp_fb_page') || '');
-      setEmail(localStorage.getItem('bp_email') || '');
-      setTown(localStorage.getItem('bp_location')?.split(',')[0] || '');
-      setBarangay(localStorage.getItem('bp_barangay') || '');
-      setAddress(localStorage.getItem('bp_address') || '');
+      const timer = setTimeout(() => {
+        setPhone(localStorage.getItem('bp_phone') || '');
+        setMessengerUsername(localStorage.getItem('bp_messenger') || '');
+        setFbPageUsername(localStorage.getItem('bp_fb_page') || '');
+        setEmail(localStorage.getItem('bp_email') || '');
+        setTown(localStorage.getItem('bp_location')?.split(',')[0] || '');
+        setBarangay(localStorage.getItem('bp_barangay') || '');
+        setAddress(localStorage.getItem('bp_address') || '');
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

@@ -8,7 +8,7 @@ import { createClient } from '@/utils/supabase/client';
 import { optimizeImage } from '@/utils/image-optimization';
 import SuccessToast from '@/components/SuccessToast';
 import PageHeader from '@/components/PageHeader';
-import ImageUploadHint from '@/components/ImageUploadHint';
+import Image from 'next/image';
 
 const TOWNS = ['Boac', 'Mogpog', 'Gasan', 'Buenavista', 'Torrijos', 'Sta. Cruz'];
 
@@ -82,32 +82,53 @@ export default function PostBoatListing() {
     const supabase = createClient();
 
     useEffect(() => {
+        const supabase = createClient();
         async function fetchListing() {
             if (!editId) return;
+
+            interface BoatServiceRow {
+                boat_type: BoatType;
+                service_type: ServiceType;
+                operator_name: string | null;
+                destinations: string[] | null;
+                base_municipality: string | null;
+                price_per_head: number | null;
+                notes: string | null;
+                charter_avail: boolean | null;
+                charter_details: { rate?: string; min_pax?: number; notes?: string } | null;
+                charter_rate: number | null;
+                schedule: { day: string; time: string }[] | null;
+                contact_details: { fb_username?: string; email?: string } | null;
+                contact_number: string | null;
+                is_available: boolean | null;
+                images: string[] | null;
+            }
+
             const { data } = await supabase.from('boat_services').select('*').eq('id', editId).single();
             if (data) {
-                setBoatType(data.boat_type);
-                setServiceType(data.service_type);
-                setOperatorName(data.operator_name || '');
-                setSelectedDestinations(data.destinations || []);
-                setBaseMunicipality(data.base_municipality || 'Boac');
-                setPricePerHead(data.price_per_head?.toString() || '');
-                setNotes(data.notes || '');
-                setCharterAvail(data.charter_avail || false);
-                if (data.charter_details) {
-                    setCharterRate(data.charter_details.rate?.toString() || '');
-                    setCharterMinPax(data.charter_details.min_pax || 5);
-                    setCharterNotes(data.charter_details.notes || '');
+                const row = data as unknown as BoatServiceRow;
+                setBoatType(row.boat_type);
+                setServiceType(row.service_type);
+                setOperatorName(row.operator_name || '');
+                setSelectedDestinations(row.destinations || []);
+                setBaseMunicipality(row.base_municipality || 'Boac');
+                setPricePerHead(row.price_per_head?.toString() || '');
+                setNotes(row.notes || '');
+                setCharterAvail(row.charter_avail || false);
+                if (row.charter_details) {
+                    setCharterRate(row.charter_details.rate?.toString() || '');
+                    setCharterMinPax(row.charter_details.min_pax || 5);
+                    setCharterNotes(row.charter_details.notes || '');
                 }
-                if (data.charter_rate) setCharterRate(data.charter_rate.toString());
-                setScheduleList(data.schedule || []);
-                if (data.contact_details) {
-                    setFbUsername(data.contact_details.fb_username || '');
-                    setEmail(data.contact_details.email || '');
+                if (row.charter_rate) setCharterRate(row.charter_rate.toString());
+                setScheduleList(row.schedule || []);
+                if (row.contact_details) {
+                    setFbUsername(row.contact_details.fb_username || '');
+                    setEmail(row.contact_details.email || '');
                 }
-                setPhone(data.contact_number || '');
-                setIsAvailable(data.is_available ?? true);
-                setExistingImages(data.images || []);
+                setPhone(row.contact_number || '');
+                setIsAvailable(row.is_available ?? true);
+                setExistingImages(row.images || []);
             }
         }
         fetchListing();
@@ -171,7 +192,7 @@ export default function PostBoatListing() {
 
         setIsUploading(true);
         try {
-            let uploadedImages: string[] = [];
+            const uploadedImages: string[] = [];
             for (const file of imageFiles) {
                 const optimized = await optimizeImage(file, { maxWidth: 1024, quality: 0.8, aspectRatio: 4/3 });
                 const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
@@ -206,7 +227,7 @@ export default function PostBoatListing() {
                         router.push('/island-hopping');
                         router.refresh();
                     }, 2000);
-                } catch (err: any) {
+                } catch (err) {
                     // Rollback: delete any images uploaded in this session
                     if (uploadedImages.length > 0) {
                         const paths = uploadedImages
@@ -216,11 +237,11 @@ export default function PostBoatListing() {
                             await supabase.storage.from('listings').remove(paths);
                         }
                     }
-                    setFilterError(err.message || 'Failed to save listing');
+                    setFilterError((err as Error).message || 'Failed to save listing');
                 }
             });
-        } catch (err: any) {
-            setFilterError(err.message || 'Failed to upload images');
+        } catch (err) {
+            setFilterError((err as Error).message || 'Failed to upload images');
         } finally {
             setIsUploading(false);
         }
@@ -291,23 +312,23 @@ export default function PostBoatListing() {
                             </div>
                             <div className="grid grid-cols-2 gap-3">
                                 {existingImages.map((url, idx) => (
-                                    <div key={`ex-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                                        <img src={url} className="w-full h-full object-cover opacity-80" alt="Existing" />
+                                    <div key={`ex-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden group">
+                                        <Image src={url} fill className="object-cover opacity-80" alt="Existing" />
                                         <button type="button" onClick={() => setExistingImages(p => p.filter(u => u !== url))}
-                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors">
+                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors z-10">
                                             <span className="material-symbols-outlined text-sm">delete</span>
                                         </button>
-                                        <div className="absolute top-1.5 left-1.5 bg-green-500/80 text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest">Saved</div>
+                                        <div className="absolute top-1.5 left-1.5 bg-green-500/80 text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest z-10">Saved</div>
                                     </div>
                                 ))}
                                 {imageFiles.map((file, idx) => (
-                                    <div key={`new-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden">
-                                        <img src={URL.createObjectURL(file)} className="w-full h-full object-cover" alt="Preview" />
+                                    <div key={`new-${idx}`} className="relative aspect-square rounded-xl bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-700 overflow-hidden group">
+                                        <Image src={URL.createObjectURL(file)} fill className="object-cover" alt="Preview" />
                                         <button type="button" onClick={() => setImageFiles(p => p.filter((_, i) => i !== idx))}
-                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors">
+                                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-lg bg-black/60 text-white flex items-center justify-center backdrop-blur-md hover:bg-red-500 transition-colors z-10">
                                             <span className="material-symbols-outlined text-sm">close</span>
                                         </button>
-                                        <div className="absolute top-1.5 left-1.5 bg-blue-500/80 text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest">New</div>
+                                        <div className="absolute top-1.5 left-1.5 bg-blue-500/80 text-[6px] font-black text-white px-1.5 py-0.5 rounded uppercase tracking-widest z-10">New</div>
                                     </div>
                                 ))}
                                 {(imageFiles.length + existingImages.length) < 2 && (

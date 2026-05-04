@@ -20,6 +20,23 @@ export type GasPrice = {
     avatar_url: string | null;
 };
 
+interface RawGasPrice {
+    id: string;
+    created_at: string;
+    municipality: string;
+    regular_price: number | null;
+    premium_price: number | null;
+    diesel_price: number | null;
+    photo_url: string | null;
+    station_name: string | null;
+    note: string | null;
+    author_id: string | null;
+    profiles: {
+        full_name: string | null;
+        avatar_url: string | null;
+    } | null;
+}
+
 export async function getGasPrices(municipality: string): Promise<GasPrice[]> {
     const supabase = await createClient();
     // Show entries from the last 3 days
@@ -32,7 +49,9 @@ export async function getGasPrices(municipality: string): Promise<GasPrice[]> {
         .gte('created_at', since)
         .order('created_at', { ascending: false });
 
-    return (data ?? []).map((r: any) => ({
+    const rawData = (data as unknown as RawGasPrice[]) ?? [];
+
+    return rawData.map((r) => ({
         id: r.id,
         created_at: r.created_at,
         municipality: r.municipality,

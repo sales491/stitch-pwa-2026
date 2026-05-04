@@ -8,7 +8,7 @@ export function formatPhPhoneForLink(phone: string): string {
     if (!phone) return '';
 
     // Remove all non-numeric characters
-    let cleaned = phone.replace(/\D/g, '');
+    const cleaned = phone.replace(/\D/g, '');
 
     // If it starts with 63, just add the +
     if (cleaned.startsWith('63')) {

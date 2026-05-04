@@ -47,7 +47,7 @@ export async function postSkillListing(formData: FormData) {
         return { error: 'Please provide at least one contact method.' };
     }
 
-    const poster_name = (profile as any)?.full_name ?? null;
+    const poster_name = profile?.full_name ?? null;
 
     const { data: inserted, error } = await supabase.from('skills_exchange').insert({
         posted_by: user.id,

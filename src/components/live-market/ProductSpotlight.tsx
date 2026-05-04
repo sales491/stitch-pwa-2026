@@ -6,6 +6,8 @@
 // Triggers MineButton to appear.
 // Updates via PRODUCT_SPOTLIGHT Realtime broadcast.
 
+import Image from 'next/image';
+
 interface ProductSpotlightProps {
   name: string;
   price: number;
@@ -21,7 +23,7 @@ export function ProductSpotlight({ name, price, imageUrl, quantity }: ProductSpo
                     bg-black/70 backdrop-blur-sm rounded-2xl p-4
                     flex gap-3 items-center">
       {imageUrl && (
-        <img src={imageUrl} alt={name} className="w-16 h-16 rounded-xl object-cover" />
+        <Image src={imageUrl} alt={name} width={64} height={64} className="w-16 h-16 rounded-xl object-cover" />
       )}
       <div className="flex-1">
         <p className="text-white font-black text-base leading-tight">{name}</p>

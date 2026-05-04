@@ -6,7 +6,7 @@
 //           Buyers can type and send messages
 //           Messages optionally persisted to lm_messages table
 
-export function LiveChat({ sessionId }: { sessionId: string }) {
+export function LiveChat({ sessionId: _sessionId }: { sessionId: string }) {
   // TODO — Phase 1 implementation
 
   return (

@@ -5,8 +5,8 @@ import { hreflangAlternates, TAGALOG_KEYWORDS_TRAVEL } from '@/utils/seo';
 import BackButton from '@/components/BackButton';
 import ShareButton from '@/components/ShareButton';
 
-const title = 'Manila to Marinduque: The "Pro" Travel Guide (2026)';
-const description = 'The most efficient, reliable, and "island-vibe" way to travel from Manila to Marinduque using the classic Bus + RoRo route. Skip the slow vans.';
+const title = 'Manila to Marinduque: The &quot;Pro&quot; Travel Guide (2026)';
+const description = 'The most efficient, reliable, and &quot;island-vibe&quot; way to travel from Manila to Marinduque using the classic Bus + RoRo route. Skip the slow vans.';
 const url = 'https://marinduquemarket.com/guides/manila-to-marinduque';
 const imageUrl = 'https://marinduquemarket.com/images/manila_marinduque_map.jpg';
 
@@ -121,7 +121,7 @@ export default function ManilaToMarinduqueGuide() {
                         Manila to Marinduque
                     </h1>
                     <p className="text-emerald-400 text-sm md:text-base font-bold mb-3">
-                        The "Pro" Way to Cross the Sea
+                        The &quot;Pro&quot; Way to Cross the Sea
                     </p>
                     <p className="text-slate-300 text-xs md:text-sm font-medium leading-relaxed mb-5">
                         Skip the slow vans. Discover the fastest, most reliable, and comfortable route to the Heart of the Philippines (2026 Edition).
@@ -156,7 +156,7 @@ export default function ManilaToMarinduqueGuide() {
                 {/* Intro */}
                 <section id="intro" className="prose prose-slate max-w-none text-lg leading-relaxed">
                     <p>
-                        If you’re looking at a map of the Philippines and wondering why there aren't more flights to the "Heart of the Philippines," join the club. While the Marinduque airport is technically there, it’s currently closed to commercial airlines. 
+                        If you&apos;re looking at a map of the Philippines and wondering why there aren&apos;t more flights to the &quot;Heart of the Philippines,&quot; join the club. While the Marinduque airport is technically there, it&apos;s currently closed to commercial airlines. 
                     </p>
                     <div className="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-2xl my-6">
                         <div className="flex items-center gap-2 mb-2">
@@ -164,11 +164,11 @@ export default function ManilaToMarinduqueGuide() {
                             <h3 className="font-black text-amber-800 m-0">THE VAN WARNING</h3>
                         </div>
                         <p className="text-amber-900/80 text-base m-0">
-                            You might see "door-to-door" van services advertised online, but take it from someone who has done this trip many times: they are often painfully slow due to waiting for passengers to fill up, or navigating multi-stop drop-offs. 
+                            You might see &quot;door-to-door&quot; van services advertised online, but take it from someone who has done this trip many times: they are often painfully slow due to waiting for passengers to fill up, or navigating multi-stop drop-offs. 
                         </p>
                     </div>
                     <p>
-                        The most efficient, reliable, and honestly most "island-vibe" way to get there is the classic <strong>Bus + RoRo combo</strong>. For the latest 2026 fares and departure times, check out our <Link href="/ferry-schedule" className="text-[#0077be] font-bold hover:underline">Complete Ferry Schedule</Link>.
+                        The most efficient, reliable, and honestly most &quot;island-vibe&quot; way to get there is the classic <strong>Bus + RoRo combo</strong>. For the latest 2026 fares and departure times, check out our <Link href="/ferry-schedule" className="text-[#0077be] font-bold hover:underline">Complete Ferry Schedule</Link>.
                     </p>
                 </section>
 
@@ -206,7 +206,7 @@ export default function ManilaToMarinduqueGuide() {
                                 <span className="material-symbols-outlined text-emerald-500 shrink-0 mt-1">directions_bus</span>
                                 <div>
                                     <strong className="text-slate-900 block">The Departure Hub</strong>
-                                    Always head to the <a href="https://www.google.com/maps/search/?api=1&query=Jam+Liner+Buendia" target="_blank" rel="noreferrer" className="text-[#0077be] hover:underline font-bold">Buendia (LRT-1) Terminal</a> area. It’s the closest major hub for anyone coming from Makati or the South.
+                                    Always head to the <a href="https://www.google.com/maps/search/?api=1&query=Jam+Liner+Buendia" target="_blank" rel="noreferrer" className="text-[#0077be] hover:underline font-bold">Buendia (LRT-1) Terminal</a> area. It&apos;s the closest major hub for anyone coming from Makati or the South.
                                 </div>
                             </li>
                             <li className="flex gap-4">
@@ -259,7 +259,7 @@ export default function ManilaToMarinduqueGuide() {
                             <li className="flex gap-4">
                                 <span className="material-symbols-outlined text-emerald-500 shrink-0 mt-1">airline_seat_flat</span>
                                 <div>
-                                    <strong className="text-slate-900 block">The "Nap Factor"</strong>
+                                    <strong className="text-slate-900 block">The &quot;Nap Factor&quot;</strong>
                                     Aim for the larger <em>barkos</em>. They usually feature air-conditioned rooms and sleeping bunks. Smaller fastcrafts are usually open-air and seating only.
                                 </div>
                             </li>
@@ -267,7 +267,7 @@ export default function ManilaToMarinduqueGuide() {
                                 <span className="material-symbols-outlined text-emerald-500 shrink-0 mt-1">landscape</span>
                                 <div>
                                     <strong className="text-slate-900 block">The Approach</strong>
-                                    The ferry takes about <strong>3 hours</strong>. You'll see the main island from afar, but keep your eyes open as you get close. You’ll traverse beautiful mini-islets before the port reveals itself. Look for the massive, colorful new mural painted at <a href="https://www.google.com/maps/search/?api=1&query=Balanacan+Port+Marinduque" target="_blank" rel="noreferrer" className="text-[#0077be] hover:underline font-bold">Balanacan Port</a> in Mogpog!
+                                    The ferry takes about <strong>3 hours</strong>. You&apos;ll see the main island from afar, but keep your eyes open as you get close. You&apos;ll traverse beautiful mini-islets before the port reveals itself. Look for the massive, colorful new mural painted at <a href="https://www.google.com/maps/search/?api=1&query=Balanacan+Port+Marinduque" target="_blank" rel="noreferrer" className="text-[#0077be] hover:underline font-bold">Balanacan Port</a> in Mogpog!
                                 </div>
                             </li>
                         </ul>
@@ -285,7 +285,7 @@ export default function ManilaToMarinduqueGuide() {
                             <li className="flex gap-4">
                                 <span className="material-symbols-outlined text-emerald-500 shrink-0 mt-1">directions_run</span>
                                 <div>
-                                    <strong className="text-slate-900 block">The "Pro" Hustle</strong>
+                                    <strong className="text-slate-900 block">The &quot;Pro&quot; Hustle</strong>
                                     As the ship docks, be ready to move! Hurry off the ship to get your luggage stowed and grab a choice seat on the waiting buses or jeeps. They fill up extremely fast for the trips to Boac, Gasan, or Santa Cruz.
                                 </div>
                             </li>

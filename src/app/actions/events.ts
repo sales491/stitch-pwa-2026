@@ -4,9 +4,10 @@ import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { eventSchema, EventInput } from '@/lib/validations/event';
 import { revalidatePath } from 'next/cache';
+import type { User } from '@supabase/supabase-js';
 import { isAdmin } from '@/utils/roles';
 
-async function isUserAdmin(user: any): Promise<boolean> {
+async function isUserAdmin(user: User): Promise<boolean> {
     if (isAdmin(user.email)) return true;
     const supabase = await createClient();
     const { data: profile } = await supabase
@@ -51,9 +52,9 @@ export async function createEvent(data: EventInput) {
 
         revalidatePath('/events');
         return { success: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Unexpected error in createEvent:', err);
-        return { success: false, message: 'An unexpected error occurred while publishing your event.' };
+        return { success: false, message: (err as Error).message || 'An unexpected error occurred while publishing your event.' };
     }
 }
 

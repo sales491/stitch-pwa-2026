@@ -19,7 +19,7 @@ export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
       if (!isMounted) return;
       setUserId(user?.id || null);
 
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('seller_vouches')
         .select('vouched_by_user_id')
         .eq('vouched_seller_id', sellerId);
@@ -67,8 +67,9 @@ export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
         setVouchCount(p => p + 1);
         setHasVouched(true);
       }
-    } catch (err: any) {
-      if (err.code !== '23505') alert('Failed to update vouch.');
+    } catch (err) {
+      const error = err as { code?: string };
+      if (error.code !== '23505') alert('Failed to update vouch.');
     } finally {
       setIsVouching(false);
     }

@@ -35,9 +35,12 @@ export default function CreateBusinessProfileStep1() {
   useEffect(() => {
     // Load existing data if any
     if (typeof window !== 'undefined') {
-      setBusinessName(localStorage.getItem('bp_name') || '');
-      setDescription(localStorage.getItem('bp_description') || '');
-      setBusinessType(localStorage.getItem('bp_business_type') || 'Restaurant / Food');
+      const timer = setTimeout(() => {
+        setBusinessName(localStorage.getItem('bp_name') || '');
+        setDescription(localStorage.getItem('bp_description') || '');
+        setBusinessType(localStorage.getItem('bp_business_type') || 'Restaurant / Food');
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 
