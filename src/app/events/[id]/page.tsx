@@ -146,6 +146,18 @@ export default async function EventDetail({
                         name: 'Marinduque Market Hub',
                         url: 'https://marinduquemarket.com',
                     },
+                    performer: {
+                        '@type': 'PerformingGroup',
+                        name: event.author?.full_name || 'Local Community',
+                    },
+                    offers: {
+                        '@type': 'Offer',
+                        price: '0',
+                        priceCurrency: 'PHP',
+                        availability: 'https://schema.org/InStock',
+                        url: `https://marinduquemarket.com/events/${id}`,
+                        validFrom: event.created_at?.split('T')[0] || '2025-01-01',
+                    },
                 }) }}
             />
 

@@ -67,9 +67,26 @@ export default async function EventsPage() {
                                 addressCountry: 'PH'
                             }
                         },
-                        image: `https://marinduquemarket.com${event.image}`,
+                        image: event.image?.startsWith('http') ? event.image : `https://marinduquemarket.com${event.image}`,
                         eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-                        eventStatus: 'https://schema.org/EventScheduled'
+                        eventStatus: 'https://schema.org/EventScheduled',
+                        organizer: {
+                            '@type': 'Organization',
+                            name: 'Marinduque Market Hub',
+                            url: 'https://marinduquemarket.com',
+                        },
+                        performer: {
+                            '@type': 'PerformingGroup',
+                            name: event.author?.full_name || 'Local Community',
+                        },
+                        offers: {
+                            '@type': 'Offer',
+                            price: '0',
+                            priceCurrency: 'PHP',
+                            availability: 'https://schema.org/InStock',
+                            url: `https://marinduquemarket.com/events/${event.id}`,
+                            validFrom: event.created_at?.split('T')[0] || '2025-01-01',
+                        },
                     }))
                 ]) }}
             />

@@ -83,6 +83,11 @@ export default function MorionesFestivalPage() {
             organizer: {
                 '@type': 'Organization',
                 name: 'Provincial Government of Marinduque',
+                url: 'https://marinduquemarket.com/moriones-festival',
+            },
+            performer: {
+                '@type': 'PerformingGroup',
+                name: 'Moriones Festival Performers — Local Communities of Marinduque',
             },
             offers: {
                 '@type': 'Offer',
@@ -90,6 +95,8 @@ export default function MorionesFestivalPage() {
                 priceCurrency: 'PHP',
                 description: 'Free public event',
                 availability: 'https://schema.org/InStock',
+                url: 'https://marinduquemarket.com/moriones-festival',
+                validFrom: '2025-01-01',
             },
             image: 'https://marinduquemarket.com/images/moriones-hero.jpg',
         },
