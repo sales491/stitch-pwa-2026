@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { isAdmin, isModerator } from '@/utils/roles';
@@ -28,7 +28,7 @@ export default function UserProfileDashboard1() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [transportListings, setTransportListings] = useState<TransportListing[]>([]);
   const [classListings, setClassListings] = useState<ClassListing[]>([]);
@@ -118,7 +118,8 @@ export default function UserProfileDashboard1() {
       subscription.unsubscribe();
       window.removeEventListener('adminActionRefresh', handleAdminAction);
     };
-  }, [supabase, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [supabase]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
