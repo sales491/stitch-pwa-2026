@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import BusinessCard from '@/components/BusinessCard';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
@@ -118,7 +118,7 @@ export default function BusinessDirectoryClient({ initialBusinesses }: { initial
 
     const isFetchingRef = useRef(false);
     const sentinelRef = useRef<HTMLDivElement>(null);
-    const supabase = createClient();
+    const supabase = useSupabase();
 
     // Get current user session once on mount for visibility filtering
     useEffect(() => {

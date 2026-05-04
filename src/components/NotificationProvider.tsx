@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { User } from '@supabase/supabase-js';
 
 interface Notification {
@@ -29,7 +29,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
-    const supabase = createClient();
+    const supabase = useSupabase();
 
     const fetchNotifications = useCallback(async (userId: string) => {
         try {

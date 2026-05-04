@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import AdminActions from './AdminActions';
 import type { Event } from '@/utils/eventData';
 import PageHeader from '@/components/PageHeader';
@@ -12,7 +12,7 @@ export default function MarinduqueEventsCalendar({ initialEvents }: { initialEve
   const [selectedTown, setSelectedTown] = useState('All');
   const [events, setEvents] = useState<Event[]>(initialEvents);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const currentYear = viewDate.getFullYear();
   const currentMonth = viewDate.getMonth();

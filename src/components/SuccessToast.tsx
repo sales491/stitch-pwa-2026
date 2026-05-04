@@ -24,7 +24,7 @@ export default function SuccessToast({ message, visible, autoDismiss, onDismiss 
             const t = setTimeout(() => setShow(true), 10);
             return () => clearTimeout(t);
         } else {
-            setTimeout(() => setShow(false), 0);
+            setShow(false);
         }
     }, [visible]);
 

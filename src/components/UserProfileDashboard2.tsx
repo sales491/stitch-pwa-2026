@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { useAuth } from './AuthProvider';
 import BarangayPicker from '@/components/BarangayPicker';
 import PageHeader from '@/components/PageHeader';
@@ -35,7 +35,7 @@ function Toast({ message, type, onDone }: { message: string; type: ToastType; on
 export default function UserProfileDashboard2() {
   const router = useRouter();
   const { profile } = useAuth();
-  const supabase = createClient();
+  const supabase = useSupabase();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [fullName, setFullName] = useState('');
