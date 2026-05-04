@@ -60,6 +60,19 @@ export default async function NewsArticlePage({ params }: PageProps) {
         datePublished: article.published_at || article.created_at,
         dateModified: article.published_at || article.created_at,
         description: article.summary,
+        author: {
+            '@type': 'Organization',
+            name: 'Marinduque Market Hub',
+            url: 'https://marinduquemarket.com'
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Marinduque Market Hub',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://marinduquemarket.com/markethub-logo.png'
+            }
+        },
         mainEntityOfPage: {
             '@type': 'WebPage',
             '@id': `https://marinduquemarket.com/news/${article.slug}`

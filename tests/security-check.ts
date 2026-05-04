@@ -106,7 +106,7 @@ async function runTests() {
 
     // ── TEST 1: User B attempts DELETE on User A's listing ────────────
     console.log('4️⃣  [TEST 1] User B attempts DELETE on User A\'s listing...');
-    const { data: deleteData, error: deleteErr } = await clientB
+    const { data: deleteData, error: _deleteErr } = await clientB
         .from('listings')
         .delete()
         .eq('id', testListingId)
@@ -127,7 +127,7 @@ async function runTests() {
     // ── TEST 2: User B attempts UPDATE on User A's listing ────────────
     console.log('5️⃣  [TEST 2] User B attempts UPDATE on User A\'s listing...');
     if (testListingId) {
-        const { data: updateData, error: updateErr } = await clientB
+        const { data: updateData, error: _updateErr } = await clientB
             .from('listings')
             .update({ title: 'HACKED BY USER B' })
             .eq('id', testListingId)

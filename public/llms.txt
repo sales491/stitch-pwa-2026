@@ -47,4 +47,5 @@ All public platform data is structured using Schema.org JSON-LD to ensure Answer
 
 ## For more details
 
-See [llms-full.txt](https://marinduquemarket.com/llms-full.txt) for comprehensive platform documentation.
+- See [llms-full.txt](https://marinduquemarket.com/llms-full.txt) for comprehensive platform documentation.
+- See [llms-news.txt](https://marinduquemarket.com/llms-news.txt) for a real-time Markdown feed of the latest Marinduque local news.

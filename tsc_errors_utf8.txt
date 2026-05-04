@@ -1,0 +1,23 @@
+﻿src/app/island-hopping/page.tsx(82,31): error TS2322: Type 'BoatOperator[]' is not assignable to type 'import("C:/projects/marinduque-market/next-app/src/components/IslandHoppingHub").BoatOperator[]'.
+  Type 'BoatOperator' is not assignable to type 'import("C:/projects/marinduque-market/next-app/src/components/IslandHoppingHub").BoatOperator'.
+    Types of property 'boat_type' are incompatible.
+      Type 'string' is not assignable to type 'BoatType'.
+src/app/live-selling/page.tsx(240,62): error TS2741: Property 'estimated_end' is missing in type 'import("C:/projects/marinduque-market/next-app/src/lib/live-selling").LiveSellingEvent' but required in type 'import("C:/projects/marinduque-market/next-app/src/app/live-selling/page").LiveSellingEvent'.
+src/app/live-selling/page.tsx(266,62): error TS2741: Property 'estimated_end' is missing in type 'import("C:/projects/marinduque-market/next-app/src/lib/live-selling").LiveSellingEvent' but required in type 'import("C:/projects/marinduque-market/next-app/src/app/live-selling/page").LiveSellingEvent'.
+src/app/marketplace/ClientFeed.tsx(246,33): error TS2322: Type '{ key: string; id: string; slug: string; title: string; price: number; town: string; imageUrl: string; sellerId: string; }' is not assignable to type 'IntrinsicAttributes & ListingProps'.
+  Property 'slug' does not exist on type 'IntrinsicAttributes & ListingProps'.
+src/components/CommuterDeliveryHub.tsx(96,13): error TS18046: 'err' is of type 'unknown'.
+src/components/CommuterDeliveryHub.tsx(135,11): error TS18046: 'err' is of type 'unknown'.
+src/components/NotificationProvider.tsx(108,38): error TS2339: Property 'user_id' does not exist on type 'Notification'.
+src/components/UniversalComments.tsx(57,35): error TS2345: Argument of type '{ id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }[]' is not assignable to parameter of type 'SetStateAction<Comment[]>'.
+  Type '{ id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }[]' is not assignable to type 'Comment[]'.
+    Type '{ id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }' is not assignable to type 'Comment'.
+      Types of property 'author' are incompatible.
+        Type '{ id: any; full_name: any; avatar_url: any; }[]' is missing the following properties from type '{ id: string; full_name: string | null; avatar_url: string | null; }': id, full_name, avatar_url
+src/components/UniversalComments.tsx(132,30): error TS2322: Type 'Comment | { id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }' is not assignable to type 'Comment'.
+  Type '{ id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }' is not assignable to type 'Comment'.
+    Types of property 'author' are incompatible.
+      Type '{ id: any; full_name: any; avatar_url: any; }[]' is missing the following properties from type '{ id: string; full_name: string | null; avatar_url: string | null; }': id, full_name, avatar_url
+src/components/UniversalComments.tsx(132,43): error TS2322: Type '{ id: any; content: any; created_at: any; author_id: any; author: { id: any; full_name: any; avatar_url: any; }[]; }' is not assignable to type 'Comment'.
+  Types of property 'author' are incompatible.
+    Type '{ id: any; full_name: any; avatar_url: any; }[]' is missing the following properties from type '{ id: string; full_name: string | null; avatar_url: string | null; }': id, full_name, avatar_url

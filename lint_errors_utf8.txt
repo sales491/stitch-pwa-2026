@@ -1,0 +1,237 @@
+﻿
+C:\projects\marinduque-market\next-app\e2e\create-test-user.js
+  7:15  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\projects\marinduque-market\next-app\e2e\marketplace-create-listing.spec.ts
+  149:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\seed-just-landed-gems.js
+  1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\projects\marinduque-market\next-app\seed-more-gems.js
+  1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\projects\marinduque-market\next-app\simple-http-server.js
+  1:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\projects\marinduque-market\next-app\src\app\admin\dashboard\ClientPage.tsx
+  74:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\projects\marinduque-market\next-app\src\app\admin\dashboard\ClientPage.tsx:74:9
+  72 |
+  73 |     useEffect(() => {
+> 74 |         fetchData();
+     |         ^^^^^^^^^ Avoid calling setState() directly within an effect
+  75 |     }, [fetchData]);
+  76 |
+  77 |     const handleApprove = async (id: string, name: string) => {  react-hooks/set-state-in-effect
+
+C:\projects\marinduque-market\next-app\src\app\admin\moderation\page.tsx
+  61:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  62:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  63:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\admin\page.tsx
+  154:80  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\admin\users\ClientPage.tsx
+   89:73  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\api\cron\fetch-exchange-rates\route.ts
+  62:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\api\index-ping\route.ts
+  42:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\community\create\ClientPage.tsx
+  129:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\commute\page.tsx
+  43:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\directory\b\[id]\edit\page.tsx
+  126:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\directory\b\[id]\page.tsx
+  75:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\directory\create\ClientPage.tsx
+  117:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\directory\page.tsx
+   62:34  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  167:71  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  167:80  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\app\events\page.tsx
+  28:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\gems-of-marinduque-feed\[id]\page.tsx
+  124:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\gems-of-marinduque-feed\page.tsx
+  85:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\gems\create\ClientPage.tsx
+  110:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\gems\page.tsx
+  59:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\island-hopping\page.tsx
+  49:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\job\[slug]\page.tsx
+  73:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\jobs\page.tsx
+  48:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\just-landed\page.tsx
+   97:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\layout.tsx
+  19:5  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\projects\marinduque-market\next-app\src\app\live-selling\[id]\edit\ClientPage.tsx
+   8:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\live-selling\actions.ts
+  27:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\live-selling\new\ClientPage.tsx
+  65:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\marketplace\ClientFeed.tsx
+  85:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\marketplace\[id]\edit\page.tsx
+  101:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\marketplace\[id]\page.tsx
+  155:118  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\app\marketplace\page.tsx
+  46:60  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\app\my-barangay\paluwagan\page.tsx
+  53:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\news\[slug]\page.tsx
+   72:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\news\page.tsx
+  58:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\page.tsx
+  37:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\app\things-to-do\page.tsx
+  152:252  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  155:271  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\app\towns\page.tsx
+  27:39  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  27:53  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\components\AdminActions.tsx
+  92:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\BarangayFeed.tsx
+  17:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\BestOfBoacMonthlySpotlight.tsx
+  50:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  86:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\BusinessDirectoryClient.tsx
+  22:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\BusinessReviews.tsx
+  121:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CalamityFeed.tsx
+  24:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep1.tsx
+  38:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep1.tsx:38:7
+  36 |     // Load existing data if any
+  37 |     if (typeof window !== 'undefined') {
+> 38 |       setBusinessName(localStorage.getItem('bp_name') || '');
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  39 |       setDescription(localStorage.getItem('bp_description') || '');
+  40 |       setBusinessType(localStorage.getItem('bp_business_type') || 'Restaurant / Food');
+  41 |     }  react-hooks/set-state-in-effect
+
+C:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep2.tsx
+  18:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep2.tsx:18:7
+  16 |   useEffect(() => {
+  17 |     if (typeof window !== 'undefined') {
+> 18 |       setPhone(localStorage.getItem('bp_phone') || '');
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |       setMessengerUsername(localStorage.getItem('bp_messenger') || '');
+  20 |       setFbPageUsername(localStorage.getItem('bp_fb_page') || '');
+  21 |       setEmail(localStorage.getItem('bp_email') || '');  react-hooks/set-state-in-effect
+
+C:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep3.tsx
+  71:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CreateEventPostScreen.tsx
+  220:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CreateNewJobPostScreen.tsx
+   47:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CreateNewListing.tsx
+  115:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  376:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\CsvImporter.tsx
+   13:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   58:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  124:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\projects\marinduque-market\next-app\src\components\DriverCard.tsx
+  103:25  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  103:33  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\projects\marinduque-market\next-app\src\components\FlagButton.tsx
+  85:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 79 problems (79 errors, 0 warnings)
+

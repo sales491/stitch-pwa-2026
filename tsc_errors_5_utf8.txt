@@ -1,0 +1,5 @@
+﻿src/app/island-hopping/page.tsx(82,31): error TS2322: Type 'BoatOperator[]' is not assignable to type 'import("C:/projects/marinduque-market/next-app/src/components/IslandHoppingHub").BoatOperator[]'.
+  Type 'BoatOperator' is not assignable to type 'import("C:/projects/marinduque-market/next-app/src/components/IslandHoppingHub").BoatOperator'.
+    Types of property 'charter_rate' are incompatible.
+      Type 'number | null' is not assignable to type 'number | undefined'.
+        Type 'null' is not assignable to type 'number | undefined'.

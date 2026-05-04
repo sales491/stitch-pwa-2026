@@ -1,0 +1,873 @@
+
+> next-app@0.1.0 lint
+> eslint
+
+
+c:\projects\marinduque-market\next-app\_archive\convert.mjs
+  54:22  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\add_user_id.mjs
+  18:7  warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\convert.mjs
+  55:22  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\e2e\create-test-user.js
+  7:15  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+c:\projects\marinduque-market\next-app\e2e\faq-audit.spec.ts
+  18:24  warning  'Browser' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\e2e\marketplace-create-listing.spec.ts
+  149:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\preview.js
+  14:18  warning  'res' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\approve-all.mjs
+  11:24  warning  'count' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\check-sitemap.mjs
+  17:16  warning  'sep' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\check_barangay.mjs
+  61:7  warning  'MUNICIPALITIES' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  75:7  warning  'alreadyHasBarangay' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\fix_news_url.mjs
+  15:11  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\pilot-scraper.mjs
+  41:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+  81:22  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\run_gasan_batch.mjs
+  29:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\run_scraper_sync.mjs
+  24:18  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\search-boac.mjs
+  54:29  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\search-gasan.mjs
+  53:29  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\search-mogpog.mjs
+  52:29  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\seed-csv.mjs
+   49:7   warning  'validTowns' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  165:15  warning  'data' is assigned a value but never used        @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\sync-boac.mjs
+  8:7  warning  '__dirname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\sync-gasan.mjs
+  8:7  warning  '__dirname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\sync-mogpog.mjs
+   8:7   warning  '__dirname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  94:14  warning  'e' is defined but never used                   @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\unverify_businesses.mjs
+  37:11  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\scripts\update_barangays_db.mjs
+  75:72  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\seed-just-landed-gems.js
+  1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+c:\projects\marinduque-market\next-app\seed-more-gems.js
+  1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:1   error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+c:\projects\marinduque-market\next-app\simple-http-server.js
+  1:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+c:\projects\marinduque-market\next-app\src\app\actions\admin.ts
+   39:16  warning  'verifySuperAdmin' is defined but never used  @typescript-eslint/no-unused-vars
+   55:18  warning  'e' is defined but never used                 @typescript-eslint/no-unused-vars
+  309:85  warning  '_requesterId' is defined but never used      @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\actions\boat.ts
+   8:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\business.ts
+  35:68  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+  72:68  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\actions\community.ts
+   44:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  136:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\events.ts
+   9:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\gas-prices.ts
+  35:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\gems.ts
+  9:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\jobs.ts
+  9:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\listings.ts
+  10:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\palengke.ts
+  19:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  78:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\skills.ts
+  50:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\actions\transport.ts
+   5:34  warning  'TransportServiceInput' is defined but never used  @typescript-eslint/no-unused-vars
+   9:34  error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  20:52  error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\admin\dashboard\ClientPage.tsx
+    9:11  warning  'ProfileInfo' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   74:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\app\admin\dashboard\ClientPage.tsx:74:9
+  72 |
+  73 |     useEffect(() => {
+> 74 |         fetchData();
+     |         ^^^^^^^^^ Avoid calling setState() directly within an effect
+  75 |     }, [fetchData]);
+  76 |
+  77 |     const handleApprove = async (id: string, name: string) => {  react-hooks/set-state-in-effect
+  102:18  warning  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  119:18  warning  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\admin\layout.tsx
+  3:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\admin\moderation\page.tsx
+  61:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  62:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  63:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\admin\page.tsx
+  154:80  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\admin\users\ClientPage.tsx
+   89:73  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\api\cron\fetch-exchange-rates\route.ts
+  62:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\api\cron\fetch-tides\route.ts
+   37:59  warning  'extremeCount' is defined but never used  @typescript-eslint/no-unused-vars
+   85:80  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:45  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  110:17  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:17  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  159:17  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\api\index-ping\route.ts
+  42:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\api\live-market\token\route.ts
+  11:28  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\best-of-boac-monthly-spotlight\page.tsx
+  136:9  warning  'winnerImage' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\community\create\ClientPage.tsx
+    8:8   warning  'Image' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   12:8   warning  'ImageUploadHint' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  129:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  173:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  261:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  279:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\commute\page.tsx
+  43:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\directory\[town]\page.tsx
+  163:94   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  163:108  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  163:133  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  196:41   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\directory\b\[id]\edit\page.tsx
+  126:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\directory\b\[id]\page.tsx
+  75:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\directory\create\ClientPage.tsx
+   54:19  warning  'setEmail' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  117:23  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\directory\page.tsx
+   47:9   warning  'isAdmin' is assigned a value but never used                     @typescript-eslint/no-unused-vars
+   62:34  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  167:71  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  167:80  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\event\[id]\page.tsx
+  13:5  warning  'parent' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\events\page.tsx
+  30:36  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+  35:46  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+c:\projects\marinduque-market\next-app\src\app\events\page.tsx:35:46
+  33 |         dayOfMonth: e.day_of_month,
+  34 |         description: e.description || 'Join us for this local event in Marinduque!',
+> 35 |         attendees: e.attendees || Math.floor(Math.random() * 50) + 10,
+     |                                              ^^^^^^^^^^^^^ Cannot call impure function
+  36 |         image: e.image || '/images/hub/event_placeholder.jpg',
+  37 |         category: e.category || 'Community'
+  38 |       }));  react-hooks/purity
+  53:50  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\faq\page.tsx
+  34:17  warning  'error' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\ferry-schedule\page.tsx
+  4:8  warning  'SeoTextBlock' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\gem\[id]\page.tsx
+  59:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  80:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\gems-of-marinduque-feed\[id]\page.tsx
+  124:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  131:56  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  150:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  182:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\gems-of-marinduque-feed\page.tsx
+  85:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\gems\create\ClientPage.tsx
+  110:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\gems\page.tsx
+   4:8   warning  'Link' is defined but never used          @typescript-eslint/no-unused-vars
+  59:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\guides\manila-to-marinduque\page.tsx
+  124:29   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  124:33   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  159:99   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  159:122  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  159:148  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  167:43   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  167:56   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  171:73   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  171:85   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  262:82   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  262:93   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  270:88   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  288:82   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  288:86   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\island-hopping\page.tsx
+  25:27   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  27:45   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  63:116  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\island-life\gas-prices\GasPricesClientShell.tsx
+  54:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  86:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\island-life\gas-prices\create\ClientPage.tsx
+  194:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  309:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\island-life\palengke\page.tsx
+  5:10  warning  'MUNICIPALITIES' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\job\[slug]\page.tsx
+  14:5   warning  'parent' is defined but never used        @typescript-eslint/no-unused-vars
+  73:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\jobs\page.tsx
+  48:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\just-landed\page.tsx
+   97:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\layout.tsx
+   18:5   error    A `require()` style import is forbidden                                                                                                                                              @typescript-eslint/no-require-imports
+  119:9   warning  Prefer `GoogleTagManager` component from `@next/third-parties/google` when using the inline script for Google Tag Manager. See: https://nextjs.org/docs/messages/next-script-for-ga  @next/next/next-script-for-ga
+  146:11  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font                      @next/next/no-page-custom-font
+
+c:\projects\marinduque-market\next-app\src\app\live-selling\[id]\edit\ClientPage.tsx
+   8:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\live-selling\actions.ts
+  27:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\live-selling\new\ClientPage.tsx
+  65:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\live-selling\page.tsx
+    6:8    warning  'PageHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  100:65   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  129:29   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  310:46   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:60   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:103  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:120  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:257  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:385  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  310:392  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\marinduque-monthly-calendar\page.tsx
+   11:10  warning  'loading' is assigned a value but never used                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  123:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\marketplace\ClientFeed.tsx
+  41:12  warning  'page' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  85:37  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\marketplace\[id]\edit\page.tsx
+  101:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\marketplace\[id]\page.tsx
+  155:118  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\marketplace\page.tsx
+  46:60  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\moriones-festival\artisans\page.tsx
+    3:8    warning  'Link' is defined but never used                                 @typescript-eslint/no-unused-vars
+  133:173  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  145:164  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  145:175  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  167:53   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  184:66   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  206:45   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  206:65   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  224:33   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  224:71   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\moriones-festival\page.tsx
+  127:77   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  127:429  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  188:300  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  190:111  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  190:120  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\my-barangay\lost-found\[id]\page.tsx
+  87:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\my-barangay\paluwagan\page.tsx
+  53:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\news\[slug]\page.tsx
+   72:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\news\page.tsx
+  58:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\onboarding\business\ClientPage.tsx
+    7:8   warning  'Link' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   53:19  warning  'profile' is assigned a value but never used                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+   81:8   warning  React Hook useEffect has a missing dependency: 'email'. Either include it or remove the dependency array                                                                                                                                                                                 react-hooks/exhaustive-deps
+  120:12  warning  'isSuccess' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  120:23  warning  'setIsSuccess' is assigned a value but never used                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  157:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  196:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  229:28  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  298:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  325:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  380:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  549:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\page.tsx
+  37:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\app\ports\create\ClientPage.tsx
+  104:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\app\ports\page.tsx
+  31:37  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+c:\projects\marinduque-market\next-app\src\app\ports\page.tsx:31:37
+  29 |     const supabase = await createClient();
+  30 |
+> 31 |     const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString();
+     |                                     ^^^^^^^^^^ Cannot call impure function
+  32 |     const { data: updates } = await supabase
+  33 |         .from('port_updates')
+  34 |         .select('*, profiles(full_name, avatar_url)')  react-hooks/purity
+
+c:\projects\marinduque-market\next-app\src\app\things-to-do\page.tsx
+  152:252  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  155:271  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\app\towns\[slug]\page.tsx
+  8:17  warning  'TownData' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\app\towns\page.tsx
+  27:39  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  27:53  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  41:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\AdminActions.tsx
+  92:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\AuthProvider.tsx
+  14:11  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  22:38  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  72:77  warning  '_event' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+  72:85  warning  'session' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+  77:8   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+c:\projects\marinduque-market\next-app\src\components\BarangayFeed.tsx
+  17:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\BarangayPostCard.tsx
+  39:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\BestOfBoacMonthlySpotlight.tsx
+    3:35  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   50:52  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   86:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  193:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  213:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  231:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  275:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  405:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  485:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  485:21  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  546:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\BusinessDirectoryClient.tsx
+   22:20  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+  116:12  warning  'page' is assigned a value but never used                                                                         @typescript-eslint/no-unused-vars
+  180:8   warning  React Hook useCallback has an unnecessary dependency: 'userId'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+c:\projects\marinduque-market\next-app\src\components\BusinessImageGallery.tsx
+  140:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\BusinessReviews.tsx
+  121:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\CalamityFeed.tsx
+  24:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\ClaimBusinessForm.tsx
+  16:12  warning  'userEmail' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\ClassifiedsCategoryView.tsx
+   60:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+   80:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+   91:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  116:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  139:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  163:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\CommunityBoardCommuterHub.tsx
+   19:7   warning  'MOODS' is assigned a value but never used                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   28:91  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   30:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   31:10  warning  'isPending' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   31:21  warning  'startTransition' is assigned a value but never used                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   52:10  warning  'activeMood' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   52:22  warning  'setActiveMood' is assigned a value but never used                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   70:9   warning  'MAX_FILE_SIZE_MB' is assigned a value but never used                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   86:6   warning  React Hook useEffect has missing dependencies: 'fetchPage' and 'initialPosts.length'. Either include them or remove the dependency array                                                                                                                                                 react-hooks/exhaustive-deps
+   93:41  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  102:6   warning  React Hook useEffect has a missing dependency: 'initialPosts'. Either include it or remove the dependency array                                                                                                                                                                          react-hooks/exhaustive-deps
+  107:6   warning  React Hook useEffect has a missing dependency: 'fetchPage'. Either include it or remove the dependency array                                                                                                                                                                             react-hooks/exhaustive-deps
+  133:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  240:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  269:7   warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+  287:11  warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+  315:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  438:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  494:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  619:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  619:23  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  647:53  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  648:87  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  657:79  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  672:69  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  680:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  680:21  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+c:\projects\marinduque-market\next-app\src\components\CommuterDeliveryHub.tsx
+   94:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  134:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  392:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  432:38  warning  'serviceError' is assigned a value but never used                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  461:20  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  525:26  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  533:6   warning  React Hook React.useEffect has a missing dependency: 'initialOperators.length'. Either include it or remove the dependency array                                                                                                                                                         react-hooks/exhaustive-deps
+
+c:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep1.tsx
+  38:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep1.tsx:38:7
+  36 |     // Load existing data if any
+  37 |     if (typeof window !== 'undefined') {
+> 38 |       setBusinessName(localStorage.getItem('bp_name') || '');
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  39 |       setDescription(localStorage.getItem('bp_description') || '');
+  40 |       setBusinessType(localStorage.getItem('bp_business_type') || 'Restaurant / Food');
+  41 |     }  react-hooks/set-state-in-effect
+
+c:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep2.tsx
+   18:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep2.tsx:18:7
+  16 |   useEffect(() => {
+  17 |     if (typeof window !== 'undefined') {
+> 18 |       setPhone(localStorage.getItem('bp_phone') || '');
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |       setMessengerUsername(localStorage.getItem('bp_messenger') || '');
+  20 |       setFbPageUsername(localStorage.getItem('bp_fb_page') || '');
+  21 |       setEmail(localStorage.getItem('bp_email') || '');  react-hooks/set-state-in-effect
+  109:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\CreateBusinessProfileStep3.tsx
+    2:27  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   71:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  192:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\CreateEventPostScreen.tsx
+   33:10  warning  'initialLoading' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  220:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  257:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  271:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\CreateLostFoundForm.tsx
+  194:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\CreateNewJobPostScreen.tsx
+   47:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  178:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\CreateNewListing.tsx
+  115:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  179:21  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  237:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  376:65  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\CsvImporter.tsx
+   13:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   58:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  124:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\DevInspector.tsx
+  11:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  77:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\DriverCard.tsx
+  103:25  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  103:33  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\components\EventCard.tsx
+  6:10  warning  'createBrowserClient' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\EventDetailPage.tsx
+  17:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\FlagButton.tsx
+  85:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\GemCommentsSection.tsx
+  35:22  warning  'error' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  79:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\GemDetailsDeleteButton.tsx
+  25:22  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\GemLikeButton.tsx
+  35:22  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\GemsOfMarinduqueFeed.tsx
+    5:10  warning  'deleteGem' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   44:10  warning  'isPending' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   44:21  warning  'startTransition' is assigned a value but never used                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  129:21  warning  'canDelete' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  135:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  196:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\IslandHoppingHub.tsx
+   81:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  101:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  272:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  316:34  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  359:34  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  366:8   warning  React Hook React.useEffect has missing dependencies: 'initialOperators.length' and 'supabase'. Either include them or remove the dependency array                                                                                                                                        react-hooks/exhaustive-deps
+
+c:\projects\marinduque-market\next-app\src\components\JobVacancyDetailsView.tsx
+  64:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\ListingCard.tsx
+  22:43  warning  'slug' is defined but never used          @typescript-eslint/no-unused-vars
+  67:25  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\ListingContactButtons.tsx
+   9:11  warning  'noPhone' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  10:11  warning  'noMessenger' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\ListingDetailPage.tsx
+  190:117  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  190:133  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\components\ListingDetailsView.tsx
+  79:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\LostFoundCard.tsx
+  47:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\LostFoundFeed.tsx
+  26:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\MarinduqueConnectHomeFeed.tsx
+    2:27  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   19:26  warning  'setSelectedTown' is assigned a value but never used                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   20:25  warning  'setSearchQuery' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  149:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\MarinduqueEventsCalendar.tsx
+    2:17  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   13:18  warning  'setEvents' is assigned a value but never used                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   14:19  warning  'setLoading' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   15:9   warning  'supabase' is assigned a value but never used                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  167:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  195:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  218:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\MenuCarousel.tsx
+  14:62  warning  'isDemoMode' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\MobileTopHeader.tsx
+  46:25  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\MobileTopHeader.tsx:46:25
+  44 |
+  45 |     useEffect(() => {
+> 46 |         if (isMenuOpen) setIsMenuOpen(false);
+     |                         ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  47 |     }, [pathname, isMenuOpen]);
+  48 |
+  49 |     useEffect(() => {  react-hooks/set-state-in-effect
+
+c:\projects\marinduque-market\next-app\src\components\ModerationQueue.tsx
+  204:116  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  204:133  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  267:15   warning  '_unused' is assigned a value but never used                     @typescript-eslint/no-unused-vars
+  272:16   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\NewPaluwaganForm.tsx
+  101:115  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\components\NotificationProvider.tsx
+   10:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\OFWDisplay.tsx
+   4:8   warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+  82:64  warning  'name' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\OperatorManagementPanel.tsx
+  105:5  warning  'editBasePath' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\OutageFeed.tsx
+  14:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  31:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  46:72  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\PWAInstallPrompt.tsx
+  16:53  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  33:58  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  41:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\PWAInstallPrompt.tsx:41:9
+  39 |
+  40 |         const p = detectPlatform();
+> 41 |         setPlatform(p);
+     |         ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  42 |         if (p !== 'none') setDismissed(false);
+  43 |
+  44 |         // Capture the Android beforeinstallprompt event  react-hooks/set-state-in-effect
+
+c:\projects\marinduque-market\next-app\src\components\PalengkeDisplay.tsx
+    4:26   warning  'MARKET_SCHEDULE' is defined but never used                      @typescript-eslint/no-unused-vars
+  175:44   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  298:100  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+c:\projects\marinduque-market\next-app\src\components\PortsClientShell.tsx
+  325:51  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\PostBoatListing.tsx
+   11:8   warning  'ImageUploadHint' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  114:8   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array                                                                                                                                                                              react-hooks/exhaustive-deps
+  209:31  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  222:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  295:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  305:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\PostCommuteOrDeliveryListing.tsx
+   12:8   warning  'ImageUploadHint' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  108:12  warning  'pricePerSeat' is assigned a value but never used                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  328:37  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  342:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  432:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  448:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\PrivacyPolicyDataRights.tsx
+  112:7  error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  114:7  error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+c:\projects\marinduque-market\next-app\src\components\RelatedItems.tsx
+  235:55  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  245:55  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  337:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\SellerVouchBadge.tsx
+  22:21  warning  'error' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  70:19  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\ShareButton.tsx
+  31:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\SkillsDisplay.tsx
+  207:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+c:\projects\marinduque-market\next-app\src\components\SuccessToast.tsx
+  27:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\SuccessToast.tsx:27:13
+  25 |             return () => clearTimeout(t);
+  26 |         } else {
+> 27 |             setShow(false);
+     |             ^^^^^^^ Avoid calling setState() directly within an effect
+  28 |         }
+  29 |     }, [visible]);
+  30 |  react-hooks/set-state-in-effect
+
+c:\projects\marinduque-market\next-app\src\components\ThemeProvider.tsx
+  29:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+c:\projects\marinduque-market\next-app\src\components\ThemeProvider.tsx:29:13
+  27 |         const saved = localStorage.getItem('mmh-theme') as Theme | null;
+  28 |         if (saved === 'dark' || saved === 'light') {
+> 29 |             setTheme(saved);
+     |             ^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |         } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  31 |             setTheme('dark');
+  32 |         } else {  react-hooks/set-state-in-effect
+
+c:\projects\marinduque-market\next-app\src\components\UniversalComments.tsx
+  19:46  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  34:22  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  53:9   error  'channel' is never reassigned. Use 'const' instead  prefer-const
+
+c:\projects\marinduque-market\next-app\src\components\UserProfileDashboard1.tsx
+   15:42  error    Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+   20:62  error    Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+   21:54  error    Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+   22:50  error    Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+   23:60  error    Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  108:6   warning  React Hook useEffect has a missing dependency: 'user'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  128:14  warning  'e' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\UserProfileDashboard2.tsx
+   80:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array                                                                                                                                                                              react-hooks/exhaustive-deps
+  132:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  179:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\live-market\BuyerPlayer.tsx
+  9:31  warning  'sessionId' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\live-market\GCashPaymentPanel.tsx
+  18:3   warning  'mayaQrUrl' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  19:3   warning  'claimId' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  20:3   warning  'onReceiptUploaded' is defined but never used                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  35:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\live-market\LiveChat.tsx
+  9:39  warning  '_sessionId' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\live-market\MineButton.tsx
+  26:14  warning  '_productId' is defined but never used  @typescript-eslint/no-unused-vars
+  27:14  warning  '_sessionId' is defined but never used  @typescript-eslint/no-unused-vars
+  29:10  warning  '_onWin' is defined but never used      @typescript-eslint/no-unused-vars
+  30:11  warning  '_onLose' is defined but never used     @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\src\components\live-market\ProductSpotlight.tsx
+  24:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+c:\projects\marinduque-market\next-app\src\components\live-market\SellerBroadcast.tsx
+  9:46  warning  '_sessionId' is defined but never used  @typescript-eslint/no-unused-vars
+
+c:\projects\marinduque-market\next-app\tests\security-check.ts
+  109:38  warning  '_deleteErr' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  130:42  warning  '_updateErr' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 409 problems (213 errors, 196 warnings)
+
