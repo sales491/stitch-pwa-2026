@@ -6,6 +6,7 @@ import FlagButton from './FlagButton';
 import AdminActions from './AdminActions';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
 import { useSearchParams } from 'next/navigation';
@@ -420,7 +421,7 @@ export default function CommuterDeliveryHub({ initialOperators = [] }: { initial
   const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   React.useEffect(() => {
     async function loadData() {

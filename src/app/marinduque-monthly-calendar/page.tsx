@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import type { Event } from '@/utils/eventData';
 import PageHeader from '@/components/PageHeader';
 
@@ -9,7 +9,7 @@ export default function MonthlyCalendarPage() {
   const [viewDate, setViewDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const currentYear = viewDate.getFullYear();
   const currentMonth = viewDate.getMonth();

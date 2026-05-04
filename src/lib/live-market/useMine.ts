@@ -7,7 +7,7 @@
 // Phase 1 implementation
 
 import { useState, useCallback } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { DEFAULT_CLAIM_WINDOW_MINUTES } from './constants';
 
 interface UseMineOptions {
@@ -25,7 +25,7 @@ export function useMine({
 }: UseMineOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasClaimed, setHasClaimed] = useState(false);
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const claimItem = useCallback(async (productId: string) => {
     if (isLoading || hasClaimed) return;

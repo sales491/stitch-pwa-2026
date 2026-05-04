@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
-import { createClient } from '@/utils/supabase/client'
+import { useSupabase } from '@/hooks/useSupabase'
 import Link from 'next/link'
 import { optimizeImage } from '@/utils/image-optimization'
 import SuccessToast from '@/components/SuccessToast';
@@ -51,7 +51,7 @@ function BusinessOnboardingForm() {
     const searchParams = useSearchParams();
     const edit_id = searchParams.get('edit_id');
     const { user, profile } = useAuth();
-    const supabase = createClient();
+    const supabase = useSupabase();
 
     // Form State
     const [businessName, setBusinessName] = useState('');

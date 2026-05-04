@@ -7,7 +7,7 @@ import Link from 'next/link';
 import AdminActions from './AdminActions';
 import FlagButton from './FlagButton';
 import CommunityGuidelinesGate from './CommunityGuidelinesGate';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { optimizeImage } from '@/utils/image-optimization';
 import { useAuth } from './AuthProvider';
 import UniversalComments from './UniversalComments';
@@ -88,7 +88,7 @@ export default function CommunityBoardCommuterHub({ initialPosts = [] }: { initi
   // ── Share Toast ────────────────────────────────────────────
   const [shareToast, setShareToast] = useState<string | null>(null);
 
-  const supabase = createClient();
+  const supabase = useSupabase();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 

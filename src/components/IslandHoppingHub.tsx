@@ -6,6 +6,7 @@ import FlagButton from './FlagButton';
 import AdminActions from './AdminActions';
 import { formatPhPhoneForLink } from '@/utils/phoneUtils';
 import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import { useAuth } from './AuthProvider';
 import ShareButton from './ShareButton';
 import { useSearchParams } from 'next/navigation';
@@ -294,7 +295,7 @@ export default function IslandHoppingHub({ initialOperators = [] }: { initialOpe
     const [loading, setLoading] = useState(initialOperators.length === 0);
     const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
     const [filterOpen, setFilterOpen] = useState(false);
-    const supabase = createClient();
+    const supabase = useSupabase();
 
     useEffect(() => {
         async function loadData() {

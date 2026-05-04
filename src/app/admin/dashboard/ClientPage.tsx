@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import Link from 'next/link';
 import { adminVerifyBusiness, adminRevokeBusinessVerification, adminDeleteBusiness } from '@/app/actions/admin';
 import PageHeader from '@/components/PageHeader';
@@ -19,7 +19,7 @@ interface PendingBusiness {
 }
 
 export default function AppAdminDashboard() {
-    const supabase = createClient();
+    const supabase = useSupabase();
     const [totalVerified, setTotalVerified] = useState(0);
     const [totalPending, setTotalPending] = useState(0);
     const [totalUsers, setTotalUsers] = useState(0);

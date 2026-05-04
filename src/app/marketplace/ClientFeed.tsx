@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -42,7 +42,7 @@ export default function ClientFeed({ initialListings }: ClientFeedProps) {
     const [showSuccessToast, setShowSuccessToast] = useState(justPosted);
 
     const isFetchingRef = useRef(false);
-    const supabase = createClient();
+    const supabase = useSupabase();
 
     // Auto-hide success toast
     useEffect(() => {

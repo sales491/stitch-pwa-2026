@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSupabase } from '@/hooks/useSupabase';
 
 export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
   const [vouchCount, setVouchCount] = useState(0);
@@ -10,7 +10,7 @@ export default function SellerVouchBadge({ sellerId }: { sellerId: string }) {
   const [isVouching, setIsVouching] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   useEffect(() => {
     let isMounted = true;

@@ -1,0 +1,319 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║         MARINDUQUE MARKET HUB — FULL SITE AUDIT                            ║
+║         Started: 5/4/2026, 12:35:04 AM                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║            PART 1: HTTP CRAWLER — Page Status & Broken Links              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Crawling 59 static pages...
+
+  ⚠️  /                                                  200 OK but: 🟡 404 page rendered
+  ⚠️  /news                                              200 OK but: 🟡 404 page rendered
+  ⚠️  /marketplace                                       200 OK but: 🟡 404 page rendered
+  ⚠️  /jobs                                              200 OK but: 🟡 404 page rendered
+  ⚠️  /events                                            200 OK but: 🟡 404 page rendered
+  ⚠️  /gems                                              200 OK but: 🟡 404 page rendered
+  ⚠️  /directory                                         200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Boac                                    200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Buenavista                              200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Gasan                                   200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Mogpog                                  200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Santa%20Cruz                            200 OK but: 🟡 404 page rendered
+  ⚠️  /directory/Torrijos                                200 OK but: 🟡 404 page rendered
+  ⚠️  /towns                                             200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/boac                                        200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/buenavista                                  200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/gasan                                       200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/mogpog                                      200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/santa-cruz                                  200 OK but: 🟡 404 page rendered
+  ⚠️  /towns/torrijos                                    200 OK but: 🟡 404 page rendered
+  ⚠️  /map                                               200 OK but: 🟡 404 page rendered
+  ⚠️  /community                                         200 OK but: 🟡 404 page rendered
+  ⚠️  /island-hopping                                    200 OK but: 🟡 404 page rendered
+  ⚠️  /commute                                           200 OK but: 🟡 404 page rendered
+  ⚠️  /ports                                             200 OK but: 🟡 404 page rendered
+  ⚠️  /ferry-schedule                                    200 OK but: 🟡 404 page rendered
+  ⚠️  /just-landed                                       200 OK but: 🟡 404 page rendered
+  ⚠️  /things-to-do                                      200 OK but: 🟡 404 page rendered
+  ⚠️  /moriones-festival                                 200 OK but: 🟡 404 page rendered
+  ⚠️  /moriones-festival/artisans                        200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life                                       200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life/palengke                              200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life/tides                                 200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life/outages                               200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life/skills                                200 OK but: 🟡 404 page rendered
+  ⚠️  /island-life/gas-prices                            200 OK but: 🟡 404 page rendered
+  🔀 /my-barangay                                       200 → /login?next=%2Fmy-barangay
+  🔀 /my-barangay/board                                 200 → /login?next=%2Fmy-barangay%2Fboard
+  🔀 /my-barangay/lost-found                            200 → /login?next=%2Fmy-barangay%2Flost-found
+  🔀 /my-barangay/calamity                              200 → /login?next=%2Fmy-barangay%2Fcalamity
+  🔀 /my-barangay/ofw                                   200 → /login?next=%2Fmy-barangay%2Fofw
+  🔀 /my-barangay/paluwagan                             200 → /login?next=%2Fmy-barangay%2Fpaluwagan
+  ⚠️  /live-market                                       200 OK but: 🟡 404 page rendered
+  ⚠️  /live-selling                                      200 OK but: 🟡 404 page rendered
+  ⚠️  /best-of-boac-monthly-spotlight                    200 OK but: 🟡 404 page rendered
+  ⚠️  /advanced-search-filters                           200 OK but: 🟡 404 page rendered
+  🔀 /post                                              200 → /login?next=%2Fpost
+  ⚠️  /guides/manila-to-marinduque                       200 OK but: 🟡 404 page rendered
+  ⚠️  /faq                                               200 OK but: 🟡 404 page rendered
+  ⚠️  /about                                             200 OK but: 🟡 404 page rendered
+  🔀 /profile                                           200 → /login?next=%2Fprofile
+  ⚠️  /login                                             200 OK but: 🟡 404 page rendered
+  ⚠️  /policies                                          200 OK but: 🟡 404 page rendered
+  ⚠️  /privacy-policy-data-rights                        200 OK but: 🟡 404 page rendered
+  ⚠️  /help-community-guidelines                         200 OK but: 🟡 404 page rendered
+  🔀 /island-hopping/list                               200 → /login?next=%2Fisland-hopping%2Flist
+  ⚠️  /live-selling/new                                  200 OK but: 🟡 404 page rendered
+  🔀 /profile/edit                                      200 → /login?next=%2Fprofile%2Fedit
+  🔀 /admin                                             200 → /login
+────────────────────────────────────────────────────────────────────────────────
+
+Phase 2: Verifying 0 discovered internal links...
+
+────────────────────────────────────────────────────────────────────────────────
+
+📊 CRAWLER SUMMARY:
+  Pages OK:        0
+  Redirected:      11
+  Warnings:        48
+  Errors:          0
+  Links checked:   0
+  Broken links:    0
+
+🚨 PAGES WITH ISSUES:
+  • /: 🟡 404 page rendered
+  • /news: 🟡 404 page rendered
+  • /marketplace: 🟡 404 page rendered
+  • /jobs: 🟡 404 page rendered
+  • /events: 🟡 404 page rendered
+  • /gems: 🟡 404 page rendered
+  • /directory: 🟡 404 page rendered
+  • /directory/Boac: 🟡 404 page rendered
+  • /directory/Buenavista: 🟡 404 page rendered
+  • /directory/Gasan: 🟡 404 page rendered
+  • /directory/Mogpog: 🟡 404 page rendered
+  • /directory/Santa%20Cruz: 🟡 404 page rendered
+  • /directory/Torrijos: 🟡 404 page rendered
+  • /towns: 🟡 404 page rendered
+  • /towns/boac: 🟡 404 page rendered
+  • /towns/buenavista: 🟡 404 page rendered
+  • /towns/gasan: 🟡 404 page rendered
+  • /towns/mogpog: 🟡 404 page rendered
+  • /towns/santa-cruz: 🟡 404 page rendered
+  • /towns/torrijos: 🟡 404 page rendered
+  • /map: 🟡 404 page rendered
+  • /community: 🟡 404 page rendered
+  • /island-hopping: 🟡 404 page rendered
+  • /commute: 🟡 404 page rendered
+  • /ports: 🟡 404 page rendered
+  • /ferry-schedule: 🟡 404 page rendered
+  • /just-landed: 🟡 404 page rendered
+  • /things-to-do: 🟡 404 page rendered
+  • /moriones-festival: 🟡 404 page rendered
+  • /moriones-festival/artisans: 🟡 404 page rendered
+  • /island-life: 🟡 404 page rendered
+  • /island-life/palengke: 🟡 404 page rendered
+  • /island-life/tides: 🟡 404 page rendered
+  • /island-life/outages: 🟡 404 page rendered
+  • /island-life/skills: 🟡 404 page rendered
+  • /island-life/gas-prices: 🟡 404 page rendered
+  • /live-market: 🟡 404 page rendered
+  • /live-selling: 🟡 404 page rendered
+  • /best-of-boac-monthly-spotlight: 🟡 404 page rendered
+  • /advanced-search-filters: 🟡 404 page rendered
+  • /guides/manila-to-marinduque: 🟡 404 page rendered
+  • /faq: 🟡 404 page rendered
+  • /about: 🟡 404 page rendered
+  • /login: 🟡 404 page rendered
+  • /policies: 🟡 404 page rendered
+  • /privacy-policy-data-rights: 🟡 404 page rendered
+  • /help-community-guidelines: 🟡 404 page rendered
+  • /live-selling/new: 🟡 404 page rendered
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          PART 2: CODE PATTERN SCANNER — React Anti-Pattern Detection       ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Scanning 328 source files for anti-patterns...
+
+
+⚡ FLICKER RISK (48 found):
+  📄 app/admin/dashboard/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/admin/users/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/community/create/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/directory/b/[id]/edit/page.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/directory/create/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/gems/create/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/island-life/gas-prices/create/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/live-selling/new/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/login/page.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/marinduque-monthly-calendar/page.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/marketplace/ClientFeed.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/marketplace/[id]/edit/page.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 app/onboarding/business/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 app/ports/create/ClientPage.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/AuthProvider.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const [supabase] = useState(() => createBrowserClient(
+  📄 components/BusinessDirectoryClient.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/ClaimBusinessForm.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CommunityBoardCommuterHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CommuterDeliveryHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CommuterDeliveryHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CommuterDeliveryHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CreateBusinessProfileStep3.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CreateEventPostScreen.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CreateLostFoundForm.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/CreateNewJobPostScreen.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/CreateNewListing.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/DriverCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/DriverCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/FlagButton.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/GemCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/IslandHoppingHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/IslandHoppingHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/IslandHoppingHub.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/JobCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/ListingCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/MarinduqueEventsCalendar.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/NotificationProvider.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/PortsClientShell.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/PortUpdateCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/PostBoatListing.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/PostBoatListing.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/PostCard.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createBrowserClient(
+  📄 components/PostCommuteOrDeliveryListing.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/PostCommuteOrDeliveryListing.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/SellerVouchBadge.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 components/UserProfileDashboard2.tsx
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 lib/live-market/useMine.ts
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+  📄 lib/live-market/useViewerCount.ts
+     createClient() called inside component without useMemo — creates new reference every render, can trigger useEffect loops
+     Line: const supabase = createClient();
+
+🔴 INFINITE LOOP (3 found):
+  📄 app/faq/FAQClient.tsx
+     useEffect sets 'activeTab' which is in its own dependency array [activeTabParam] — causes infinite re-render
+     Line: setActiveTab(...)
+  📄 app/marketplace/ClientFeed.tsx
+     useEffect sets 'showSuccessToast' which is in its own dependency array [showSuccessToast] — causes infinite re-render
+     Line: setShowSuccessToast(...)
+  📄 app/onboarding/business/ClientPage.tsx
+     useEffect sets 'email' which is in its own dependency array [user, email] — causes infinite re-render
+     Line: setEmail(...)
+
+🟡 FLICKER RISK (1 found):
+  📄 components/SuccessToast.tsx
+     setTimeout(fn, 0) inside useEffect — often causes visible flicker
+     Line: setTimeout(..., 0)
+
+📊 PATTERN SCAN SUMMARY:
+  Files scanned:     328
+  Issues found:      52
+  Critical (🔴):     3
+  Flicker risks (⚡): 48
+  Warnings (🟡):     1
+
+
+────────────────────────────────────────────────────────────────────────────────
+🏁 AUDIT COMPLETE
+   Total time: 45.3s
+   HTTP issues: 48
+   Broken links: 0
+   Code anti-patterns: 52
+────────────────────────────────────────────────────────────────────────────────
