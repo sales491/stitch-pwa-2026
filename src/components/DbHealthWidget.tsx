@@ -122,7 +122,13 @@ export default function DbHealthWidget({ variant = 'mini', refreshInterval = 30 
                     <p className={`text-[10px] font-black uppercase tracking-widest ${statusColor}`}>
                         Database Storage
                     </p>
-                    {loading && <p className="text-sm font-black text-slate-400 mt-0.5">Loading…</p>}
+                    {loading && (
+                        /* Skeleton placeholder — same height as final content to prevent CLS */
+                        <div className="mt-0.5 space-y-1.5 animate-pulse">
+                            <div className="h-5 w-24 rounded bg-slate-200/60" />
+                            <div className="h-1.5 w-full rounded-full bg-slate-200/60" />
+                        </div>
+                    )}
                     {error && <p className="text-sm font-black text-red-500 mt-0.5">Error: {error}</p>}
                     {data && (
                         <>

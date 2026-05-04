@@ -29,7 +29,7 @@ const MOCK_ARRIVALS: NewArrival[] = [
     title: "Handmade Buntal Hat (Authentic Marinduque)",
     price_value: 450,
     town: "Gasan",
-    image: "https://images.unsplash.com/photo-1550484797-1724ccca4068?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?w=500&q=80",
   },
   {
     id: "mock-4",

@@ -85,7 +85,17 @@ export default function HomeAlertBanner() {
             .finally(() => setLoaded(true));
     }, []);
 
-    if (!loaded) return null;
+    if (!loaded) {
+        // Skeleton placeholder matching the "No active alerts" zero-state dimensions to prevent CLS
+        return (
+            <div className="mx-4 mb-2">
+                <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-zinc-900/20 border border-slate-100 dark:border-zinc-800 animate-pulse">
+                    <div className="w-4 h-4 rounded bg-slate-200 dark:bg-zinc-700 shrink-0" />
+                    <div className="h-3 w-28 rounded bg-slate-200 dark:bg-zinc-700 flex-1" />
+                </div>
+            </div>
+        );
+    }
 
     // ── All-clear zero-state (idea C) ────────────────────────────────────────
     if (alerts.length === 0) {

@@ -22,19 +22,18 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     const [theme, setTheme] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
-    // On mount: read localStorage, fall back to OS preference, then light
+    // On mount: read localStorage synchronously, fall back to OS preference, then light.
+    // No setTimeout — apply theme on the very first effect tick to minimise FOUP.
     useEffect(() => {
         const saved = localStorage.getItem('mmh-theme') as Theme | null;
-        setTimeout(() => {
-            if (saved === 'dark' || saved === 'light') {
-                setTheme(saved);
-            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                setTheme('dark');
-            } else {
-                setTheme('light');
-            }
-            setMounted(true);
-        }, 0);
+        if (saved === 'dark' || saved === 'light') {
+            setTheme(saved);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        setMounted(true);
     }, []);
 
     // Apply / remove .dark class on <html> whenever theme changes
@@ -51,12 +50,19 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
     const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
 
-    // Prevent flash: render nothing until mounted
-    if (!mounted) return null;
-
+    // Instead of returning null (which unmounts the entire page tree and causes a
+    // full-page flicker), we always render children but use an opacity transition
+    // to mask the brief unstyled frame before the theme class is applied to <html>.
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
+            <div
+                style={{
+                    opacity: mounted ? 1 : 0,
+                    transition: 'opacity 0.1s ease-in',
+                }}
+            >
+                {children}
+            </div>
         </ThemeContext.Provider>
     );
 }

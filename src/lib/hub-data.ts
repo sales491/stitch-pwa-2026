@@ -57,15 +57,15 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
 
     listings?.forEach(l => items.push({
         id: l.id, type: 'classifieds', categoryLabel: 'CLASSIFIEDS',
-        title: l.title, subtitle: l.town,
+        title: l.title, subtitle: l.town || 'Marinduque',
         image: thumbUrl(l.images?.[0]) || thumbUrl(l.img) || 'https://images.unsplash.com/photo-1523474253046-2cd2c78b681e?w=400&q=75',
         link: `/listing/${l.slug || l.id}`,
-        extraInfo: l.price ? `₱${l.price}` : undefined,
+        extraInfo: l.price ? (String(l.price).startsWith('₱') ? String(l.price) : `₱${l.price}`) : undefined,
     }));
 
     jobs?.forEach(j => items.push({
         id: j.id, type: 'jobs', categoryLabel: 'JOBS',
-        title: j.title, subtitle: `${j.company_name} • ${j.location}`,
+        title: j.title, subtitle: [j.company_name, j.location].filter(Boolean).join(' • ') || 'Marinduque',
         image: thumbUrl(j.images?.[0]) || thumbUrl(j.logo_url) || '/images/hub/store_manager.webp',
         link: `/job/${j.slug || j.id}`,
         extraInfo: j.salary_range,
@@ -73,7 +73,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
 
     gems?.forEach(g => items.push({
         id: g.id, type: 'gems', categoryLabel: 'LOCAL GEMS',
-        title: g.title, subtitle: g.town,
+        title: g.title, subtitle: g.town || 'Marinduque',
         image: thumbUrl(g.images?.[0]) || '/images/hub/cawit_port.webp',
         link: `/gem/${g.id}`,
         extraInfo: 'Trending',
@@ -92,7 +92,7 @@ export async function getLiveHubItems(): Promise<HubItem[]> {
 
     businesses?.forEach(b => items.push({
         id: b.id, type: 'businesses', categoryLabel: 'BUSINESS',
-        title: b.business_name, subtitle: `${b.location} • ${b.business_type}`,
+        title: b.business_name, subtitle: [b.location, b.business_type].filter(Boolean).join(' • ') || 'Marinduque',
         image: thumbUrl(b.gallery_image) || '/images/hub/store_manager.webp',
         link: `/directory/${b.id}`,
         extraInfo: b.average_rating ? `${b.average_rating.toFixed(1)} ★` : undefined,

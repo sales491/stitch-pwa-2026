@@ -50,10 +50,8 @@ export default function PWAInstallPrompt() {
         if (alreadyDismissed) return;
 
         const p = detectPlatform();
-        setTimeout(() => {
-            setPlatform(p);
-            if (p !== 'none') setDismissed(false);
-        }, 0);
+        setPlatform(p);
+        if (p !== 'none') setDismissed(false);
 
         // Capture the Android beforeinstallprompt event
         const handler = (e: Event) => {

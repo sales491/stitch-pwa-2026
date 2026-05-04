@@ -132,14 +132,20 @@ export default function RootLayout({
         {/* Preconnect to Google Fonts CDN for Material Symbols (icon font) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Load Material Symbols asynchronously to prevent render-blocking the main typography */}
+        {/* Preload Material Symbols CSS so the browser fetches it early */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        />
+        {/* Apply the stylesheet non-render-blocking once preloaded */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              const link = document.createElement('link');
-              link.rel = 'stylesheet';
-              link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap';
-              document.head.appendChild(link);
+              var ms = document.createElement('link');
+              ms.rel = 'stylesheet';
+              ms.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap';
+              document.head.appendChild(ms);
             `
           }}
         />
