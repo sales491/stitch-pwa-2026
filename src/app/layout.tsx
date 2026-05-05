@@ -12,6 +12,7 @@ import { AuthProvider } from "@/components/AuthProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const isDev = process.env.NODE_ENV === 'development';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -256,6 +257,7 @@ export default function RootLayout({
           </AuthProvider>
         </ThemeProvider>
         {isDev && DevInspector && <DevInspector />}
+        <SpeedInsights />
       </body>
     </html>
   );
