@@ -112,7 +112,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
                         src={article.image_url} 
                         alt={article.title} 
                         fill 
-                        className="object-cover"
+                        className="object-contain"
                         priority
                     />
                 ) : (
@@ -194,9 +194,10 @@ export default async function NewsArticlePage({ params }: PageProps) {
                                         <h4 className="text-[17px] font-bold text-slate-900 dark:text-white mb-2">
                                             {faq.question || faq.q}
                                         </h4>
-                                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                                            {faq.answer || faq.a}
-                                        </p>
+                                        <div 
+                                            className="text-slate-600 dark:text-slate-300 leading-relaxed [&>a]:text-moriones-red hover:[&>a]:underline"
+                                            dangerouslySetInnerHTML={{ __html: faq.answer || faq.a }}
+                                        />
                                     </div>
                                 ))}
                             </div>
