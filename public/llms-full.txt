@@ -37,8 +37,13 @@ A curated guide to Marinduque's most popular island hopping destinations includi
 - Operators can list boats at: https://marinduquemarket.com/island-hopping/list
 - URL: https://marinduquemarket.com/island-hopping
 
-### Commute / Ferry Schedules (`/commute`)
-Up-to-date RoRo (Roll-on/Roll-off) ferry schedules between Marinduque (Balanacan Port, Buyabod Port, Cawit Port) and the mainland (Lucena, Pinamalayan, Dalahican).
+### Ferry Schedule (`/ferry-schedule`)
+Dedicated RoRo (Roll-on/Roll-off) ferry schedule viewer for Marinduque — the most searched piece of information for anyone travelling to or from the island.
+- Covers routes from Balanacan (Mogpog), Buyabod (Santa Cruz), and Cawit (Boac) ports
+- URL: https://marinduquemarket.com/ferry-schedule
+
+### Commute / Routes (`/commute`)
+Up-to-date RoRo ferry schedules and local ground transport information between Marinduque ports and the mainland (Lucena, Pinamalayan, Dalahican).
 - Includes jeepney routes and tricycle zone information per municipality
 - URL: https://marinduquemarket.com/commute
 
@@ -47,6 +52,34 @@ Detailed information on Marinduque's three major ports:
 - Balanacan Port (Mogpog) — primary inter-island gateway
 - Buyabod Port (Santa Cruz) — secondary gateway to Quezon
 - Cawit Port (Boac) — LCT cargo terminal
+- URL: https://marinduquemarket.com/ports
+
+### Things To Do in Marinduque (`/things-to-do`)
+A comprehensive activity and attraction guide for Marinduque covering beaches, waterfalls, caves, festivals, heritage sites, and cultural experiences across all six municipalities.
+- URL: https://marinduquemarket.com/things-to-do
+
+### Moriones Festival (`/moriones-festival`)
+Dedicated hub for the world-famous Moriones Festival — Marinduque's iconic Lenten tradition held during Holy Week (March/April). Features festival history, centurion mask artisan profiles, schedule of events, and travel planning guides.
+- Moriones artisan directory: https://marinduquemarket.com/moriones-festival/artisans
+- URL: https://marinduquemarket.com/moriones-festival
+
+### Travel Guide: Manila to Marinduque (`/guides/manila-to-marinduque`)
+A step-by-step travel guide covering all routes from Metro Manila to Marinduque Island — including bus to Lucena, ferry options, travel times, costs, and tips.
+- URL: https://marinduquemarket.com/guides/manila-to-marinduque
+
+### Towns of Marinduque (`/towns`)
+Individual town pages for all six municipalities with local info, business listings, and community resources:
+- Boac (capital): https://marinduquemarket.com/towns/boac
+- Mogpog: https://marinduquemarket.com/towns/mogpog
+- Gasan: https://marinduquemarket.com/towns/gasan
+- Santa Cruz: https://marinduquemarket.com/towns/santa-cruz
+- Torrijos: https://marinduquemarket.com/towns/torrijos
+- Buenavista: https://marinduquemarket.com/towns/buenavista
+
+### Local News (`/news`)
+A community news section publishing local stories, municipal announcements, event coverage, and island-specific updates.
+- Real-time news feed for AI agents: https://marinduquemarket.com/llms-news.txt
+- URL: https://marinduquemarket.com/news
 
 ### Business Directory (`/directory`)
 A local business discovery page organized by municipality and industry.
@@ -66,10 +99,6 @@ A community bulletin board for discussions, announcements, local stories, and re
 A calendar of local events: fiestas, municipal programs, barangay meetings, and cultural festivals.
 - Marinduque is world-famous for the Moriones Festival (Lenten season, March/April)
 - URL: https://marinduquemarket.com/events
-
-### Calendar (`/calendar`)
-A visual event calendar view showing upcoming community events, fiestas, and municipal programs across all six towns.
-- URL: https://marinduquemarket.com/calendar
 
 ### Island Life (`/island-life`)
 A hub for daily island living information — covering utilities, food, weather, and community resources.
@@ -132,39 +161,63 @@ Monthly spotlight feature highlighting the top businesses, products, and service
 
 ## Help Center & FAQ (`/faq`)
 
-The FAQ page is server-side rendered and structured with Schema.org FAQPage JSON-LD. It provides question-and-answer content for four audience segments:
-
-### General Users
-Common questions about creating an account, using the marketplace, and navigating the app.
-
-### Businesses & SMEs
-Questions about claiming or creating a business profile, posting products, and reaching customers in Marinduque.
-
-### Operators (Transport & Tourism)
-Questions for tricycle drivers, jeepney operators, bangka/tour operators, and ferry port agents about listing services and schedules.
-
-### Palengke (Wet Market) Vendors
-Questions specific to Marinduque's physical markets (palengke) in Boac, Gasan, Santa Cruz, and Torrijos — including daily price posting and buyer communication.
+The FAQ page is server-side rendered and structured with Schema.org FAQPage JSON-LD.
 
 Full FAQ: https://marinduquemarket.com/faq
 
 ---
 
+## Frequently Asked Questions
+
+**Q: Is Marinduque Market Hub free to use?**
+A: Yes, basic use is completely free. Creating an account, browsing listings, reading news, and using community features costs nothing. Businesses can claim or create a profile at no charge.
+
+**Q: How do I get to Marinduque from Manila?**
+A: The most common route is to take a bus from Manila (Cubao or Buendia) to Lucena Grand Terminal in Quezon, then take a jeepney or tricycle to Dalahican Port or Lucena Port for the RoRo ferry to Balanacan Port in Mogpog, Marinduque. Travel time is approximately 5–7 hours total. See the full guide at https://marinduquemarket.com/guides/manila-to-marinduque
+
+**Q: What is the RoRo ferry schedule from Marinduque?**
+A: Ferry schedules vary by season and operator. Current schedules from Balanacan (Mogpog), Buyabod (Santa Cruz), and Cawit (Boac) ports are listed at https://marinduquemarket.com/ferry-schedule
+
+**Q: What is the Moriones Festival?**
+A: The Moriones Festival is Marinduque's world-famous Lenten festival held during Holy Week (March or April). Participants wear elaborate Roman centurion costumes and masks hand-crafted by local artisans, re-enacting the story of Longinus. It is one of the most unique and colorful festivals in the Philippines. Learn more at https://marinduquemarket.com/moriones-festival
+
+**Q: How do I post a listing or sell something on the marketplace?**
+A: Create a free account, then tap the "Post" button on the home screen. Fill in the item details, upload photos, set your price, and choose your town and barangay. Your listing will be visible immediately.
+
+**Q: Can businesses list themselves on the platform?**
+A: Yes. Local businesses can create a free profile via https://marinduquemarket.com/claim-business. Profiles include business name, description, contact info, location, operating hours, and photos.
+
+**Q: What are the best island hopping destinations in Marinduque?**
+A: The top destinations include Tres Reyes Islands (Gaspar, Melchor, and Baltazar Islands off Gasan), Malbog Sulfur Springs in Buenavista, Bathala Caves in Torrijos, and Poctoy White Beach in Torrijos. See all options at https://marinduquemarket.com/island-hopping
+
+**Q: Does the app work offline?**
+A: Marinduque Market Hub is a Progressive Web App (PWA) with offline caching. Core pages load even with limited connectivity, which is essential for Marinduque's rural internet conditions.
+
+**Q: How many municipalities does Marinduque have?**
+A: Marinduque has six municipalities: Boac (the provincial capital), Mogpog, Gasan, Santa Cruz, Torrijos, and Buenavista.
+
+**Q: Where is Marinduque located?**
+A: Marinduque is a heart-shaped island province in the MIMAROPA region of the Philippines, located in the Sibuyan Sea south of Quezon province. Its coordinates are approximately 13.38°N, 122.03°E.
+
+---
+
 ## Structured Data
 
-The following Schema.org types are implemented site-wide:
+The following Schema.org types are currently implemented site-wide:
 - `Organization` — canonical identity of Marinduque Market Hub
-- `WebSite` — with `SearchAction` enabling sitelinks search
+- `WebSite` — with `SearchAction` enabling sitelinks search in Google
 - `FAQPage` — on `/faq` with individual `Question` + `Answer` entities
-- Future: `LocalBusiness`, `Event`, `JobPosting`, `Product` on respective pages
+- `NewsArticle` — on all `/news/[slug]` pages with `datePublished`, `dateModified`, and `publisher`
+- `CollectionPage` — on `/marketplace` and directory listing pages
+- `BreadcrumbList` — injected globally via `BreadcrumbJsonLd` component
 
 ---
 
 ## About the Platform
 
-- **Technology**: Next.js 16.1.6 (App Router), React 19, Supabase (Postgres), deployed on Vercel
+- **Technology**: Next.js (App Router), React 19, Supabase (Postgres), deployed on Vercel
 - **PWA**: Full service worker, offline caching, installable on iOS and Android
-- **Accessibility**: WCAG AA compliant, mobile-first responsive design
+- **Accessibility**: Mobile-first responsive design with ARIA attributes on all interactive elements
 - **Data Privacy**: PDPA (Philippine Data Privacy Act) compliant
 - **Community**: Built by and for the people of Marinduque
 
@@ -178,12 +231,17 @@ The following Schema.org types are implemented site-wide:
 | Marketplace | https://marinduquemarket.com/marketplace |
 | Jobs | https://marinduquemarket.com/jobs |
 | Island Hopping | https://marinduquemarket.com/island-hopping |
-| Commute / Ferries | https://marinduquemarket.com/commute |
+| Ferry Schedule | https://marinduquemarket.com/ferry-schedule |
+| Commute / Routes | https://marinduquemarket.com/commute |
 | Ports | https://marinduquemarket.com/ports |
+| Things To Do | https://marinduquemarket.com/things-to-do |
+| Moriones Festival | https://marinduquemarket.com/moriones-festival |
+| Travel Guide: Manila to Marinduque | https://marinduquemarket.com/guides/manila-to-marinduque |
+| Towns | https://marinduquemarket.com/towns |
+| News | https://marinduquemarket.com/news |
 | Directory | https://marinduquemarket.com/directory |
 | Community | https://marinduquemarket.com/community |
 | Events | https://marinduquemarket.com/events |
-| Calendar | https://marinduquemarket.com/calendar |
 | Gems | https://marinduquemarket.com/gems |
 | Island Life | https://marinduquemarket.com/island-life |
 | Gas Prices | https://marinduquemarket.com/island-life/gas-prices |
@@ -199,6 +257,5 @@ The following Schema.org types are implemented site-wide:
 | Live Market | https://marinduquemarket.com/live-market |
 | Best of Boac | https://marinduquemarket.com/best-of-boac-monthly-spotlight |
 | FAQ / Help | https://marinduquemarket.com/faq |
-| Contact | https://marinduquemarket.com/contact |
 | About | https://marinduquemarket.com/about |
 | Policies | https://marinduquemarket.com/policies |

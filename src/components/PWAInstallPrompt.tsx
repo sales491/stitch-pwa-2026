@@ -88,7 +88,7 @@ export default function PWAInstallPrompt() {
                         <span className="font-black text-slate-900 dark:text-white block mb-0.5">Open in Safari to install</span>
                         This app can only be added to your home screen from Safari.
                     </p>
-                    <button onClick={dismiss} className="text-slate-400 hover:text-slate-600 text-lg leading-none">✕</button>
+                    <button onClick={dismiss} aria-label="Dismiss install prompt" className="text-slate-400 hover:text-slate-600 text-lg leading-none">✕</button>
                 </div>
             </div>
         );
@@ -108,7 +108,7 @@ export default function PWAInstallPrompt() {
                                 <p className="text-[10px] text-slate-500 dark:text-slate-400">Add to your home screen</p>
                             </div>
                         </div>
-                        <button onClick={dismiss} className="text-slate-400 hover:text-slate-600 text-lg leading-none p-1">✕</button>
+                        <button onClick={dismiss} aria-label="Dismiss install prompt" className="text-slate-400 hover:text-slate-600 text-lg leading-none p-1">✕</button>
                     </div>
                     {/* Steps */}
                     <div className="px-4 py-3 space-y-2">
